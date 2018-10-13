@@ -1,4 +1,5 @@
-use super::super::chapter_2_1_insertion_sort::insertion_sort;
+use super::super::chapter_2_1_insertion_sort::{extra::insertion_sort_recursive, insertion_sort};
+use crate::test::Bencher;
 use std::convert::AsMut;
 
 fn test_sort<T: Ord + Clone, U: AsMut<[T]> + std::fmt::Debug + Eq, S: Fn(&mut [T]) -> ()>(
@@ -52,9 +53,135 @@ fn run_all_sorting_tests<S: Fn(&mut [i32]) -> ()>(sorter: S) {
     test_sort(sorter_ref, [3, 1, 2, 0], [0, 1, 2, 3]);
     test_sort(sorter_ref, [3, 2, 0, 1], [0, 1, 2, 3]);
     test_sort(sorter_ref, [3, 2, 1, 0], [0, 1, 2, 3]);
+
+    test_sort(sorter_ref, [0, 1, 2, 3, 4], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [0, 1, 2, 4, 3], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [0, 1, 3, 2, 4], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [0, 1, 3, 4, 2], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [0, 1, 4, 2, 3], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [0, 1, 4, 3, 2], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [0, 2, 1, 3, 4], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [0, 2, 1, 4, 3], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [0, 2, 3, 1, 4], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [0, 2, 3, 4, 1], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [0, 2, 4, 1, 3], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [0, 2, 4, 3, 1], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [0, 3, 1, 2, 4], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [0, 3, 1, 4, 2], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [0, 3, 2, 1, 4], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [0, 3, 2, 4, 1], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [0, 3, 4, 1, 2], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [0, 3, 4, 2, 1], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [0, 4, 1, 2, 3], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [0, 4, 1, 3, 2], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [0, 4, 2, 1, 3], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [0, 4, 2, 3, 1], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [0, 4, 3, 1, 2], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [0, 4, 3, 2, 1], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [1, 0, 2, 3, 4], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [1, 0, 2, 4, 3], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [1, 0, 3, 2, 4], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [1, 0, 3, 4, 2], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [1, 0, 4, 2, 3], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [1, 0, 4, 3, 2], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [1, 2, 0, 3, 4], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [1, 2, 0, 4, 3], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [1, 2, 3, 0, 4], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [1, 2, 3, 4, 0], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [1, 2, 4, 0, 3], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [1, 2, 4, 3, 0], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [1, 3, 0, 2, 4], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [1, 3, 0, 4, 2], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [1, 3, 2, 0, 4], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [1, 3, 2, 4, 0], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [1, 3, 4, 0, 2], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [1, 3, 4, 2, 0], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [1, 4, 0, 2, 3], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [1, 4, 0, 3, 2], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [1, 4, 2, 0, 3], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [1, 4, 2, 3, 0], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [1, 4, 3, 0, 2], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [1, 4, 3, 2, 0], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [2, 0, 1, 3, 4], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [2, 0, 1, 4, 3], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [2, 0, 3, 1, 4], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [2, 0, 3, 4, 1], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [2, 0, 4, 1, 3], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [2, 0, 4, 3, 1], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [2, 1, 0, 3, 4], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [2, 1, 0, 4, 3], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [2, 1, 3, 0, 4], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [2, 1, 3, 4, 0], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [2, 1, 4, 0, 3], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [2, 1, 4, 3, 0], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [2, 3, 0, 1, 4], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [2, 3, 0, 4, 1], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [2, 3, 1, 0, 4], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [2, 3, 1, 4, 0], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [2, 3, 4, 0, 1], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [2, 3, 4, 1, 0], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [2, 4, 0, 1, 3], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [2, 4, 0, 3, 1], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [2, 4, 1, 0, 3], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [2, 4, 1, 3, 0], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [2, 4, 3, 0, 1], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [2, 4, 3, 1, 0], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [3, 0, 1, 2, 4], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [3, 0, 1, 4, 2], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [3, 0, 2, 1, 4], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [3, 0, 2, 4, 1], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [3, 0, 4, 1, 2], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [3, 0, 4, 2, 1], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [3, 1, 0, 2, 4], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [3, 1, 0, 4, 2], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [3, 1, 2, 0, 4], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [3, 1, 2, 4, 0], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [3, 1, 4, 0, 2], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [3, 1, 4, 2, 0], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [3, 2, 0, 1, 4], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [3, 2, 0, 4, 1], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [3, 2, 1, 0, 4], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [3, 2, 1, 4, 0], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [3, 2, 4, 0, 1], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [3, 2, 4, 1, 0], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [3, 4, 0, 1, 2], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [3, 4, 0, 2, 1], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [3, 4, 1, 0, 2], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [3, 4, 1, 2, 0], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [3, 4, 2, 0, 1], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [3, 4, 2, 1, 0], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [4, 0, 1, 2, 3], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [4, 0, 1, 3, 2], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [4, 0, 2, 1, 3], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [4, 0, 2, 3, 1], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [4, 0, 3, 1, 2], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [4, 0, 3, 2, 1], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [4, 1, 0, 2, 3], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [4, 1, 0, 3, 2], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [4, 1, 2, 0, 3], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [4, 1, 2, 3, 0], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [4, 1, 3, 0, 2], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [4, 1, 3, 2, 0], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [4, 2, 0, 1, 3], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [4, 2, 0, 3, 1], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [4, 2, 1, 0, 3], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [4, 2, 1, 3, 0], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [4, 2, 3, 0, 1], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [4, 2, 3, 1, 0], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [4, 3, 0, 1, 2], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [4, 3, 0, 2, 1], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [4, 3, 1, 0, 2], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [4, 3, 1, 2, 0], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [4, 3, 2, 0, 1], [0, 1, 2, 3, 4]);
+    test_sort(sorter_ref, [4, 3, 2, 1, 0], [0, 1, 2, 3, 4]);
 }
 
-#[test]
-fn test_insertion_sort() {
-    run_all_sorting_tests(insertion_sort);
+#[bench]
+fn test_insertion_sort(b: &mut Bencher) {
+    b.iter(|| run_all_sorting_tests(insertion_sort));
+}
+
+#[bench]
+fn test_insertion_sort_2(b: &mut Bencher) {
+    b.iter(|| run_all_sorting_tests(insertion_sort_recursive));
 }

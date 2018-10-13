@@ -10,20 +10,47 @@
 // 8      A[i + 1] = key
 
 pub fn insertion_sort<T: Ord + Clone>(a: &mut [T]) {
-    let a_length = a.len();
-
-    for j in 1..a_length {
+    for j in 1..a.len() {
         let key = a[j].clone();
 
         // Insert `a[j]` into the sorted sequence `a[0..j]`.
 
         let mut i = j - 1;
 
-        while i < a_length && a[i] > key {
+        while i < a.len() && a[i] > key {
             a[i + 1] = a[i].clone();
             i = i.wrapping_sub(1);
         }
 
         a[i.wrapping_add(1)] = key;
+    }
+}
+
+pub mod extra {
+    pub fn insertion_sort_recursive<T: Ord + Clone>(a: &mut [T]) {
+        fn insert_key<T: Ord + Clone>(a: &mut [T], key: T) {
+            let free_slot_index = a.len() - 1;
+
+            if free_slot_index > 0 && a[free_slot_index - 1] > key {
+                a[free_slot_index] = a[free_slot_index - 1].clone();
+
+                insert_key(&mut a[..free_slot_index], key);
+            } else {
+                a[free_slot_index] = key;
+            }
+        }
+
+        fn insertion_sort_helper<T: Ord + Clone>(a: &mut [T], num_sorted: usize) {
+            if num_sorted < a.len() {
+                let key = a[num_sorted].clone();
+                let next_separator = num_sorted + 1;
+
+                insert_key(&mut a[0..next_separator], key);
+
+                insertion_sort_helper(a, next_separator);
+            }
+        }
+
+        insertion_sort_helper(a, 0);
     }
 }
