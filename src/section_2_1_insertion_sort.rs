@@ -1,4 +1,4 @@
-// INSERTION-SORT(A)
+// Insertion-Sort(A)
 //
 // 1  for j = 2 to A.length
 // 2      key = A[j]
