@@ -12,5 +12,5 @@ install:
   - rustup component add clippy-preview
 build: false
 test_script:
-  - cargo clippy
+  - cargo clippy --verbose
   - cargo test
