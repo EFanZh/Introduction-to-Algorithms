@@ -1,4 +1,6 @@
-pub fn test_sort<T: Ord + Clone, U: AsMut<[T]> + std::fmt::Debug + Eq, S: Fn(&mut [T]) -> ()>(
+use std::fmt::Debug;
+
+pub fn test_sort<T: Ord + Clone, U: AsMut<[T]> + Debug + Eq, S: Fn(&mut [T]) -> ()>(
     sorter: S,
     mut input: U,
     expected: U,
