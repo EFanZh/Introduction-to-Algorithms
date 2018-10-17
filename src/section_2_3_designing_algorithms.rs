@@ -38,7 +38,7 @@ pub fn merge<T: Clone + Ord>(a: &mut [T], p: usize, q: usize, r: usize) {
     let mut i = 0;
     let mut j = 0;
 
-    for a_k in a.iter_mut().take(r).skip(p) {
+    for a_k in &mut a[p..r] {
         if left[i] <= right[j] {
             *a_k = left[i].take_unwrap();
             i += 1;
