@@ -65,3 +65,39 @@ pub fn merge_sort<T: Clone + Ord>(a: &mut [T], p: usize, r: usize) {
         merge(a, p, q, r);
     }
 }
+
+pub mod exercises {
+    pub mod exercise_2_3_2 {
+        pub fn merge<T: Clone + Ord>(a: &mut [T], p: usize, q: usize, r: usize) {
+            let copied = a[p..r].to_vec();
+            let (left, right) = copied.split_at(q - p);
+
+            let mut i = 0;
+            let mut j = 0;
+
+            for k in p..r {
+                if i < left.len() {
+                    if j < right.len() {
+                        if left[i] <= right[j] {
+                            a[k] = left[i].clone();
+
+                            i += 1;
+                        } else {
+                            a[k] = right[j].clone();
+
+                            j += 1;
+                        }
+                    } else {
+                        (&mut a[k..r]).clone_from_slice(&left[i..]);
+
+                        break;
+                    }
+                } else {
+                    (&mut a[k..r]).clone_from_slice(&right[j..]);
+
+                    break;
+                }
+            }
+        }
+    }
+}
