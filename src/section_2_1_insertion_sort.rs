@@ -27,7 +27,7 @@ pub fn insertion_sort<T: Ord + Clone>(a: &mut [T]) {
 }
 
 pub mod extra {
-    pub fn insertion_sort_recursive<T: Ord + Clone>(a: &mut [T]) {
+    pub fn insertion_sort_tail_recursive<T: Ord + Clone>(a: &mut [T]) {
         fn insert_key<T: Ord + Clone>(a: &mut [T], key: T) {
             let free_slot_index = a.len() - 1;
 
