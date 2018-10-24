@@ -39,4 +39,19 @@ mod exercises {
             b.iter(|| run_all_sorting_tests(merge_sort_helper_2));
         }
     }
+
+    mod exercise_2_3_4 {
+        use super::super::{
+            super::{
+                super::section_2_3_designing_algorithms::exercises::exercise_2_3_4::insertion_sort_recursive,
+                utilities::run_all_sorting_tests,
+            },
+            Bencher,
+        };
+
+        #[bench]
+        fn test_insertion_sort_recursive(b: &mut Bencher) {
+            b.iter(|| run_all_sorting_tests(insertion_sort_recursive));
+        }
+    }
 }
