@@ -54,4 +54,53 @@ mod exercises {
             b.iter(|| run_all_sorting_tests(insertion_sort_recursive));
         }
     }
+
+    mod exercise_2_3_5 {
+        use super::super::{
+            super::{
+                super::section_2_3_designing_algorithms::exercises::exercise_2_3_5::{
+                    binary_search_iterative, binary_search_iterative_libcxx, binary_search_iterative_rust,
+                    binary_search_recursive, binary_search_recursive_libcxx, binary_search_recursive_non_tail,
+                    binary_search_recursive_rust,
+                },
+                utilities::run_all_binary_search_tests,
+            },
+            Bencher,
+        };
+
+        #[bench]
+        fn test_binary_search_iterative(b: &mut Bencher) {
+            b.iter(|| run_all_binary_search_tests(binary_search_iterative));
+        }
+
+        #[bench]
+        fn test_binary_search_iterative_libcxx(b: &mut Bencher) {
+            b.iter(|| run_all_binary_search_tests(binary_search_iterative_libcxx));
+        }
+
+        #[bench]
+        fn test_binary_search_iterative_rust(b: &mut Bencher) {
+            b.iter(|| run_all_binary_search_tests(binary_search_iterative_rust));
+        }
+
+        #[bench]
+        fn test_binary_search_recursive(b: &mut Bencher) {
+            b.iter(|| run_all_binary_search_tests(binary_search_recursive));
+        }
+
+        #[bench]
+        fn test_binary_search_recursive_non_tail(b: &mut Bencher) {
+            b.iter(|| run_all_binary_search_tests(binary_search_recursive_non_tail));
+        }
+
+        #[bench]
+        fn test_binary_search_recursive_libcxx(b: &mut Bencher) {
+            b.iter(|| run_all_binary_search_tests(binary_search_recursive_libcxx));
+        }
+
+        #[bench]
+        fn test_binary_search_recursive_rust(b: &mut Bencher) {
+            b.iter(|| run_all_binary_search_tests(binary_search_recursive_rust));
+        }
+    }
 }

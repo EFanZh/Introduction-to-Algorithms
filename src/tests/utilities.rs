@@ -653,3 +653,836 @@ pub fn run_all_sorting_tests<S: Fn(&mut [i32]) -> ()>(sorter: S) {
     test_sort(sorter_ref, [4, 3, 2, 0, 1], [0, 1, 2, 3, 4]);
     test_sort(sorter_ref, [4, 3, 2, 1, 0], [0, 1, 2, 3, 4]);
 }
+
+pub fn run_all_binary_search_tests<S: Fn(&[i32], &i32) -> Option<usize>>(searcher: S) {
+    assert_eq!(searcher(&[], &0), None);
+
+    assert_eq!(searcher(&[0], &-1), None);
+    assert_eq!(searcher(&[0], &0), Some(0));
+    assert_eq!(searcher(&[0], &1), None);
+
+    assert_eq!(searcher(&[0, 0], &-1), None);
+    assert_eq!(searcher(&[0, 0], &0), Some(0));
+    assert_eq!(searcher(&[0, 0], &1), None);
+
+    assert_eq!(searcher(&[0, 1], &-1), None);
+    assert_eq!(searcher(&[0, 1], &0), Some(0));
+    assert_eq!(searcher(&[0, 1], &1), Some(1));
+    assert_eq!(searcher(&[0, 1], &2), None);
+
+    assert_eq!(searcher(&[0, 0, 0], &-1), None);
+    assert_eq!(searcher(&[0, 0, 0], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 0], &1), None);
+
+    assert_eq!(searcher(&[0, 0, 1], &-1), None);
+    assert_eq!(searcher(&[0, 0, 1], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 1], &1), Some(2));
+    assert_eq!(searcher(&[0, 0, 1], &2), None);
+
+    assert_eq!(searcher(&[0, 1, 1], &-1), None);
+    assert_eq!(searcher(&[0, 1, 1], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 1], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 1], &2), None);
+
+    assert_eq!(searcher(&[0, 1, 2], &-1), None);
+    assert_eq!(searcher(&[0, 1, 2], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 2], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 2], &2), Some(2));
+    assert_eq!(searcher(&[0, 1, 2], &3), None);
+
+    assert_eq!(searcher(&[0, 0, 0, 0], &-1), None);
+    assert_eq!(searcher(&[0, 0, 0, 0], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 0, 0], &1), None);
+
+    assert_eq!(searcher(&[0, 0, 0, 1], &-1), None);
+    assert_eq!(searcher(&[0, 0, 0, 1], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 0, 1], &1), Some(3));
+    assert_eq!(searcher(&[0, 0, 0, 1], &2), None);
+
+    assert_eq!(searcher(&[0, 0, 1, 1], &-1), None);
+    assert_eq!(searcher(&[0, 0, 1, 1], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 1, 1], &1), Some(2));
+    assert_eq!(searcher(&[0, 0, 1, 1], &2), None);
+
+    assert_eq!(searcher(&[0, 0, 1, 2], &-1), None);
+    assert_eq!(searcher(&[0, 0, 1, 2], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 1, 2], &1), Some(2));
+    assert_eq!(searcher(&[0, 0, 1, 2], &2), Some(3));
+    assert_eq!(searcher(&[0, 0, 1, 2], &3), None);
+
+    assert_eq!(searcher(&[0, 1, 1, 1], &-1), None);
+    assert_eq!(searcher(&[0, 1, 1, 1], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 1, 1], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 1, 1], &2), None);
+
+    assert_eq!(searcher(&[0, 1, 1, 2], &-1), None);
+    assert_eq!(searcher(&[0, 1, 1, 2], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 1, 2], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 1, 2], &2), Some(3));
+    assert_eq!(searcher(&[0, 1, 1, 2], &3), None);
+
+    assert_eq!(searcher(&[0, 1, 2, 2], &-1), None);
+    assert_eq!(searcher(&[0, 1, 2, 2], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 2, 2], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 2, 2], &2), Some(2));
+    assert_eq!(searcher(&[0, 1, 2, 2], &3), None);
+
+    assert_eq!(searcher(&[0, 1, 2, 3], &-1), None);
+    assert_eq!(searcher(&[0, 1, 2, 3], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 2, 3], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 2, 3], &2), Some(2));
+    assert_eq!(searcher(&[0, 1, 2, 3], &3), Some(3));
+    assert_eq!(searcher(&[0, 1, 2, 3], &4), None);
+
+    assert_eq!(searcher(&[0, 0, 0, 0, 0], &-1), None);
+    assert_eq!(searcher(&[0, 0, 0, 0, 0], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 0, 0, 0], &1), None);
+
+    assert_eq!(searcher(&[0, 0, 0, 0, 1], &-1), None);
+    assert_eq!(searcher(&[0, 0, 0, 0, 1], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 0, 0, 1], &1), Some(4));
+    assert_eq!(searcher(&[0, 0, 0, 0, 1], &2), None);
+
+    assert_eq!(searcher(&[0, 0, 0, 1, 1], &-1), None);
+    assert_eq!(searcher(&[0, 0, 0, 1, 1], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 0, 1, 1], &1), Some(3));
+    assert_eq!(searcher(&[0, 0, 0, 1, 1], &2), None);
+
+    assert_eq!(searcher(&[0, 0, 0, 1, 2], &-1), None);
+    assert_eq!(searcher(&[0, 0, 0, 1, 2], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 0, 1, 2], &1), Some(3));
+    assert_eq!(searcher(&[0, 0, 0, 1, 2], &2), Some(4));
+    assert_eq!(searcher(&[0, 0, 0, 1, 2], &3), None);
+
+    assert_eq!(searcher(&[0, 0, 1, 1, 1], &-1), None);
+    assert_eq!(searcher(&[0, 0, 1, 1, 1], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 1, 1, 1], &1), Some(2));
+    assert_eq!(searcher(&[0, 0, 1, 1, 1], &2), None);
+
+    assert_eq!(searcher(&[0, 0, 1, 1, 2], &-1), None);
+    assert_eq!(searcher(&[0, 0, 1, 1, 2], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 1, 1, 2], &1), Some(2));
+    assert_eq!(searcher(&[0, 0, 1, 1, 2], &2), Some(4));
+    assert_eq!(searcher(&[0, 0, 1, 1, 2], &3), None);
+
+    assert_eq!(searcher(&[0, 0, 1, 2, 2], &-1), None);
+    assert_eq!(searcher(&[0, 0, 1, 2, 2], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 1, 2, 2], &1), Some(2));
+    assert_eq!(searcher(&[0, 0, 1, 2, 2], &2), Some(3));
+    assert_eq!(searcher(&[0, 0, 1, 2, 2], &3), None);
+
+    assert_eq!(searcher(&[0, 0, 1, 2, 3], &-1), None);
+    assert_eq!(searcher(&[0, 0, 1, 2, 3], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 1, 2, 3], &1), Some(2));
+    assert_eq!(searcher(&[0, 0, 1, 2, 3], &2), Some(3));
+    assert_eq!(searcher(&[0, 0, 1, 2, 3], &3), Some(4));
+    assert_eq!(searcher(&[0, 0, 1, 2, 3], &4), None);
+
+    assert_eq!(searcher(&[0, 1, 1, 1, 1], &-1), None);
+    assert_eq!(searcher(&[0, 1, 1, 1, 1], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 1, 1, 1], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 1, 1, 1], &2), None);
+
+    assert_eq!(searcher(&[0, 1, 1, 1, 2], &-1), None);
+    assert_eq!(searcher(&[0, 1, 1, 1, 2], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 1, 1, 2], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 1, 1, 2], &2), Some(4));
+    assert_eq!(searcher(&[0, 1, 1, 1, 2], &3), None);
+
+    assert_eq!(searcher(&[0, 1, 1, 2, 2], &-1), None);
+    assert_eq!(searcher(&[0, 1, 1, 2, 2], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 1, 2, 2], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 1, 2, 2], &2), Some(3));
+    assert_eq!(searcher(&[0, 1, 1, 2, 2], &3), None);
+
+    assert_eq!(searcher(&[0, 1, 1, 2, 3], &-1), None);
+    assert_eq!(searcher(&[0, 1, 1, 2, 3], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 1, 2, 3], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 1, 2, 3], &2), Some(3));
+    assert_eq!(searcher(&[0, 1, 1, 2, 3], &3), Some(4));
+    assert_eq!(searcher(&[0, 1, 1, 2, 3], &4), None);
+
+    assert_eq!(searcher(&[0, 1, 2, 2, 2], &-1), None);
+    assert_eq!(searcher(&[0, 1, 2, 2, 2], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 2, 2, 2], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 2, 2, 2], &2), Some(2));
+    assert_eq!(searcher(&[0, 1, 2, 2, 2], &3), None);
+
+    assert_eq!(searcher(&[0, 1, 2, 2, 3], &-1), None);
+    assert_eq!(searcher(&[0, 1, 2, 2, 3], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 2, 2, 3], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 2, 2, 3], &2), Some(2));
+    assert_eq!(searcher(&[0, 1, 2, 2, 3], &3), Some(4));
+    assert_eq!(searcher(&[0, 1, 2, 2, 3], &4), None);
+
+    assert_eq!(searcher(&[0, 1, 2, 3, 3], &-1), None);
+    assert_eq!(searcher(&[0, 1, 2, 3, 3], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 2, 3, 3], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 2, 3, 3], &2), Some(2));
+    assert_eq!(searcher(&[0, 1, 2, 3, 3], &3), Some(3));
+    assert_eq!(searcher(&[0, 1, 2, 3, 3], &4), None);
+
+    assert_eq!(searcher(&[0, 1, 2, 3, 4], &-1), None);
+    assert_eq!(searcher(&[0, 1, 2, 3, 4], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4], &2), Some(2));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4], &3), Some(3));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4], &4), Some(4));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4], &5), None);
+
+    assert_eq!(searcher(&[0, 0, 0, 0, 0, 0], &-1), None);
+    assert_eq!(searcher(&[0, 0, 0, 0, 0, 0], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 0, 0, 0, 0], &1), None);
+
+    assert_eq!(searcher(&[0, 0, 0, 0, 0, 1], &-1), None);
+    assert_eq!(searcher(&[0, 0, 0, 0, 0, 1], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 0, 0, 0, 1], &1), Some(5));
+    assert_eq!(searcher(&[0, 0, 0, 0, 0, 1], &2), None);
+
+    assert_eq!(searcher(&[0, 0, 0, 0, 1, 1], &-1), None);
+    assert_eq!(searcher(&[0, 0, 0, 0, 1, 1], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 0, 0, 1, 1], &1), Some(4));
+    assert_eq!(searcher(&[0, 0, 0, 0, 1, 1], &2), None);
+
+    assert_eq!(searcher(&[0, 0, 0, 0, 1, 2], &-1), None);
+    assert_eq!(searcher(&[0, 0, 0, 0, 1, 2], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 0, 0, 1, 2], &1), Some(4));
+    assert_eq!(searcher(&[0, 0, 0, 0, 1, 2], &2), Some(5));
+    assert_eq!(searcher(&[0, 0, 0, 0, 1, 2], &3), None);
+
+    assert_eq!(searcher(&[0, 0, 0, 1, 1, 1], &-1), None);
+    assert_eq!(searcher(&[0, 0, 0, 1, 1, 1], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 0, 1, 1, 1], &1), Some(3));
+    assert_eq!(searcher(&[0, 0, 0, 1, 1, 1], &2), None);
+
+    assert_eq!(searcher(&[0, 0, 0, 1, 1, 2], &-1), None);
+    assert_eq!(searcher(&[0, 0, 0, 1, 1, 2], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 0, 1, 1, 2], &1), Some(3));
+    assert_eq!(searcher(&[0, 0, 0, 1, 1, 2], &2), Some(5));
+    assert_eq!(searcher(&[0, 0, 0, 1, 1, 2], &3), None);
+
+    assert_eq!(searcher(&[0, 0, 0, 1, 2, 2], &-1), None);
+    assert_eq!(searcher(&[0, 0, 0, 1, 2, 2], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 0, 1, 2, 2], &1), Some(3));
+    assert_eq!(searcher(&[0, 0, 0, 1, 2, 2], &2), Some(4));
+    assert_eq!(searcher(&[0, 0, 0, 1, 2, 2], &3), None);
+
+    assert_eq!(searcher(&[0, 0, 0, 1, 2, 3], &-1), None);
+    assert_eq!(searcher(&[0, 0, 0, 1, 2, 3], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 0, 1, 2, 3], &1), Some(3));
+    assert_eq!(searcher(&[0, 0, 0, 1, 2, 3], &2), Some(4));
+    assert_eq!(searcher(&[0, 0, 0, 1, 2, 3], &3), Some(5));
+    assert_eq!(searcher(&[0, 0, 0, 1, 2, 3], &4), None);
+
+    assert_eq!(searcher(&[0, 0, 1, 1, 1, 1], &-1), None);
+    assert_eq!(searcher(&[0, 0, 1, 1, 1, 1], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 1, 1, 1, 1], &1), Some(2));
+    assert_eq!(searcher(&[0, 0, 1, 1, 1, 1], &2), None);
+
+    assert_eq!(searcher(&[0, 0, 1, 1, 1, 2], &-1), None);
+    assert_eq!(searcher(&[0, 0, 1, 1, 1, 2], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 1, 1, 1, 2], &1), Some(2));
+    assert_eq!(searcher(&[0, 0, 1, 1, 1, 2], &2), Some(5));
+    assert_eq!(searcher(&[0, 0, 1, 1, 1, 2], &3), None);
+
+    assert_eq!(searcher(&[0, 0, 1, 1, 2, 2], &-1), None);
+    assert_eq!(searcher(&[0, 0, 1, 1, 2, 2], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 1, 1, 2, 2], &1), Some(2));
+    assert_eq!(searcher(&[0, 0, 1, 1, 2, 2], &2), Some(4));
+    assert_eq!(searcher(&[0, 0, 1, 1, 2, 2], &3), None);
+
+    assert_eq!(searcher(&[0, 0, 1, 1, 2, 3], &-1), None);
+    assert_eq!(searcher(&[0, 0, 1, 1, 2, 3], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 1, 1, 2, 3], &1), Some(2));
+    assert_eq!(searcher(&[0, 0, 1, 1, 2, 3], &2), Some(4));
+    assert_eq!(searcher(&[0, 0, 1, 1, 2, 3], &3), Some(5));
+    assert_eq!(searcher(&[0, 0, 1, 1, 2, 3], &4), None);
+
+    assert_eq!(searcher(&[0, 0, 1, 2, 2, 2], &-1), None);
+    assert_eq!(searcher(&[0, 0, 1, 2, 2, 2], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 1, 2, 2, 2], &1), Some(2));
+    assert_eq!(searcher(&[0, 0, 1, 2, 2, 2], &2), Some(3));
+    assert_eq!(searcher(&[0, 0, 1, 2, 2, 2], &3), None);
+
+    assert_eq!(searcher(&[0, 0, 1, 2, 2, 3], &-1), None);
+    assert_eq!(searcher(&[0, 0, 1, 2, 2, 3], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 1, 2, 2, 3], &1), Some(2));
+    assert_eq!(searcher(&[0, 0, 1, 2, 2, 3], &2), Some(3));
+    assert_eq!(searcher(&[0, 0, 1, 2, 2, 3], &3), Some(5));
+    assert_eq!(searcher(&[0, 0, 1, 2, 2, 3], &4), None);
+
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 3], &-1), None);
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 3], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 3], &1), Some(2));
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 3], &2), Some(3));
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 3], &3), Some(4));
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 3], &4), None);
+
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 4], &-1), None);
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 4], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 4], &1), Some(2));
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 4], &2), Some(3));
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 4], &3), Some(4));
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 4], &4), Some(5));
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 4], &5), None);
+
+    assert_eq!(searcher(&[0, 1, 1, 1, 1, 1], &-1), None);
+    assert_eq!(searcher(&[0, 1, 1, 1, 1, 1], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 1, 1, 1, 1], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 1, 1, 1, 1], &2), None);
+
+    assert_eq!(searcher(&[0, 1, 1, 1, 1, 2], &-1), None);
+    assert_eq!(searcher(&[0, 1, 1, 1, 1, 2], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 1, 1, 1, 2], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 1, 1, 1, 2], &2), Some(5));
+    assert_eq!(searcher(&[0, 1, 1, 1, 1, 2], &3), None);
+
+    assert_eq!(searcher(&[0, 1, 1, 1, 2, 2], &-1), None);
+    assert_eq!(searcher(&[0, 1, 1, 1, 2, 2], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 1, 1, 2, 2], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 1, 1, 2, 2], &2), Some(4));
+    assert_eq!(searcher(&[0, 1, 1, 1, 2, 2], &3), None);
+
+    assert_eq!(searcher(&[0, 1, 1, 1, 2, 3], &-1), None);
+    assert_eq!(searcher(&[0, 1, 1, 1, 2, 3], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 1, 1, 2, 3], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 1, 1, 2, 3], &2), Some(4));
+    assert_eq!(searcher(&[0, 1, 1, 1, 2, 3], &3), Some(5));
+    assert_eq!(searcher(&[0, 1, 1, 1, 2, 3], &4), None);
+
+    assert_eq!(searcher(&[0, 1, 1, 2, 2, 2], &-1), None);
+    assert_eq!(searcher(&[0, 1, 1, 2, 2, 2], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 1, 2, 2, 2], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 1, 2, 2, 2], &2), Some(3));
+    assert_eq!(searcher(&[0, 1, 1, 2, 2, 2], &3), None);
+
+    assert_eq!(searcher(&[0, 1, 1, 2, 2, 3], &-1), None);
+    assert_eq!(searcher(&[0, 1, 1, 2, 2, 3], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 1, 2, 2, 3], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 1, 2, 2, 3], &2), Some(3));
+    assert_eq!(searcher(&[0, 1, 1, 2, 2, 3], &3), Some(5));
+    assert_eq!(searcher(&[0, 1, 1, 2, 2, 3], &4), None);
+
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 3], &-1), None);
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 3], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 3], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 3], &2), Some(3));
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 3], &3), Some(4));
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 3], &4), None);
+
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 4], &-1), None);
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 4], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 4], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 4], &2), Some(3));
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 4], &3), Some(4));
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 4], &4), Some(5));
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 4], &5), None);
+
+    assert_eq!(searcher(&[0, 1, 2, 2, 2, 2], &-1), None);
+    assert_eq!(searcher(&[0, 1, 2, 2, 2, 2], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 2, 2, 2, 2], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 2, 2, 2, 2], &2), Some(2));
+    assert_eq!(searcher(&[0, 1, 2, 2, 2, 2], &3), None);
+
+    assert_eq!(searcher(&[0, 1, 2, 2, 2, 3], &-1), None);
+    assert_eq!(searcher(&[0, 1, 2, 2, 2, 3], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 2, 2, 2, 3], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 2, 2, 2, 3], &2), Some(2));
+    assert_eq!(searcher(&[0, 1, 2, 2, 2, 3], &3), Some(5));
+    assert_eq!(searcher(&[0, 1, 2, 2, 2, 3], &4), None);
+
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 3], &-1), None);
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 3], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 3], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 3], &2), Some(2));
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 3], &3), Some(4));
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 3], &4), None);
+
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 4], &-1), None);
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 4], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 4], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 4], &2), Some(2));
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 4], &3), Some(4));
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 4], &4), Some(5));
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 4], &5), None);
+
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 3], &-1), None);
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 3], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 3], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 3], &2), Some(2));
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 3], &3), Some(3));
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 3], &4), None);
+
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 4], &-1), None);
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 4], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 4], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 4], &2), Some(2));
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 4], &3), Some(3));
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 4], &4), Some(5));
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 4], &5), None);
+
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 4], &-1), None);
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 4], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 4], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 4], &2), Some(2));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 4], &3), Some(3));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 4], &4), Some(4));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 4], &5), None);
+
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 5], &-1), None);
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 5], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 5], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 5], &2), Some(2));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 5], &3), Some(3));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 5], &4), Some(4));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 5], &5), Some(5));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 5], &6), None);
+
+    assert_eq!(searcher(&[0, 0, 0, 0, 0, 0, 0], &-1), None);
+    assert_eq!(searcher(&[0, 0, 0, 0, 0, 0, 0], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 0, 0, 0, 0, 0], &1), None);
+
+    assert_eq!(searcher(&[0, 0, 0, 0, 0, 0, 1], &-1), None);
+    assert_eq!(searcher(&[0, 0, 0, 0, 0, 0, 1], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 0, 0, 0, 0, 1], &1), Some(6));
+    assert_eq!(searcher(&[0, 0, 0, 0, 0, 0, 1], &2), None);
+
+    assert_eq!(searcher(&[0, 0, 0, 0, 0, 1, 1], &-1), None);
+    assert_eq!(searcher(&[0, 0, 0, 0, 0, 1, 1], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 0, 0, 0, 1, 1], &1), Some(5));
+    assert_eq!(searcher(&[0, 0, 0, 0, 0, 1, 1], &2), None);
+
+    assert_eq!(searcher(&[0, 0, 0, 0, 0, 1, 2], &-1), None);
+    assert_eq!(searcher(&[0, 0, 0, 0, 0, 1, 2], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 0, 0, 0, 1, 2], &1), Some(5));
+    assert_eq!(searcher(&[0, 0, 0, 0, 0, 1, 2], &2), Some(6));
+    assert_eq!(searcher(&[0, 0, 0, 0, 0, 1, 2], &3), None);
+
+    assert_eq!(searcher(&[0, 0, 0, 0, 1, 1, 1], &-1), None);
+    assert_eq!(searcher(&[0, 0, 0, 0, 1, 1, 1], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 0, 0, 1, 1, 1], &1), Some(4));
+    assert_eq!(searcher(&[0, 0, 0, 0, 1, 1, 1], &2), None);
+
+    assert_eq!(searcher(&[0, 0, 0, 0, 1, 1, 2], &-1), None);
+    assert_eq!(searcher(&[0, 0, 0, 0, 1, 1, 2], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 0, 0, 1, 1, 2], &1), Some(4));
+    assert_eq!(searcher(&[0, 0, 0, 0, 1, 1, 2], &2), Some(6));
+    assert_eq!(searcher(&[0, 0, 0, 0, 1, 1, 2], &3), None);
+
+    assert_eq!(searcher(&[0, 0, 0, 0, 1, 2, 2], &-1), None);
+    assert_eq!(searcher(&[0, 0, 0, 0, 1, 2, 2], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 0, 0, 1, 2, 2], &1), Some(4));
+    assert_eq!(searcher(&[0, 0, 0, 0, 1, 2, 2], &2), Some(5));
+    assert_eq!(searcher(&[0, 0, 0, 0, 1, 2, 2], &3), None);
+
+    assert_eq!(searcher(&[0, 0, 0, 0, 1, 2, 3], &-1), None);
+    assert_eq!(searcher(&[0, 0, 0, 0, 1, 2, 3], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 0, 0, 1, 2, 3], &1), Some(4));
+    assert_eq!(searcher(&[0, 0, 0, 0, 1, 2, 3], &2), Some(5));
+    assert_eq!(searcher(&[0, 0, 0, 0, 1, 2, 3], &3), Some(6));
+    assert_eq!(searcher(&[0, 0, 0, 0, 1, 2, 3], &4), None);
+
+    assert_eq!(searcher(&[0, 0, 0, 1, 1, 1, 1], &-1), None);
+    assert_eq!(searcher(&[0, 0, 0, 1, 1, 1, 1], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 0, 1, 1, 1, 1], &1), Some(3));
+    assert_eq!(searcher(&[0, 0, 0, 1, 1, 1, 1], &2), None);
+
+    assert_eq!(searcher(&[0, 0, 0, 1, 1, 1, 2], &-1), None);
+    assert_eq!(searcher(&[0, 0, 0, 1, 1, 1, 2], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 0, 1, 1, 1, 2], &1), Some(3));
+    assert_eq!(searcher(&[0, 0, 0, 1, 1, 1, 2], &2), Some(6));
+    assert_eq!(searcher(&[0, 0, 0, 1, 1, 1, 2], &3), None);
+
+    assert_eq!(searcher(&[0, 0, 0, 1, 1, 2, 2], &-1), None);
+    assert_eq!(searcher(&[0, 0, 0, 1, 1, 2, 2], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 0, 1, 1, 2, 2], &1), Some(3));
+    assert_eq!(searcher(&[0, 0, 0, 1, 1, 2, 2], &2), Some(5));
+    assert_eq!(searcher(&[0, 0, 0, 1, 1, 2, 2], &3), None);
+
+    assert_eq!(searcher(&[0, 0, 0, 1, 1, 2, 3], &-1), None);
+    assert_eq!(searcher(&[0, 0, 0, 1, 1, 2, 3], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 0, 1, 1, 2, 3], &1), Some(3));
+    assert_eq!(searcher(&[0, 0, 0, 1, 1, 2, 3], &2), Some(5));
+    assert_eq!(searcher(&[0, 0, 0, 1, 1, 2, 3], &3), Some(6));
+    assert_eq!(searcher(&[0, 0, 0, 1, 1, 2, 3], &4), None);
+
+    assert_eq!(searcher(&[0, 0, 0, 1, 2, 2, 2], &-1), None);
+    assert_eq!(searcher(&[0, 0, 0, 1, 2, 2, 2], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 0, 1, 2, 2, 2], &1), Some(3));
+    assert_eq!(searcher(&[0, 0, 0, 1, 2, 2, 2], &2), Some(4));
+    assert_eq!(searcher(&[0, 0, 0, 1, 2, 2, 2], &3), None);
+
+    assert_eq!(searcher(&[0, 0, 0, 1, 2, 2, 3], &-1), None);
+    assert_eq!(searcher(&[0, 0, 0, 1, 2, 2, 3], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 0, 1, 2, 2, 3], &1), Some(3));
+    assert_eq!(searcher(&[0, 0, 0, 1, 2, 2, 3], &2), Some(4));
+    assert_eq!(searcher(&[0, 0, 0, 1, 2, 2, 3], &3), Some(6));
+    assert_eq!(searcher(&[0, 0, 0, 1, 2, 2, 3], &4), None);
+
+    assert_eq!(searcher(&[0, 0, 0, 1, 2, 3, 3], &-1), None);
+    assert_eq!(searcher(&[0, 0, 0, 1, 2, 3, 3], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 0, 1, 2, 3, 3], &1), Some(3));
+    assert_eq!(searcher(&[0, 0, 0, 1, 2, 3, 3], &2), Some(4));
+    assert_eq!(searcher(&[0, 0, 0, 1, 2, 3, 3], &3), Some(5));
+    assert_eq!(searcher(&[0, 0, 0, 1, 2, 3, 3], &4), None);
+
+    assert_eq!(searcher(&[0, 0, 0, 1, 2, 3, 4], &-1), None);
+    assert_eq!(searcher(&[0, 0, 0, 1, 2, 3, 4], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 0, 1, 2, 3, 4], &1), Some(3));
+    assert_eq!(searcher(&[0, 0, 0, 1, 2, 3, 4], &2), Some(4));
+    assert_eq!(searcher(&[0, 0, 0, 1, 2, 3, 4], &3), Some(5));
+    assert_eq!(searcher(&[0, 0, 0, 1, 2, 3, 4], &4), Some(6));
+    assert_eq!(searcher(&[0, 0, 0, 1, 2, 3, 4], &5), None);
+
+    assert_eq!(searcher(&[0, 0, 1, 1, 1, 1, 1], &-1), None);
+    assert_eq!(searcher(&[0, 0, 1, 1, 1, 1, 1], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 1, 1, 1, 1, 1], &1), Some(2));
+    assert_eq!(searcher(&[0, 0, 1, 1, 1, 1, 1], &2), None);
+
+    assert_eq!(searcher(&[0, 0, 1, 1, 1, 1, 2], &-1), None);
+    assert_eq!(searcher(&[0, 0, 1, 1, 1, 1, 2], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 1, 1, 1, 1, 2], &1), Some(2));
+    assert_eq!(searcher(&[0, 0, 1, 1, 1, 1, 2], &2), Some(6));
+    assert_eq!(searcher(&[0, 0, 1, 1, 1, 1, 2], &3), None);
+
+    assert_eq!(searcher(&[0, 0, 1, 1, 1, 2, 2], &-1), None);
+    assert_eq!(searcher(&[0, 0, 1, 1, 1, 2, 2], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 1, 1, 1, 2, 2], &1), Some(2));
+    assert_eq!(searcher(&[0, 0, 1, 1, 1, 2, 2], &2), Some(5));
+    assert_eq!(searcher(&[0, 0, 1, 1, 1, 2, 2], &3), None);
+
+    assert_eq!(searcher(&[0, 0, 1, 1, 1, 2, 3], &-1), None);
+    assert_eq!(searcher(&[0, 0, 1, 1, 1, 2, 3], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 1, 1, 1, 2, 3], &1), Some(2));
+    assert_eq!(searcher(&[0, 0, 1, 1, 1, 2, 3], &2), Some(5));
+    assert_eq!(searcher(&[0, 0, 1, 1, 1, 2, 3], &3), Some(6));
+    assert_eq!(searcher(&[0, 0, 1, 1, 1, 2, 3], &4), None);
+
+    assert_eq!(searcher(&[0, 0, 1, 1, 2, 2, 2], &-1), None);
+    assert_eq!(searcher(&[0, 0, 1, 1, 2, 2, 2], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 1, 1, 2, 2, 2], &1), Some(2));
+    assert_eq!(searcher(&[0, 0, 1, 1, 2, 2, 2], &2), Some(4));
+    assert_eq!(searcher(&[0, 0, 1, 1, 2, 2, 2], &3), None);
+
+    assert_eq!(searcher(&[0, 0, 1, 1, 2, 2, 3], &-1), None);
+    assert_eq!(searcher(&[0, 0, 1, 1, 2, 2, 3], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 1, 1, 2, 2, 3], &1), Some(2));
+    assert_eq!(searcher(&[0, 0, 1, 1, 2, 2, 3], &2), Some(4));
+    assert_eq!(searcher(&[0, 0, 1, 1, 2, 2, 3], &3), Some(6));
+    assert_eq!(searcher(&[0, 0, 1, 1, 2, 2, 3], &4), None);
+
+    assert_eq!(searcher(&[0, 0, 1, 1, 2, 3, 3], &-1), None);
+    assert_eq!(searcher(&[0, 0, 1, 1, 2, 3, 3], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 1, 1, 2, 3, 3], &1), Some(2));
+    assert_eq!(searcher(&[0, 0, 1, 1, 2, 3, 3], &2), Some(4));
+    assert_eq!(searcher(&[0, 0, 1, 1, 2, 3, 3], &3), Some(5));
+    assert_eq!(searcher(&[0, 0, 1, 1, 2, 3, 3], &4), None);
+
+    assert_eq!(searcher(&[0, 0, 1, 1, 2, 3, 4], &-1), None);
+    assert_eq!(searcher(&[0, 0, 1, 1, 2, 3, 4], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 1, 1, 2, 3, 4], &1), Some(2));
+    assert_eq!(searcher(&[0, 0, 1, 1, 2, 3, 4], &2), Some(4));
+    assert_eq!(searcher(&[0, 0, 1, 1, 2, 3, 4], &3), Some(5));
+    assert_eq!(searcher(&[0, 0, 1, 1, 2, 3, 4], &4), Some(6));
+    assert_eq!(searcher(&[0, 0, 1, 1, 2, 3, 4], &5), None);
+
+    assert_eq!(searcher(&[0, 0, 1, 2, 2, 2, 2], &-1), None);
+    assert_eq!(searcher(&[0, 0, 1, 2, 2, 2, 2], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 1, 2, 2, 2, 2], &1), Some(2));
+    assert_eq!(searcher(&[0, 0, 1, 2, 2, 2, 2], &2), Some(3));
+    assert_eq!(searcher(&[0, 0, 1, 2, 2, 2, 2], &3), None);
+
+    assert_eq!(searcher(&[0, 0, 1, 2, 2, 2, 3], &-1), None);
+    assert_eq!(searcher(&[0, 0, 1, 2, 2, 2, 3], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 1, 2, 2, 2, 3], &1), Some(2));
+    assert_eq!(searcher(&[0, 0, 1, 2, 2, 2, 3], &2), Some(3));
+    assert_eq!(searcher(&[0, 0, 1, 2, 2, 2, 3], &3), Some(6));
+    assert_eq!(searcher(&[0, 0, 1, 2, 2, 2, 3], &4), None);
+
+    assert_eq!(searcher(&[0, 0, 1, 2, 2, 3, 3], &-1), None);
+    assert_eq!(searcher(&[0, 0, 1, 2, 2, 3, 3], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 1, 2, 2, 3, 3], &1), Some(2));
+    assert_eq!(searcher(&[0, 0, 1, 2, 2, 3, 3], &2), Some(3));
+    assert_eq!(searcher(&[0, 0, 1, 2, 2, 3, 3], &3), Some(5));
+    assert_eq!(searcher(&[0, 0, 1, 2, 2, 3, 3], &4), None);
+
+    assert_eq!(searcher(&[0, 0, 1, 2, 2, 3, 4], &-1), None);
+    assert_eq!(searcher(&[0, 0, 1, 2, 2, 3, 4], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 1, 2, 2, 3, 4], &1), Some(2));
+    assert_eq!(searcher(&[0, 0, 1, 2, 2, 3, 4], &2), Some(3));
+    assert_eq!(searcher(&[0, 0, 1, 2, 2, 3, 4], &3), Some(5));
+    assert_eq!(searcher(&[0, 0, 1, 2, 2, 3, 4], &4), Some(6));
+    assert_eq!(searcher(&[0, 0, 1, 2, 2, 3, 4], &5), None);
+
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 3, 3], &-1), None);
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 3, 3], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 3, 3], &1), Some(2));
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 3, 3], &2), Some(3));
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 3, 3], &3), Some(4));
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 3, 3], &4), None);
+
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 3, 4], &-1), None);
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 3, 4], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 3, 4], &1), Some(2));
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 3, 4], &2), Some(3));
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 3, 4], &3), Some(4));
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 3, 4], &4), Some(6));
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 3, 4], &5), None);
+
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 4, 4], &-1), None);
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 4, 4], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 4, 4], &1), Some(2));
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 4, 4], &2), Some(3));
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 4, 4], &3), Some(4));
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 4, 4], &4), Some(5));
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 4, 4], &5), None);
+
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 4, 5], &-1), None);
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 4, 5], &0), Some(0));
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 4, 5], &1), Some(2));
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 4, 5], &2), Some(3));
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 4, 5], &3), Some(4));
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 4, 5], &4), Some(5));
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 4, 5], &5), Some(6));
+    assert_eq!(searcher(&[0, 0, 1, 2, 3, 4, 5], &6), None);
+
+    assert_eq!(searcher(&[0, 1, 1, 1, 1, 1, 1], &-1), None);
+    assert_eq!(searcher(&[0, 1, 1, 1, 1, 1, 1], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 1, 1, 1, 1, 1], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 1, 1, 1, 1, 1], &2), None);
+
+    assert_eq!(searcher(&[0, 1, 1, 1, 1, 1, 2], &-1), None);
+    assert_eq!(searcher(&[0, 1, 1, 1, 1, 1, 2], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 1, 1, 1, 1, 2], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 1, 1, 1, 1, 2], &2), Some(6));
+    assert_eq!(searcher(&[0, 1, 1, 1, 1, 1, 2], &3), None);
+
+    assert_eq!(searcher(&[0, 1, 1, 1, 1, 2, 2], &-1), None);
+    assert_eq!(searcher(&[0, 1, 1, 1, 1, 2, 2], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 1, 1, 1, 2, 2], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 1, 1, 1, 2, 2], &2), Some(5));
+    assert_eq!(searcher(&[0, 1, 1, 1, 1, 2, 2], &3), None);
+
+    assert_eq!(searcher(&[0, 1, 1, 1, 1, 2, 3], &-1), None);
+    assert_eq!(searcher(&[0, 1, 1, 1, 1, 2, 3], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 1, 1, 1, 2, 3], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 1, 1, 1, 2, 3], &2), Some(5));
+    assert_eq!(searcher(&[0, 1, 1, 1, 1, 2, 3], &3), Some(6));
+    assert_eq!(searcher(&[0, 1, 1, 1, 1, 2, 3], &4), None);
+
+    assert_eq!(searcher(&[0, 1, 1, 1, 2, 2, 2], &-1), None);
+    assert_eq!(searcher(&[0, 1, 1, 1, 2, 2, 2], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 1, 1, 2, 2, 2], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 1, 1, 2, 2, 2], &2), Some(4));
+    assert_eq!(searcher(&[0, 1, 1, 1, 2, 2, 2], &3), None);
+
+    assert_eq!(searcher(&[0, 1, 1, 1, 2, 2, 3], &-1), None);
+    assert_eq!(searcher(&[0, 1, 1, 1, 2, 2, 3], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 1, 1, 2, 2, 3], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 1, 1, 2, 2, 3], &2), Some(4));
+    assert_eq!(searcher(&[0, 1, 1, 1, 2, 2, 3], &3), Some(6));
+    assert_eq!(searcher(&[0, 1, 1, 1, 2, 2, 3], &4), None);
+
+    assert_eq!(searcher(&[0, 1, 1, 1, 2, 3, 3], &-1), None);
+    assert_eq!(searcher(&[0, 1, 1, 1, 2, 3, 3], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 1, 1, 2, 3, 3], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 1, 1, 2, 3, 3], &2), Some(4));
+    assert_eq!(searcher(&[0, 1, 1, 1, 2, 3, 3], &3), Some(5));
+    assert_eq!(searcher(&[0, 1, 1, 1, 2, 3, 3], &4), None);
+
+    assert_eq!(searcher(&[0, 1, 1, 1, 2, 3, 4], &-1), None);
+    assert_eq!(searcher(&[0, 1, 1, 1, 2, 3, 4], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 1, 1, 2, 3, 4], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 1, 1, 2, 3, 4], &2), Some(4));
+    assert_eq!(searcher(&[0, 1, 1, 1, 2, 3, 4], &3), Some(5));
+    assert_eq!(searcher(&[0, 1, 1, 1, 2, 3, 4], &4), Some(6));
+    assert_eq!(searcher(&[0, 1, 1, 1, 2, 3, 4], &5), None);
+
+    assert_eq!(searcher(&[0, 1, 1, 2, 2, 2, 2], &-1), None);
+    assert_eq!(searcher(&[0, 1, 1, 2, 2, 2, 2], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 1, 2, 2, 2, 2], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 1, 2, 2, 2, 2], &2), Some(3));
+    assert_eq!(searcher(&[0, 1, 1, 2, 2, 2, 2], &3), None);
+
+    assert_eq!(searcher(&[0, 1, 1, 2, 2, 2, 3], &-1), None);
+    assert_eq!(searcher(&[0, 1, 1, 2, 2, 2, 3], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 1, 2, 2, 2, 3], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 1, 2, 2, 2, 3], &2), Some(3));
+    assert_eq!(searcher(&[0, 1, 1, 2, 2, 2, 3], &3), Some(6));
+    assert_eq!(searcher(&[0, 1, 1, 2, 2, 2, 3], &4), None);
+
+    assert_eq!(searcher(&[0, 1, 1, 2, 2, 3, 3], &-1), None);
+    assert_eq!(searcher(&[0, 1, 1, 2, 2, 3, 3], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 1, 2, 2, 3, 3], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 1, 2, 2, 3, 3], &2), Some(3));
+    assert_eq!(searcher(&[0, 1, 1, 2, 2, 3, 3], &3), Some(5));
+    assert_eq!(searcher(&[0, 1, 1, 2, 2, 3, 3], &4), None);
+
+    assert_eq!(searcher(&[0, 1, 1, 2, 2, 3, 4], &-1), None);
+    assert_eq!(searcher(&[0, 1, 1, 2, 2, 3, 4], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 1, 2, 2, 3, 4], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 1, 2, 2, 3, 4], &2), Some(3));
+    assert_eq!(searcher(&[0, 1, 1, 2, 2, 3, 4], &3), Some(5));
+    assert_eq!(searcher(&[0, 1, 1, 2, 2, 3, 4], &4), Some(6));
+    assert_eq!(searcher(&[0, 1, 1, 2, 2, 3, 4], &5), None);
+
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 3, 3], &-1), None);
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 3, 3], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 3, 3], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 3, 3], &2), Some(3));
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 3, 3], &3), Some(4));
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 3, 3], &4), None);
+
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 3, 4], &-1), None);
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 3, 4], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 3, 4], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 3, 4], &2), Some(3));
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 3, 4], &3), Some(4));
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 3, 4], &4), Some(6));
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 3, 4], &5), None);
+
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 4, 4], &-1), None);
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 4, 4], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 4, 4], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 4, 4], &2), Some(3));
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 4, 4], &3), Some(4));
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 4, 4], &4), Some(5));
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 4, 4], &5), None);
+
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 4, 5], &-1), None);
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 4, 5], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 4, 5], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 4, 5], &2), Some(3));
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 4, 5], &3), Some(4));
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 4, 5], &4), Some(5));
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 4, 5], &5), Some(6));
+    assert_eq!(searcher(&[0, 1, 1, 2, 3, 4, 5], &6), None);
+
+    assert_eq!(searcher(&[0, 1, 2, 2, 2, 2, 2], &-1), None);
+    assert_eq!(searcher(&[0, 1, 2, 2, 2, 2, 2], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 2, 2, 2, 2, 2], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 2, 2, 2, 2, 2], &2), Some(2));
+    assert_eq!(searcher(&[0, 1, 2, 2, 2, 2, 2], &3), None);
+
+    assert_eq!(searcher(&[0, 1, 2, 2, 2, 2, 3], &-1), None);
+    assert_eq!(searcher(&[0, 1, 2, 2, 2, 2, 3], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 2, 2, 2, 2, 3], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 2, 2, 2, 2, 3], &2), Some(2));
+    assert_eq!(searcher(&[0, 1, 2, 2, 2, 2, 3], &3), Some(6));
+    assert_eq!(searcher(&[0, 1, 2, 2, 2, 2, 3], &4), None);
+
+    assert_eq!(searcher(&[0, 1, 2, 2, 2, 3, 3], &-1), None);
+    assert_eq!(searcher(&[0, 1, 2, 2, 2, 3, 3], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 2, 2, 2, 3, 3], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 2, 2, 2, 3, 3], &2), Some(2));
+    assert_eq!(searcher(&[0, 1, 2, 2, 2, 3, 3], &3), Some(5));
+    assert_eq!(searcher(&[0, 1, 2, 2, 2, 3, 3], &4), None);
+
+    assert_eq!(searcher(&[0, 1, 2, 2, 2, 3, 4], &-1), None);
+    assert_eq!(searcher(&[0, 1, 2, 2, 2, 3, 4], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 2, 2, 2, 3, 4], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 2, 2, 2, 3, 4], &2), Some(2));
+    assert_eq!(searcher(&[0, 1, 2, 2, 2, 3, 4], &3), Some(5));
+    assert_eq!(searcher(&[0, 1, 2, 2, 2, 3, 4], &4), Some(6));
+    assert_eq!(searcher(&[0, 1, 2, 2, 2, 3, 4], &5), None);
+
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 3, 3], &-1), None);
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 3, 3], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 3, 3], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 3, 3], &2), Some(2));
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 3, 3], &3), Some(4));
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 3, 3], &4), None);
+
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 3, 4], &-1), None);
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 3, 4], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 3, 4], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 3, 4], &2), Some(2));
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 3, 4], &3), Some(4));
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 3, 4], &4), Some(6));
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 3, 4], &5), None);
+
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 4, 4], &-1), None);
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 4, 4], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 4, 4], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 4, 4], &2), Some(2));
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 4, 4], &3), Some(4));
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 4, 4], &4), Some(5));
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 4, 4], &5), None);
+
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 4, 5], &-1), None);
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 4, 5], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 4, 5], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 4, 5], &2), Some(2));
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 4, 5], &3), Some(4));
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 4, 5], &4), Some(5));
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 4, 5], &5), Some(6));
+    assert_eq!(searcher(&[0, 1, 2, 2, 3, 4, 5], &6), None);
+
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 3, 3], &-1), None);
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 3, 3], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 3, 3], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 3, 3], &2), Some(2));
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 3, 3], &3), Some(3));
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 3, 3], &4), None);
+
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 3, 4], &-1), None);
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 3, 4], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 3, 4], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 3, 4], &2), Some(2));
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 3, 4], &3), Some(3));
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 3, 4], &4), Some(6));
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 3, 4], &5), None);
+
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 4, 4], &-1), None);
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 4, 4], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 4, 4], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 4, 4], &2), Some(2));
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 4, 4], &3), Some(3));
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 4, 4], &4), Some(5));
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 4, 4], &5), None);
+
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 4, 5], &-1), None);
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 4, 5], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 4, 5], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 4, 5], &2), Some(2));
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 4, 5], &3), Some(3));
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 4, 5], &4), Some(5));
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 4, 5], &5), Some(6));
+    assert_eq!(searcher(&[0, 1, 2, 3, 3, 4, 5], &6), None);
+
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 4, 4], &-1), None);
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 4, 4], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 4, 4], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 4, 4], &2), Some(2));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 4, 4], &3), Some(3));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 4, 4], &4), Some(4));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 4, 4], &5), None);
+
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 4, 5], &-1), None);
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 4, 5], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 4, 5], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 4, 5], &2), Some(2));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 4, 5], &3), Some(3));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 4, 5], &4), Some(4));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 4, 5], &5), Some(6));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 4, 5], &6), None);
+
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 5, 5], &-1), None);
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 5, 5], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 5, 5], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 5, 5], &2), Some(2));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 5, 5], &3), Some(3));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 5, 5], &4), Some(4));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 5, 5], &5), Some(5));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 5, 5], &6), None);
+
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 5, 6], &-1), None);
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 5, 6], &0), Some(0));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 5, 6], &1), Some(1));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 5, 6], &2), Some(2));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 5, 6], &3), Some(3));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 5, 6], &4), Some(4));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 5, 6], &5), Some(5));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 5, 6], &6), Some(6));
+    assert_eq!(searcher(&[0, 1, 2, 3, 4, 5, 6], &7), None);
+}
