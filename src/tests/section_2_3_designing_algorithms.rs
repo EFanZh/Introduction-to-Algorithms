@@ -61,7 +61,7 @@ mod exercises {
                 super::section_2_3_designing_algorithms::exercises::exercise_2_3_5::{
                     binary_search_iterative, binary_search_iterative_libcxx, binary_search_iterative_rust,
                     binary_search_recursive, binary_search_recursive_libcxx, binary_search_recursive_non_tail,
-                    binary_search_recursive_rust,
+                    binary_search_recursive_pointer, binary_search_recursive_rust,
                 },
                 utilities::run_all_binary_search_tests,
             },
@@ -91,6 +91,11 @@ mod exercises {
         #[bench]
         fn test_binary_search_recursive_non_tail(b: &mut Bencher) {
             b.iter(|| run_all_binary_search_tests(binary_search_recursive_non_tail));
+        }
+
+        #[bench]
+        fn test_binary_search_recursive_pointer(b: &mut Bencher) {
+            b.iter(|| run_all_binary_search_tests(binary_search_recursive_pointer));
         }
 
         #[bench]

@@ -124,6 +124,8 @@ pub mod exercises {
     }
 
     pub mod exercise_2_3_5 {
+        use std::mem::size_of;
+
         pub fn binary_search_iterative<T: Ord>(a: &[T], v: &T) -> Option<usize> {
             let mut left = 0;
             let mut right = a.len();
@@ -237,6 +239,30 @@ pub mod exercises {
             }
 
             let index = lower_bound_non_tail(a, v);
+
+            if index < a.len() && a[index] == *v {
+                Some(index)
+            } else {
+                None
+            }
+        }
+
+        pub fn binary_search_recursive_pointer<T: Ord>(a: &[T], v: &T) -> Option<usize> {
+            fn lower_bound_pointer<T: Ord>(a: &[T], v: &T) -> *const T {
+                if a.len() == 0 {
+                    a.as_ptr()
+                } else {
+                    let middle = a.len() / 2;
+
+                    if a[middle] < *v {
+                        lower_bound_pointer(&a[middle + 1..], v)
+                    } else {
+                        lower_bound_pointer(&a[..middle], v)
+                    }
+                }
+            }
+
+            let index = (lower_bound_pointer(a, v) as usize - a.as_ptr() as usize) / size_of::<T>();
 
             if index < a.len() && a[index] == *v {
                 Some(index)
