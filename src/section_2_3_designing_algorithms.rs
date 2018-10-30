@@ -330,4 +330,31 @@ pub mod exercises {
             }
         }
     }
+
+    pub mod exercise_2_3_7 {
+        pub fn two_sum(s: &[i32], x: i32) -> bool {
+            let a_sorted = {
+                let mut a_temp = s.to_vec();
+                a_temp.sort_unstable();
+                a_temp
+            };
+
+            let mut range = a_sorted.as_slice();
+
+            while range.len() > 1 {
+                let first = range[0];
+                let last = range[range.len() - 1];
+
+                if first + last < x {
+                    range = &range[1..];
+                } else if first + last > x {
+                    range = &range[..range.len() - 1];
+                } else {
+                    return true;
+                }
+            }
+
+            false
+        }
+    }
 }
