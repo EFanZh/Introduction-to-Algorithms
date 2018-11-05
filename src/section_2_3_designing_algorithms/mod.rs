@@ -67,3 +67,4 @@ pub fn merge_sort<T: Clone + Ord>(a: &mut [T], p: usize, r: usize) {
 }
 
 pub mod exercises;
+pub mod problems;

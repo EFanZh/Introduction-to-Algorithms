@@ -11,3 +11,4 @@ fn test_merge_sort(b: &mut Bencher) {
 }
 
 mod exercises;
+mod problems;
