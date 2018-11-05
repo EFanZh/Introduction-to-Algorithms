@@ -142,12 +142,10 @@ pub mod exercise_2_3_5 {
                 } else {
                     binary_search_recursive_helper(a, v, left, middle)
                 }
+            } else if left < a.len() && a[left] == *v {
+                Some(left)
             } else {
-                if left < a.len() && a[left] == *v {
-                    Some(left)
-                } else {
-                    None
-                }
+                None
             }
         }
 
@@ -156,7 +154,7 @@ pub mod exercise_2_3_5 {
 
     pub fn binary_search_recursive_non_tail<T: Ord>(a: &[T], v: &T) -> Option<usize> {
         fn lower_bound_non_tail<T: Ord>(a: &[T], v: &T) -> usize {
-            if a.len() == 0 {
+            if a.is_empty() {
                 0
             } else {
                 let middle = a.len() / 2;
@@ -180,7 +178,7 @@ pub mod exercise_2_3_5 {
 
     pub fn binary_search_recursive_pointer<T: Ord>(a: &[T], v: &T) -> Option<usize> {
         fn lower_bound_pointer<T: Ord>(a: &[T], v: &T) -> *const T {
-            if a.len() == 0 {
+            if a.is_empty() {
                 a.as_ptr()
             } else {
                 let middle = a.len() / 2;
@@ -213,12 +211,10 @@ pub mod exercise_2_3_5 {
                 } else {
                     binary_search_recursive_libcxx_helper(a, v, base, half)
                 }
+            } else if base < a.len() && a[base] == *v {
+                Some(base)
             } else {
-                if base < a.len() && a[base] == *v {
-                    Some(base)
-                } else {
-                    None
-                }
+                None
             }
         }
 
