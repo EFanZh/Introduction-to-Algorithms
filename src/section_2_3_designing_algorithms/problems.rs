@@ -16,3 +16,43 @@ pub mod problem_2_2 {
         }
     }
 }
+
+pub mod problem_2_3 {
+    use std::ops::{Add, Mul};
+
+    // 1  y = 0
+    // 2  for i = n downto 0
+    // 3      y = ai + x ⋅ y
+
+    pub fn polynomial<T: Default>(a: &[T], x: &T) -> T
+    where
+        for<'a> &'a T: Add<Output = T> + Mul<Output = T>,
+    {
+        let mut y: T = Default::default();
+
+        for t in a.iter().rev() {
+            y = t + &(x * &y);
+        }
+
+        y
+    }
+
+    pub fn polynomial_naive<T: Default + Clone>(a: &[T], x: &T) -> T
+    where
+        for<'a> &'a T: Add<Output = T> + Mul<Output = T>,
+    {
+        let mut y: T = Default::default();
+
+        for (k, t) in a.iter().enumerate() {
+            let mut p = t.clone();
+
+            for _ in 0..k {
+                p = &p * x;
+            }
+
+            y = &y + &p;
+        }
+
+        y
+    }
+}
