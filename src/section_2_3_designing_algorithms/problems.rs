@@ -30,8 +30,8 @@ pub mod problem_2_3 {
     {
         let mut y: T = Default::default();
 
-        for t in a.iter().rev() {
-            y = t + &(x * &y);
+        for a_i in a.iter().rev() {
+            y = a_i + &(x * &y);
         }
 
         y
@@ -43,10 +43,10 @@ pub mod problem_2_3 {
     {
         let mut y: T = Default::default();
 
-        for (k, t) in a.iter().enumerate() {
-            let mut p = t.clone();
+        for (i, a_i) in a.iter().enumerate() {
+            let mut p = a_i.clone();
 
-            for _ in 0..k {
+            for _ in 0..i {
                 p = &p * x;
             }
 
