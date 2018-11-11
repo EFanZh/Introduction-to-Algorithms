@@ -70,7 +70,7 @@ pub mod problem_2_4 {
                 if left[i] <= right[j] {
                     sorted.push(left[i].clone());
 
-                    // There are `j` elements in array `right` that is less than `left[i]`.
+                    // There are `j` elements in array `right` that are less than `left[i]`.
                     n += j;
 
                     i += 1;
