@@ -46,3 +46,64 @@ pub fn merge_sort_allocate_once<T: Clone + Ord>(a: &mut [T]) {
 
     merge_sort_helper(a, &mut a.to_vec());
 }
+
+pub fn merge_sort_allocate_once_2<T: Clone + Ord>(a: &mut [T]) {
+    fn merge<T: Clone + Ord>(left: &[T], right: &[T], buffer: &mut [T]) {
+        let mut i = 0;
+        let mut j = 0;
+
+        // Why is `iter_mut` necessary?
+
+        for a_k in buffer.iter_mut() {
+            if left[i] <= right[j] {
+                *a_k = left[i].clone();
+
+                i += 1;
+
+                if i == left.len() {
+                    break;
+                }
+            } else {
+                *a_k = right[j].clone();
+
+                j += 1;
+
+                if j == right.len() {
+                    break;
+                }
+            }
+        }
+
+        if i == left.len() {
+            buffer[i + j..].clone_from_slice(&right[j..]);
+        } else {
+            buffer[i + j..].clone_from_slice(&left[i..]);
+        }
+    }
+
+    fn merge_sort_to_buffer<T: Clone + Ord>(a: &mut [T], buffer: &mut [T]) {
+        if a.len() > 1 {
+            let middle = a.len() / 2;
+            let (left, right) = a.split_at_mut(middle);
+            let (left_buffer, right_buffer) = buffer.split_at_mut(middle);
+
+            merge_sort_to_self(left, left_buffer);
+            merge_sort_to_self(right, right_buffer);
+            merge(left, right, buffer);
+        }
+    }
+
+    fn merge_sort_to_self<T: Clone + Ord>(a: &mut [T], buffer: &mut [T]) {
+        if a.len() > 1 {
+            let middle = a.len() / 2;
+            let (left, right) = a.split_at_mut(middle);
+            let (left_buffer, right_buffer) = buffer.split_at_mut(middle);
+
+            merge_sort_to_buffer(left, left_buffer);
+            merge_sort_to_buffer(right, right_buffer);
+            merge(left_buffer, right_buffer, a);
+        }
+    }
+
+    merge_sort_to_self(a, &mut a.to_vec());
+}
