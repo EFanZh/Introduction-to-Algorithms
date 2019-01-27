@@ -1,5 +1,9 @@
 use super::utilities::MaxSentinel;
 
+pub mod exercises;
+pub mod extra;
+pub mod problems;
+
 // Merge(A, p, q, r)
 //
 //  1  n1 = q - p + 1
@@ -67,10 +71,6 @@ pub fn merge_sort<T: Clone + Ord>(a: &mut [T], p: usize, r: usize) {
         merge(a, p, q, r);
     }
 }
-
-pub mod exercises;
-pub mod extra;
-pub mod problems;
 
 #[cfg(test)]
 mod tests {

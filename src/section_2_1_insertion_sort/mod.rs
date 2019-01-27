@@ -1,3 +1,6 @@
+pub mod exercises;
+pub mod extra;
+
 // Insertion-Sort(A)
 //
 // 1  for j = 2 to A.length
@@ -25,9 +28,6 @@ pub fn insertion_sort<T: Ord + Clone>(a: &mut [T]) {
         a[i.wrapping_add(1)] = key;
     }
 }
-
-pub mod exercises;
-pub mod extra;
 
 #[cfg(test)]
 mod tests {

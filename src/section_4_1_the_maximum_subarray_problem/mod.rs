@@ -1,6 +1,9 @@
 use num_traits::{Bounded, Zero};
 use std::ops::Add;
 
+pub mod exercises;
+pub mod utilities;
+
 // Find-Max-Crossing-Subarray(A, low, mid, high)
 //
 //  1  left-sum = -∞
@@ -96,35 +99,10 @@ pub fn find_maximum_subarray<T: Add + Bounded + Clone + Ord + Zero>(
 #[cfg(test)]
 mod tests {
     use super::find_maximum_subarray;
+    use super::utilities::run_find_maximum_subarray_tests;
 
     #[test]
     fn test_find_maximum_subarray() {
-        fn run_test<T: AsRef<[i32]>>(a: T, expected: i32) {
-            let a_ref = a.as_ref();
-
-            assert!(a_ref.len() > 0);
-
-            let (left, right, sum) = find_maximum_subarray(a_ref, 0, a_ref.len());
-
-            assert!(right > left);
-            assert_eq!(sum, a_ref[left..right].iter().sum());
-            assert_eq!(sum, expected);
-        }
-
-        run_test([0], 0);
-        run_test([-3], -3);
-        run_test([4], 4);
-
-        run_test([-3, -1], -1);
-        run_test([-1, -3], -1);
-        run_test([-3, 0], 0);
-        run_test([-3, 3], 3);
-        run_test([0, -3], 0);
-        run_test([0, 0], 0);
-        run_test([0, 3], 3);
-        run_test([3, -1], 3);
-        run_test([3, 0], 3);
-        run_test([3, 4], 7);
-        run_test([4, 3], 7);
+        run_find_maximum_subarray_tests(|a| find_maximum_subarray(a, 0, a.len()));
     }
 }
