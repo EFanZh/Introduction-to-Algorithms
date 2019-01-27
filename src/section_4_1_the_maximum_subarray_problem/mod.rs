@@ -3,21 +3,21 @@ use std::ops::Add;
 
 // Find-Max-Crossing-Subarray(A, low, mid, high)
 //
-//  1 left-sum = -∞
-//  2 sum = 0
-//  3 for i = mid downto low
-//  4     sum = sum + A[i]
-//  5     if sum > left-sum
-//  6         left-sum = sum
-//  7         max-left = i
-//  8 right-sum = -∞
-//  9 sum = 0
-// 10 for j = mid + 1 to high
-// 11     sum = sum + A[j]
-// 12     if sum > right-sum
-// 13         right-sum = sum
-// 14         max-right = j
-// 15 return (max-left, max-right, left-sum + right-sum)
+//  1  left-sum = -∞
+//  2  sum = 0
+//  3  for i = mid downto low
+//  4      sum = sum + A[i]
+//  5      if sum > left-sum
+//  6          left-sum = sum
+//  7          max-left = i
+//  8  right-sum = -∞
+//  9  sum = 0
+// 10  for j = mid + 1 to high
+// 11      sum = sum + A[j]
+// 12      if sum > right-sum
+// 13          right-sum = sum
+// 14          max-right = j
+// 15  return (max-left, max-right, left-sum + right-sum)
 
 pub fn find_max_crossing_subarray<T: Add + Bounded + Clone + Ord + Zero>(
     a: &[T],
@@ -56,19 +56,19 @@ pub fn find_max_crossing_subarray<T: Add + Bounded + Clone + Ord + Zero>(
 
 // Find-Maximum-Subarray(A, low, high)
 //
-//  1 if high == low
-//  2     return (low, high, A[low]) // base case: only one element
-//  3 else
-//  4     mid = ⌊(low + high) / 2⌋
-//  5     (left-low, left-high, left-sum) = Find-Maximum-Subarray(A, low, mid)
-//  6     (right-low, right-high, right-sum) = Find-Maximum-Subarray(A, mid + 1, high)
-//  7     (cross-low, cross-high, cross-sum) = Find-Max-Crossing-Subarray(A, low, mid, high)
-//  8     if left-sum ≥ right-sum and left-sum ≥ cross-sum
-//  9         return (left-low, left-high, left-sum)
-// 10     elseif right-sum ≥ left-sum and right-sum ≥ cross-sum
-// 11         return (right-low, right-high, right-sum)
-// 12     else
-// 13         return (cross-low, cross-high, cross-sum)
+//  1  if high == low
+//  2      return (low, high, A[low]) // base case: only one element
+//  3  else
+//  4      mid = ⌊(low + high) / 2⌋
+//  5      (left-low, left-high, left-sum) = Find-Maximum-Subarray(A, low, mid)
+//  6      (right-low, right-high, right-sum) = Find-Maximum-Subarray(A, mid + 1, high)
+//  7      (cross-low, cross-high, cross-sum) = Find-Max-Crossing-Subarray(A, low, mid, high)
+//  8      if left-sum ≥ right-sum and left-sum ≥ cross-sum
+//  9          return (left-low, left-high, left-sum)
+// 10      elseif right-sum ≥ left-sum and right-sum ≥ cross-sum
+// 11          return (right-low, right-high, right-sum)
+// 12      else
+// 13          return (cross-low, cross-high, cross-sum)
 
 pub fn find_maximum_subarray<T: Add + Bounded + Clone + Ord + Zero>(
     a: &[T],
