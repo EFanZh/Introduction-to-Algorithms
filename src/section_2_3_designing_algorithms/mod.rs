@@ -52,11 +52,11 @@ pub fn merge<T: Clone + Ord>(a: &mut [T], p: usize, q: usize, r: usize) {
 
 // Merge-Sort(A, p, r)
 //
-// 1 if p < r
-// 2     q = ⌊(p + r) / 2⌋
-// 3     Merge-Sort(A, p, q)
-// 4     Merge-Sort(A, q + 1, r)
-// 5     Merge(A, p, q, r)
+// 1  if p < r
+// 2      q = ⌊(p + r) / 2⌋
+// 3      Merge-Sort(A, p, q)
+// 4      Merge-Sort(A, q + 1, r)
+// 5      Merge(A, p, q, r)
 
 pub fn merge_sort<T: Clone + Ord>(a: &mut [T], p: usize, r: usize) {
     if r - p > 1 {
