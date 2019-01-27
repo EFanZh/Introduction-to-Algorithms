@@ -1,7 +1,24 @@
-mod exercise_2_1_2 {
-    use super::super::super::{
-        super::section_2_1_insertion_sort::exercises::exercise_2_1_2::insertion_sort_reversed, utilities::test_sort,
-    };
+pub fn insertion_sort_reversed<T: Ord + Clone>(a: &mut [T]) {
+    for j in 1..a.len() {
+        let key = a[j].clone();
+
+        // Insert `a[j]` into the sorted sequence `a[0..j]`.
+
+        let mut i = j - 1;
+
+        while i < a.len() && a[i] < key {
+            a[i + 1] = a[i].clone();
+            i = i.wrapping_sub(1);
+        }
+
+        a[i.wrapping_add(1)] = key;
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::insertion_sort_reversed;
+    use crate::test_utilities::test_sort;
 
     #[test]
     fn test_exercise_insertion_sort_reversed() {
@@ -102,61 +119,5 @@ mod exercise_2_1_2 {
         test_sort(insertion_sort_reversed, [3, 1, 2, 0], [3, 2, 1, 0]);
         test_sort(insertion_sort_reversed, [3, 2, 0, 1], [3, 2, 1, 0]);
         test_sort(insertion_sort_reversed, [3, 2, 1, 0], [3, 2, 1, 0]);
-    }
-}
-
-mod exercise_2_1_3 {
-    use super::super::super::super::section_2_1_insertion_sort::exercises::exercise_2_1_3::search;
-
-    #[test]
-    fn test_search() {
-        assert_eq!(search(&[] as &[i32; 0], &1), None);
-
-        assert_eq!(search(&[0], &1), None);
-        assert_eq!(search(&[1], &1), Some(0));
-
-        assert_eq!(search(&([0, 0]), &1), None);
-        assert_eq!(search(&([0, 1]), &1), Some(1));
-        assert_eq!(search(&([1, 0]), &1), Some(0));
-        assert_eq!(search(&([1, 1]), &1), Some(0));
-    }
-}
-
-mod exercise_2_1_4 {
-    use super::super::super::super::section_2_1_insertion_sort::exercises::exercise_2_1_4::add_binary;
-
-    fn run_add_binary_test<T: AsRef<[u8]>, U: AsRef<[u8]> + AsMut<[u8]> + Default>(a: T, b: T, expected: U) {
-        let mut result: U = Default::default();
-
-        add_binary(a.as_ref(), b.as_ref(), result.as_mut());
-
-        assert_eq!(*result.as_ref(), *expected.as_ref());
-    }
-
-    #[test]
-    fn test_add_binary() {
-        run_add_binary_test([], [], [0]);
-
-        run_add_binary_test([0], [0], [0, 0]);
-        run_add_binary_test([0], [1], [0, 1]);
-        run_add_binary_test([1], [0], [0, 1]);
-        run_add_binary_test([1], [1], [1, 0]);
-
-        run_add_binary_test([0, 0], [0, 0], [0, 0, 0]);
-        run_add_binary_test([0, 0], [0, 1], [0, 0, 1]);
-        run_add_binary_test([0, 0], [1, 0], [0, 1, 0]);
-        run_add_binary_test([0, 0], [1, 1], [0, 1, 1]);
-        run_add_binary_test([0, 1], [0, 0], [0, 0, 1]);
-        run_add_binary_test([0, 1], [0, 1], [0, 1, 0]);
-        run_add_binary_test([0, 1], [1, 0], [0, 1, 1]);
-        run_add_binary_test([0, 1], [1, 1], [1, 0, 0]);
-        run_add_binary_test([1, 0], [0, 0], [0, 1, 0]);
-        run_add_binary_test([1, 0], [0, 1], [0, 1, 1]);
-        run_add_binary_test([1, 0], [1, 0], [1, 0, 0]);
-        run_add_binary_test([1, 0], [1, 1], [1, 0, 1]);
-        run_add_binary_test([1, 1], [0, 0], [0, 1, 1]);
-        run_add_binary_test([1, 1], [0, 1], [1, 0, 0]);
-        run_add_binary_test([1, 1], [1, 0], [1, 0, 1]);
-        run_add_binary_test([1, 1], [1, 1], [1, 1, 0]);
     }
 }

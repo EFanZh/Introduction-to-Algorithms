@@ -24,3 +24,15 @@ pub fn insertion_sort_tail_recursive<T: Ord + Clone>(a: &mut [T]) {
 
     insertion_sort_helper(a, 0);
 }
+
+#[cfg(test)]
+mod tests {
+    use super::insertion_sort_tail_recursive;
+    use crate::test_utilities::run_all_sorting_tests;
+    use test::Bencher;
+
+    #[bench]
+    fn test_insertion_sort_tail_recursive(b: &mut Bencher) {
+        b.iter(|| run_all_sorting_tests(insertion_sort_tail_recursive));
+    }
+}

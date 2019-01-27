@@ -1,6 +1,7 @@
 use super::utilities::MaxSentinel;
 
 // Merge(A, p, q, r)
+//
 //  1  n1 = q - p + 1
 //  2  n2 = r - q
 //  3  let L[1‥n1 + 1] and R[1‥n2 + 1] be new arrays
@@ -69,3 +70,20 @@ pub fn merge_sort<T: Clone + Ord>(a: &mut [T], p: usize, r: usize) {
 pub mod exercises;
 pub mod extra;
 pub mod problems;
+
+#[cfg(test)]
+mod tests {
+    use super::merge_sort;
+    use crate::test_utilities::run_all_sorting_tests;
+    use test::Bencher;
+
+    fn merge_sort_helper<T: Ord + Clone>(a: &mut [T]) {
+        merge_sort(a, 0, a.len());
+    }
+
+    #[bench]
+    fn test_merge_sort(b: &mut Bencher) {
+        b.iter(|| run_all_sorting_tests(merge_sort_helper));
+    }
+
+}
