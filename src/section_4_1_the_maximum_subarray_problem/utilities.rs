@@ -51,4 +51,8 @@ pub fn run_find_maximum_subarray_tests<F: Fn(&[i32]) -> (usize, usize, i32)>(f: 
     run_test(&f, [2, 1, 4], 7);
     run_test(&f, [2, 0, 4], 6);
     run_test(&f, [2, 4, 0], 6);
+
+    // Test cases from LeetCode (https://leetcode.com/problems/maximum-subarray/).
+
+    run_test(&f, [-2, 1, -3, 4, -1, 2, 1, -5, 4], 6);
 }

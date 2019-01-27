@@ -1,5 +1,4 @@
-use num_traits::{Bounded, Zero};
-use std::ops::Add;
+use num_traits::Zero;
 
 pub mod exercises;
 pub mod utilities;
@@ -22,7 +21,7 @@ pub mod utilities;
 // 14          max-right = j
 // 15  return (max-left, max-right, left-sum + right-sum)
 
-pub fn find_max_crossing_subarray<T: Add + Bounded + Clone + Ord + Zero>(
+pub fn find_max_crossing_subarray<T: Clone + Ord + Zero>(
     a: &[T],
     low: usize,
     mid: usize,
@@ -73,11 +72,7 @@ pub fn find_max_crossing_subarray<T: Add + Bounded + Clone + Ord + Zero>(
 // 12      else
 // 13          return (cross-low, cross-high, cross-sum)
 
-pub fn find_maximum_subarray<T: Add + Bounded + Clone + Ord + Zero>(
-    a: &[T],
-    low: usize,
-    high: usize,
-) -> (usize, usize, T) {
+pub fn find_maximum_subarray<T: Clone + Ord + Zero>(a: &[T], low: usize, high: usize) -> (usize, usize, T) {
     if high == low + 1 {
         (low, high, a[low].clone())
     } else {

@@ -1,5 +1,4 @@
 use num_traits::Zero;
-use std::ops::Add;
 
 // Find-Maximum-Subarray-Brute-Force(A)
 //
@@ -16,7 +15,7 @@ use std::ops::Add;
 // 11.              max-sum = sum
 // 12.  return (max-left, max-right, max-sum)
 
-pub fn find_maximum_subarray_brute_force<T: Add + Clone + Ord + Zero>(a: &[T]) -> (usize, usize, T) {
+pub fn find_maximum_subarray_brute_force<T: Clone + Ord + Zero>(a: &[T]) -> (usize, usize, T) {
     let mut max_left = 0usize;
     let mut max_right = 0usize;
     let mut max_sum = a[0].clone();
