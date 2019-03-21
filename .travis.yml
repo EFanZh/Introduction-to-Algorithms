@@ -4,10 +4,11 @@ rust:
 os:
   - linux
   - osx
+  - windows
 before_install:
   - rustup component add clippy
 script:
-  - cargo clippy --verbose
+  - cargo clippy --verbose -- -D warnings
   - cargo test
 notifications:
     email: false
