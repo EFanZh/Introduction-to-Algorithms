@@ -2,7 +2,7 @@ use rand::Rng;
 
 pub fn random(a: i32, b: i32) -> i32 {
     let range = b - a;
-    let bits_needed = ((b - a + 1) as f64).log2().ceil() as _;
+    let bits_needed = f64::from(b - a + 1).log2().ceil() as _;
     let mut rng = rand::thread_rng();
 
     loop {
