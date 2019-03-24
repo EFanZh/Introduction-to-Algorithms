@@ -46,19 +46,17 @@ pub fn find_one_good_chip<T: Chip>(chips: &[T]) -> Option<&T> {
                     if chip.test(top_chip) && top_chip.test(chip) {
                         chip = top_chip;
                         level += 1;
+
+                        continue;
                     } else {
                         break;
                     }
-                } else {
-                    stack.push((chip, level));
-
-                    break;
                 }
-            } else {
-                stack.push((chip, level));
-
-                break;
             }
+
+            stack.push((chip, level));
+
+            break;
         }
     }
 
