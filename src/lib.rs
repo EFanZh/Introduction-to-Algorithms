@@ -1,9 +1,7 @@
 #![feature(test)]
 
-pub mod section_2_1_insertion_sort;
-pub mod section_2_2_analyzing_algorithms;
-pub mod section_2_3_designing_algorithms;
-pub mod section_4_1_the_maximum_subarray_problem;
+pub mod section_2_getting_started;
+pub mod section_4_divide_and_conquer;
 mod utilities;
 
 #[cfg(test)]
