@@ -1,8 +1,7 @@
-use super::utilities::MaxSentinel;
+use crate::utilities::MaxSentinel;
 
 pub mod exercises;
 pub mod extra;
-pub mod problems;
 
 // Merge(A, p, q, r)
 //
