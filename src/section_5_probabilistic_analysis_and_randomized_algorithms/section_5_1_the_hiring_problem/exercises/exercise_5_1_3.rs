@@ -16,7 +16,7 @@ mod tests {
     #[test]
     fn test_random() {
         let test_count = 100000;
-        let mut p = 0.01;
+        let mut p = 0.1;
         let mut rng = rand::thread_rng();
 
         loop {
@@ -37,9 +37,9 @@ mod tests {
 
             // Next loop.
 
-            p += 0.01;
+            p += 0.1;
 
-            if p > 0.99 {
+            if p > 0.9 {
                 break;
             }
         }
