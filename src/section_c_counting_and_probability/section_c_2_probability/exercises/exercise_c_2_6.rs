@@ -22,7 +22,6 @@ pub fn flip_coin_2<C: FnMut() -> bool>(mut fair_coin: C, a: i32, b: i32) -> bool
     }
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::{flip_coin, flip_coin_2};
@@ -39,7 +38,6 @@ mod tests {
             }
         }
     }
-
 
     #[test]
     fn test_flip_coin() {
