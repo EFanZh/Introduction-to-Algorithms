@@ -1,1 +1,2 @@
 pub mod section_5_1_the_hiring_problem;
+pub mod section_5_3_randomized_algorithms;
