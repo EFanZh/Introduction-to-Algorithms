@@ -203,45 +203,44 @@ mod tests {
         binary_search_recursive_rust,
     };
     use crate::test_utilities::run_all_binary_search_tests;
-    use test::Bencher;
 
-    #[bench]
-    fn test_binary_search_iterative(b: &mut Bencher) {
-        b.iter(|| run_all_binary_search_tests(binary_search_iterative));
+    #[test]
+    fn test_binary_search_iterative() {
+        run_all_binary_search_tests(binary_search_iterative);
     }
 
-    #[bench]
-    fn test_binary_search_iterative_libcxx(b: &mut Bencher) {
-        b.iter(|| run_all_binary_search_tests(binary_search_iterative_libcxx));
+    #[test]
+    fn test_binary_search_iterative_libcxx() {
+        run_all_binary_search_tests(binary_search_iterative_libcxx);
     }
 
-    #[bench]
-    fn test_binary_search_iterative_rust(b: &mut Bencher) {
-        b.iter(|| run_all_binary_search_tests(binary_search_iterative_rust));
+    #[test]
+    fn test_binary_search_iterative_rust() {
+        run_all_binary_search_tests(binary_search_iterative_rust);
     }
 
-    #[bench]
-    fn test_binary_search_recursive(b: &mut Bencher) {
-        b.iter(|| run_all_binary_search_tests(binary_search_recursive));
+    #[test]
+    fn test_binary_search_recursive() {
+        run_all_binary_search_tests(binary_search_recursive);
     }
 
-    #[bench]
-    fn test_binary_search_recursive_non_tail(b: &mut Bencher) {
-        b.iter(|| run_all_binary_search_tests(binary_search_recursive_non_tail));
+    #[test]
+    fn test_binary_search_recursive_non_tail() {
+        run_all_binary_search_tests(binary_search_recursive_non_tail);
     }
 
-    #[bench]
-    fn test_binary_search_recursive_pointer(b: &mut Bencher) {
-        b.iter(|| run_all_binary_search_tests(binary_search_recursive_pointer));
+    #[test]
+    fn test_binary_search_recursive_pointer() {
+        run_all_binary_search_tests(binary_search_recursive_pointer);
     }
 
-    #[bench]
-    fn test_binary_search_recursive_libcxx(b: &mut Bencher) {
-        b.iter(|| run_all_binary_search_tests(binary_search_recursive_libcxx));
+    #[test]
+    fn test_binary_search_recursive_libcxx() {
+        run_all_binary_search_tests(binary_search_recursive_libcxx);
     }
 
-    #[bench]
-    fn test_binary_search_recursive_rust(b: &mut Bencher) {
-        b.iter(|| run_all_binary_search_tests(binary_search_recursive_rust));
+    #[test]
+    fn test_binary_search_recursive_rust() {
+        run_all_binary_search_tests(binary_search_recursive_rust);
     }
 }

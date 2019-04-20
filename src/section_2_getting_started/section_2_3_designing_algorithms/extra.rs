@@ -112,16 +112,14 @@ pub fn merge_sort_allocate_once_2<T: Clone + Ord>(a: &mut [T]) {
 mod tests {
     use super::{merge_sort_allocate_once, merge_sort_allocate_once_2};
     use crate::test_utilities::run_all_sorting_tests;
-    use test::Bencher;
 
-    #[bench]
-    fn test_merge_sort_allocate_once(b: &mut Bencher) {
-        b.iter(|| run_all_sorting_tests(merge_sort_allocate_once));
+    #[test]
+    fn test_merge_sort_allocate_once() {
+        run_all_sorting_tests(merge_sort_allocate_once);
     }
 
-    #[bench]
-    fn test_merge_sort_allocate_once_2(b: &mut Bencher) {
-        b.iter(|| run_all_sorting_tests(merge_sort_allocate_once_2));
+    #[test]
+    fn test_merge_sort_allocate_once_2() {
+        run_all_sorting_tests(merge_sort_allocate_once_2);
     }
-
 }

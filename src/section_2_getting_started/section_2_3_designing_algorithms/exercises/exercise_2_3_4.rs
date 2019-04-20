@@ -22,10 +22,9 @@ pub fn insertion_sort_recursive<T: Ord + Clone>(a: &mut [T]) {
 mod tests {
     use super::insertion_sort_recursive;
     use crate::test_utilities::run_all_sorting_tests;
-    use test::Bencher;
 
-    #[bench]
-    fn test_insertion_sort_recursive(b: &mut Bencher) {
-        b.iter(|| run_all_sorting_tests(insertion_sort_recursive));
+    #[test]
+    fn test_insertion_sort_recursive() {
+        run_all_sorting_tests(insertion_sort_recursive);
     }
 }

@@ -33,10 +33,9 @@ pub fn insertion_sort<T: Ord + Clone>(a: &mut [T]) {
 mod tests {
     use super::insertion_sort;
     use crate::test_utilities::run_all_sorting_tests;
-    use test::Bencher;
 
-    #[bench]
-    fn test_insertion_sort(b: &mut Bencher) {
-        b.iter(|| run_all_sorting_tests(insertion_sort));
+    #[test]
+    fn test_insertion_sort() {
+        run_all_sorting_tests(insertion_sort);
     }
 }

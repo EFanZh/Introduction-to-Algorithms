@@ -34,7 +34,6 @@ pub fn merge<T: Clone + Ord>(a: &mut [T], p: usize, q: usize, r: usize) {
 mod tests {
     use super::merge;
     use crate::test_utilities::run_all_sorting_tests;
-    use test::Bencher;
 
     fn merge_sort_helper_2<T: Ord + Clone>(a: &mut [T]) {
         pub fn merge_sort_2<T: Clone + Ord>(a: &mut [T], p: usize, r: usize) {
@@ -50,8 +49,8 @@ mod tests {
         merge_sort_2(a, 0, a.len());
     }
 
-    #[bench]
-    fn test_merge_sort_2(b: &mut Bencher) {
-        b.iter(|| run_all_sorting_tests(merge_sort_helper_2));
+    #[test]
+    fn test_merge_sort_2() {
+        run_all_sorting_tests(merge_sort_helper_2);
     }
 }
