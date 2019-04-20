@@ -1,5 +1,7 @@
 use rand::{thread_rng, Rng};
 
+pub mod exercises;
+
 // Permute-By-Sorting
 //
 // 1  n = A.length
@@ -51,7 +53,7 @@ pub fn randomize_in_place<T>(a: &mut [T]) {
 mod tests {
     use std::collections::HashMap;
 
-    fn run_test_randomize<F: Fn(&mut [i32])>(f: F) {
+    pub fn run_test_randomize<F: Fn(&mut [i32])>(f: F) {
         let mut a = Vec::new();
         let mut a_sorted = Vec::new();
         let mut permutation_counter = HashMap::<Vec<i32>, usize>::new();
@@ -65,7 +67,6 @@ mod tests {
                     .entry(a.clone())
                     .and_modify(|x| *x += 1)
                     .or_insert(1);
-
 
                 a.sort_unstable();
 
