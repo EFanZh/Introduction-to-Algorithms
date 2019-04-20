@@ -20,10 +20,9 @@ pub fn selection_sort<T: Ord + Clone>(a: &mut [T]) {
 mod tests {
     use super::selection_sort;
     use crate::test_utilities::run_all_sorting_tests;
-    use test::Bencher;
 
-    #[bench]
-    pub fn test_selection_sort(b: &mut Bencher) {
-        b.iter(|| run_all_sorting_tests(selection_sort));
+    #[test]
+    pub fn test_selection_sort() {
+        run_all_sorting_tests(selection_sort);
     }
 }
