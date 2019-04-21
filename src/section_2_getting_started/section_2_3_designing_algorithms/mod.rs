@@ -84,5 +84,4 @@ mod tests {
     fn test_merge_sort() {
         run_all_sorting_tests(merge_sort_helper);
     }
-
 }
