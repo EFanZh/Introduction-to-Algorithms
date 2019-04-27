@@ -73,6 +73,7 @@ mod tests {
         // Test case from CLRS.
 
         run_single_test(&[4, 1, 3, 2, 16, 9, 10, 14, 8, 7]);
+        run_single_test(&[5, 3, 17, 10, 84, 19, 6, 22, 9]);
     }
 
     #[test]
@@ -116,5 +117,6 @@ mod tests {
         // Test case from CLRS.
 
         run_single_test(&[4, 1, 3, 2, 16, 9, 10, 14, 8, 7]);
+        run_single_test(&[5, 3, 17, 10, 84, 19, 6, 22, 9]);
     }
 }
