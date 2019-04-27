@@ -58,5 +58,9 @@ mod tests {
         run_single_test(&[1, 2, 0]);
         run_single_test(&[2, 0, 1]);
         run_single_test(&[2, 1, 0]);
+
+        // Test case from CLRS.
+
+        run_single_test(&[4, 1, 3, 2, 16, 9, 10, 14, 8, 7]);
     }
 }
