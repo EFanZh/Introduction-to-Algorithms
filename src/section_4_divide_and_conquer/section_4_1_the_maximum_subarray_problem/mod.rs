@@ -1,7 +1,7 @@
 use num_traits::Zero;
 
 pub mod exercises;
-pub mod utilities;
+mod utilities;
 
 // Find-Max-Crossing-Subarray(A, low, mid, high)
 //
