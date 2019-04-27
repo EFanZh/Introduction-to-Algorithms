@@ -1,4 +1,4 @@
-use super::super::section_6_1_heaps::{left, right};
+use super::super::super::section_6_1_heaps::{left, right};
 
 pub fn max_heapify_iterative<T: Ord>(a: &mut [T], mut i: usize) {
     let heap_size = a.len();
@@ -24,7 +24,7 @@ pub fn max_heapify_iterative<T: Ord>(a: &mut [T], mut i: usize) {
 
 #[cfg(test)]
 mod tests {
-    use super::super::tests::run_max_heapify_tests;
+    use super::super::super::tests::run_max_heapify_tests;
     use super::max_heapify_iterative;
 
     #[test]
