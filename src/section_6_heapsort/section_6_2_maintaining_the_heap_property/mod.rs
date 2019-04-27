@@ -1,5 +1,6 @@
 use super::section_6_1_heaps::{left, right};
 
+pub mod exercises;
 pub mod extra;
 
 // Max-Heapify(A, i)
