@@ -17,8 +17,8 @@ pub fn bubble_sort<T: Ord + Clone>(a: &mut [T]) {
 
 #[cfg(test)]
 mod tests {
+    use super::super::super::super::test_utilities::run_all_sorting_tests;
     use super::bubble_sort;
-    use crate::test_utilities::run_all_sorting_tests;
 
     #[test]
     fn test_bubble_sort() {
