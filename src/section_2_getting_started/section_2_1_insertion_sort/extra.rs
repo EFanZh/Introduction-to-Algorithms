@@ -27,8 +27,8 @@ pub fn insertion_sort_tail_recursive<T: Ord + Clone>(a: &mut [T]) {
 
 #[cfg(test)]
 mod tests {
+    use super::super::super::super::test_utilities::run_all_sorting_tests;
     use super::insertion_sort_tail_recursive;
-    use crate::test_utilities::run_all_sorting_tests;
 
     #[test]
     fn test_insertion_sort_tail_recursive() {

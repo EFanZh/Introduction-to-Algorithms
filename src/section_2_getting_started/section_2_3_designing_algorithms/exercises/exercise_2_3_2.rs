@@ -32,8 +32,8 @@ pub fn merge<T: Clone + Ord>(a: &mut [T], p: usize, q: usize, r: usize) {
 
 #[cfg(test)]
 mod tests {
+    use super::super::super::super::super::test_utilities::run_all_sorting_tests;
     use super::merge;
-    use crate::test_utilities::run_all_sorting_tests;
 
     fn merge_sort_helper_2<T: Ord + Clone>(a: &mut [T]) {
         pub fn merge_sort_2<T: Clone + Ord>(a: &mut [T], p: usize, r: usize) {

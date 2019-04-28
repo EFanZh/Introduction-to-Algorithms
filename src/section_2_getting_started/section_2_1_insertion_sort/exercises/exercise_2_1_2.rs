@@ -17,8 +17,8 @@ pub fn insertion_sort_reversed<T: Ord + Clone>(a: &mut [T]) {
 
 #[cfg(test)]
 mod tests {
+    use super::super::super::super::super::test_utilities::test_sort;
     use super::insertion_sort_reversed;
-    use crate::test_utilities::test_sort;
 
     #[test]
     fn test_exercise_insertion_sort_reversed() {
