@@ -1,5 +1,5 @@
 use lazy_static::lazy_static;
-use permutohedron::LexicalPermutation;
+use permutohedron::heap_recursive;
 
 fn iterate_digits<F: FnMut(&mut [i32])>(a: &mut [i32], f: &mut F) {
     fn helper<F: FnMut(&mut [i32])>(a: &mut [i32], i: usize, f: &mut F) {
@@ -53,12 +53,8 @@ fn generate_all_unordered_sequences<F: FnMut(&mut [i32])>(
     diff_storage: &mut [i32],
     mut f: F,
 ) {
-    generate_all_ordered_sequences(sequence_storage, diff_storage, |sequence| loop {
-        f(sequence);
-
-        if !sequence.next_permutation() {
-            break;
-        }
+    generate_all_ordered_sequences(sequence_storage, diff_storage, |sequence| {
+        heap_recursive(sequence, &mut f)
     })
 }
 
