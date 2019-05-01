@@ -145,5 +145,11 @@ mod tests {
         run_single_test(vec![3, 0], 1, &[3, 0, 1]);
         run_single_test(vec![3, 0], 3, &[3, 0, 3]);
         run_single_test(vec![3, 0], 4, &[4, 0, 3]);
+
+        run_single_test(
+            vec![15, 13, 9, 5, 12, 8, 7, 4, 0, 6, 2, 1],
+            10,
+            &[15, 13, 10, 5, 12, 9, 7, 4, 0, 6, 2, 1, 8],
+        )
     }
 }
