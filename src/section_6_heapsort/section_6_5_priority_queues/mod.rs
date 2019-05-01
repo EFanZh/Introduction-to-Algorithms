@@ -82,16 +82,21 @@ mod tests {
 
     #[test]
     fn test_heap_extract_max() {
-        fn run_single_test(mut a: Vec<i32>, expected: &[i32]) {
-            heap_extract_max(&mut a);
-
-            assert_eq!(a.as_slice(), expected);
+        fn run_single_test(mut a: Vec<i32>, expected_value: i32, expected_heap: &[i32]) {
+            assert_eq!(heap_extract_max(&mut a), expected_value);
+            assert_eq!(a.as_slice(), expected_heap);
         }
 
-        run_single_test(vec![0], &[]);
-        run_single_test(vec![1, 0], &[0]);
-        run_single_test(vec![2, 1, 0], &[1, 0]);
-        run_single_test(vec![3, 2, 1, 0], &[2, 0, 1]);
+        run_single_test(vec![0], 0, &[]);
+        run_single_test(vec![1, 0], 1, &[0]);
+        run_single_test(vec![2, 1, 0], 2, &[1, 0]);
+        run_single_test(vec![3, 2, 1, 0], 3, &[2, 0, 1]);
+
+        run_single_test(
+            vec![15, 13, 9, 5, 12, 8, 7, 4, 0, 6, 2, 1],
+            15,
+            &[13, 12, 9, 5, 6, 8, 7, 4, 0, 1, 2],
+        );
     }
 
     #[test]
@@ -114,6 +119,13 @@ mod tests {
         run_single_test(vec![13, 7, 2], 2, 4, &[13, 7, 4]);
         run_single_test(vec![13, 7, 2], 2, 8, &[13, 7, 8]);
         run_single_test(vec![13, 7, 2], 2, 14, &[14, 7, 13]);
+
+        run_single_test(
+            vec![16, 14, 10, 8, 7, 9, 3, 2, 4, 1],
+            8,
+            15,
+            &[16, 15, 10, 14, 7, 9, 3, 2, 8, 1],
+        );
     }
 
     #[test]
