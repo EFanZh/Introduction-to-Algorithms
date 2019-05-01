@@ -1,6 +1,8 @@
 use super::section_6_1_heaps::parent;
 use super::section_6_2_maintaining_the_heap_property::max_heapify;
 
+pub mod exercises;
+
 // Heap-Maximum(A)
 //
 // 1  return A[1]
@@ -15,7 +17,7 @@ pub fn heap_maximum<T: Ord>(a: &[T]) -> &T {
 // 2      error “heap underflow”
 // 3  max = A[1]
 // 4  A[1] = A[A.heap-size]
-// 5  A.heap-size D A.heap-size - 1
+// 5  A.heap-size = A.heap-size - 1
 // 6  Max-Heapify(A, 1)
 // 7  return max
 
