@@ -21,16 +21,8 @@ pub fn build_min_heap<T: Ord>(a: &mut [T]) {
 
 #[cfg(test)]
 mod tests {
-    use super::super::section_6_1_heaps::parent;
+    use super::super::super::test_utilities::{is_max_heap, is_min_heap};
     use super::{build_max_heap, build_min_heap};
-
-    fn is_max_heap<T: Ord>(a: &[T]) -> bool {
-        a.iter().enumerate().skip(1).all(|(i, v)| v <= &a[parent(i)])
-    }
-
-    fn is_min_heap<T: Ord>(a: &[T]) -> bool {
-        a.iter().enumerate().skip(1).all(|(i, v)| v >= &a[parent(i)])
-    }
 
     #[test]
     fn test_build_max_heap() {
