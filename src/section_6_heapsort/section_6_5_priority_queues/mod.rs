@@ -101,13 +101,12 @@ mod tests {
         );
     }
 
-    #[test]
-    fn test_heap_increase_key() {
-        fn run_single_test(mut a: Vec<i32>, i: usize, key: i32, expected: &[i32]) {
-            heap_increase_key(&mut a, i, key);
+    pub fn run_heap_increase_key_test<F: Fn(&mut [i32], usize, i32)>(f: F) {
+        let run_single_test = |mut a: Vec<i32>, i: usize, key: i32, expected: &[i32]| {
+            f(&mut a, i, key);
 
             assert_eq!(a.as_slice(), expected);
-        }
+        };
 
         run_single_test(vec![0], 0, 7, &[7]);
 
@@ -128,6 +127,11 @@ mod tests {
             15,
             &[16, 15, 10, 14, 7, 9, 3, 2, 8, 1],
         );
+    }
+
+    #[test]
+    fn test_heap_increase_key() {
+        run_heap_increase_key_test(heap_increase_key);
     }
 
     #[test]
