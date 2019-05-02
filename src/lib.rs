@@ -3,6 +3,8 @@ pub mod section_4_divide_and_conquer;
 pub mod section_5_probabilistic_analysis_and_randomized_algorithms;
 pub mod section_6_heapsort;
 pub mod section_c_counting_and_probability;
+pub mod section_10_elementary_data_structures;
+
 mod utilities;
 
 #[cfg(test)]
