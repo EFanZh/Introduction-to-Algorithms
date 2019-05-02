@@ -1,7 +1,7 @@
 use lazy_static::lazy_static;
 use permutohedron::LexicalPermutation;
 
-fn iterate_digits<F: FnMut(&mut [i32])>(a: &mut [i32], f: &mut F) {
+fn iterate_digits<F: FnMut(&mut [i32])>(a: &mut [i32], mut f: F) {
     fn helper<F: FnMut(&mut [i32])>(a: &mut [i32], i: usize, f: &mut F) {
         if i < a.len() {
             a[i] = 0;
@@ -13,7 +13,7 @@ fn iterate_digits<F: FnMut(&mut [i32])>(a: &mut [i32], f: &mut F) {
         }
     }
 
-    helper(a, 0, f);
+    helper(a, 0, &mut f);
 }
 
 fn generate_ordered_sequences<F: FnMut(&mut [i32])>(sequence_storage: &mut [i32], diff_storage: &mut [i32], mut f: F) {
@@ -26,7 +26,7 @@ fn generate_ordered_sequences<F: FnMut(&mut [i32])>(sequence_storage: &mut [i32]
 
         f(sequence_storage);
     } else {
-        iterate_digits(&mut diff_storage[..length - 1], &mut |diff| {
+        iterate_digits(&mut diff_storage[..length - 1], |diff| {
             sequence_storage[0] = 0;
 
             for (i, d) in diff.iter().enumerate() {
@@ -60,6 +60,14 @@ fn generate_all_unordered_sequences<F: FnMut(&mut [i32])>(
             break;
         }
     })
+}
+
+pub fn is_max_heap<T: Ord>(a: &[T]) -> bool {
+    a.iter().enumerate().skip(1).all(|(i, v)| v <= &a[(i - 1) / 2])
+}
+
+pub fn is_min_heap<T: Ord>(a: &[T]) -> bool {
+    a.iter().enumerate().skip(1).all(|(i, v)| v >= &a[(i - 1) / 2])
 }
 
 const ORDERED_SEQUENCE_TEST_CASE_MAX_LENGTH: usize = 7;
@@ -116,14 +124,28 @@ lazy_static! {
 
         result.into()
     };
+    static ref MAX_HEAP_TEST_CASES: Box<[Box<[i32]>]> = UNORDERED_SEQUENCE_TEST_CASES
+        .iter()
+        .filter_map(|(sequence, _)| {
+            if is_max_heap(sequence) {
+                Some(sequence.clone())
+            } else {
+                None
+            }
+        })
+        .collect();
+}
+
+pub fn assign_vec<T: Clone>(target: &mut Vec<T>, source: &[T]) {
+    target.clear();
+    target.extend_from_slice(source);
 }
 
 pub fn run_all_sorting_tests<S: Fn(&mut [i32])>(sorter: S) {
     let mut a = Vec::new();
 
     for (test_case, expected) in UNORDERED_SEQUENCE_TEST_CASES.iter() {
-        a.clear();
-        a.extend_from_slice(test_case);
+        assign_vec(&mut a, test_case);
 
         sorter(&mut a);
 
@@ -135,8 +157,7 @@ pub fn run_all_reverse_sorting_tests<S: Fn(&mut [i32])>(sorter: S) {
     let mut a = Vec::new();
 
     for (test_case, expected) in UNORDERED_SEQUENCE_TEST_CASES.iter() {
-        a.clear();
-        a.extend_from_slice(test_case);
+        assign_vec(&mut a, test_case);
 
         sorter(&mut a);
 
@@ -166,6 +187,10 @@ pub fn run_all_num_inversions_tests<F: Fn(&[i32]) -> usize>(num_inversions: F) {
     for (test_case, expected) in NUM_INVERSIONS_TEST_CASES.iter() {
         assert_eq!(num_inversions(test_case), *expected);
     }
+}
+
+pub fn loop_on_all_max_heap_test_cases<F: FnMut(&[i32])>(f: F) {
+    MAX_HEAP_TEST_CASES.iter().map(|x| x.as_ref()).for_each(f);
 }
 
 mod tests {
@@ -210,7 +235,7 @@ mod tests {
                     .map(|pair| pair[1] - pair[0])
                     .all(|x| x == 0 || x == 1));
 
-                result.insert(sequence.to_vec());
+                assert!(result.insert(sequence.to_vec()));
             });
 
             if max_length == 0 {
@@ -262,7 +287,7 @@ mod tests {
     }
 
     #[test]
-    fn test_generate_unordered_test_cases() {
+    fn test_generate_all_unordered_test_cases() {
         const MAX_MAX_LENGTH: usize = 5;
 
         let mut sequence_storage = vec![0; MAX_MAX_LENGTH];
