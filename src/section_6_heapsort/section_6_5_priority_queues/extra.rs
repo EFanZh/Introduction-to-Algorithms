@@ -2,12 +2,14 @@ use super::exercises::exercise_6_5_3::{heap_extract_min, heap_minimum, min_heap_
 use super::{heap_extract_max, heap_maximum, max_heap_insert};
 
 pub trait MaxPriorityQueue<T> {
+    fn empty(&self) -> bool;
     fn insert(&mut self, x: T);
     fn maximum(&self) -> &T;
     fn extract_max(&mut self) -> T;
 }
 
 pub trait MinPriorityQueue<T> {
+    fn empty(&self) -> bool;
     fn insert(&mut self, x: T);
     fn minimum(&self) -> &T;
     fn extract_min(&mut self) -> T;
@@ -17,13 +19,23 @@ pub struct VecMaxPriorityQueue<T> {
     a: Vec<T>,
 }
 
-impl<T: Ord> VecMaxPriorityQueue<T> {
-    pub fn new() -> VecMaxPriorityQueue<T> {
+impl<T: Ord> Default for VecMaxPriorityQueue<T> {
+    fn default() -> Self {
         VecMaxPriorityQueue { a: Vec::new() }
     }
 }
 
+impl<T: Ord> VecMaxPriorityQueue<T> {
+    pub fn new() -> Self {
+        Default::default()
+    }
+}
+
 impl<T: Ord> MaxPriorityQueue<T> for VecMaxPriorityQueue<T> {
+    fn empty(&self) -> bool {
+        self.a.is_empty()
+    }
+
     fn insert(&mut self, x: T) {
         max_heap_insert(&mut self.a, x);
     }
@@ -41,13 +53,23 @@ pub struct VecMinPriorityQueue<T> {
     a: Vec<T>,
 }
 
-impl<T: Ord> VecMinPriorityQueue<T> {
-    pub fn new() -> VecMinPriorityQueue<T> {
+impl<T: Ord> Default for VecMinPriorityQueue<T> {
+    fn default() -> Self {
         VecMinPriorityQueue { a: Vec::new() }
     }
 }
 
+impl<T: Ord> VecMinPriorityQueue<T> {
+    pub fn new() -> Self {
+        Default::default()
+    }
+}
+
 impl<T: Ord> MinPriorityQueue<T> for VecMinPriorityQueue<T> {
+    fn empty(&self) -> bool {
+        self.a.is_empty()
+    }
+
     fn insert(&mut self, x: T) {
         min_heap_insert(&mut self.a, x);
     }
@@ -64,6 +86,29 @@ impl<T: Ord> MinPriorityQueue<T> for VecMinPriorityQueue<T> {
 #[cfg(test)]
 mod tests {
     use super::{MaxPriorityQueue, MinPriorityQueue, VecMaxPriorityQueue, VecMinPriorityQueue};
+
+    #[test]
+    fn test_vec_max_priority_queue_empty() {
+        let mut q = VecMaxPriorityQueue::new();
+
+        assert!(q.empty());
+
+        q.insert(4);
+
+        assert!(!q.empty());
+
+        q.insert(5);
+
+        assert!(!q.empty());
+
+        q.extract_max();
+
+        assert!(!q.empty());
+
+        q.extract_max();
+
+        assert!(q.empty());
+    }
 
     #[test]
     fn test_vec_max_priority_queue_insert() {
@@ -97,6 +142,29 @@ mod tests {
         assert_eq!(q.extract_max(), 3);
         assert_eq!(q.extract_max(), 2);
         assert_eq!(q.extract_max(), 1);
+    }
+
+    #[test]
+    fn test_vec_min_priority_queue_empty() {
+        let mut q = VecMinPriorityQueue::new();
+
+        assert!(q.empty());
+
+        q.insert(4);
+
+        assert!(!q.empty());
+
+        q.insert(5);
+
+        assert!(!q.empty());
+
+        q.extract_min();
+
+        assert!(!q.empty());
+
+        q.extract_min();
+
+        assert!(q.empty());
     }
 
     #[test]
