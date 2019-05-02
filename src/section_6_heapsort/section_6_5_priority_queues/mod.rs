@@ -2,6 +2,7 @@ use super::section_6_1_heaps::parent;
 use super::section_6_2_maintaining_the_heap_property::max_heapify;
 
 pub mod exercises;
+pub mod extra;
 
 // Heap-Maximum(A)
 //
