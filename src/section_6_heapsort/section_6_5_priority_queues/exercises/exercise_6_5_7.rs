@@ -1,39 +1,8 @@
 use super::super::super::super::section_10_elementary_data_structures::section_10_1_stacks_and_queues::extra::{
     Queue, Stack,
 };
+use super::super::super::super::utilities::KeyValuePair;
 use super::super::extra::{MaxPriorityQueue, MinPriorityQueue, VecMaxPriorityQueue, VecMinPriorityQueue};
-use std::cmp::Ordering;
-
-struct KeyValuePair<K, V> {
-    key: K,
-    value: V,
-}
-
-impl<K, V> KeyValuePair<K, V> {
-    fn new(key: K, value: V) -> Self {
-        KeyValuePair { key, value }
-    }
-}
-
-impl<K: PartialEq, V> PartialEq for KeyValuePair<K, V> {
-    fn eq(&self, other: &Self) -> bool {
-        self.key.eq(&other.key)
-    }
-}
-
-impl<K: Eq, V> Eq for KeyValuePair<K, V> {}
-
-impl<K: PartialOrd, V> PartialOrd for KeyValuePair<K, V> {
-    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
-        self.key.partial_cmp(&other.key)
-    }
-}
-
-impl<K: Ord, V> Ord for KeyValuePair<K, V> {
-    fn cmp(&self, other: &Self) -> Ordering {
-        self.key.cmp(&other.key)
-    }
-}
 
 pub struct FifoQueue<T> {
     q: VecMinPriorityQueue<KeyValuePair<usize, T>>,
