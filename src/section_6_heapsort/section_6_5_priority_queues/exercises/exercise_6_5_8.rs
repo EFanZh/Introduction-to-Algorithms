@@ -25,12 +25,28 @@ pub fn heap_delete<T: Ord>(a: &mut Vec<T>, mut i: usize) {
     }
 }
 
+pub fn heap_delete_2<T: Ord>(a: &mut Vec<T>, mut i: usize) {
+    if a[a.len() - 1] <= a[i] {
+        a.swap_remove(i);
+
+        max_heapify(a, i);
+    } else {
+        a.swap_remove(i);
+
+        while i > 0 && a[i] > a[parent(i)] {
+            a.swap(i, parent(i));
+
+            i = parent(i);
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::super::super::super::super::test_utilities::{assign_vec, is_max_heap, loop_on_all_max_heap_test_cases};
+    use super::{heap_delete, heap_delete_2};
 
-    #[test]
-    fn test_heap_delete() {
+    fn run_heap_delete_test<F: FnMut(&mut Vec<i32>, usize)>(mut f: F) {
         let mut heap_storage = Vec::new();
         let mut sorted_heap_storage = Vec::new();
         let mut heap = Vec::new();
@@ -46,7 +62,7 @@ mod tests {
 
                 let value = heap[i]; // Save the value to be deleted.
 
-                super::heap_delete(&mut heap, i); // Delete the value.
+                f(&mut heap, i); // Delete the value.
 
                 assert!(is_max_heap(&heap)); // Check max heap property.
 
@@ -57,5 +73,15 @@ mod tests {
                 assert_eq!(heap, sorted_heap_storage); // Check value consistency.
             }
         });
+    }
+
+    #[test]
+    fn test_heap_delete() {
+        run_heap_delete_test(heap_delete);
+    }
+
+    #[test]
+    fn test_heap_delete_2() {
+        run_heap_delete_test(heap_delete_2);
     }
 }
