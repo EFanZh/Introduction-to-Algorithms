@@ -1,5 +1,5 @@
 use lazy_static::lazy_static;
-use permutohedron::heap_recursive;
+use permutohedron::LexicalPermutation;
 
 fn iterate_digits<F: FnMut(&mut [i32])>(a: &mut [i32], f: &mut F) {
     fn helper<F: FnMut(&mut [i32])>(a: &mut [i32], i: usize, f: &mut F) {
@@ -53,8 +53,12 @@ fn generate_all_unordered_sequences<F: FnMut(&mut [i32])>(
     diff_storage: &mut [i32],
     mut f: F,
 ) {
-    generate_all_ordered_sequences(sequence_storage, diff_storage, |sequence| {
-        heap_recursive(sequence, &mut f)
+    generate_all_ordered_sequences(sequence_storage, diff_storage, |sequence| loop {
+        f(sequence);
+
+        if !sequence.next_permutation() {
+            break;
+        }
     })
 }
 
@@ -81,11 +85,12 @@ lazy_static! {
         let mut diff_storage = [0; UNORDERED_SEQUENCE_TEST_CASE_MAX_LENGTH - 1];
 
         generate_all_unordered_sequences(&mut sequence_storage, &mut diff_storage, |test_case| {
+            let test_case = test_case.to_vec();
             let mut sorted_test_case = test_case.to_vec();
 
             sorted_test_case.sort_unstable();
 
-            result.push((test_case.to_vec().into(), sorted_test_case.into()));
+            result.push((test_case.into(), sorted_test_case.into()));
         });
 
         result.shrink_to_fit();
@@ -293,7 +298,7 @@ mod tests {
 
                 sequence.copy_from_slice(&saved_value);
 
-                result.insert(saved_value);
+                assert!(result.insert(saved_value));
             });
 
             assert_eq!(result.len(), fubini_partial_sums(max_length));
