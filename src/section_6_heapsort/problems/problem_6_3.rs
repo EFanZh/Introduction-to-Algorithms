@@ -1,4 +1,5 @@
 use super::super::super::utilities::Infinitable;
+use std::cmp::Ordering;
 
 pub struct YoungTableau<T: Ord> {
     data: Box<[Infinitable<T>]>,
@@ -96,6 +97,38 @@ impl<T: Ord> YoungTableau<T> {
             }
         }
     }
+
+    pub fn contains(&self, key: &T) -> bool {
+        if self.data.is_empty() {
+            return false;
+        }
+
+        let num_rows = self.get_num_rows();
+
+        let mut i = 0;
+        let mut j = self.num_columns - 1;
+
+        loop {
+            match self.get_element(i, j).partial_cmp(key).unwrap() {
+                Ordering::Less => {
+                    i += 1;
+                    if i == num_rows {
+                        return false;
+                    }
+                }
+                Ordering::Equal => {
+                    return true;
+                }
+                Ordering::Greater => {
+                    if j == 0 {
+                        return false;
+                    } else {
+                        j -= 1;
+                    }
+                }
+            }
+        }
+    }
 }
 
 pub fn young_tableau_sort<T: Ord + Clone>(a: &mut [T]) {
@@ -157,6 +190,35 @@ mod tests {
         assert_eq!(young_tableau.extract_min(), 8);
         assert_eq!(young_tableau.extract_min(), 8);
         assert_eq!(young_tableau.extract_min(), 9);
+    }
+
+    #[test]
+    fn test_young_tableau_contains() {
+        for (num_rows, num_columns) in [(2, 4), (3, 3), (4, 2)].iter() {
+            let mut young_tableau = YoungTableau::new(*num_rows, *num_columns);
+
+            young_tableau.insert(2);
+            young_tableau.insert(3);
+            young_tableau.insert(5);
+            young_tableau.insert(7);
+            young_tableau.insert(11);
+            young_tableau.insert(13);
+
+            assert!(!young_tableau.contains(&1));
+            assert!(young_tableau.contains(&2));
+            assert!(young_tableau.contains(&3));
+            assert!(!young_tableau.contains(&4));
+            assert!(young_tableau.contains(&5));
+            assert!(!young_tableau.contains(&6));
+            assert!(young_tableau.contains(&7));
+            assert!(!young_tableau.contains(&8));
+            assert!(!young_tableau.contains(&9));
+            assert!(!young_tableau.contains(&10));
+            assert!(young_tableau.contains(&11));
+            assert!(!young_tableau.contains(&12));
+            assert!(young_tableau.contains(&13));
+            assert!(!young_tableau.contains(&14));
+        }
     }
 
     #[test]
