@@ -1,20 +1,20 @@
-pub struct NAryHeap<T> {
+pub struct DAryHeap<T> {
     data: Vec<T>,
-    n: usize,
+    d: usize,
 }
 
-impl<T: Ord> NAryHeap<T> {
-    pub fn new(n: usize) -> Self {
-        NAryHeap { data: Vec::new(), n }
+impl<T: Ord> DAryHeap<T> {
+    pub fn new(d: usize) -> Self {
+        DAryHeap { data: Vec::new(), d }
     }
 
     fn parent(&self, i: usize) -> usize {
-        (i - 1) / self.n
+        (i - 1) / self.d
     }
 
     fn children(&self, i: usize) -> (usize, usize) {
-        let start = i * self.n + 1;
-        let end = start + self.n;
+        let start = i * self.d + 1;
+        let end = start + self.d;
 
         (start, end)
     }
@@ -82,7 +82,7 @@ impl<T: Ord> NAryHeap<T> {
 #[cfg(test)]
 mod tests {
     use super::super::super::super::test_utilities::assign_vec_from_iter;
-    use super::NAryHeap;
+    use super::DAryHeap;
     use permutohedron::heap_recursive;
 
     #[test]
@@ -90,28 +90,28 @@ mod tests {
         let mut data = Vec::new();
         let mut sorted_data = Vec::new();
 
-        for n in 1..4 {
-            for num_nodes in 0..8 {
-                assign_vec_from_iter(&mut data, 0..num_nodes);
-                assign_vec_from_iter(&mut sorted_data, (0..num_nodes).rev());
+        for d in 1..4 {
+            for n in 0..8 {
+                assign_vec_from_iter(&mut data, 0..n);
+                assign_vec_from_iter(&mut sorted_data, (0..n).rev());
 
                 heap_recursive(&mut data, |sequence| {
-                    let mut heap = NAryHeap::new(n);
+                    let mut heap = DAryHeap::new(d);
 
                     for value in sequence {
                         heap.insert(value);
                     }
 
-                    assert!((0..num_nodes).map(|_| heap.extract_max()).eq(sorted_data.iter()));
+                    assert!((0..n).map(|_| heap.extract_max()).eq(sorted_data.iter()));
                 });
             }
         }
     }
 
     #[test]
-    fn test_n_ary_heap_increase_key() {
-        for n in 1..4 {
-            let mut heap = NAryHeap::new(n);
+    fn test_d_ary_heap_increase_key() {
+        for d in 1..4 {
+            let mut heap = DAryHeap::new(d);
 
             heap.insert(1);
             heap.increase_key(0, 4);
