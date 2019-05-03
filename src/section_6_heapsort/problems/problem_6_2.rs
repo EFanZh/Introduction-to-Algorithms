@@ -81,7 +81,7 @@ impl<T: Ord> NAryHeap<T> {
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::super::super::test_utilities::assign_vec_from_iter;
+    use super::super::super::super::test_utilities::assign_vec_from_iter;
     use super::NAryHeap;
     use permutohedron::heap_recursive;
 
