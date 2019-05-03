@@ -141,6 +141,14 @@ pub fn assign_vec<T: Clone>(target: &mut Vec<T>, source: &[T]) {
     target.extend_from_slice(source);
 }
 
+pub fn assign_vec_from_iter<T, I: IntoIterator<Item = T>>(target: &mut Vec<T>, source: I) {
+    target.clear();
+
+    for value in source {
+        target.push(value);
+    }
+}
+
 pub fn run_all_sorting_tests<S: Fn(&mut [i32])>(sorter: S) {
     let mut a = Vec::new();
 
