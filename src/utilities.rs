@@ -17,6 +17,25 @@ impl<T: Ord> Infinitable<T> {
     }
 }
 
+impl<T: Ord> PartialEq<T> for Infinitable<T> {
+    fn eq(&self, other: &T) -> bool {
+        if let Infinitable::Finity(lhs) = self {
+            lhs.eq(other)
+        } else {
+            false
+        }
+    }
+}
+
+impl<T: Ord> PartialOrd<T> for Infinitable<T> {
+    fn partial_cmp(&self, other: &T) -> Option<Ordering> {
+        Some(match self {
+            Infinitable::Finity(value) => value.cmp(other),
+            Infinitable::Infinity => Ordering::Greater,
+        })
+    }
+}
+
 impl<T: Ord> From<T> for Infinitable<T> {
     fn from(val: T) -> Self {
         Infinitable::Finity(val)
