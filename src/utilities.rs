@@ -1,28 +1,25 @@
 use std::cmp::Ordering;
-use std::{cmp::Reverse, mem::replace};
+use std::mem::replace;
 
-#[derive(Clone, PartialEq, PartialOrd)]
-pub struct MaxSentinel<T>(Reverse<Option<Reverse<T>>>);
+#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Debug)]
+pub enum Infinitable<T: Ord> {
+    Finity(T),
+    Infinity,
+}
 
-impl<T> MaxSentinel<T> {
-    pub fn max() -> Self {
-        MaxSentinel(Reverse(None))
-    }
-
-    pub fn take_unwrap(&mut self) -> T {
-        replace(&mut (self.0).0, None).unwrap().0
+impl<T: Ord> Infinitable<T> {
+    pub fn replace_with_infinity(&mut self) -> Option<T> {
+        if let Infinitable::Finity(value) = replace(self, Infinitable::Infinity) {
+            Some(value)
+        } else {
+            None
+        }
     }
 }
 
-impl<T> Default for MaxSentinel<T> {
-    fn default() -> Self {
-        MaxSentinel::max()
-    }
-}
-
-impl<T> From<T> for MaxSentinel<T> {
-    fn from(v: T) -> Self {
-        MaxSentinel(Reverse(Some(Reverse(v))))
+impl<T: Ord> From<T> for Infinitable<T> {
+    fn from(val: T) -> Self {
+        Infinitable::Finity(val)
     }
 }
 

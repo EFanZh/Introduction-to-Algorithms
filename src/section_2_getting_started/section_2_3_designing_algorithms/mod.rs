@@ -1,4 +1,4 @@
-use super::super::utilities::MaxSentinel;
+use super::super::utilities::Infinitable;
 
 pub mod exercises;
 pub mod extra;
@@ -26,7 +26,7 @@ pub mod extra;
 pub fn merge<T: Clone + Ord>(a: &mut [T], p: usize, q: usize, r: usize) {
     let n1 = q - p;
     let n2 = r - q;
-    let (mut left, mut right) = (vec![Default::default(); n1 + 1], vec![Default::default(); n2 + 1]);
+    let (mut left, mut right) = (vec![Infinitable::Infinity; n1 + 1], vec![Infinitable::Infinity; n2 + 1]);
 
     for i in 0..n1 {
         left[i] = a[p + i].clone().into();
@@ -36,18 +36,18 @@ pub fn merge<T: Clone + Ord>(a: &mut [T], p: usize, q: usize, r: usize) {
         right[j] = a[q + j].clone().into();
     }
 
-    left[n1] = MaxSentinel::max();
-    right[n2] = MaxSentinel::max();
+    left[n1] = Infinitable::Infinity;
+    right[n2] = Infinitable::Infinity;
 
     let mut i = 0;
     let mut j = 0;
 
     for a_k in &mut a[p..r] {
         if left[i] <= right[j] {
-            *a_k = left[i].take_unwrap();
+            *a_k = left[i].replace_with_infinity().unwrap();
             i += 1;
         } else {
-            *a_k = right[j].take_unwrap();
+            *a_k = right[j].replace_with_infinity().unwrap();
             j += 1;
         }
     }
