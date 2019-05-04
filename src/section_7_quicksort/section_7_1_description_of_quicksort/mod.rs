@@ -1,3 +1,4 @@
+pub mod exercises;
 pub mod extra;
 
 // Partition(A, p, r)
