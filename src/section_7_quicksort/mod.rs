@@ -1,1 +1,2 @@
 pub mod section_7_1_description_of_quicksort;
+pub mod section_7_3_a_randomized_version_of_quicksort;
