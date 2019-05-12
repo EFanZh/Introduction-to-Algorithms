@@ -23,7 +23,7 @@ pub fn randomized_partition<T: Ord>(a: &mut [T], p: usize, r: usize) -> usize {
 // 4      Randomized-Quicksort(A, q + 1, r)
 
 pub fn randomized_quicksort<T: Ord>(a: &mut [T], p: usize, r: usize) {
-    if p + 1 < r {
+    if r - p > 1 {
         let q = randomized_partition(a, p, r);
 
         randomized_quicksort(a, p, q);

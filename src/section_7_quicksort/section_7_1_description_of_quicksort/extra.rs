@@ -17,7 +17,7 @@ pub fn partition_slice<T: Ord>(a: &mut [T]) -> usize {
 }
 
 pub fn quicksort_slice<T: Ord>(a: &mut [T]) {
-    if !a.is_empty() {
+    if a.len() > 1 {
         let q = partition_slice(a);
 
         quicksort_slice(&mut a[..q]);

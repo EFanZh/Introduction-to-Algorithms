@@ -61,7 +61,7 @@ mod tests {
     #[test]
     fn test_partition_by_quicksort() {
         pub fn quicksort<T: Ord>(a: &mut [T]) {
-            if !a.is_empty() {
+            if a.len() > 1 {
                 let q = partition(a);
 
                 quicksort(&mut a[..q]);

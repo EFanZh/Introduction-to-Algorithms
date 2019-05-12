@@ -1,7 +1,7 @@
 use super::super::partition;
 
 pub fn reverse_quicksort<T: Ord>(a: &mut [T], p: usize, r: usize) {
-    if p + 1 < r {
+    if r - p > 1 {
         let mut q = partition(a, p, r);
 
         a[p..r].reverse();
