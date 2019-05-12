@@ -1,11 +1,11 @@
 use std::cmp::Ordering;
 
 pub fn partition_three_way<T: Ord>(a: &mut [T], p: usize, r: usize) -> (usize, usize) {
-    let (x, s) = a[..r].split_last_mut().unwrap();
+    let (pivot, sub_array) = a[..r].split_last_mut().unwrap();
 
     let mut i = p;
     let mut j = p;
-    let mut k = s.len();
+    let mut k = sub_array.len();
 
     // All elements in s[p..i] < x.
     // All elements in s[i..j] = x.
@@ -13,9 +13,9 @@ pub fn partition_three_way<T: Ord>(a: &mut [T], p: usize, r: usize) -> (usize, u
     // All elements in s[k..] > x.
 
     while j < k {
-        match s[j].cmp(x) {
+        match sub_array[j].cmp(pivot) {
             Ordering::Less => {
-                s.swap(j, i);
+                sub_array.swap(j, i);
 
                 i += 1;
                 j += 1;
@@ -26,7 +26,7 @@ pub fn partition_three_way<T: Ord>(a: &mut [T], p: usize, r: usize) -> (usize, u
             Ordering::Greater => {
                 k -= 1;
 
-                s.swap(j, k);
+                sub_array.swap(j, k);
             }
         }
     }
