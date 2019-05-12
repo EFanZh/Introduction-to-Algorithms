@@ -32,7 +32,7 @@ fn fuzzy_partition<T: Clone + Ord>(a: &mut [(T, T)]) -> (usize, usize) {
     // All elements in a[..q] < pivot.
     // All elements in a[q..t] = pivot.
     // All elements in a[t..u] is unknown.
-    // All elements in a[u..] > pivot.
+    // All elements in a[u..pivot_index] > pivot.
 
     while t < u {
         let interval = &a[t];
@@ -104,7 +104,7 @@ mod tests {
     }
 
     #[test]
-    fn test_median_of_3_quicksort() {
+    fn test_fuzzy_sort() {
         let mut rng = thread_rng();
         let mut a = Vec::new();
 
