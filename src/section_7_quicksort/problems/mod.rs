@@ -1,2 +1,3 @@
 pub mod problem_7_1_hoare_partition_correctness;
 pub mod problem_7_2_quicksort_with_equal_element_values;
+pub mod problem_7_4_stack_depth_for_quicksort;
