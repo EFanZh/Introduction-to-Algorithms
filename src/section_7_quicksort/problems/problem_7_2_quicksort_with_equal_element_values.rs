@@ -1,57 +1,67 @@
+use rand::{thread_rng, Rng};
 use std::cmp::Ordering;
 
-pub fn partition_three_way<T: Ord>(a: &mut [T], p: usize, r: usize) -> (usize, usize) {
+pub fn partition_prime<T: Ord>(a: &mut [T], p: usize, r: usize) -> (usize, usize) {
     let (pivot, sub_array) = a[..r].split_last_mut().unwrap();
+    let pivot_index = sub_array.len();
 
-    let mut i = p;
-    let mut j = p;
-    let mut k = sub_array.len();
+    let mut q = p;
+    let mut t = q;
+    let mut u = pivot_index;
 
-    // All elements in s[p..i] < x.
-    // All elements in s[i..j] = x.
-    // All elements in s[j..k] = unknown.
-    // All elements in s[k..] > x.
+    // All elements in s[p..q] < x.
+    // All elements in s[q..t] = x.
+    // All elements in s[t..u] = unknown.
+    // All elements in s[u..] > x.
 
-    while j < k {
-        match sub_array[j].cmp(pivot) {
+    while t < u {
+        match sub_array[t].cmp(pivot) {
             Ordering::Less => {
-                sub_array.swap(j, i);
+                sub_array.swap(t, q);
 
-                i += 1;
-                j += 1;
+                q += 1;
+                t += 1;
             }
             Ordering::Equal => {
-                j += 1;
+                t += 1;
             }
             Ordering::Greater => {
-                k -= 1;
+                u -= 1;
 
-                sub_array.swap(j, k);
+                sub_array.swap(t, u);
             }
         }
     }
 
-    a.swap(k, r - 1);
+    a.swap(t, pivot_index);
 
-    (i, k + 1)
+    (q, t + 1)
 }
 
-pub fn quicksort_three_way<T: Ord>(a: &mut [T], m: usize, n: usize) {
-    if n - m > 0 {
-        let (p, q) = partition_three_way(a, m, n);
+pub fn randomized_partition_prime<T: Ord>(a: &mut [T], p: usize, r: usize) -> (usize, usize) {
+    let i = thread_rng().gen_range(p, r);
 
-        quicksort_three_way(a, m, p);
-        quicksort_three_way(a, q, n);
+    a.swap(r - 1, i);
+
+    partition_prime(a, p, r)
+}
+
+pub fn quicksort_prime<T: Ord>(a: &mut [T], p: usize, r: usize) {
+    if r - p > 0 {
+        let (q, t) = randomized_partition_prime(a, p, r);
+
+        quicksort_prime(a, p, q);
+        quicksort_prime(a, t, r);
     }
 }
 
 #[cfg(test)]
 mod tests {
     use super::super::super::super::test_utilities::run_all_sorting_tests;
-    use super::quicksort_three_way;
+    use super::quicksort_prime;
 
     #[test]
-    fn test_quicksort_three_way() {
-        run_all_sorting_tests(|a| quicksort_three_way(a, 0, a.len()));
+    fn test_quicksort_prime() {
+        run_all_sorting_tests(|a| quicksort_prime(a, 0, a.len()));
     }
 }
