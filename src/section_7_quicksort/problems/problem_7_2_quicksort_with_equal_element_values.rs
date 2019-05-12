@@ -47,7 +47,7 @@ pub fn randomized_partition_prime<T: Ord>(a: &mut [T], p: usize, r: usize) -> (u
 }
 
 pub fn quicksort_prime<T: Ord>(a: &mut [T], p: usize, r: usize) {
-    if r - p > 0 {
+    if r - p > 1 {
         let (q, t) = randomized_partition_prime(a, p, r);
 
         quicksort_prime(a, p, q);
