@@ -9,10 +9,10 @@ pub fn partition_prime<T: Ord>(a: &mut [T], p: usize, r: usize) -> (usize, usize
     let mut t = q;
     let mut u = pivot_index;
 
-    // All elements in s[p..q] < x.
-    // All elements in s[q..t] = x.
-    // All elements in s[t..u] = unknown.
-    // All elements in s[u..] > x.
+    // All elements in sub_array[p..q] < pivot.
+    // All elements in sub_array[q..t] = pivot.
+    // All elements in sub_array[t..u] is unknown.
+    // All elements in sub_array[u..] > pivot.
 
     while t < u {
         match sub_array[t].cmp(pivot) {
