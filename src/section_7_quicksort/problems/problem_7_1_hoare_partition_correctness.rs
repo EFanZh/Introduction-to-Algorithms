@@ -42,7 +42,7 @@ pub fn hoare_partition<T: Clone + Ord>(a: &mut [T], p: usize, r: usize) -> usize
 }
 
 pub fn hoare_quicksort<T: Clone + Ord>(a: &mut [T], p: usize, r: usize) {
-    if p + 1 < r {
+    if r - p > 1 {
         let q = hoare_partition(a, p, r);
 
         hoare_quicksort(a, p, q);

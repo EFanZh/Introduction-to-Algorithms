@@ -42,7 +42,7 @@ pub fn partition<T: Ord>(a: &mut [T], p: usize, r: usize) -> usize {
 // 4      Quicksort(A, q + 1, r)
 
 pub fn quicksort<T: Ord>(a: &mut [T], p: usize, r: usize) {
-    if p + 1 < r {
+    if r - p > 1 {
         let q = partition(a, p, r);
 
         quicksort(a, p, q);
