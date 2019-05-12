@@ -2,3 +2,4 @@ pub mod problem_7_1_hoare_partition_correctness;
 pub mod problem_7_2_quicksort_with_equal_element_values;
 pub mod problem_7_4_stack_depth_for_quicksort;
 pub mod problem_7_5_median_of_3_partition;
+pub mod problem_7_6_fuzzy_sorting_of_intervals;
