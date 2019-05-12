@@ -1,13 +1,13 @@
 use std::cmp::Ordering;
 
-pub fn partition_three_way<T: Ord>(a: &mut [T]) -> (usize, usize) {
-    let (x, s) = a.split_last_mut().unwrap();
+pub fn partition_three_way<T: Ord>(a: &mut [T], p: usize, r: usize) -> (usize, usize) {
+    let (x, s) = a[..r].split_last_mut().unwrap();
 
-    let mut i = 0;
-    let mut j = 0;
+    let mut i = p;
+    let mut j = p;
     let mut k = s.len();
 
-    // All elements in s[0..i] < x.
+    // All elements in s[p..i] < x.
     // All elements in s[i..j] = x.
     // All elements in s[j..k] = unknown.
     // All elements in s[k..] > x.
@@ -31,17 +31,17 @@ pub fn partition_three_way<T: Ord>(a: &mut [T]) -> (usize, usize) {
         }
     }
 
-    a.swap(k, a.len() - 1);
+    a.swap(k, r - 1);
 
     (i, k + 1)
 }
 
-pub fn quicksort_three_way<T: Ord>(a: &mut [T]) {
-    if !a.is_empty() {
-        let (p, q) = partition_three_way(a);
+pub fn quicksort_three_way<T: Ord>(a: &mut [T], m: usize, n: usize) {
+    if n - m > 0 {
+        let (p, q) = partition_three_way(a, m, n);
 
-        quicksort_three_way(&mut a[..p]);
-        quicksort_three_way(&mut a[q..]);
+        quicksort_three_way(a, m, p);
+        quicksort_three_way(a, q, n);
     }
 }
 
@@ -52,6 +52,6 @@ mod tests {
 
     #[test]
     fn test_quicksort_three_way() {
-        run_all_sorting_tests(quicksort_three_way);
+        run_all_sorting_tests(|a| quicksort_three_way(a, 0, a.len()));
     }
 }
