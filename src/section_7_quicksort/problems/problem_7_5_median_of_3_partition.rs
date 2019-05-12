@@ -18,9 +18,9 @@ fn median_of_3<T: Ord>(a: &[T], i: usize, j: usize, k: usize) -> usize {
 
 pub fn median_of_3_partition<T: Ord, R: Rng>(a: &mut [T], rng: &mut R) -> usize {
     let (i, j, k) = {
-        let mut iter = index::sample(rng, a.len(), 3).into_iter();
+        let indices = index::sample(rng, a.len(), 3);
 
-        (iter.next().unwrap(), iter.next().unwrap(), iter.next().unwrap())
+        (indices.index(0), indices.index(1), indices.index(2))
     };
 
     let pivot = median_of_3(a, i, j, k);
