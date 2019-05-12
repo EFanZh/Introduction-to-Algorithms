@@ -17,7 +17,7 @@ pub fn partition_prime<T: Ord>(a: &mut [T], p: usize, r: usize) -> (usize, usize
     while t < u {
         match sub_array[t].cmp(pivot) {
             Ordering::Less => {
-                sub_array.swap(t, q);
+                sub_array.swap(q, t);
 
                 q += 1;
                 t += 1;
