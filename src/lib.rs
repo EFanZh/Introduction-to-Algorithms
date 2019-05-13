@@ -1,10 +1,10 @@
-pub mod section_10_elementary_data_structures;
-pub mod section_2_getting_started;
-pub mod section_4_divide_and_conquer;
-pub mod section_5_probabilistic_analysis_and_randomized_algorithms;
-pub mod section_6_heapsort;
-pub mod section_7_quicksort;
-pub mod section_c_counting_and_probability;
+pub mod chapter_10_elementary_data_structures;
+pub mod chapter_2_getting_started;
+pub mod chapter_4_divide_and_conquer;
+pub mod chapter_5_probabilistic_analysis_and_randomized_algorithms;
+pub mod chapter_6_heapsort;
+pub mod chapter_7_quicksort;
+pub mod chapter_c_counting_and_probability;
 
 mod utilities;
 
