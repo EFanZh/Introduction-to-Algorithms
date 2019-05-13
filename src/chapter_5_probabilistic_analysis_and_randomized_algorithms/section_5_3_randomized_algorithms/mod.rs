@@ -5,7 +5,7 @@ pub mod exercises;
 // Permute-By-Sorting
 //
 // 1  n = A.length
-// 2  let P[1..n] be a new array
+// 2  let P[1‥n] be a new array
 // 3  for i = 1 to n
 // 4      P[i] = Random(1, n³)
 // 5  sort A, using P as sort keys
