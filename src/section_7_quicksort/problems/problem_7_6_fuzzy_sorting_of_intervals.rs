@@ -91,12 +91,11 @@ mod tests {
     use std::cmp::Ordering;
 
     fn is_fuzzy_sorted<T: Ord>(a: &[(T, T)]) -> bool {
-        for j in 1..a.len() {
-            let x = &a[j - 1];
-            let y = &a[j];
-
-            if compare_interval(x, y) == Ordering::Greater {
-                return false;
+        for (j, y) in a.iter().enumerate().skip(1) {
+            for x in &a[..j] {
+                if compare_interval(x, y) == Ordering::Greater {
+                    return false;
+                }
             }
         }
 
@@ -121,8 +120,6 @@ mod tests {
                 );
 
                 fuzzy_sort(&mut a);
-
-                // TODO: Update to use `slice::is_sorted_by`.
 
                 assert!(is_fuzzy_sorted(&mut a));
             }
