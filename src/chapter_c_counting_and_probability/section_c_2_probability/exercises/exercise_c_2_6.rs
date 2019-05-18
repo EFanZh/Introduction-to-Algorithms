@@ -32,7 +32,7 @@ mod tests {
 
         for a in 1..=5 {
             for b in a + 1..=6 {
-                let heads = (0..samples).map(|_| f(a, b)).filter(|x| *x).count() as i32;
+                let heads = (0..samples).map(|_| f(a, b)).filter(|&x| x).count() as i32;
 
                 assert!((f64::from(b * heads) / f64::from(a * samples) - 1.0).abs() < 0.01);
             }

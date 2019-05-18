@@ -18,8 +18,8 @@ pub mod exercises;
 pub fn counting_sort(a: &[usize], b: &mut [usize], k: usize) {
     let mut c = vec![0; k];
 
-    for x in a {
-        c[*x] += 1;
+    for &x in a {
+        c[x] += 1;
     }
 
     // C[i] now contains the number of elements equal to i.
@@ -30,10 +30,10 @@ pub fn counting_sort(a: &[usize], b: &mut [usize], k: usize) {
 
     // C[i] now contains the number of elements less than or equal to i.
 
-    for x in a.iter().rev() {
-        b[c[*x] - 1] = *x;
+    for &x in a.iter().rev() {
+        b[c[x] - 1] = x;
 
-        c[*x] -= 1;
+        c[x] -= 1;
     }
 }
 
