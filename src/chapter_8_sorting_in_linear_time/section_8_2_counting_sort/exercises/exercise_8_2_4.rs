@@ -1,8 +1,8 @@
 pub fn preprocess_numbers_in_range(a: &[usize], k: usize) -> Vec<usize> {
     let mut c = vec![0; k];
 
-    for x in a {
-        c[*x] += 1;
+    for &x in a {
+        c[x] += 1;
     }
 
     // C[i] now contains the number of elements equal to i.

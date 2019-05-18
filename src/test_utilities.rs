@@ -234,7 +234,7 @@ mod tests {
 
                 // Starts with zero.
 
-                assert!(sequence.first().iter().all(|x| **x == 0));
+                assert!(sequence.first().iter().all(|&&x| x == 0));
 
                 // Only increase by zero or one.
 
@@ -318,7 +318,7 @@ mod tests {
 
                 sequence.sort_unstable();
 
-                assert!(sequence.first().iter().all(|x| **x == 0));
+                assert!(sequence.first().iter().all(|&&x| x == 0));
 
                 // Only increase by zero or one.
 
