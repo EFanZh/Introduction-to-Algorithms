@@ -1,3 +1,5 @@
+pub mod exercises;
+
 // Radix-Sort(A, d)
 // 1  for i = 1 to d
 // 2      use a stable sort to sort array A on digit i
