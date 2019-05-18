@@ -1,4 +1,5 @@
 pub mod exercises;
+pub mod extra;
 
 // Counting-Sort(A, B, k)
 //
@@ -31,9 +32,11 @@ pub fn counting_sort(a: &[usize], b: &mut [usize], k: usize) {
     // C[i] now contains the number of elements less than or equal to i.
 
     for &x in a.iter().rev() {
-        b[c[x] - 1] = x;
+        let c_x = &mut c[x];
 
-        c[x] -= 1;
+        *c_x -= 1;
+
+        b[*c_x] = x;
     }
 }
 
