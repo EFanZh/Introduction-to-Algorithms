@@ -149,7 +149,7 @@ pub fn assign_vec_from_iter<T, I: IntoIterator<Item = T>>(target: &mut Vec<T>, s
     }
 }
 
-pub fn run_all_sorting_tests<S: Fn(&mut [i32])>(sorter: S) {
+pub fn run_all_sorting_tests<S: FnMut(&mut [i32])>(mut sorter: S) {
     let mut a = Vec::new();
 
     for (test_case, expected) in UNORDERED_SEQUENCE_TEST_CASES.iter() {
