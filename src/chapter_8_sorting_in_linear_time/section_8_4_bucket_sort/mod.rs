@@ -51,7 +51,7 @@ mod tests {
 
                 bucket_sort(&mut b);
 
-                a.sort_by(|lhs, rhs| lhs.partial_cmp(rhs).unwrap());
+                a.sort_unstable_by(|lhs, rhs| lhs.partial_cmp(rhs).unwrap());
 
                 assert_eq!(a, b);
             }
