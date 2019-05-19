@@ -1,5 +1,6 @@
 use super::super::chapter_2_getting_started::section_2_1_insertion_sort::extra::insertion_sort_slice_by;
 
+pub mod exercises;
 pub mod extra;
 
 // Bucket-Sort(A)
