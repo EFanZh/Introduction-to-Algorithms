@@ -1,8 +1,10 @@
-pub fn insertion_sort_slice<T: Ord>(a: &mut [T]) {
+use std::cmp::Ordering;
+
+pub fn insertion_sort_slice_by<T, F: FnMut(&T, &T) -> Ordering>(a: &mut [T], mut compare: F) {
     for i in 1..a.len() {
         let x = &a[i];
 
-        let p = match a[..i].binary_search(x) {
+        let p = match a[..i].binary_search_by(|y| compare(y, x)) {
             Ok(p) => p,
             Err(p) => p,
         };
@@ -12,16 +14,11 @@ pub fn insertion_sort_slice<T: Ord>(a: &mut [T]) {
 }
 
 pub fn insertion_sort_slice_by_key<T, K: Ord, F: FnMut(&T) -> K>(a: &mut [T], mut f: F) {
-    for i in 1..a.len() {
-        let x = &a[i];
+    insertion_sort_slice_by(a, |lhs, rhs| f(lhs).cmp(&f(rhs)));
+}
 
-        let p = match a[..i].binary_search_by_key(&f(&x), &mut f) {
-            Ok(p) => p,
-            Err(p) => p,
-        };
-
-        a[p..=i].rotate_right(1);
-    }
+pub fn insertion_sort_slice<T: Ord>(a: &mut [T]) {
+    insertion_sort_slice_by(a, |lhs, rhs| lhs.cmp(rhs));
 }
 
 pub fn insertion_sort_tail_recursive<T: Ord + Clone>(a: &mut [T]) {
@@ -54,11 +51,18 @@ pub fn insertion_sort_tail_recursive<T: Ord + Clone>(a: &mut [T]) {
 #[cfg(test)]
 mod tests {
     use super::super::super::super::test_utilities::run_all_sorting_tests;
-    use super::{insertion_sort_slice, insertion_sort_slice_by_key, insertion_sort_tail_recursive};
+    use super::{
+        insertion_sort_slice, insertion_sort_slice_by, insertion_sort_slice_by_key, insertion_sort_tail_recursive,
+    };
 
     #[test]
     fn test_insertion_sort_slice() {
         run_all_sorting_tests(insertion_sort_slice);
+    }
+
+    #[test]
+    fn test_insertion_sort_slice_by() {
+        run_all_sorting_tests(|a| insertion_sort_slice_by(a, |x, y| x.cmp(y)));
     }
 
     #[test]
