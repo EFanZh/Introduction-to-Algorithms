@@ -11,6 +11,19 @@ pub fn insertion_sort_slice<T: Ord>(a: &mut [T]) {
     }
 }
 
+pub fn insertion_sort_slice_by_key<T, K: Ord, F: FnMut(&T) -> K>(a: &mut [T], mut f: F) {
+    for i in 1..a.len() {
+        let x = &a[i];
+
+        let p = match a[..i].binary_search_by_key(&f(&x), &mut f) {
+            Ok(p) => p,
+            Err(p) => p,
+        };
+
+        a[p..=i].rotate_right(1);
+    }
+}
+
 pub fn insertion_sort_tail_recursive<T: Ord + Clone>(a: &mut [T]) {
     fn insert_key<T: Ord + Clone>(a: &mut [T], key: T) {
         let free_slot_index = a.len() - 1;
@@ -41,7 +54,7 @@ pub fn insertion_sort_tail_recursive<T: Ord + Clone>(a: &mut [T]) {
 #[cfg(test)]
 mod tests {
     use super::super::super::super::test_utilities::run_all_sorting_tests;
-    use super::{insertion_sort_slice, insertion_sort_tail_recursive};
+    use super::{insertion_sort_slice, insertion_sort_slice_by_key, insertion_sort_tail_recursive};
 
     #[test]
     fn test_insertion_sort_tail_recursive() {
@@ -51,5 +64,10 @@ mod tests {
     #[test]
     fn test_insertion_sort_slice() {
         run_all_sorting_tests(insertion_sort_slice);
+    }
+
+    #[test]
+    fn test_insertion_sort_slice_by_key() {
+        run_all_sorting_tests(|a| insertion_sort_slice_by_key(a, |x| *x));
     }
 }
