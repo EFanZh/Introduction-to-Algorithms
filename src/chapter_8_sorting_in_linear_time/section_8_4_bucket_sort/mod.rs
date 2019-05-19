@@ -1,5 +1,7 @@
 use super::super::chapter_2_getting_started::section_2_1_insertion_sort::extra::insertion_sort_slice_by;
 
+pub mod extra;
+
 // Bucket-Sort(A)
 //
 // 1  n = A.length
@@ -36,7 +38,7 @@ mod tests {
     use rand::{thread_rng, Rng};
 
     #[test]
-    fn test_counting_sort() {
+    fn test_bucket_sort() {
         let mut a = Vec::new();
         let mut b = Vec::new();
         let mut rng = thread_rng();
