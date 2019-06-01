@@ -149,16 +149,22 @@ pub fn assign_vec_from_iter<T, I: IntoIterator<Item = T>>(target: &mut Vec<T>, s
     }
 }
 
+pub fn loop_on_all_unordered_sequences<F: FnMut(&[i32], &[i32])>(mut f: F) {
+    for (sequence, sorted_sequence) in UNORDERED_SEQUENCE_TEST_CASES.iter() {
+        f(sequence, sorted_sequence);
+    }
+}
+
 pub fn run_all_sorting_tests<S: FnMut(&mut [i32])>(mut sorter: S) {
     let mut a = Vec::new();
 
-    for (test_case, expected) in UNORDERED_SEQUENCE_TEST_CASES.iter() {
-        assign_vec(&mut a, test_case);
+    loop_on_all_unordered_sequences(|sequence, sorted_sequence| {
+        assign_vec(&mut a, sequence);
 
         sorter(&mut a);
 
-        assert_eq!(a.as_slice(), expected.as_ref());
-    }
+        assert_eq!(a.as_slice(), sorted_sequence.as_ref());
+    });
 }
 
 pub fn run_all_reverse_sorting_tests<S: Fn(&mut [i32])>(sorter: S) {
