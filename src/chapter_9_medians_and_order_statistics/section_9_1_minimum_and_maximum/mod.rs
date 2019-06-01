@@ -49,6 +49,8 @@ pub fn minimum_and_maximum<T: Ord>(a: &[T]) -> (&T, &T) {
                     break (first, max);
                 } else if first > max {
                     break (min, first);
+                } else {
+                    break (min, max);
                 }
             } else {
                 break (min, max);
