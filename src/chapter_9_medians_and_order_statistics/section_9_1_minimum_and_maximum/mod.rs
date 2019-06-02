@@ -1,3 +1,5 @@
+pub mod exercises;
+
 // Minimum(A)
 //
 // 1  min = A[1]
@@ -69,8 +71,8 @@ mod tests {
     #[test]
     fn test_minimum() {
         loop_on_all_unordered_sequences(|sequence, sorted_sequence| {
-            if sequence.len() > 0 {
-                assert_eq!(minimum(sequence), sorted_sequence.first().unwrap());
+            if let Some(expected_minimum) = sorted_sequence.first() {
+                assert_eq!(minimum(sequence), expected_minimum);
             }
         });
     }
@@ -78,11 +80,13 @@ mod tests {
     #[test]
     fn test_minimum_and_maximum() {
         loop_on_all_unordered_sequences(|sequence, sorted_sequence| {
-            if sequence.len() > 0 {
-                let (minimum, maximum) = minimum_and_maximum(sequence);
+            if let Some(expected_minimum) = sorted_sequence.first() {
+                if let Some(expected_maximum) = sorted_sequence.last() {
+                    let (minimum, maximum) = minimum_and_maximum(sequence);
 
-                assert_eq!(minimum, sorted_sequence.first().unwrap());
-                assert_eq!(maximum, sorted_sequence.last().unwrap());
+                    assert_eq!(minimum, expected_minimum);
+                    assert_eq!(maximum, expected_maximum);
+                }
             }
         });
     }
