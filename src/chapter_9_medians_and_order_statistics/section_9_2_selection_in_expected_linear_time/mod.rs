@@ -1,5 +1,7 @@
 use super::super::chapter_7_quicksort::section_7_3_a_randomized_version_of_quicksort::randomized_partition;
 
+pub mod exercises;
+
 // Randomized-Select(A, p, r, i)
 //
 // 1  if p == r
@@ -34,16 +36,20 @@ mod tests {
     use super::super::super::test_utilities::{assign_vec, loop_on_all_unordered_sequences};
     use super::randomized_select;
 
-    #[test]
-    fn test_randomized_select() {
+    pub fn run_all_randomized_select_tests<F: FnMut(&mut [i32], usize, usize, usize) -> &i32>(mut f: F) {
         let mut buffer = Vec::new();
 
         loop_on_all_unordered_sequences(|sequence, sorted_sequence| {
             for (i, expected_value) in sorted_sequence.iter().enumerate() {
                 assign_vec(&mut buffer, sequence);
 
-                assert_eq!(randomized_select(&mut buffer, 0, sequence.len(), i), expected_value);
+                assert_eq!(f(&mut buffer, 0, sequence.len(), i), expected_value);
             }
         })
+    }
+
+    #[test]
+    fn test_randomized_select() {
+        run_all_randomized_select_tests(randomized_select);
     }
 }
