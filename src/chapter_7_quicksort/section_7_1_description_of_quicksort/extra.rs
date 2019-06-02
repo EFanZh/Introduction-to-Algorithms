@@ -1,3 +1,40 @@
+use std::cmp::Ordering;
+
+pub fn partition_by_key<'a, T: PartialOrd<K>, K>(a: &'a mut [T], key: &K) -> (&'a mut [T], &'a mut [T], &'a mut [T]) {
+    let mut i = 0;
+    let mut j = 0;
+    let mut k = a.len();
+
+    // All elements in a[0..i] < key.
+    // All elements in a[i..j] = key.
+    // All elements in a[j..k] = unknown.
+    // All elements in a[k..] > key.
+
+    while j < k {
+        match a[j].partial_cmp(key).unwrap() {
+            Ordering::Less => {
+                a.swap(j, i);
+
+                i += 1;
+                j += 1;
+            }
+            Ordering::Equal => {
+                j += 1;
+            }
+            Ordering::Greater => {
+                k -= 1;
+
+                a.swap(j, k);
+            }
+        }
+    }
+
+    let (s1, s2) = a.split_at_mut(j);
+    let (s0, s1) = s1.split_at_mut(i);
+
+    (s0, s1, s2)
+}
+
 pub fn partition_slice<T: Ord>(a: &mut [T]) -> usize {
     let (x, s) = a.split_last_mut().unwrap();
 
