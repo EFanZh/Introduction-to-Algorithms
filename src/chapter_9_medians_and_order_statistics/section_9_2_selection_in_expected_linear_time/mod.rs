@@ -33,23 +33,11 @@ pub fn randomized_select<T: Ord>(a: &mut [T], p: usize, r: usize, i: usize) -> &
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::test_utilities::{assign_vec, loop_on_all_unordered_sequences};
+    use super::super::tests::run_all_select_tests;
     use super::randomized_select;
-
-    pub fn run_all_randomized_select_tests<F: FnMut(&mut [i32], usize, usize, usize) -> &i32>(mut f: F) {
-        let mut buffer = Vec::new();
-
-        loop_on_all_unordered_sequences(|sequence, sorted_sequence| {
-            for (i, expected_value) in sorted_sequence.iter().enumerate() {
-                assign_vec(&mut buffer, sequence);
-
-                assert_eq!(f(&mut buffer, 0, sequence.len(), i), expected_value);
-            }
-        })
-    }
 
     #[test]
     fn test_randomized_select() {
-        run_all_randomized_select_tests(randomized_select);
+        run_all_select_tests(randomized_select);
     }
 }
