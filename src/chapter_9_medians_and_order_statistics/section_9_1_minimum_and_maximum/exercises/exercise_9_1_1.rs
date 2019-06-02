@@ -5,34 +5,60 @@ struct Node<T> {
     children: Option<(usize, usize)>, // The left child must have the same value as this node
 }
 
+impl<T> Node<T> {
+    fn new(value: T, children: Option<(usize, usize)>) -> Node<T> {
+        Node { value, children }
+    }
+}
+
 fn floor_log2(x: usize) -> usize {
     8 * size_of_val(&x) - 1 - x.leading_zeros() as usize
 }
 
-pub fn second_smallest<T: Ord>(a: &[T]) -> &T {
-    let mut memory = Vec::with_capacity(a.len() * 2 + floor_log2(a.len() - 1) - 1);
+struct Region<T> {
+    memory: Vec<T>,
+}
 
-    fn make_node<'a, T>(memory: &mut Vec<Node<&'a T>>, value: &'a T, children: Option<(usize, usize)>) -> usize {
-        let handle = memory.len();
+impl<T> Region<T> {
+    fn with_capacity(capacity: usize) -> Region<T> {
+        Region {
+            memory: Vec::with_capacity(capacity),
+        }
+    }
 
-        memory.push(Node { value, children });
+    fn add(&mut self, value: T) -> usize {
+        let handle = self.memory.len();
+
+        self.memory.push(value);
 
         handle
     }
 
-    let mut b = a.iter().map(|x| make_node(&mut memory, x, None)).collect::<Vec<_>>();
+    fn get(&self, handle: usize) -> &T {
+        &self.memory[handle]
+    }
+}
+
+pub fn second_smallest<T: Ord>(a: &[T]) -> &T {
+    let mut node_region = Region::with_capacity(a.len() * 2 + floor_log2(a.len() - 1) - 1);
+
+    let mut b = a
+        .iter()
+        .map(|x| node_region.add(Node::new(x, None)))
+        .collect::<Vec<_>>();
+
     let mut temp = Vec::new();
 
     while b.len() > 1 {
         for maybe_pair in b.chunks(2) {
             if let [first, second] = *maybe_pair {
-                let first_value = memory[first].value;
-                let second_value = memory[second].value;
+                let first_value = node_region.get(first).value;
+                let second_value = node_region.get(second).value;
 
                 if second_value < first_value {
-                    temp.push(make_node(&mut memory, second_value, Some((second, first))));
+                    temp.push(node_region.add(Node::new(second_value, Some((second, first)))));
                 } else {
-                    temp.push(make_node(&mut memory, first_value, Some((first, second))));
+                    temp.push(node_region.add(Node::new(first_value, Some((first, second)))));
                 }
             } else {
                 temp.extend_from_slice(maybe_pair);
@@ -43,11 +69,11 @@ pub fn second_smallest<T: Ord>(a: &[T]) -> &T {
         temp.clear();
     }
 
-    let (mut min_node_handle, right) = memory[b[0]].children.unwrap();
-    let mut second_smallest_value = memory[right].value;
+    let (mut min_node_handle, right) = node_region.get(b[0]).children.unwrap();
+    let mut second_smallest_value = node_region.get(right).value;
 
-    while let Some((left, right)) = memory[min_node_handle].children {
-        let right_value = memory[right].value;
+    while let Some((left, right)) = node_region.get(min_node_handle).children {
+        let right_value = node_region.get(right).value;
 
         if right_value < second_smallest_value {
             second_smallest_value = right_value;
