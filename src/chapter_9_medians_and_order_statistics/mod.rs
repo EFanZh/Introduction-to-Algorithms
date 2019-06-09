@@ -1,3 +1,4 @@
+pub mod problems;
 pub mod section_9_1_minimum_and_maximum;
 pub mod section_9_2_selection_in_expected_linear_time;
 pub mod section_9_3_selection_in_worst_case_linear_time;

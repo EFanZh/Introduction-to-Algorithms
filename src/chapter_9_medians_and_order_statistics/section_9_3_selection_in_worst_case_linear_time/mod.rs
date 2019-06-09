@@ -17,7 +17,7 @@ fn find_median_by_select<T: Ord + Copy>(a: &mut [T]) -> T {
     select_copy(a, middle)
 }
 
-fn select_copy<T: Ord + Copy>(a: &mut [T], i: usize) -> T {
+pub fn select_copy<T: Ord + Copy>(a: &mut [T], i: usize) -> T {
     if a.len() > 1 {
         let mut group_medians = a.chunks_mut(5).map(find_median_by_sorting).collect::<Box<_>>();
         let median_of_medians = find_median_by_select(&mut group_medians);
