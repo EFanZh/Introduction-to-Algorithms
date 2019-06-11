@@ -121,7 +121,7 @@ mod tests {
 
                 fuzzy_sort(&mut a);
 
-                assert!(is_fuzzy_sorted(&mut a));
+                assert!(is_fuzzy_sorted(&a));
             }
         }
     }

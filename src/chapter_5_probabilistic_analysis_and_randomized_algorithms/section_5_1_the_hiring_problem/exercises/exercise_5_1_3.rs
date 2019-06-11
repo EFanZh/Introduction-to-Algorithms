@@ -15,7 +15,7 @@ mod tests {
 
     #[test]
     fn test_random() {
-        let test_count = 100000;
+        let test_count = 100_000;
         let mut p = 0.1;
         let mut rng = rand::thread_rng();
 
@@ -33,7 +33,7 @@ mod tests {
                 }
             }
 
-            assert!((diff.abs() as f64 / test_count as f64) < 0.02); // Does not guarantee to success.
+            assert!((f64::from(diff.abs()) / f64::from(test_count)) < 0.02); // Does not guarantee to success.
 
             // Next loop.
 

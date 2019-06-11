@@ -38,7 +38,7 @@ mod tests {
 
     pub fn run_max_heapify_tests<F: Fn(&mut [i32], usize)>(f: F) {
         let run_single_test = |a: &mut [i32], i, b: &[i32]| {
-            f(a.as_mut(), i);
+            f(a, i);
 
             assert_eq!(a, b);
         };
