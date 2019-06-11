@@ -93,8 +93,8 @@ mod tests {
         let mut rng = rand::thread_rng();
         let mut chips = Vec::new();
 
-        for num_chips in 0..max_num_chips + 1 {
-            for num_bad_chips in 0..num_chips / 2 + 1 {
+        for num_chips in 0..=max_num_chips {
+            for num_bad_chips in 0..=num_chips / 2 {
                 chips.clear();
 
                 let num_good_chips = num_chips - num_bad_chips;
@@ -107,8 +107,8 @@ mod tests {
 
                     match f(&chips) {
                         None => assert_eq!(num_good_chips, num_bad_chips),
-                        Some(TestChip::Bad) => assert!(false),
-                        Some(TestChip::Good) => assert!(true),
+                        Some(TestChip::Bad) => unreachable!(),
+                        Some(TestChip::Good) => (),
                     }
                 }
             }

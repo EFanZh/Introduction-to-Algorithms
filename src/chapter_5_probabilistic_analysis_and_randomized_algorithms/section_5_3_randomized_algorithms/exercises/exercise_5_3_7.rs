@@ -69,7 +69,7 @@ mod tests {
                     result.sort_unstable();
 
                     assert_eq!(result.len(), m);
-                    assert!(result.iter().all(|x| x < &n));
+                    assert!(result.iter().all(|x| *x < n));
 
                     results.insert(result);
                 }

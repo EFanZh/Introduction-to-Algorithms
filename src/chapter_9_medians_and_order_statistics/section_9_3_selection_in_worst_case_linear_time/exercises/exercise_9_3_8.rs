@@ -42,7 +42,7 @@ mod tests {
             ((vec![2], vec![1, 3]), 2),
             ((vec![1, 2], vec![3, 4]), 2),
             ((vec![1, 2], vec![-1, 3]), 1),
-            ((vec![100000], vec![100001]), 100000),
+            ((vec![100_000], vec![100_001]), 100_000),
         ];
 
         for ((x, y), expected_median) in test_cases {

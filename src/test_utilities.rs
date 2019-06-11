@@ -63,11 +63,11 @@ fn generate_all_unordered_sequences<F: FnMut(&mut [i32])>(
 }
 
 pub fn is_max_heap<T: Ord>(a: &[T]) -> bool {
-    a.iter().enumerate().skip(1).all(|(i, v)| v <= &a[(i - 1) / 2])
+    a.iter().enumerate().skip(1).all(|(i, v)| *v <= a[(i - 1) / 2])
 }
 
 pub fn is_min_heap<T: Ord>(a: &[T]) -> bool {
-    a.iter().enumerate().skip(1).all(|(i, v)| v >= &a[(i - 1) / 2])
+    a.iter().enumerate().skip(1).all(|(i, v)| *v >= a[(i - 1) / 2])
 }
 
 const ORDERED_SEQUENCE_TEST_CASE_MAX_LENGTH: usize = 7;
@@ -163,7 +163,7 @@ pub fn run_all_sorting_tests<S: FnMut(&mut [i32])>(mut sorter: S) {
 
         sorter(&mut a);
 
-        assert_eq!(a.as_slice(), sorted_sequence.as_ref());
+        assert_eq!(a.as_slice(), sorted_sequence);
     });
 }
 
@@ -215,7 +215,7 @@ mod tests {
     // TODO: Use `slice::is_sorted` instead.
 
     fn is_sorted<T: Ord>(a: &[T]) -> bool {
-        return a.windows(2).all(|pair| pair[0] <= pair[1]);
+        a.windows(2).all(|pair| pair[0] <= pair[1])
     }
 
     #[test]

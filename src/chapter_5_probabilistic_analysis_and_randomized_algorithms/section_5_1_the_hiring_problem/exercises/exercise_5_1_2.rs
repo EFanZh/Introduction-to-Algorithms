@@ -29,8 +29,8 @@ mod tests {
 
     #[test]
     fn test_random_range() {
-        for start in -_TEST_RANGE.._TEST_RANGE + 1 {
-            for end in start.._TEST_RANGE + 1 {
+        for start in -_TEST_RANGE..=_TEST_RANGE {
+            for end in start..=_TEST_RANGE {
                 for _ in 0.._TEST_SAMPLES {
                     let r = super::random(start, end);
 
@@ -45,8 +45,8 @@ mod tests {
     fn test_random_coverage() {
         let mut set = HashSet::new();
 
-        for start in -_TEST_RANGE.._TEST_RANGE + 1 {
-            for end in start.._TEST_RANGE + 1 {
+        for start in -_TEST_RANGE..=_TEST_RANGE {
+            for end in start..=_TEST_RANGE {
                 set.extend(start..=end);
 
                 loop {
