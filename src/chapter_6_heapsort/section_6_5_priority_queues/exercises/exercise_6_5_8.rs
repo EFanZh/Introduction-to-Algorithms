@@ -47,6 +47,20 @@ mod tests {
     use super::{heap_delete, heap_delete_2};
 
     fn run_heap_delete_test<F: FnMut(&mut Vec<i32>, usize)>(mut f: F) {
+        let mut run_deletion_test = |heap: &mut Vec<i32>, i, expected_values: &[i32]| {
+            let value = heap[i]; // Save the value to be deleted.
+
+            f(heap, i); // Delete the value.
+
+            assert!(is_max_heap(&heap)); // Check max heap property.
+
+            heap.push(value); // Put the deleted value back.
+
+            heap.sort(); // Sort the heap.
+
+            assert_eq!(heap.as_slice(), expected_values); // Check value consistency.
+        };
+
         let mut heap_storage = Vec::new();
         let mut sorted_heap_storage = Vec::new();
         let mut heap = Vec::new();
@@ -55,22 +69,14 @@ mod tests {
             assign_vec(&mut heap_storage, sequence);
             assign_vec(&mut sorted_heap_storage, sequence);
 
+            let total_length = heap_storage.len();
+
             sorted_heap_storage.sort_unstable();
 
-            for i in 0..heap_storage.len() {
+            for i in 0..total_length {
                 assign_vec(&mut heap, &heap_storage);
 
-                let value = heap[i]; // Save the value to be deleted.
-
-                f(&mut heap, i); // Delete the value.
-
-                assert!(is_max_heap(&heap)); // Check max heap property.
-
-                heap.push(value); // Put the deleted value back.
-
-                heap.sort(); // Sort the heap.
-
-                assert_eq!(heap, sorted_heap_storage); // Check value consistency.
+                run_deletion_test(&mut heap, i, &heap_storage);
             }
         });
     }

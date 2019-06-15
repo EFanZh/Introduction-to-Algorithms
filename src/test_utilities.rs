@@ -73,6 +73,8 @@ pub fn is_min_heap<T: Ord>(a: &[T]) -> bool {
 const ORDERED_SEQUENCE_TEST_CASE_MAX_LENGTH: usize = 7;
 const UNORDERED_SEQUENCE_TEST_CASE_MAX_LENGTH: usize = 7;
 
+type OwnedSlice<T> = Box<[T]>;
+
 lazy_static! {
     static ref ORDERED_SEQUENCE_TEST_CASES: Box<[Box<[i32]>]> = {
         let mut result = Vec::new();
@@ -87,7 +89,7 @@ lazy_static! {
 
         result.into()
     };
-    static ref UNORDERED_SEQUENCE_TEST_CASES: Box<[(Box<[i32]>, Box<[i32]>)]> = {
+    static ref UNORDERED_SEQUENCE_TEST_CASES: OwnedSlice<(OwnedSlice<i32>, OwnedSlice<i32>)> = {
         let mut result = Vec::new();
         let mut sequence_storage = [0; UNORDERED_SEQUENCE_TEST_CASE_MAX_LENGTH];
         let mut diff_storage = [0; UNORDERED_SEQUENCE_TEST_CASE_MAX_LENGTH - 1];

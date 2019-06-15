@@ -3,44 +3,50 @@ use super::super::chapter_7_quicksort::section_7_1_description_of_quicksort::ext
 
 pub mod exercises;
 
-fn find_median_by_sorting<T: Ord + Copy>(a: &mut [T]) -> T {
+fn find_median_by_sorting<T: Ord>(a: &mut [T]) -> &mut T {
     insertion_sort_slice(a);
 
     let middle = a.len() / 2;
 
-    a[middle]
+    &mut a[middle]
 }
 
-fn find_median_by_select<T: Ord + Copy>(a: &mut [T]) -> T {
+fn find_median_by_select<T: Ord + Clone>(a: &mut [T]) -> &mut T {
     let middle = a.len() / 2;
 
-    select_copy(a, middle)
+    select_slice(a, middle)
 }
 
-pub fn select_copy<T: Ord + Copy>(a: &mut [T], i: usize) -> T {
+fn select_slice<T: Ord + Clone>(a: &mut [T], i: usize) -> &mut T {
     if a.len() > 1 {
-        let mut group_medians = a.chunks_mut(5).map(find_median_by_sorting).collect::<Box<_>>();
+        let mut group_medians = a
+            .chunks_mut(5)
+            .map(find_median_by_sorting)
+            .map(|x| &*x)
+            .cloned()
+            .collect::<Box<_>>();
+
         let median_of_medians = find_median_by_select(&mut group_medians);
         let (left, middle, right) = partition_by_key(a, &median_of_medians);
 
         if i < left.len() {
-            select_copy(left, i)
+            select_slice(left, i)
         } else {
             let k = left.len() + middle.len();
 
             if i < k {
-                middle[0]
+                &mut middle[0]
             } else {
-                select_copy(right, i - k)
+                select_slice(right, i - k)
             }
         }
     } else {
-        a[0]
+        &mut a[0]
     }
 }
 
-pub fn select<T: Ord>(a: &mut [T], p: usize, r: usize, i: usize) -> &T {
-    select_copy(&mut a[p..r].iter().collect::<Box<_>>(), i)
+pub fn select<T: Ord + Clone>(a: &mut [T], p: usize, r: usize, i: usize) -> &mut T {
+    select_slice(&mut a[p..r], i)
 }
 
 #[cfg(test)]
