@@ -14,16 +14,16 @@ pub mod exercises;
 // 8      return Randomized-Select(A, p, q - 1, i)
 // 9  else return Randomized-Select(A, q + 1, r, i - k)
 
-pub fn randomized_select<T: Ord>(a: &mut [T], p: usize, r: usize, i: usize) -> &T {
+pub fn randomized_select<T: Ord>(a: &mut [T], p: usize, r: usize, i: usize) -> &mut T {
     if r - p == 1 {
-        return &a[p];
+        return &mut a[p];
     }
 
     let q = randomized_partition(a, p, r);
     let k = q - p;
 
     if i == k {
-        &a[q]
+        &mut a[q]
     } else if i < k {
         randomized_select(a, p, q, i)
     } else {
