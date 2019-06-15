@@ -76,7 +76,7 @@ mod tests {
             for i in 0..total_length {
                 assign_vec(&mut heap, &heap_storage);
 
-                run_deletion_test(&mut heap, i, &heap_storage);
+                run_deletion_test(&mut heap, i, &sorted_heap_storage);
             }
         });
     }
