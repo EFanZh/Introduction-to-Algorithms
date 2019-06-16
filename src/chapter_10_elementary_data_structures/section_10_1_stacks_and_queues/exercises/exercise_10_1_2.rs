@@ -2,14 +2,14 @@ use std::collections::VecDeque;
 
 pub struct TwoStacks<T> {
     storage: VecDeque<T>,
-    left_stack_len: usize,
+    left_stack_size: usize,
 }
 
 impl<T> Default for TwoStacks<T> {
     fn default() -> Self {
         Self {
             storage: VecDeque::new(),
-            left_stack_len: 0,
+            left_stack_size: 0,
         }
     }
 }
@@ -22,17 +22,17 @@ impl<T> TwoStacks<T> {
     pub fn with_capacity(capacity: usize) -> Self {
         Self {
             storage: VecDeque::with_capacity(capacity),
-            left_stack_len: 0,
+            left_stack_size: 0,
         }
     }
 
     pub fn empty_1(&self) -> bool {
-        self.left_stack_len == 0
+        self.left_stack_size == 0
     }
 
     pub fn push_1(&mut self, x: T) {
         self.storage.push_front(x);
-        self.left_stack_len += 1;
+        self.left_stack_size += 1;
     }
 
     pub fn pop_1(&mut self) -> T {
@@ -40,13 +40,13 @@ impl<T> TwoStacks<T> {
 
         let result = self.storage.pop_front().unwrap();
 
-        self.left_stack_len -= 1;
+        self.left_stack_size -= 1;
 
         result
     }
 
     pub fn empty_2(&self) -> bool {
-        self.storage.len() == self.left_stack_len
+        self.storage.len() == self.left_stack_size
     }
 
     pub fn push_2(&mut self, x: T) {
