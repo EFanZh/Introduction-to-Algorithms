@@ -1,6 +1,7 @@
 use extra::{Queue, Stack};
 use std::collections::VecDeque;
 
+pub mod exercises;
 pub mod extra;
 
 pub struct ArrayStack<T> {
