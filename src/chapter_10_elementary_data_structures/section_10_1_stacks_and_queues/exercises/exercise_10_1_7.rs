@@ -3,14 +3,14 @@ use super::super::ArrayQueue;
 use std::mem::swap;
 
 pub struct ArrayQueueStack<T> {
-    queue: ArrayQueue<T>,
+    bottom: ArrayQueue<T>,
     top: ArrayQueue<T>,
 }
 
 impl<T> Default for ArrayQueueStack<T> {
     fn default() -> Self {
         ArrayQueueStack {
-            queue: Default::default(),
+            bottom: Default::default(),
             top: Default::default(), // Invariant: if the stack is non-empty, `top` is non-empty.
         }
     }
@@ -25,20 +25,20 @@ impl<T> ArrayQueueStack<T> {
 impl<T> Stack<T> for ArrayQueueStack<T> {
     fn push(&mut self, x: T) {
         while !self.top.empty() {
-            self.queue.enqueue(self.top.dequeue())
+            self.bottom.enqueue(self.top.dequeue())
         }
 
         self.top.enqueue(x);
     }
 
     fn pop(&mut self) -> T {
-        for _ in 1..self.queue.length() {
-            self.top.enqueue(self.queue.dequeue());
+        for _ in 1..self.bottom.length() {
+            self.top.enqueue(self.bottom.dequeue());
         }
 
-        swap(&mut self.queue, &mut self.top);
+        swap(&mut self.bottom, &mut self.top);
 
-        self.queue.dequeue()
+        self.bottom.dequeue()
     }
 
     fn empty(&self) -> bool {
@@ -46,7 +46,7 @@ impl<T> Stack<T> for ArrayQueueStack<T> {
     }
 
     fn length(&self) -> usize {
-        self.queue.length() + self.top.length()
+        self.bottom.length() + self.top.length()
     }
 }
 
