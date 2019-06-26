@@ -3,15 +3,15 @@ use super::super::ArrayQueue;
 use std::mem::swap;
 
 pub struct ArrayQueueStack<T> {
-    bottom: ArrayQueue<T>,
-    top: ArrayQueue<T>,
+    queue: ArrayQueue<T>,
+    temp_queue: ArrayQueue<T>,
 }
 
 impl<T> Default for ArrayQueueStack<T> {
     fn default() -> Self {
         ArrayQueueStack {
-            bottom: Default::default(),
-            top: Default::default(), // Invariant: if the stack is non-empty, `top` is non-empty.
+            queue: Default::default(),
+            temp_queue: Default::default(),
         }
     }
 }
@@ -24,29 +24,27 @@ impl<T> ArrayQueueStack<T> {
 
 impl<T> Stack<T> for ArrayQueueStack<T> {
     fn push(&mut self, x: T) {
-        while !self.top.empty() {
-            self.bottom.enqueue(self.top.dequeue())
-        }
-
-        self.top.enqueue(x);
+        self.queue.enqueue(x);
     }
 
     fn pop(&mut self) -> T {
-        for _ in 1..self.bottom.length() {
-            self.top.enqueue(self.bottom.dequeue());
+        for _ in 1..self.queue.length() {
+            self.temp_queue.enqueue(self.queue.dequeue());
         }
 
-        swap(&mut self.bottom, &mut self.top);
+        let result = self.queue.dequeue();
 
-        self.bottom.dequeue()
+        swap(&mut self.queue, &mut self.temp_queue);
+
+        result
     }
 
     fn empty(&self) -> bool {
-        self.top.empty()
+        self.queue.empty()
     }
 
     fn length(&self) -> usize {
-        self.bottom.length() + self.top.length()
+        self.queue.length()
     }
 }
 
