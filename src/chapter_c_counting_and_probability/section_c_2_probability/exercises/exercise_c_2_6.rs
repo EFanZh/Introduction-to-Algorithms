@@ -28,13 +28,13 @@ mod tests {
     use rand::{thread_rng, Rng};
 
     fn run_test_flip_coin<F: FnMut(i32, i32) -> bool>(mut f: F) {
-        let samples = 1_000_000;
+        let samples = 100_000;
 
         for a in 1..=5 {
             for b in a + 1..=6 {
                 let heads = (0..samples).map(|_| f(a, b)).filter(|&x| x).count() as i32;
 
-                assert!((f64::from(b * heads) / f64::from(a * samples) - 1.0).abs() < 0.01);
+                assert!((f64::from(b * heads) / f64::from(a * samples) - 1.0).abs() < 0.02);
             }
         }
     }

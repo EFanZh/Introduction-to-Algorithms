@@ -9,7 +9,7 @@ pub struct ArrayStackQueue<T> {
 impl<T> Default for ArrayStackQueue<T> {
     fn default() -> Self {
         ArrayStackQueue {
-            front: Default::default(), // Invariant: if the stack is non-empty, `front` is non-empty.
+            front: Default::default(), // Invariant: if the queue is non-empty, `front` is non-empty.
             back: Default::default(),
         }
     }
@@ -45,6 +45,10 @@ impl<T> Queue<T> for ArrayStackQueue<T> {
     fn empty(&self) -> bool {
         self.front.empty()
     }
+
+    fn length(&self) -> usize {
+        self.front.length() + self.back.length()
+    }
 }
 
 #[cfg(test)]
@@ -53,7 +57,7 @@ mod tests {
     use super::ArrayStackQueue;
 
     #[test]
-    fn test_stack_queue() {
+    fn test_array_stack_queue() {
         run_queue_tests(ArrayStackQueue::new);
     }
 }
