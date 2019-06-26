@@ -83,67 +83,95 @@ mod tests {
     use super::extra::{Queue, Stack};
     use super::{ArrayQueue, ArrayStack};
 
-    #[test]
-    fn test_array_stack_empty() {
-        let mut s = ArrayStack::new();
+    enum StackOperation<T> {
+        Empty(bool),
+        Push(T),
+        Pop(T),
+    }
 
-        assert!(s.empty());
+    enum QueueOperation<T> {
+        Empty(bool),
+        Enqueue(T),
+        Dequeue(T),
+    }
 
-        s.push(1);
+    pub fn run_stack_tests<S: Stack<i32>, F: FnMut() -> S>(mut f: F) {
+        use StackOperation::{Empty, Pop, Push};
 
-        assert!(!s.empty());
+        let test_cases = vec![
+            vec![Empty(true)],
+            vec![Empty(true), Push(3), Empty(false), Pop(3), Empty(true)],
+            vec![
+                Empty(true),
+                Push(3),
+                Push(7),
+                Push(2),
+                Push(4),
+                Pop(4),
+                Pop(2),
+                Pop(7),
+                Push(9),
+                Pop(9),
+                Pop(3),
+                Empty(true),
+            ],
+        ];
 
-        s.pop();
+        for test_case in test_cases {
+            let mut stack = f();
 
-        assert!(s.empty());
+            for operation in test_case {
+                match operation {
+                    Empty(value) => assert_eq!(stack.empty(), value),
+                    Push(value) => stack.push(value),
+                    Pop(value) => assert_eq!(stack.pop(), value),
+                }
+            }
+        }
+    }
+
+    pub fn run_queue_tests<S: Queue<i32>, F: FnMut() -> S>(mut f: F) {
+        use QueueOperation::{Dequeue, Empty, Enqueue};
+
+        let test_cases = vec![
+            vec![Empty(true)],
+            vec![Empty(true), Enqueue(3), Empty(false), Dequeue(3), Empty(true)],
+            vec![
+                Empty(true),
+                Enqueue(3),
+                Enqueue(7),
+                Enqueue(2),
+                Enqueue(4),
+                Dequeue(3),
+                Dequeue(7),
+                Dequeue(2),
+                Enqueue(9),
+                Dequeue(4),
+                Dequeue(9),
+                Empty(true),
+            ],
+        ];
+
+        for test_case in test_cases {
+            let mut queue = f();
+
+            for operation in test_case {
+                match operation {
+                    Empty(value) => assert_eq!(queue.empty(), value),
+                    Enqueue(value) => queue.enqueue(value),
+                    Dequeue(value) => assert_eq!(queue.dequeue(), value),
+                }
+            }
+        }
     }
 
     #[test]
-    fn test_array_stack_behavior() {
-        let mut s = ArrayStack::new();
-
-        s.push(1);
-        s.push(2);
-        s.push(3);
-
-        assert_eq!(s.pop(), 3);
-        assert_eq!(s.pop(), 2);
-
-        s.push(4);
-
-        assert_eq!(s.pop(), 4);
-        assert_eq!(s.pop(), 1);
+    fn test_array_stack() {
+        run_stack_tests(ArrayStack::new);
     }
 
     #[test]
-    fn test_array_queue_empty() {
-        let mut q = ArrayQueue::new();
-
-        assert!(q.empty());
-
-        q.enqueue(1);
-
-        assert!(!q.empty());
-
-        q.dequeue();
-
-        assert!(q.empty());
-    }
-
-    #[test]
-    fn test_array_queue_behavior() {
-        let mut q = ArrayQueue::new();
-
-        q.enqueue(1);
-        q.enqueue(2);
-        q.enqueue(3);
-
-        assert_eq!(q.dequeue(), 1);
-        assert_eq!(q.dequeue(), 2);
-
-        q.enqueue(4);
-
-        assert_eq!(q.dequeue(), 3);
-        assert_eq!(q.dequeue(), 4);
+    fn test_array_queue() {
+        run_queue_tests(ArrayQueue::new);
     }
 }
