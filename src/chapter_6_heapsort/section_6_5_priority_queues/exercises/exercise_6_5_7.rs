@@ -41,6 +41,10 @@ impl<T: Ord> Queue<T> for FifoQueue<T> {
     fn dequeue(&mut self) -> T {
         self.q.extract_min().value
     }
+
+    fn length(&self) -> usize {
+        self.q.length()
+    }
 }
 
 pub struct LifoStack<T> {
@@ -79,6 +83,10 @@ impl<T: Ord> Stack<T> for LifoStack<T> {
 
     fn pop(&mut self) -> T {
         self.q.extract_max().value
+    }
+
+    fn length(&self) -> usize {
+        self.q.length()
     }
 }
 

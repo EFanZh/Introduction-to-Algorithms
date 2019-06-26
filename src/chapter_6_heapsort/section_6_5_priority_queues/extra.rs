@@ -6,6 +6,7 @@ pub trait MaxPriorityQueue<T> {
     fn insert(&mut self, x: T);
     fn maximum(&self) -> &T;
     fn extract_max(&mut self) -> T;
+    fn length(&self) -> usize;
 }
 
 pub trait MinPriorityQueue<T> {
@@ -13,6 +14,7 @@ pub trait MinPriorityQueue<T> {
     fn insert(&mut self, x: T);
     fn minimum(&self) -> &T;
     fn extract_min(&mut self) -> T;
+    fn length(&self) -> usize;
 }
 
 pub struct VecMaxPriorityQueue<T> {
@@ -47,6 +49,10 @@ impl<T: Ord> MaxPriorityQueue<T> for VecMaxPriorityQueue<T> {
     fn extract_max(&mut self) -> T {
         heap_extract_max(&mut self.a)
     }
+
+    fn length(&self) -> usize {
+        self.a.len()
+    }
 }
 
 pub struct VecMinPriorityQueue<T> {
@@ -80,6 +86,10 @@ impl<T: Ord> MinPriorityQueue<T> for VecMinPriorityQueue<T> {
 
     fn extract_min(&mut self) -> T {
         heap_extract_min(&mut self.a)
+    }
+
+    fn length(&self) -> usize {
+        self.a.len()
     }
 }
 
