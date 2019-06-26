@@ -9,7 +9,7 @@ pub struct ArrayStackQueue<T> {
 impl<T> Default for ArrayStackQueue<T> {
     fn default() -> Self {
         ArrayStackQueue {
-            front: Default::default(), // Invariant: if the queue is non-empty, `front` is non-empty.
+            front: Default::default(),
             back: Default::default(),
         }
     }
@@ -23,27 +23,21 @@ impl<T> ArrayStackQueue<T> {
 
 impl<T> Queue<T> for ArrayStackQueue<T> {
     fn enqueue(&mut self, x: T) {
-        if self.empty() {
-            self.front.push(x)
-        } else {
-            self.back.push(x);
-        }
+        self.back.push(x);
     }
 
     fn dequeue(&mut self) -> T {
-        let result = self.front.pop();
-
         if self.front.empty() {
             while !self.back.empty() {
                 self.front.push(self.back.pop());
             }
         }
 
-        result
+        self.front.pop()
     }
 
     fn empty(&self) -> bool {
-        self.front.empty()
+        self.front.empty() && self.back.empty()
     }
 
     fn length(&self) -> usize {
