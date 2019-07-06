@@ -11,7 +11,7 @@ pub fn random<F: FnMut() -> bool>(mut biased_random: F) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use rand::distributions::Distribution;
+    use rand::distributions::{Bernoulli, Distribution};
 
     #[test]
     fn test_random() {
@@ -20,7 +20,7 @@ mod tests {
         let mut rng = rand::thread_rng();
 
         loop {
-            let distribution = rand::distributions::Bernoulli::new(p);
+            let distribution = Bernoulli::new(p).unwrap();
             let mut biased_random = || distribution.sample(&mut rng);
 
             let mut diff: i32 = 0;
