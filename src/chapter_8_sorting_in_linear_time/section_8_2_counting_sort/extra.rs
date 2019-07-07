@@ -1,4 +1,4 @@
-use std::mem::swap;
+use std::mem;
 
 pub fn counting_sort_by_key<T: Clone, F: FnMut(&T) -> usize>(a: &mut [T], empty_value: T, mut f: F) {
     let mut b = vec![empty_value; a.len()];
@@ -26,7 +26,7 @@ pub fn counting_sort_by_key<T: Clone, F: FnMut(&T) -> usize>(a: &mut [T], empty_
 
         *c_key -= 1;
 
-        swap(&mut b[*c_key], x);
+        mem::swap(&mut b[*c_key], x);
     }
 
     // Put elements back to a.

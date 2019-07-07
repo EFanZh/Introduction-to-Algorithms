@@ -1,5 +1,5 @@
 use std::cmp::Ordering;
-use std::mem::replace;
+use std::mem;
 
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Debug)]
 pub enum Infinitable<T: Ord> {
@@ -9,7 +9,7 @@ pub enum Infinitable<T: Ord> {
 
 impl<T: Ord> Infinitable<T> {
     pub fn replace_with_infinity(&mut self) -> Option<T> {
-        if let Infinitable::Finity(value) = replace(self, Infinitable::Infinity) {
+        if let Infinitable::Finity(value) = mem::replace(self, Infinitable::Infinity) {
             Some(value)
         } else {
             None

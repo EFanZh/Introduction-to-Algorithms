@@ -1,8 +1,8 @@
-use std::mem::swap;
+use std::mem;
 
 pub fn median_of_two_sorted_arrays<'a, T: Ord>(mut x: &'a [T], mut y: &'a [T]) -> &'a T {
     if y.len() < x.len() {
-        swap(&mut x, &mut y);
+        mem::swap(&mut x, &mut y);
     }
 
     let half_total_count = x.len() + (y.len() - x.len() + 1) / 2;

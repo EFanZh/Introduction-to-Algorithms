@@ -1,4 +1,4 @@
-use std::mem::size_of;
+use std::mem;
 
 pub fn binary_search_iterative<T: Ord>(a: &[T], v: &T) -> Option<usize> {
     let mut left = 0;
@@ -134,7 +134,7 @@ pub fn binary_search_recursive_pointer<T: Ord>(a: &[T], v: &T) -> Option<usize> 
         }
     }
 
-    let index = (lower_bound_pointer(a, v) as usize - a.as_ptr() as usize) / size_of::<T>();
+    let index = (lower_bound_pointer(a, v) as usize - a.as_ptr() as usize) / mem::size_of::<T>();
 
     if index < a.len() && a[index] == *v {
         Some(index)

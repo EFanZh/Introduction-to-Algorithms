@@ -1,4 +1,4 @@
-use std::mem::{size_of_val, swap};
+use std::mem;
 
 struct Node<T> {
     value: T,
@@ -12,7 +12,7 @@ impl<T> Node<T> {
 }
 
 fn floor_log2(x: usize) -> usize {
-    8 * size_of_val(&x) - 1 - x.leading_zeros() as usize
+    8 * mem::size_of_val(&x) - 1 - x.leading_zeros() as usize
 }
 
 struct Region<T> {
@@ -65,7 +65,7 @@ pub fn second_smallest<T: Ord>(a: &[T]) -> &T {
             }
         }
 
-        swap(&mut b, &mut temp);
+        mem::swap(&mut b, &mut temp);
         temp.clear();
     }
 
