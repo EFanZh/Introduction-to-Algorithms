@@ -1,5 +1,5 @@
 use std::cell::{Ref, RefCell};
-use std::mem::drop;
+use std::mem::{drop, replace};
 use std::rc::Rc;
 
 struct DoublyLinkedListElementContent<T> {
@@ -30,8 +30,32 @@ impl<T> Clone for DoublyLinkedListElement<T> {
     }
 }
 
+struct DoublyLinkedListIter<T> {
+    element: Option<DoublyLinkedListElement<T>>,
+}
+
+impl<T> Iterator for DoublyLinkedListIter<T> {
+    type Item = DoublyLinkedListElement<T>;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if let Some(element) = &self.element {
+            let maybe_next_element = element.0.borrow().next.clone();
+
+            replace(&mut self.element, maybe_next_element)
+        } else {
+            None
+        }
+    }
+}
+
 pub struct DoublyLinkedList<T> {
     head: Option<DoublyLinkedListElement<T>>,
+}
+
+impl<T> Default for DoublyLinkedList<T> {
+    fn default() -> Self {
+        Self { head: None }
+    }
 }
 
 impl<T> Drop for DoublyLinkedList<T> {
@@ -47,12 +71,6 @@ impl<T> Drop for DoublyLinkedList<T> {
     }
 }
 
-impl<T> Default for DoublyLinkedList<T> {
-    fn default() -> Self {
-        Self { head: None }
-    }
-}
-
 impl<T> DoublyLinkedList<T> {
     pub fn new() -> Self {
         Default::default()
@@ -62,19 +80,9 @@ impl<T> DoublyLinkedList<T> {
     where
         T: PartialEq<U>,
     {
-        // This implementation is ugly, not sure how to improve it.
-
-        let mut x = self.head.clone();
-
-        while let Some(element) = x {
-            let node_ref = element.0.borrow();
-
-            if node_ref.key == k {
-                drop(node_ref);
-
+        for element in self.iter() {
+            if *element.borrow() == k {
                 return Some(element);
-            } else {
-                x = node_ref.next.clone();
             }
         }
 
@@ -115,6 +123,12 @@ impl<T> DoublyLinkedList<T> {
             self.head = None;
         }
     }
+
+    fn iter(&self) -> DoublyLinkedListIter<T> {
+        DoublyLinkedListIter {
+            element: self.head.clone(),
+        }
+    }
 }
 
 #[cfg(test)]
@@ -130,19 +144,7 @@ mod tests {
     }
 
     fn doubly_linked_list_to_vec<T: Copy>(list: &DoublyLinkedList<T>) -> Vec<T> {
-        let mut result = Vec::new();
-
-        let mut x = list.head.clone();
-
-        while let Some(rc) = x {
-            let node_ref = rc.0.borrow();
-
-            result.push(node_ref.key);
-
-            x = node_ref.next.clone();
-        }
-
-        result
+        list.iter().map(|x| *x.borrow()).collect()
     }
 
     fn run_tests<I: IntoIterator<Item = DoublyLinkedListOperation<i32>>>(operations: I) {
