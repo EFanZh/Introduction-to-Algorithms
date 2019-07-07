@@ -3,6 +3,8 @@ use std::iter;
 use std::mem;
 use std::rc::Rc;
 
+pub mod exercises;
+
 struct DoublyLinkedListElementContent<T> {
     key: T,
     next: Option<DoublyLinkedListElement<T>>,
