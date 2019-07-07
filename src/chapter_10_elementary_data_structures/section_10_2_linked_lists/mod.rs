@@ -1,5 +1,6 @@
 use std::cell::{Ref, RefCell};
-use std::mem::{drop, replace};
+use std::iter;
+use std::mem;
 use std::rc::Rc;
 
 struct DoublyLinkedListElementContent<T> {
@@ -27,24 +28,6 @@ impl<T> DoublyLinkedListElement<T> {
 impl<T> Clone for DoublyLinkedListElement<T> {
     fn clone(&self) -> Self {
         Self(self.0.clone())
-    }
-}
-
-struct DoublyLinkedListIter<T> {
-    element: Option<DoublyLinkedListElement<T>>,
-}
-
-impl<T> Iterator for DoublyLinkedListIter<T> {
-    type Item = DoublyLinkedListElement<T>;
-
-    fn next(&mut self) -> Option<Self::Item> {
-        if let Some(element) = &self.element {
-            let maybe_next_element = element.0.borrow().next.clone();
-
-            replace(&mut self.element, maybe_next_element)
-        } else {
-            None
-        }
     }
 }
 
@@ -124,10 +107,18 @@ impl<T> DoublyLinkedList<T> {
         }
     }
 
-    fn iter(&self) -> DoublyLinkedListIter<T> {
-        DoublyLinkedListIter {
-            element: self.head.clone(),
-        }
+    fn iter(&self) -> impl Iterator<Item = DoublyLinkedListElement<T>> {
+        let mut maybe_element = self.head.clone();
+
+        iter::from_fn(move || {
+            if let Some(element) = &maybe_element {
+                let maybe_next_element = element.0.borrow().next.clone();
+
+                mem::replace(&mut maybe_element, maybe_next_element)
+            } else {
+                None
+            }
+        })
     }
 }
 
