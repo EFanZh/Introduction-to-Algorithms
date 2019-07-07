@@ -1,6 +1,6 @@
 use super::super::extra::{Queue, Stack};
 use super::super::ArrayQueue;
-use std::mem::swap;
+use std::mem;
 
 pub struct ArrayQueueStack<T> {
     queue: ArrayQueue<T>,
@@ -34,7 +34,7 @@ impl<T> Stack<T> for ArrayQueueStack<T> {
 
         let result = self.queue.dequeue();
 
-        swap(&mut self.queue, &mut self.temp_queue);
+        mem::swap(&mut self.queue, &mut self.temp_queue);
 
         result
     }
