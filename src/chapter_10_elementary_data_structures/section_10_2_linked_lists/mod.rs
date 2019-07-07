@@ -3,7 +3,7 @@ use std::mem::drop;
 use std::rc::Rc;
 
 struct DoublyLinkedListElementContent<T> {
-    pub key: T,
+    key: T,
     next: Option<DoublyLinkedListElement<T>>,
     prev: Option<DoublyLinkedListElement<T>>,
 }
@@ -36,13 +36,13 @@ pub struct DoublyLinkedList<T> {
 
 impl<T> Drop for DoublyLinkedList<T> {
     fn drop(&mut self) {
-        let mut node = self.head.take();
+        let mut head = self.head.take();
 
-        while let Some(node_rc) = node {
-            let mut node_ref = node_rc.0.borrow_mut();
+        while let Some(element) = head {
+            let mut node_ref = element.0.borrow_mut();
 
             node_ref.prev = None;
-            node = node_ref.next.take();
+            head = node_ref.next.take();
         }
     }
 }
@@ -66,17 +66,15 @@ impl<T> DoublyLinkedList<T> {
 
         let mut x = self.head.clone();
 
-        while let Some(rc) = x {
-            let node_ref = rc.0.borrow();
+        while let Some(element) = x {
+            let node_ref = element.0.borrow();
 
             if node_ref.key == k {
                 drop(node_ref);
 
-                return Some(rc);
+                return Some(element);
             } else {
                 x = node_ref.next.clone();
-
-                continue;
             }
         }
 
@@ -86,10 +84,10 @@ impl<T> DoublyLinkedList<T> {
     pub fn insert(&mut self, x: DoublyLinkedListElement<T>) {
         let mut x_ref = x.0.borrow_mut();
 
-        if let Some(head_rc) = self.head.take() {
-            head_rc.0.borrow_mut().prev = Some(x.clone());
+        if let Some(head_element) = self.head.take() {
+            head_element.0.borrow_mut().prev = Some(x.clone());
 
-            x_ref.next = Some(head_rc);
+            x_ref.next = Some(head_element);
         } else {
             x_ref.next = None;
         }
@@ -171,7 +169,7 @@ mod tests {
     }
 
     #[test]
-    fn test_doubly_inked_list() {
+    fn test_doubly_linked_list() {
         use DoublyLinkedListOperation::{Delete, Insert, Inspect, RawInsert, Search};
 
         let test_cases = vec![
