@@ -87,7 +87,7 @@ impl<T> Queue<T> for ArrayQueue<T> {
 }
 
 #[cfg(test)]
-mod tests {
+pub(crate) mod tests {
     use super::extra::{Queue, Stack};
     use super::{ArrayQueue, ArrayStack};
 

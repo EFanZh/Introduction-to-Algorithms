@@ -92,105 +92,20 @@ impl<T: Ord> Stack<T> for LifoStack<T> {
 
 #[cfg(test)]
 mod tests {
-    use super::{FifoQueue, LifoStack, Queue, Stack};
+    use super::{FifoQueue, LifoStack};
+
+    use super::super::super::super::super::chapter_10_elementary_data_structures::section_10_1_stacks_and_queues::tests::{
+        run_queue_tests,
+        run_stack_tests
+    };
 
     #[test]
-    fn test_fifo_queue_empty() {
-        let mut q = FifoQueue::new();
-
-        assert!(q.empty());
-
-        q.enqueue(4);
-
-        assert!(!q.empty());
-
-        q.enqueue(5);
-
-        assert!(!q.empty());
-
-        q.dequeue();
-
-        assert!(!q.empty());
-
-        q.dequeue();
-
-        assert!(q.empty());
+    fn test_fifo_queue() {
+        run_queue_tests(FifoQueue::new);
     }
 
     #[test]
-    fn test_fifo_queue_fifo() {
-        let mut q = FifoQueue::new();
-
-        q.enqueue(2);
-
-        assert_eq!(q.dequeue(), 2);
-
-        q.enqueue(3);
-        q.enqueue(5);
-
-        assert_eq!(q.dequeue(), 3);
-        assert_eq!(q.dequeue(), 5);
-
-        q.enqueue(7);
-        q.enqueue(11);
-        q.enqueue(13);
-
-        assert_eq!(q.dequeue(), 7);
-        assert_eq!(q.dequeue(), 11);
-
-        q.enqueue(17);
-
-        assert_eq!(q.dequeue(), 13);
-        assert_eq!(q.dequeue(), 17);
-    }
-
-    #[test]
-    fn test_lifo_stack_empty() {
-        let mut q = LifoStack::new();
-
-        assert!(q.empty());
-
-        q.push(4);
-
-        assert!(!q.empty());
-
-        q.push(5);
-
-        assert!(!q.empty());
-
-        q.pop();
-
-        assert!(!q.empty());
-
-        q.pop();
-
-        assert!(q.empty());
-    }
-
-    #[test]
-    fn test_lifo_stack_lifo() {
-        let mut q = LifoStack::new();
-
-        q.push(2);
-
-        assert_eq!(q.pop(), 2);
-
-        q.push(3);
-        q.push(5);
-
-        assert_eq!(q.pop(), 5);
-        assert_eq!(q.pop(), 3);
-
-        q.push(7);
-        q.push(11);
-        q.push(13);
-
-        assert_eq!(q.pop(), 13);
-        assert_eq!(q.pop(), 11);
-
-        q.push(17);
-
-        assert_eq!(q.pop(), 17);
-        assert_eq!(q.pop(), 7);
+    fn test_lifo_stack() {
+        run_stack_tests(LifoStack::new);
     }
 }
