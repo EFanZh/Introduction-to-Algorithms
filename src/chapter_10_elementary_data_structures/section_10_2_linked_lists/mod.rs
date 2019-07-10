@@ -61,6 +61,13 @@ impl<T> DoublyLinkedList<T> {
         Default::default()
     }
 
+    // List-Search(L, k)
+    //
+    // 1  x = L.head
+    // 2  while x ≠ Nil and x.key ≠ k
+    // 3      x = x.next
+    // 4  return x
+
     pub fn search<U>(&self, k: U) -> Option<DoublyLinkedListElement<T>>
     where
         T: PartialEq<U>,
@@ -73,6 +80,14 @@ impl<T> DoublyLinkedList<T> {
 
         None
     }
+
+    // List-Insert(L, x)
+    //
+    // 1  x.next = L.head
+    // 2  if L.head ≠ Nil
+    // 3      L.head.prev = x
+    // 4  L.head = x
+    // 5  x.prev = Nil
 
     pub fn insert(&mut self, x: DoublyLinkedListElement<T>) {
         let mut x_ref = x.0.borrow_mut();
@@ -91,6 +106,14 @@ impl<T> DoublyLinkedList<T> {
 
         self.head = Some(x);
     }
+
+    // List-Delete(L, x)
+    //
+    // 1  if x.prev ≠ NIL
+    // 2      x.prev.next = x.next
+    // 3  else L.head = x.next
+    // 4  if x.next ≠ NIL
+    // 5      x.next.prev = x.prev
 
     pub fn delete(&mut self, x: DoublyLinkedListElement<T>) {
         let mut x_ref = x.0.borrow_mut();
