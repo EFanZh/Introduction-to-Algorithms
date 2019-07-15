@@ -15,7 +15,6 @@ pub fn iterate_tree<T, F: FnMut(&T)>(root: &Option<Box<UnboundedBranchingTreeNod
 
 #[cfg(test)]
 mod tests {
-
     use super::super::super::UnboundedBranchingTreeNode;
     use super::iterate_tree;
     use std::collections::HashSet;
