@@ -1,16 +1,17 @@
 use super::super::BinaryTreeNode;
+use std::rc::Rc;
 
-pub fn iterate_tree_1<T, F: FnMut(&T)>(root: &Option<Box<BinaryTreeNode<T>>>, mut f: F) {
+pub fn iterate_tree_1<T, F: FnMut(&T)>(root: &Option<Rc<BinaryTreeNode<T>>>, mut f: F) {
     let mut stack = Vec::new();
     let mut top = root;
 
     loop {
         if let Some(node) = top {
-            f(&node.key);
+            f(node.get_key());
 
-            stack.push(&node.left);
+            stack.push(node.get_left_child());
 
-            top = &node.right;
+            top = node.get_right_child();
         } else if let Some(new_top) = stack.pop() {
             top = new_top;
         } else {
@@ -19,18 +20,18 @@ pub fn iterate_tree_1<T, F: FnMut(&T)>(root: &Option<Box<BinaryTreeNode<T>>>, mu
     }
 }
 
-pub fn iterate_tree_2<T, F: FnMut(&T)>(root: &Option<Box<BinaryTreeNode<T>>>, mut f: F) {
+pub fn iterate_tree_2<T, F: FnMut(&T)>(root: &Option<Rc<BinaryTreeNode<T>>>, mut f: F) {
     if let Some(root_node) = root {
         let mut stack = vec![root_node.as_ref()];
 
         while let Some(top) = stack.pop() {
-            f(&top.key);
+            f(top.get_key());
 
-            if let Some(left_node) = &top.left {
+            if let Some(left_node) = top.get_left_child() {
                 stack.push(left_node.as_ref());
             }
 
-            if let Some(right_node) = &top.right {
+            if let Some(right_node) = top.get_right_child() {
                 stack.push(right_node.as_ref());
             }
         }
