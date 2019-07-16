@@ -1,4 +1,4 @@
-use std::cell::{Ref, RefCell};
+use std::cell::RefCell;
 use std::rc::{Rc, Weak};
 
 pub mod exercises;
@@ -43,8 +43,8 @@ impl<T> BinaryTreeNode<T> {
         &self.key
     }
 
-    pub fn get_parent(&self) -> Ref<Option<Weak<BinaryTreeNode<T>>>> {
-        self.p.borrow()
+    pub fn get_parent(&self) -> Option<Rc<BinaryTreeNode<T>>> {
+        self.p.borrow().as_ref().map(|weak| weak.upgrade().unwrap())
     }
 
     pub fn get_left_child(&self) -> &Option<Rc<BinaryTreeNode<T>>> {
@@ -76,12 +76,12 @@ impl<T> UnboundedBranchingTreeNode<T> {
             right_sibling,
         });
 
-        if let Some(left_child) = &result.left_child {
-            *left_child.p.borrow_mut() = Some(Rc::downgrade(&result));
-        }
+        let mut child = &result.left_child;
 
-        if let Some(right_sibling) = &result.right_sibling {
-            *right_sibling.p.borrow_mut() = Some(Rc::downgrade(&result));
+        while let Some(child_ref) = child {
+            *child_ref.p.borrow_mut() = Some(Rc::downgrade(&result));
+
+            child = &child_ref.right_sibling;
         }
 
         result
@@ -100,8 +100,8 @@ impl<T> UnboundedBranchingTreeNode<T> {
         &self.key
     }
 
-    pub fn get_parent(&self) -> Ref<Option<Weak<UnboundedBranchingTreeNode<T>>>> {
-        self.p.borrow()
+    pub fn get_parent(&self) -> Option<Rc<UnboundedBranchingTreeNode<T>>> {
+        self.p.borrow().as_ref().map(|weak| weak.upgrade().unwrap())
     }
 
     pub fn get_left_child(&self) -> &Option<Rc<UnboundedBranchingTreeNode<T>>> {

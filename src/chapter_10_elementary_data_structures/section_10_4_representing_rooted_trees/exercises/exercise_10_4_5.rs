@@ -2,16 +2,41 @@ use super::super::UnboundedBranchingTreeNode;
 use std::rc::Rc;
 
 pub fn iterate_tree<T, F: FnMut(&T)>(root: &Option<Rc<UnboundedBranchingTreeNode<T>>>, mut f: F) {
-    fn helper<T, F: FnMut(&T)>(root: &Option<Rc<UnboundedBranchingTreeNode<T>>>, f: &mut F) {
-        if let Some(node) = root {
-            f(node.get_key());
+    if let Some(root_ref) = root {
+        let mut current_node = root_ref.clone();
 
-            helper(node.get_left_child(), f);
-            helper(node.get_right_sibling(), f);
+        loop {
+            f(current_node.get_key());
+
+            if let Some(left_child) = current_node.get_left_child() {
+                // Traverse first child.
+
+                current_node = left_child.clone();
+            } else if let Some(right_sibling) = current_node.get_right_sibling() {
+                // Traverse right sibling.
+
+                current_node = right_sibling.clone();
+            } else {
+                // Traverse parent’s right sibling.
+
+                loop {
+                    if let Some(parent) = current_node.get_parent() {
+                        if let Some(parent_right_sibling) = parent.get_right_sibling() {
+                            current_node = parent_right_sibling.clone();
+
+                            break;
+                        } else {
+                            // No parent’s right sibling, go to one level up.
+
+                            current_node = parent.clone();
+                        }
+                    } else {
+                        return;
+                    }
+                }
+            }
         }
     }
-
-    helper(root, &mut f);
 }
 
 #[cfg(test)]
