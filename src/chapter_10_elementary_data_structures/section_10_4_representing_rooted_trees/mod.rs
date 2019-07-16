@@ -11,7 +11,7 @@ pub struct BinaryTreeNode<T> {
 }
 
 impl<T> BinaryTreeNode<T> {
-    pub fn new_boxed(key: T, left: Option<Rc<BinaryTreeNode<T>>>, right: Option<Rc<BinaryTreeNode<T>>>) -> Rc<Self> {
+    pub fn new(key: T, left: Option<Rc<BinaryTreeNode<T>>>, right: Option<Rc<BinaryTreeNode<T>>>) -> Rc<Self> {
         let result = Rc::new(Self {
             key,
             p: RefCell::new(None),
@@ -30,7 +30,7 @@ impl<T> BinaryTreeNode<T> {
         result
     }
 
-    pub fn boxed_leaf(key: T) -> Rc<Self> {
+    pub fn new_leaf(key: T) -> Rc<Self> {
         Rc::new(Self {
             key,
             p: RefCell::new(None),
@@ -64,7 +64,7 @@ pub struct UnboundedBranchingTreeNode<T> {
 }
 
 impl<T> UnboundedBranchingTreeNode<T> {
-    pub fn new_boxed(
+    pub fn new(
         key: T,
         left_child: Option<Rc<UnboundedBranchingTreeNode<T>>>,
         right_sibling: Option<Rc<UnboundedBranchingTreeNode<T>>>,
@@ -87,7 +87,7 @@ impl<T> UnboundedBranchingTreeNode<T> {
         result
     }
 
-    pub fn boxed_leaf(key: T) -> Rc<Self> {
+    pub fn new_leaf(key: T) -> Rc<Self> {
         Rc::new(Self {
             key,
             p: RefCell::new(None),
