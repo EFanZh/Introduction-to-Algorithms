@@ -35,11 +35,11 @@ mod tests {
     }
 
     fn make_node<T>(key: T, left_child: MaybeNode<T>, right_sibling: MaybeNode<T>) -> MaybeNode<T> {
-        Some(UnboundedBranchingTreeNode::new_boxed(key, left_child, right_sibling))
+        Some(UnboundedBranchingTreeNode::new(key, left_child, right_sibling))
     }
 
     fn make_leaf_node<T>(key: T) -> MaybeNode<T> {
-        Some(UnboundedBranchingTreeNode::boxed_leaf(key))
+        Some(UnboundedBranchingTreeNode::new_leaf(key))
     }
 
     #[test]

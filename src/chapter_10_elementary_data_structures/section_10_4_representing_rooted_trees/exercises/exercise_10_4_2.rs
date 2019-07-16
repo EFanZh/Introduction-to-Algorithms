@@ -33,11 +33,11 @@ pub(crate) mod tests {
     }
 
     fn make_node<T>(key: T, left: MaybeNode<T>, right: MaybeNode<T>) -> MaybeNode<T> {
-        Some(BinaryTreeNode::new_boxed(key, left, right))
+        Some(BinaryTreeNode::new(key, left, right))
     }
 
     fn make_leaf_node<T>(key: T) -> MaybeNode<T> {
-        Some(BinaryTreeNode::boxed_leaf(key))
+        Some(BinaryTreeNode::new_leaf(key))
     }
 
     pub fn run_iterate_tree_tests<F: FnMut(&MaybeNode<i32>) -> HashSet<i32>>(mut f: F) {
