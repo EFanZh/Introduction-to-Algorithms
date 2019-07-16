@@ -1,12 +1,13 @@
 use super::super::UnboundedBranchingTreeNode;
+use std::rc::Rc;
 
-pub fn iterate_tree<T, F: FnMut(&T)>(root: &Option<Box<UnboundedBranchingTreeNode<T>>>, mut f: F) {
-    fn helper<T, F: FnMut(&T)>(root: &Option<Box<UnboundedBranchingTreeNode<T>>>, f: &mut F) {
+pub fn iterate_tree<T, F: FnMut(&T)>(root: &Option<Rc<UnboundedBranchingTreeNode<T>>>, mut f: F) {
+    fn helper<T, F: FnMut(&T)>(root: &Option<Rc<UnboundedBranchingTreeNode<T>>>, f: &mut F) {
         if let Some(node) = root {
-            f(&node.key);
+            f(node.get_key());
 
-            helper(&node.left_child, f);
-            helper(&node.right_sibling, f);
+            helper(node.get_left_child(), f);
+            helper(node.get_right_sibling(), f);
         }
     }
 
@@ -19,8 +20,9 @@ mod tests {
     use super::iterate_tree;
     use std::collections::HashSet;
     use std::iter;
+    use std::rc::Rc;
 
-    type MaybeNode<T> = Option<Box<UnboundedBranchingTreeNode<T>>>;
+    type MaybeNode<T> = Option<Rc<UnboundedBranchingTreeNode<T>>>;
 
     fn run_single_tests<I: IntoIterator<Item = i32>>(root: MaybeNode<i32>, result: I) {
         let mut collected_elements = HashSet::new();
