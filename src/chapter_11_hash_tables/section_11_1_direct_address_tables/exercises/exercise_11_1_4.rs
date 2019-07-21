@@ -1,5 +1,5 @@
 pub struct DirectAddressDictionary<T> {
-    // Invariant: For all `i` in `0..self.keys.len()`, self.memory[self.keys[i]].1 == i.
+    // Invariant: For all `i` in `0..self.keys.len()`, `self.memory[self.keys[i]].1 == i`.
     memory: Vec<(Option<T>, usize)>,
     keys: Vec<usize>,
 }
