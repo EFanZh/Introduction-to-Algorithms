@@ -1,1 +1,2 @@
 pub mod section_12_1_what_is_a_binary_search_tree;
+pub mod section_12_2_querying_a_binary_search_tree;
