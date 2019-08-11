@@ -3,15 +3,35 @@ use std::rc::{Rc, Weak};
 
 pub mod exercises;
 
+pub struct SimpleBinaryTreeNode<T> {
+    pub key: T,
+    pub left: Option<Box<Self>>,
+    pub right: Option<Box<Self>>,
+}
+
+impl<T> SimpleBinaryTreeNode<T> {
+    pub fn new(key: T, left: Option<Box<Self>>, right: Option<Box<Self>>) -> Box<Self> {
+        Box::new(Self { key, left, right })
+    }
+
+    pub fn new_leaf(key: T) -> Box<Self> {
+        Box::new(Self {
+            key,
+            left: None,
+            right: None,
+        })
+    }
+}
+
 pub struct BinaryTreeNode<T> {
     key: T,
-    p: RefCell<Option<Weak<BinaryTreeNode<T>>>>,
-    left: Option<Rc<BinaryTreeNode<T>>>,
-    right: Option<Rc<BinaryTreeNode<T>>>,
+    p: RefCell<Option<Weak<Self>>>,
+    left: Option<Rc<Self>>,
+    right: Option<Rc<Self>>,
 }
 
 impl<T> BinaryTreeNode<T> {
-    pub fn new(key: T, left: Option<Rc<BinaryTreeNode<T>>>, right: Option<Rc<BinaryTreeNode<T>>>) -> Rc<Self> {
+    pub fn new(key: T, left: Option<Rc<Self>>, right: Option<Rc<Self>>) -> Rc<Self> {
         let result = Rc::new(Self {
             key,
             p: RefCell::new(None),
@@ -43,32 +63,28 @@ impl<T> BinaryTreeNode<T> {
         &self.key
     }
 
-    pub fn get_parent(&self) -> Option<Rc<BinaryTreeNode<T>>> {
+    pub fn get_parent(&self) -> Option<Rc<Self>> {
         self.p.borrow().as_ref().map(|weak| weak.upgrade().unwrap())
     }
 
-    pub fn get_left_child(&self) -> &Option<Rc<BinaryTreeNode<T>>> {
+    pub fn get_left_child(&self) -> &Option<Rc<Self>> {
         &self.left
     }
 
-    pub fn get_right_child(&self) -> &Option<Rc<BinaryTreeNode<T>>> {
+    pub fn get_right_child(&self) -> &Option<Rc<Self>> {
         &self.right
     }
 }
 
 pub struct UnboundedBranchingTreeNode<T> {
     key: T,
-    p: RefCell<Option<Weak<UnboundedBranchingTreeNode<T>>>>,
-    left_child: Option<Rc<UnboundedBranchingTreeNode<T>>>,
-    right_sibling: Option<Rc<UnboundedBranchingTreeNode<T>>>,
+    p: RefCell<Option<Weak<Self>>>,
+    left_child: Option<Rc<Self>>,
+    right_sibling: Option<Rc<Self>>,
 }
 
 impl<T> UnboundedBranchingTreeNode<T> {
-    pub fn new(
-        key: T,
-        left_child: Option<Rc<UnboundedBranchingTreeNode<T>>>,
-        right_sibling: Option<Rc<UnboundedBranchingTreeNode<T>>>,
-    ) -> Rc<Self> {
+    pub fn new(key: T, left_child: Option<Rc<Self>>, right_sibling: Option<Rc<Self>>) -> Rc<Self> {
         let result = Rc::new(Self {
             key,
             p: RefCell::new(None),
@@ -100,15 +116,15 @@ impl<T> UnboundedBranchingTreeNode<T> {
         &self.key
     }
 
-    pub fn get_parent(&self) -> Option<Rc<UnboundedBranchingTreeNode<T>>> {
+    pub fn get_parent(&self) -> Option<Rc<Self>> {
         self.p.borrow().as_ref().map(|weak| weak.upgrade().unwrap())
     }
 
-    pub fn get_left_child(&self) -> &Option<Rc<UnboundedBranchingTreeNode<T>>> {
+    pub fn get_left_child(&self) -> &Option<Rc<Self>> {
         &self.left_child
     }
 
-    pub fn get_right_sibling(&self) -> &Option<Rc<UnboundedBranchingTreeNode<T>>> {
+    pub fn get_right_sibling(&self) -> &Option<Rc<Self>> {
         &self.right_sibling
     }
 }
