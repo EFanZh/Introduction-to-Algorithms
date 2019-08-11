@@ -15,7 +15,7 @@ pub struct DoublyLinkedListElement<T>(Rc<RefCell<DoublyLinkedListElementContent<
 
 impl<T> DoublyLinkedListElement<T> {
     pub fn new(value: T) -> Self {
-        DoublyLinkedListElement(Rc::new(RefCell::new(DoublyLinkedListElementContent {
+        Self(Rc::new(RefCell::new(DoublyLinkedListElementContent {
             key: value,
             next: None,
             prev: None,
