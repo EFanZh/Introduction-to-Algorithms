@@ -18,6 +18,7 @@ pub fn iterate_tree<T, F: FnMut(&T)>(root: &Option<Rc<UnboundedBranchingTreeNode
 mod tests {
     use super::super::super::UnboundedBranchingTreeNode;
     use super::iterate_tree;
+    use crate::make_unbounded_branching_tree;
     use std::collections::HashSet;
     use std::iter;
     use std::rc::Rc;
@@ -34,23 +35,15 @@ mod tests {
         assert_eq!(collected_elements, result.into_iter().collect());
     }
 
-    fn make_node<T>(key: T, left_child: MaybeNode<T>, right_sibling: MaybeNode<T>) -> MaybeNode<T> {
-        Some(UnboundedBranchingTreeNode::new(key, left_child, right_sibling))
-    }
-
-    fn make_leaf_node<T>(key: T) -> MaybeNode<T> {
-        Some(UnboundedBranchingTreeNode::new_leaf(key))
-    }
-
     #[test]
     fn test_iterate_tree() {
         run_single_tests(None, iter::empty());
-        run_single_tests(make_leaf_node(4), iter::once(4));
-        run_single_tests(make_node(4, make_leaf_node(5), None), vec![4, 5]);
-        run_single_tests(make_node(4, make_node(5, None, make_leaf_node(6)), None), vec![4, 5, 6]);
+        run_single_tests(make_unbounded_branching_tree![4], iter::once(4));
+        run_single_tests(make_unbounded_branching_tree![(4, 5, ())], vec![4, 5]);
+        run_single_tests(make_unbounded_branching_tree![(4, (5, (), 6), ())], vec![4, 5, 6]);
 
         run_single_tests(
-            make_node(4, make_node(5, None, make_node(6, make_leaf_node(7), None)), None),
+            make_unbounded_branching_tree![(4, (5, (), (6, 7, ())), ())],
             vec![4, 5, 6, 7],
         );
     }
