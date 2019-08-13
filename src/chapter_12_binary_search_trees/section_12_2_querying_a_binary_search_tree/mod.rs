@@ -173,14 +173,14 @@ mod tests {
 
     #[test]
     fn test_tree_minimum() {
-        assert_eq!(tree_minimum(&make_simple_tree![1].as_ref().unwrap()).key, 1);
-        assert_eq!(tree_minimum(&make_simple_tree![(5, 2, 8)].as_ref().unwrap()).key, 2);
+        assert_eq!(tree_minimum(&make_simple_tree![1].unwrap()).key, 1);
+        assert_eq!(tree_minimum(&make_simple_tree![(5, 2, 8)].unwrap()).key, 2);
     }
 
     #[test]
     fn test_tree_maximum() {
-        assert_eq!(tree_maximum(&make_simple_tree![1].as_ref().unwrap()).key, 1);
-        assert_eq!(tree_maximum(&make_simple_tree![(5, 2, 8)].as_ref().unwrap()).key, 8);
+        assert_eq!(tree_maximum(&make_simple_tree![1].unwrap()).key, 1);
+        assert_eq!(tree_maximum(&make_simple_tree![(5, 2, 8)].unwrap()).key, 8);
     }
 
     #[test]
