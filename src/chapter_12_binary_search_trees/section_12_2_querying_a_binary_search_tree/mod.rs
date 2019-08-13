@@ -4,6 +4,8 @@ use super::super::chapter_10_elementary_data_structures::section_10_4_representi
 use std::cmp::Ordering;
 use std::rc::Rc;
 
+pub mod exercises;
+
 // Tree-Search(x, k)
 //
 // 1  if x == nil or k == x.key
