@@ -1,5 +1,7 @@
 use super::super::chapter_10_elementary_data_structures::section_10_4_representing_rooted_trees::SimpleBinaryTreeNode;
 
+pub mod exercises;
+
 // Tree-Insert(T, z)
 //
 //  1  y = nil
@@ -98,16 +100,18 @@ mod tests {
     use super::tree_insert;
     use crate::make_simple_tree;
 
-    #[test]
-    fn test_tree_insert() {
-        fn insert<T: Ord>(
-            mut node: Option<Box<SimpleBinaryTreeNode<T>>>,
-            value: T,
-        ) -> Option<Box<SimpleBinaryTreeNode<T>>> {
-            tree_insert(&mut node, SimpleBinaryTreeNode::new_leaf(value));
+    pub fn run_tree_insert_tests<
+        F: FnMut(&mut Option<Box<SimpleBinaryTreeNode<i32>>>, Box<SimpleBinaryTreeNode<i32>>),
+    >(
+        mut f: F,
+    ) {
+        let mut insert = move |mut node: Option<Box<SimpleBinaryTreeNode<i32>>>,
+                               value: i32|
+              -> Option<Box<SimpleBinaryTreeNode<i32>>> {
+            f(&mut node, SimpleBinaryTreeNode::new_leaf(value));
 
             node
-        }
+        };
 
         assert_eq!(insert(make_simple_tree![()], 4), make_simple_tree![4]);
         assert_eq!(insert(make_simple_tree![3], 1), make_simple_tree![(3, 1, ())]);
@@ -124,5 +128,10 @@ mod tests {
         );
 
         assert_eq!(insert(make_simple_tree![(5, 3, ())], 6), make_simple_tree![(5, 3, 6)]);
+    }
+
+    #[test]
+    fn test_tree_insert() {
+        run_tree_insert_tests(tree_insert);
     }
 }
