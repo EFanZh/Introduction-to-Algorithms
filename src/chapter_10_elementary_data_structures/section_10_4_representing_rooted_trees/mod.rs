@@ -3,6 +3,7 @@ use std::rc::{Rc, Weak};
 
 pub mod exercises;
 
+#[derive(PartialEq, Eq, Debug)]
 pub struct SimpleBinaryTreeNode<T> {
     pub key: T,
     pub left: Option<Box<Self>>,
@@ -29,14 +30,14 @@ macro_rules! make_simple_tree {
         None
     };
     (($x:expr, $l:tt, $r:tt)) => {
-        Some(SimpleBinaryTreeNode::new(
+        Some($crate::chapter_10_elementary_data_structures::section_10_4_representing_rooted_trees::SimpleBinaryTreeNode::new(
             $x,
             make_simple_tree!($l),
             make_simple_tree!($r),
         ))
     };
     ($x:expr) => {
-        Some(SimpleBinaryTreeNode::new_leaf($x))
+        Some($crate::chapter_10_elementary_data_structures::section_10_4_representing_rooted_trees::SimpleBinaryTreeNode::new_leaf($x))
     };
 }
 
@@ -99,10 +100,10 @@ macro_rules! make_tree {
         None
     };
     (($x:expr, $l:tt, $r:tt)) => {
-        Some(BinaryTreeNode::new($x, make_tree!($l), make_tree!($r)))
+        Some($crate::chapter_10_elementary_data_structures::section_10_4_representing_rooted_trees::BinaryTreeNode::new($x, make_tree!($l), make_tree!($r)))
     };
     ($x:expr) => {
-        Some(BinaryTreeNode::new_leaf($x))
+        Some($crate::chapter_10_elementary_data_structures::section_10_4_representing_rooted_trees::BinaryTreeNode::new_leaf($x))
     };
 }
 
@@ -165,14 +166,14 @@ macro_rules! make_unbounded_branching_tree {
         None
     };
     (($x:expr, $l:tt, $r:tt)) => {
-        Some(UnboundedBranchingTreeNode::new(
+        Some($crate::chapter_10_elementary_data_structures::section_10_4_representing_rooted_trees::UnboundedBranchingTreeNode::new(
             $x,
             make_unbounded_branching_tree!($l),
             make_unbounded_branching_tree!($r),
         ))
     };
     ($x:expr) => {
-        Some(UnboundedBranchingTreeNode::new_leaf($x))
+        Some($crate::chapter_10_elementary_data_structures::section_10_4_representing_rooted_trees::UnboundedBranchingTreeNode::new_leaf($x))
     };
 }
 

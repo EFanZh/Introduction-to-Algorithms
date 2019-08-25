@@ -18,9 +18,8 @@ pub fn recursive_tree_maximum<T: Ord>(x: &SimpleBinaryTreeNode<T>) -> &SimpleBin
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::super::super::chapter_10_elementary_data_structures::section_10_4_representing_rooted_trees::SimpleBinaryTreeNode;
     use super::{recursive_tree_maximum, recursive_tree_minimum};
-    use crate::{make_simple_tree};
+    use crate::make_simple_tree;
 
     #[test]
     fn test_recursive_tree_minimum() {

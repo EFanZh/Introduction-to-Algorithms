@@ -34,7 +34,6 @@ pub fn tree_predecessor<T: Ord>(mut x: Rc<BinaryTreeNode<T>>) -> Option<Rc<Binar
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::super::super::chapter_10_elementary_data_structures::section_10_4_representing_rooted_trees::BinaryTreeNode;
     use super::tree_predecessor;
     use crate::make_tree;
 
