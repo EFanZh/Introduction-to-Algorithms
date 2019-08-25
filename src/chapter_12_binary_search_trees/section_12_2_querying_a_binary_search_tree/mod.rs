@@ -123,9 +123,6 @@ pub fn tree_successor<T: Ord>(mut x: Rc<BinaryTreeNode<T>>) -> Option<Rc<BinaryT
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::chapter_10_elementary_data_structures::section_10_4_representing_rooted_trees::{
-        BinaryTreeNode, SimpleBinaryTreeNode,
-    };
     use super::{iterative_tree_search, tree_maximum, tree_minimum, tree_search, tree_successor};
     use crate::{make_simple_tree, make_tree};
 
