@@ -1,4 +1,5 @@
 use super::super::chapter_10_elementary_data_structures::section_10_4_representing_rooted_trees::SimpleBinaryTreeNode;
+use std::mem;
 
 pub mod exercises;
 
@@ -38,24 +39,21 @@ pub fn lift_min<T>(mut root: Box<SimpleBinaryTreeNode<T>>) -> Box<SimpleBinaryTr
     } else {
         let mut node_ref = &mut root.left;
 
-        loop {
+        let min_right = loop {
             let node = node_ref.as_mut().unwrap();
-            let next_node_ref = &mut node.left;
 
-            if next_node_ref.is_none() {
-                // let min_right = node.right.take();
-                //
-                // let mut min = mem::replace(node_ref, min_right).unwrap();
-                //
-                // min.right = Some(root);
-                //
-                // return min;
-
-                unimplemented!();
+            if node.left.is_some() {
+                node_ref = &mut node_ref.as_mut().unwrap().left; // See https://github.com/rust-lang/rust/issues/63908.
             } else {
-                node_ref = next_node_ref;
+                break node.right.take();
             }
-        }
+        };
+
+        let mut min = mem::replace(node_ref, min_right).unwrap();
+
+        min.right = Some(root);
+
+        min
     }
 }
 
@@ -86,7 +84,7 @@ pub fn tree_delete<T>(z: &mut Option<Box<SimpleBinaryTreeNode<T>>>) {
 
         new_root.left = z_unwrapped.left.take();
 
-        *z = z_unwrapped.right.take();
+        *z = Some(new_root);
     } else {
         // The node being deleted doesn’t have right child.
 
@@ -97,7 +95,7 @@ pub fn tree_delete<T>(z: &mut Option<Box<SimpleBinaryTreeNode<T>>>) {
 #[cfg(test)]
 mod tests {
     use super::super::super::chapter_10_elementary_data_structures::section_10_4_representing_rooted_trees::SimpleBinaryTreeNode;
-    use super::tree_insert;
+    use super::{tree_delete, tree_insert};
     use crate::make_simple_tree;
 
     pub fn run_tree_insert_tests<
@@ -133,5 +131,40 @@ mod tests {
     #[test]
     fn test_tree_insert() {
         run_tree_insert_tests(tree_insert);
+    }
+
+    #[test]
+    fn test_tree_delete() {
+        fn delete(mut node: Option<Box<SimpleBinaryTreeNode<i32>>>) -> Option<Box<SimpleBinaryTreeNode<i32>>> {
+            tree_delete(&mut node);
+
+            node
+        }
+
+        // Only one node.
+
+        assert_eq!(delete(make_simple_tree![1]), make_simple_tree![()]);
+
+        // Right child is empty.
+
+        assert_eq!(delete(make_simple_tree![(2, 1, ())]), make_simple_tree![1]);
+
+        // Left child is empty.
+
+        assert_eq!(delete(make_simple_tree![(2, (), 3)]), make_simple_tree![3]);
+
+        // The minimum element in the right subtree is the right child.
+
+        assert_eq!(
+            delete(make_simple_tree![(2, 1, (3, (), 4))]),
+            make_simple_tree![(3, 1, 4)]
+        );
+
+        // The minimum element in the right subtree is not the right child.
+
+        assert_eq!(
+            delete(make_simple_tree![(2, 1, (5, (3, (), 4), ()))]),
+            make_simple_tree![(3, 1, (5, 4, ()))]
+        );
     }
 }
