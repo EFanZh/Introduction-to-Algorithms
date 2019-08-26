@@ -1,3 +1,3 @@
-pub mod problem_8_2;
-pub mod problem_8_3;
-pub mod problem_8_4;
+pub mod problem_8_2_sorting_in_place_in_linear_time;
+pub mod problem_8_3_sorting_variable_length_items;
+pub mod problem_8_4_water_jugs;

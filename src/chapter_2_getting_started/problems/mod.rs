@@ -1,3 +1,3 @@
-pub mod problem_2_2;
-pub mod problem_2_3;
-pub mod problem_2_4;
+pub mod problem_2_2_correctness_of_bubblesort;
+pub mod problem_2_3_correctness_of_horners_rule;
+pub mod problem_2_4_inversions;
