@@ -9,6 +9,12 @@ strategy:
 pool:
     vmImage: $(imageName)
 steps:
+  - script: |
+        curl -f https://sh.rustup.rs | bash -s -- -y
+        echo "##vso[task.prependpath]$HOME/.cargo/bin"
+        rustup component add clippy
+    displayName: Install Rust
+    condition: eq(variables['Agent.OS'], 'Darwin')
   - script: cargo clippy --all-targets --all-features --verbose -- -D warnings
     displayName: Run Clippy checks
   - script: cargo test --verbose
