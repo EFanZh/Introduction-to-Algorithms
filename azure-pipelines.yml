@@ -15,6 +15,9 @@ steps:
         rustup component add clippy
     displayName: Install Rust
     condition: eq(variables['Agent.OS'], 'Darwin')
+  - script: rustup component add clippy
+    displayName: Install Clippy
+    condition: eq(variables['Agent.OS'], 'Darwin')
   - script: cargo clippy --all-targets --all-features --verbose -- -D warnings
     displayName: Run Clippy checks
   - script: cargo test --verbose
