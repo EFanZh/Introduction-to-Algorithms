@@ -12,7 +12,6 @@ steps:
   - script: |
         curl -f https://sh.rustup.rs | bash -s -- -y
         echo "##vso[task.prependpath]$HOME/.cargo/bin"
-        rustup component add clippy
     displayName: Install Rust
     condition: eq(variables['Agent.OS'], 'Darwin')
   - script: rustup component add clippy
