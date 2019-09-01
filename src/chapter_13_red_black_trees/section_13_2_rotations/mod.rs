@@ -1,5 +1,7 @@
 use super::section_13_1_properties_of_red_black_trees::RedBlackTreeNode;
 
+pub mod exercises;
+
 // Left-Rotate(T, x)
 //
 //  1  y = x.right           // set y
