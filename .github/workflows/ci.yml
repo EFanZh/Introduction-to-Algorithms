@@ -1,0 +1,20 @@
+name: CI
+on: push
+jobs:
+    ci:
+        runs-on: ${{ matrix.os }}
+        steps:
+          - uses: hecrj/setup-rust-action@v1.0.2
+          - uses: actions/checkout@v1
+          - name: Run Rustfmt checks
+            run: cargo fmt -- --check
+          - name: Run Clippy checks
+            run: cargo clippy --all-targets --all-features -- -D warnings
+          - name: Run tests
+            run: cargo test
+        strategy:
+            matrix:
+                os:
+                  - macOS-latest
+                  - ubuntu-latest
+                  - windows-latest
