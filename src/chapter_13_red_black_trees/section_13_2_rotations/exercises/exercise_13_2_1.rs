@@ -42,6 +42,7 @@ pub fn right_rotate<T>(y: &mut Option<Rc<RefCell<RedBlackTreeNode<T>>>>) {
 
 #[cfg(test)]
 mod tests {
+    use super::super::super::super::section_13_1_properties_of_red_black_trees::tests::check_valid_tree;
     use super::super::super::super::section_13_1_properties_of_red_black_trees::{Color, RedBlackTreeNode};
     use super::right_rotate;
     use std::cell::RefCell;
@@ -62,6 +63,8 @@ mod tests {
         );
 
         right_rotate(&mut tree);
+
+        check_valid_tree(&tree);
 
         assert_eq!(
             tree,
