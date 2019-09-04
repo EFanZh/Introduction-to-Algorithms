@@ -5,6 +5,10 @@ jobs:
         runs-on: ${{ matrix.os }}
         steps:
           - uses: hecrj/setup-rust-action@v1.0.2
+          - name: Install Clippy
+            run: rustup component add clippy
+          - name: Install Rustfmt
+            run: rustup component add rustfmt
           - uses: actions/checkout@v1
           - name: Run Rustfmt checks
             run: cargo fmt -- --check
@@ -18,3 +22,4 @@ jobs:
                   - macOS-latest
                   - ubuntu-latest
                   - windows-latest
+            fail-fast: false
