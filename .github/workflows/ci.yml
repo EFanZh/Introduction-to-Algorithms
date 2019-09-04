@@ -1,19 +1,42 @@
-name: CI
 on: push
 jobs:
-    ci:
+    rustfmt:
         runs-on: ${{ matrix.os }}
         steps:
           - uses: hecrj/setup-rust-action@v1.0.2
-          - name: Install Clippy
-            run: rustup component add clippy
           - name: Install Rustfmt
             run: rustup component add rustfmt
           - uses: actions/checkout@v1
           - name: Run Rustfmt checks
             run: cargo fmt -- --check
+        strategy:
+            matrix:
+                os:
+                  - macOS-latest
+                  - ubuntu-latest
+                  - windows-latest
+            fail-fast: false
+    clippy:
+        runs-on: ${{ matrix.os }}
+        steps:
+          - uses: hecrj/setup-rust-action@v1.0.2
+          - name: Install Clippy
+            run: rustup component add clippy
+          - uses: actions/checkout@v1
           - name: Run Clippy checks
             run: cargo clippy --all-targets --all-features -- -D warnings
+        strategy:
+            matrix:
+                os:
+                  - macOS-latest
+                  - ubuntu-latest
+                  - windows-latest
+            fail-fast: false
+    test:
+        runs-on: ${{ matrix.os }}
+        steps:
+          - uses: hecrj/setup-rust-action@v1.0.2
+          - uses: actions/checkout@v1
           - name: Run tests
             run: cargo test
         strategy:
