@@ -1,11 +1,12 @@
+name: CI
 on: push
 jobs:
     rustfmt:
         runs-on: ${{ matrix.os }}
         steps:
-          - uses: hecrj/setup-rust-action@v1.0.2
-          - name: Install Rustfmt
-            run: rustup component add rustfmt
+          - uses: hecrj/setup-rust-action@v1.1.0
+            with:
+              - components: rustfmt
           - uses: actions/checkout@v1
           - name: Run Rustfmt checks
             run: cargo fmt -- --check
@@ -19,9 +20,9 @@ jobs:
     clippy:
         runs-on: ${{ matrix.os }}
         steps:
-          - uses: hecrj/setup-rust-action@v1.0.2
-          - name: Install Clippy
-            run: rustup component add clippy
+          - uses: hecrj/setup-rust-action@v1.1.0
+            with:
+              - components: clippy
           - uses: actions/checkout@v1
           - name: Run Clippy checks
             run: cargo clippy --all-targets --all-features -- -D warnings
@@ -35,7 +36,7 @@ jobs:
     test:
         runs-on: ${{ matrix.os }}
         steps:
-          - uses: hecrj/setup-rust-action@v1.0.2
+          - uses: hecrj/setup-rust-action@v1.1.0
           - uses: actions/checkout@v1
           - name: Run tests
             run: cargo test
