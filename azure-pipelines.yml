@@ -14,12 +14,12 @@ steps:
         echo "##vso[task.prependpath]$HOME/.cargo/bin"
     displayName: Install Rust
     condition: eq(variables['Agent.OS'], 'Darwin')
+  - script: rustup update
+    displayName: Update Rustup
   - script: rustup component add clippy
     displayName: Install Clippy
-    condition: eq(variables['Agent.OS'], 'Darwin')
   - script: rustup component add rustfmt
     displayName: Install Rustfmt
-    condition: eq(variables['Agent.OS'], 'Darwin')
   - script: cargo fmt -- --check
     displayName: Run Rustfmt checks
   - script: cargo clippy --all-targets --all-features -- -D warnings
