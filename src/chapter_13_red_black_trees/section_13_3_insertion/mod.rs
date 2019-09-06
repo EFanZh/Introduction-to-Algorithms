@@ -40,6 +40,10 @@ fn rotate_2<T, F: FnOnce(&mut Option<Rc<RefCell<RedBlackTreeNode<T>>>>)>(
     }
 }
 
+fn left_rotate_2<T>(root: &mut Option<Rc<RefCell<RedBlackTreeNode<T>>>>, node: &Rc<RefCell<RedBlackTreeNode<T>>>) {
+    rotate_2(root, node, left_rotate);
+}
+
 fn right_rotate_2<T>(root: &mut Option<Rc<RefCell<RedBlackTreeNode<T>>>>, node: &Rc<RefCell<RedBlackTreeNode<T>>>) {
     rotate_2(root, node, right_rotate);
 }
@@ -116,7 +120,45 @@ pub fn rb_insert_fixup<T>(t: &mut Option<Rc<RefCell<RedBlackTreeNode<T>>>>, mut 
 
                     right_rotate_2(t, &z_p_p);
                 } else {
-                    unimplemented!();
+                    if let Some(y) = z_p_p_ref.left.clone() {
+                        let mut y_ref = y.borrow_mut();
+
+                        if y_ref.color == Color::Red {
+                            // y.color == red.
+
+                            z_p_ref.color = Color::Black;
+                            y_ref.color = Color::Black;
+                            z_p_p_ref.color = Color::Red;
+
+                            drop((z_ref, z_p_p_ref));
+
+                            z = z_p_p;
+
+                            continue;
+                        }
+                    }
+
+                    // y.color == black.
+
+                    z_p_p_ref.color = Color::Red;
+
+                    if is_left_child(&z, &z_p_ref) {
+                        z_ref.color = Color::Black;
+
+                        drop((z_ref, z_p_ref));
+
+                        right_rotate(&mut z_p_p_ref.right);
+                    } else {
+                        z_p_ref.color = Color::Black;
+
+                        drop(z_p_ref);
+                    }
+
+                    // Left rotate z.p.p;
+
+                    drop(z_p_p_ref);
+
+                    left_rotate_2(t, &z_p_p);
                 }
             } else {
                 // z.p is a black node.
@@ -183,81 +225,135 @@ mod tests {
         Some(RedBlackTreeNode::new_leaf(Color::Black, key))
     }
 
+    fn run_rb_insert_fixup_test(mut tree: Tree<i32>, z: Rc<RefCell<RedBlackTreeNode<i32>>>, expected: Tree<i32>) {
+        rb_insert_fixup(&mut tree, z.clone());
+
+        check_valid_red_black_tree(&tree);
+
+        assert_eq!(&tree, &expected);
+    }
+
     #[test]
     fn test_rb_insert_fixup_root() {
         let z = RedBlackTreeNode::new_leaf(Color::Red, 4);
-        let mut tree = Some(z.clone());
+        let tree = Some(z.clone());
 
-        rb_insert_fixup(&mut tree, z);
-
-        check_valid_red_black_tree(&tree);
-
-        assert_eq!(tree, black_leaf(4));
+        run_rb_insert_fixup_test(tree, z, black_leaf(4));
     }
 
     #[test]
-    fn test_rb_insert_fixup_case_1() {
+    fn test_rb_insert_fixup_case_1_left_side() {
         let z = RedBlackTreeNode::new_leaf(Color::Red, 4);
-        let mut tree = black(7, red(5, Some(z.clone()), None), red_leaf(8));
 
-        rb_insert_fixup(&mut tree, z);
-
-        check_valid_red_black_tree(&tree);
-
-        assert_eq!(tree, black(7, black(5, red_leaf(4), None), black_leaf(8)));
+        run_rb_insert_fixup_test(
+            black(7, red(5, Some(z.clone()), None), red_leaf(8)),
+            z,
+            black(7, black(5, red_leaf(4), None), black_leaf(8)),
+        );
     }
 
     #[test]
-    fn test_rb_insert_fixup_case_2_and_3() {
+    fn test_rb_insert_fixup_case_1_right_side() {
+        let z = RedBlackTreeNode::new_leaf(Color::Red, 8);
+
+        run_rb_insert_fixup_test(
+            black(5, red_leaf(4), red(7, None, Some(z.clone()))),
+            z,
+            black(5, black_leaf(4), black(7, None, red_leaf(8))),
+        );
+    }
+
+    #[test]
+    fn test_rb_insert_fixup_case_2_and_3_left_side() {
         let z = RedBlackTreeNode::new(Color::Red, 7, black_leaf(5), black_leaf(8));
-        let mut tree = black(11, red(2, black_leaf(1), Some(z.clone())), black_leaf(14));
 
-        rb_insert_fixup(&mut tree, z);
-
-        check_valid_red_black_tree(&tree);
-
-        assert_eq!(
-            tree,
+        run_rb_insert_fixup_test(
+            black(11, red(2, black_leaf(1), Some(z.clone())), black_leaf(14)),
+            z,
             black(
                 7,
                 red(2, black_leaf(1), black_leaf(5)),
-                red(11, black_leaf(8), black_leaf(14))
-            )
-        );
+                red(11, black_leaf(8), black_leaf(14)),
+            ),
+        )
     }
 
     #[test]
-    fn test_rb_insert_fixup_case_3() {
+    fn test_rb_insert_fixup_case_2_and_3_right_side() {
+        let z = RedBlackTreeNode::new(Color::Red, 9, black_leaf(8), black_leaf(11));
+
+        run_rb_insert_fixup_test(
+            black(5, black_leaf(2), red(14, Some(z.clone()), black_leaf(15))),
+            z,
+            black(
+                9,
+                red(5, black_leaf(2), black_leaf(8)),
+                red(14, black_leaf(11), black_leaf(15)),
+            ),
+        )
+    }
+
+    #[test]
+    fn test_rb_insert_fixup_case_3_left_side() {
         let z = RedBlackTreeNode::new_leaf(Color::Red, 0);
-        let mut tree = black(3, black(2, red(1, Some(z.clone()), None), None), black_leaf(4));
 
-        rb_insert_fixup(&mut tree, z);
-
-        check_valid_red_black_tree(&tree);
-
-        assert_eq!(tree, black(3, black(1, red_leaf(0), red_leaf(2)), black_leaf(4)));
+        run_rb_insert_fixup_test(
+            black(3, black(2, red(1, Some(z.clone()), None), None), black_leaf(4)),
+            z,
+            black(3, black(1, red_leaf(0), red_leaf(2)), black_leaf(4)),
+        )
     }
 
     #[test]
-    fn test_rb_insert_fixup_full() {
+    fn test_rb_insert_fixup_case_3_right_side() {
         let z = RedBlackTreeNode::new_leaf(Color::Red, 4);
-        let mut tree = black(
-            11,
-            red(2, black_leaf(1), black(7, red(5, Some(z.clone()), None), red_leaf(8))),
-            black(14, None, red_leaf(15)),
-        );
 
-        rb_insert_fixup(&mut tree, z);
+        run_rb_insert_fixup_test(
+            black(1, black_leaf(0), black(2, None, red(3, None, Some(z.clone())))),
+            z,
+            black(1, black_leaf(0), black(3, red_leaf(2), red_leaf(4))),
+        )
+    }
 
-        check_valid_red_black_tree(&tree);
+    #[test]
+    fn test_rb_insert_fixup_full_left_side() {
+        let z = RedBlackTreeNode::new_leaf(Color::Red, 4);
 
-        assert_eq!(
-            tree,
+        run_rb_insert_fixup_test(
+            black(
+                11,
+                red(2, black_leaf(1), black(7, red(5, Some(z.clone()), None), red_leaf(8))),
+                black(14, None, red_leaf(15)),
+            ),
+            z,
             black(
                 7,
                 red(2, black_leaf(1), black(5, red_leaf(4), None)),
-                red(11, black_leaf(8), black(14, None, red_leaf(15)))
-            )
-        );
+                red(11, black_leaf(8), black(14, None, red_leaf(15))),
+            ),
+        )
+    }
+
+    #[test]
+    fn test_rb_insert_fixup_full_right_side() {
+        let z = RedBlackTreeNode::new_leaf(Color::Red, 12);
+
+        run_rb_insert_fixup_test(
+            black(
+                5,
+                black(2, red_leaf(1), None),
+                red(
+                    14,
+                    black(9, red_leaf(8), red(11, None, Some(z.clone()))),
+                    black_leaf(15),
+                ),
+            ),
+            z,
+            black(
+                9,
+                red(5, black(2, red_leaf(1), None), black_leaf(8)),
+                red(14, black(11, None, red_leaf(12)), black_leaf(15)),
+            ),
+        )
     }
 }

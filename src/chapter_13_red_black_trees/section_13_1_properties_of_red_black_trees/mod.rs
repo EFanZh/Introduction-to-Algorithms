@@ -1,7 +1,7 @@
 use std::cell::RefCell;
 use std::rc::{Rc, Weak};
 
-#[derive(PartialEq, Eq, Debug)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum Color {
     Red,
     Black,
