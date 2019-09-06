@@ -72,6 +72,31 @@ pub(crate) mod tests {
     use std::cell::RefCell;
     use std::rc::Rc;
 
+    pub fn check_valid_tree<T>(tree: &Option<Rc<RefCell<RedBlackTreeNode<T>>>>) {
+        fn check_parents<T>(
+            node: &Option<Rc<RefCell<RedBlackTreeNode<T>>>>,
+            parent: &Rc<RefCell<RedBlackTreeNode<T>>>,
+        ) {
+            if let Some(node_rc) = node {
+                let node_ref = node_rc.borrow();
+
+                assert!(Rc::ptr_eq(&node_ref.p.upgrade().unwrap(), parent));
+
+                check_parents(&node_ref.left, node_rc);
+                check_parents(&node_ref.right, node_rc);
+            }
+        }
+
+        if let Some(node_rc) = tree {
+            let node_ref = node_rc.borrow();
+
+            assert!(node_ref.p.upgrade().is_none());
+
+            check_parents(&node_ref.left, node_rc);
+            check_parents(&node_ref.right, node_rc);
+        }
+    }
+
     fn check_black_children<T: Ord>(node: &RedBlackTreeNode<T>) -> usize {
         let left_black_height = check_node(&node.left);
         let right_black_height = check_node(&node.right);
@@ -123,31 +148,6 @@ pub(crate) mod tests {
             assert_eq!(node_ref.color, Color::Black);
 
             check_black_children(&node_ref);
-        }
-    }
-
-    pub fn check_valid_tree<T>(tree: &Option<Rc<RefCell<RedBlackTreeNode<T>>>>) {
-        fn check_parents<T>(
-            node: &Option<Rc<RefCell<RedBlackTreeNode<T>>>>,
-            parent: &Rc<RefCell<RedBlackTreeNode<T>>>,
-        ) {
-            if let Some(node_rc) = node {
-                let node_ref = node_rc.borrow();
-
-                assert!(Rc::ptr_eq(&node_ref.p.upgrade().unwrap(), parent));
-
-                check_parents(&node_ref.left, node_rc);
-                check_parents(&node_ref.right, node_rc);
-            }
-        }
-
-        if let Some(node_rc) = tree {
-            let node_ref = node_rc.borrow();
-
-            assert!(node_ref.p.upgrade().is_none());
-
-            check_parents(&node_ref.left, node_rc);
-            check_parents(&node_ref.right, node_rc);
         }
     }
 }

@@ -20,6 +20,30 @@ fn is_right_child<T>(node: &Rc<RefCell<RedBlackTreeNode<T>>>, maybe_parent: &Red
     }
 }
 
+fn rotate_2<T, F: FnOnce(&mut Option<Rc<RefCell<RedBlackTreeNode<T>>>>)>(
+    root: &mut Option<Rc<RefCell<RedBlackTreeNode<T>>>>,
+    node: &Rc<RefCell<RedBlackTreeNode<T>>>,
+    f: F,
+) {
+    let maybe_parent = node.borrow().p.upgrade();
+
+    if let Some(parent) = maybe_parent {
+        let mut parent_ref = parent.borrow_mut();
+
+        f(if is_left_child(node, &parent_ref) {
+            &mut parent_ref.left
+        } else {
+            &mut parent_ref.right
+        });
+    } else {
+        f(root);
+    }
+}
+
+fn right_rotate_2<T>(root: &mut Option<Rc<RefCell<RedBlackTreeNode<T>>>>, node: &Rc<RefCell<RedBlackTreeNode<T>>>) {
+    rotate_2(root, node, right_rotate);
+}
+
 // RB-Insert-Fixup(T, z)
 //
 //  1  while z.p.color == red
@@ -62,8 +86,7 @@ pub fn rb_insert_fixup<T>(t: &mut Option<Rc<RefCell<RedBlackTreeNode<T>>>>, mut 
                             y_ref.color = Color::Black;
                             z_p_p_ref.color = Color::Red;
 
-                            drop(z_ref);
-                            drop(z_p_p_ref);
+                            drop((z_ref, z_p_p_ref));
 
                             z = z_p_p;
 
@@ -78,29 +101,20 @@ pub fn rb_insert_fixup<T>(t: &mut Option<Rc<RefCell<RedBlackTreeNode<T>>>>, mut 
                     if is_right_child(&z, &z_p_ref) {
                         z_ref.color = Color::Black;
 
-                        drop(z_ref);
-                        drop(z_p_ref);
+                        drop((z_ref, z_p_ref));
 
                         left_rotate(&mut z_p_p_ref.left);
                     } else {
                         z_p_ref.color = Color::Black;
+
+                        drop(z_p_ref);
                     }
 
                     // Right rotate z.p.p;
 
-                    if let Some(z_p_p_p) = z_p_p_ref.p.upgrade() {
-                        let mut z_p_p_p_ref = z_p_p_p.borrow_mut();
+                    drop(z_p_p_ref);
 
-                        if is_left_child(&z_p_p, &z_p_p_p_ref) {
-                            right_rotate(&mut z_p_p_p_ref.left);
-                        } else {
-                            right_rotate(&mut z_p_p_p_ref.right);
-                        }
-                    } else {
-                        drop(z_p_p_ref);
-
-                        right_rotate(t);
-                    }
+                    right_rotate_2(t, &z_p_p);
                 } else {
                     unimplemented!();
                 }
@@ -210,6 +224,18 @@ mod tests {
                 red(11, black_leaf(8), black_leaf(14))
             )
         );
+    }
+
+    #[test]
+    fn test_rb_insert_fixup_case_3() {
+        let z = RedBlackTreeNode::new_leaf(Color::Red, 0);
+        let mut tree = black(3, black(2, red(1, Some(z.clone()), None), None), black_leaf(4));
+
+        rb_insert_fixup(&mut tree, z);
+
+        check_valid_red_black_tree(&tree);
+
+        assert_eq!(tree, black(3, black(1, red_leaf(0), red_leaf(2)), black_leaf(4)));
     }
 
     #[test]
