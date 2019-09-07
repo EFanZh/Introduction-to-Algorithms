@@ -58,6 +58,7 @@ jobs:
       - script: cargo tarpaulin --out Xml
         displayName: Run coverage tests
       - task: PublishCodeCoverageResults@1
+        displayName: Publish coverage result
         inputs:
             codeCoverageTool: Cobertura
             summaryFileLocation: cobertura.xml
