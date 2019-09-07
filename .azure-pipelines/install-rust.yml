@@ -1,0 +1,8 @@
+steps:
+  - script: |
+        curl -f https://sh.rustup.rs | bash -s -- -y
+        echo "##vso[task.prependpath]$HOME/.cargo/bin"
+    displayName: Install Rust
+    condition: eq(variables['Agent.OS'], 'Darwin')
+  - script: rustup update
+    displayName: Update Rust
