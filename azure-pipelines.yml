@@ -57,11 +57,14 @@ jobs:
             set -e
             set -o pipefail
             KCOV_VERSION=36
+            sudo apt-get install --no-install-recommends -y binutils-dev libcurl4-gnutls-dev libdw-dev libiberty-dev
             curl -L "https://github.com/SimonKagstrom/kcov/archive/v$KCOV_VERSION.tar.gz" | tar xz
-            mkdir kcov-build
-            cd kcov-build
-            cmake -DCMAKE_BUILD_TYPE=Release "../kcov-$KCOV_VERSION"
-            make -j install
+            cd "kcov-$KCOV_VERSION"
+            mkdir build
+            cd build
+            cmake -DCMAKE_BUILD_TYPE=Release ".."
+            make -j
+            sudo make -j install
         displayName: Install Kcov
       - script: cargo install cargo-kcov
         displayName: Install cargo-kcov
