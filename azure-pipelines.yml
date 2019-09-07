@@ -62,13 +62,13 @@ jobs:
             cd "kcov-$KCOV_VERSION"
             mkdir build
             cd build
-            cmake -DCMAKE_BUILD_TYPE=Release ".."
+            cmake -DCMAKE_BUILD_TYPE=Release ..
             make -j
             sudo make -j install
         displayName: Install Kcov
       - script: cargo install cargo-kcov
         displayName: Install cargo-kcov
-      - script: cargo kcov
+      - script: cargo generate-lockfile && cargo kcov
         displayName: Run coverage tests
       - task: PublishCodeCoverageResults@1
         displayName: Publish coverage result
