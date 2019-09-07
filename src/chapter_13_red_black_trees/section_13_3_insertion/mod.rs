@@ -2,7 +2,7 @@ use super::section_13_1_properties_of_red_black_trees::{Color, RedBlackTreeNode}
 use super::section_13_2_rotations::exercises::exercise_13_2_1::right_rotate;
 use super::section_13_2_rotations::left_rotate;
 use std::cell::RefCell;
-use std::rc::Rc;
+use std::rc::{Rc, Weak};
 
 fn is_left_child<T>(node: &Rc<RefCell<RedBlackTreeNode<T>>>, maybe_parent: &RedBlackTreeNode<T>) -> bool {
     if let Some(left) = maybe_parent.left.as_ref() {
@@ -199,11 +199,53 @@ pub fn rb_insert_fixup<T>(t: &mut Option<Rc<RefCell<RedBlackTreeNode<T>>>>, mut 
 // 16  z.color = red
 // 17  RB-Insert-Fixup(T, z)
 
+pub fn rb_insert<T: Ord>(t: &mut Option<Rc<RefCell<RedBlackTreeNode<T>>>>, z: Rc<RefCell<RedBlackTreeNode<T>>>) {
+    let mut z_ref = z.borrow_mut();
+
+    if let Some(mut x_rc) = t.clone() {
+        loop {
+            x_rc = {
+                let mut x_ref = x_rc.borrow_mut();
+
+                if z_ref.key < x_ref.key {
+                    if let Some(left) = &x_ref.left {
+                        left.clone()
+                    } else {
+                        x_ref.left = Some(z.clone());
+
+                        break;
+                    }
+                } else if let Some(right) = &x_ref.right {
+                    right.clone()
+                } else {
+                    x_ref.right = Some(z.clone());
+
+                    break;
+                }
+            };
+        }
+
+        z_ref.p = Rc::downgrade(&x_rc);
+    } else {
+        *t = Some(z.clone());
+
+        z_ref.p = Weak::new();
+    }
+
+    z_ref.left = None;
+    z_ref.right = None;
+    z_ref.color = Color::Red;
+
+    drop(z_ref);
+
+    rb_insert_fixup(t, z);
+}
+
 #[cfg(test)]
 mod tests {
     use super::super::section_13_1_properties_of_red_black_trees::tests::check_valid_red_black_tree;
     use super::super::section_13_1_properties_of_red_black_trees::{Color, RedBlackTreeNode};
-    use super::rb_insert_fixup;
+    use super::{rb_insert, rb_insert_fixup};
     use std::cell::RefCell;
     use std::rc::Rc;
 
@@ -355,5 +397,48 @@ mod tests {
                 red(14, black(11, None, red_leaf(12)), black_leaf(15)),
             ),
         )
+    }
+
+    #[test]
+    fn test_rb_insert() {
+        let mut tree = None;
+
+        rb_insert(&mut tree, RedBlackTreeNode::new_leaf(Color::Red, 4));
+
+        assert_eq!(&tree, &black_leaf(4));
+
+        rb_insert(&mut tree, RedBlackTreeNode::new_leaf(Color::Red, 2));
+
+        assert_eq!(&tree, &black(4, red_leaf(2), None));
+
+        rb_insert(&mut tree, RedBlackTreeNode::new_leaf(Color::Red, 6));
+
+        assert_eq!(&tree, &black(4, red_leaf(2), red_leaf(6)));
+
+        rb_insert(&mut tree, RedBlackTreeNode::new_leaf(Color::Red, 1));
+
+        assert_eq!(&tree, &black(4, black(2, red_leaf(1), None), black_leaf(6)));
+
+        rb_insert(&mut tree, RedBlackTreeNode::new_leaf(Color::Red, 3));
+
+        assert_eq!(&tree, &black(4, black(2, red_leaf(1), red_leaf(3)), black_leaf(6)));
+
+        rb_insert(&mut tree, RedBlackTreeNode::new_leaf(Color::Red, 5));
+
+        assert_eq!(
+            &tree,
+            &black(4, black(2, red_leaf(1), red_leaf(3)), black(6, red_leaf(5), None))
+        );
+
+        rb_insert(&mut tree, RedBlackTreeNode::new_leaf(Color::Red, 7));
+
+        assert_eq!(
+            &tree,
+            &black(
+                4,
+                black(2, red_leaf(1), red_leaf(3)),
+                black(6, red_leaf(5), red_leaf(7))
+            )
+        );
     }
 }
