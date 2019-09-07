@@ -1,5 +1,5 @@
 jobs:
-  - job: rustfmt
+  - job: Rustfmt
     strategy:
         matrix:
             Linux:
@@ -16,7 +16,7 @@ jobs:
         displayName: Install Rustfmt
       - script: cargo fmt -- --check
         displayName: Run Rustfmt checks
-  - job: clippy
+  - job: Clippy
     strategy:
         matrix:
             Linux:
@@ -33,7 +33,7 @@ jobs:
         displayName: Install Clippy
       - script: cargo clippy --all-targets --all-features -- -D warnings
         displayName: Run Clippy checks
-  - job: tests
+  - job: Tests
     strategy:
         matrix:
             Linux:
@@ -48,7 +48,7 @@ jobs:
       - template: .azure-pipelines/install-rust.yml
       - script: cargo test
         displayName: Run tests
-  - job: coverage
+  - job: Coverage
     pool:
         vmImage: ubuntu-latest
     steps:
