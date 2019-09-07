@@ -68,7 +68,29 @@ jobs:
         displayName: Install Kcov
       - script: cargo install cargo-kcov
         displayName: Install cargo-kcov
-      - script: cargo generate-lockfile && cargo kcov && pwd && printenv && head -n 100 target/cov/kcov-merged/cobertura.xml
+      - script: |
+            set -e
+            set -o pipefail
+            echo "#!/usr/bin/env python3
+
+            import shlex
+            import sys
+            import subprocess
+
+
+            def main():
+                command = ['/usr/local/bin/kcov', *sys.argv[1:]]
+
+                print('===> ' + ' '.join(map(shlex.quote, command)), file=sys.stderr, flush=True)
+
+                exit(subprocess.run(command).returncode)
+
+
+            if __name__ == '__main__':
+                main()" > ~/.cargo/bin/kcov
+            chmod +x ~/.cargo/bin/kcov
+            cargo generate-lockfile
+            cargo kcov
         displayName: Run coverage tests
       - task: PublishCodeCoverageResults@1
         displayName: Publish coverage result
