@@ -75,3 +75,4 @@ jobs:
         inputs:
             codeCoverageTool: Cobertura
             summaryFileLocation: target/cov/kcov-merged/cobertura.xml
+            pathToSources: src
