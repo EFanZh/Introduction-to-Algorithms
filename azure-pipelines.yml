@@ -53,12 +53,22 @@ jobs:
         vmImage: ubuntu-latest
     steps:
       - template: .azure-pipelines/install-rust.yml
-      - script: cargo install cargo-tarpaulin
-        displayName: Install Tarpaulin
-      - script: cargo tarpaulin --out Xml
+      - script: |
+            set -e
+            set -o pipefail
+            KCOV_VERSION=36
+            curl -L "https://github.com/SimonKagstrom/kcov/archive/v$KCOV_VERSION.tar.gz" | tar xz
+            mkdir kcov-build
+            cd kcov-build
+            cmake -DCMAKE_BUILD_TYPE=Release "../kcov-$KCOV_VERSION"
+            make -j install
+        displayName: Install Kcov
+      - script: cargo install cargo-kcov
+        displayName: Install cargo-kcov
+      - script: cargo kcov
         displayName: Run coverage tests
       - task: PublishCodeCoverageResults@1
         displayName: Publish coverage result
         inputs:
             codeCoverageTool: Cobertura
-            summaryFileLocation: cobertura.xml
+            summaryFileLocation: target/cov/kcov-merged/cobertura.xml
