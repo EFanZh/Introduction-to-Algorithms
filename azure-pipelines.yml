@@ -55,8 +55,9 @@ jobs:
       - template: .azure-pipelines/install-rust.yml
       - script: cargo install cargo-tarpaulin
         displayName: Install Tarpaulin
-      - task: PublishCodeCoverageResults@1
+      - script: cargo tarpaulin --out Xml
         displayName: Run coverage tests
+      - task: PublishCodeCoverageResults@1
         inputs:
             codeCoverageTool: Cobertura
             summaryFileLocation: cobertura.xml
