@@ -68,11 +68,10 @@ jobs:
         displayName: Install Kcov
       - script: cargo install cargo-kcov
         displayName: Install cargo-kcov
-      - script: cargo generate-lockfile && cargo kcov
+      - script: cargo generate-lockfile && cargo kcov && pwd && printenv && head -n 100 target/cov/kcov-merged/cobertura.xml
         displayName: Run coverage tests
       - task: PublishCodeCoverageResults@1
         displayName: Publish coverage result
         inputs:
             codeCoverageTool: Cobertura
             summaryFileLocation: target/cov/kcov-merged/cobertura.xml
-            pathToSources: src
