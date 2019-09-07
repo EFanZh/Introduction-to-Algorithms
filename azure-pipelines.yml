@@ -64,7 +64,7 @@ jobs:
             cd build
             cmake -DCMAKE_BUILD_TYPE=Release ..
             make -j
-            sudo make -j install
+            sudo make install
         displayName: Install Kcov
       - script: cargo install cargo-kcov
         displayName: Install cargo-kcov
