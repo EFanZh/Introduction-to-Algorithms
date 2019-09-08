@@ -27,7 +27,7 @@ steps:
         set -e
         set -o pipefail
         for x in "$HOME/.rustup" "$HOME/.cargo"; do
-            test -d "$x" && find "$x/" -type f -regex '.*/bin/[^/]+' -exec chmod +x '{}' '+'
+            test -d "$x" && find "$x/" -type f -regex '.*/bin/[^/]+' -print -exec sudo chmod +x '{}' '+'
         done
     displayName: Fix executable bit (Linux, macOS)
     condition: ne(variables['Agent.OS'], 'Windows_NT')
