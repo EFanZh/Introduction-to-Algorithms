@@ -61,9 +61,9 @@ mod tests {
     fn run_random_sample_test<F: Fn(usize, usize) -> HashSet<usize>>(f: F) {
         let mut results = HashSet::new();
 
-        for n in 0..=6 {
+        for n in 0..=5 {
             for m in 0..=n {
-                for _ in 0..100_000 {
+                for _ in 0..10_000 {
                     let mut result = f(m, n).into_iter().collect::<Box<_>>();
 
                     result.sort_unstable();
