@@ -28,6 +28,7 @@ steps:
         set -x
         set -o pipefail
         for x in "$HOME/.rustup" "$HOME/.cargo"; do
+            test -d "$x" && find "$x/" -ls
             test -d "$x" && find "$x/" -type f -regex '.*/bin/[^/]+' -exec sudo chmod +x '{}' '+' -ls
         done
     displayName: Fix executable bit (Linux, macOS)
