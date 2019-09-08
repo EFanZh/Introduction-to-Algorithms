@@ -30,19 +30,7 @@ mod tests {
 
                 assign_vec(&mut b, &a);
 
-                bucker_sort_by_probability_distribution(
-                    &mut b,
-                    |lhs, rhs| lhs.partial_cmp(rhs).unwrap(),
-                    |&x| {
-                        if x < 0.0 {
-                            0.0
-                        } else if x < 1.0 {
-                            x
-                        } else {
-                            1.0
-                        }
-                    },
-                );
+                bucker_sort_by_probability_distribution(&mut b, |lhs, rhs| lhs.partial_cmp(rhs).unwrap(), |&x| x);
 
                 a.sort_unstable_by(|lhs, rhs| lhs.partial_cmp(rhs).unwrap());
 
