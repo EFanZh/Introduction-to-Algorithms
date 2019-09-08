@@ -25,11 +25,16 @@ steps:
     condition: eq(variables['Agent.OS'], 'Windows_NT')
   - script: |
         set -e
-        set -x
         set -o pipefail
+
+        if [ "$AGENT_OS" = Darwin ]; then
+            find_command=find -E
+        else
+            find_command=find
+        fi
+
         for x in "$HOME/.rustup" "$HOME/.cargo"; do
-            test -d "$x" && find "$x/" -ls
-            test -d "$x" && find "$x/" -type f -regex '.*/bin/[^/]+' -exec sudo chmod +x '{}' '+' -ls
+            test -d "$x" && $find_command "$x/" -type f -regex '.*/bin/[^/]+' -exec sudo chmod +x '{}' '+'
         done
     displayName: Fix executable bit (Linux, macOS)
     condition: ne(variables['Agent.OS'], 'Windows_NT')
