@@ -1,8 +1,25 @@
 steps:
+  - task: CacheBeta@0
+    displayName: Cache Rustup
+    inputs:
+        key: rustup | $(Agent.OS)
+        path: $(HOME)/.rustup
+  - task: CacheBeta@0
+    displayName: Cache Cargo
+    inputs:
+        key: cargo | $(Agent.OS)
+        path: $(HOME)/.cargo
   - script: |
-        curl -f https://sh.rustup.rs | bash -s -- -y
+        set -e
+        set -o pipefail
+        test -x "$HOME/.cargo/bin/rustup" || curl -f https://sh.rustup.rs | bash -s -- -y
+        rustup default stable
         echo "##vso[task.prependpath]$HOME/.cargo/bin"
     displayName: Install Rust
     condition: eq(variables['Agent.OS'], 'Darwin')
   - script: rustup update
     displayName: Update Rust
+  - bash: which cargo-install-update || cargo install cargo-update
+    displayName: Install cargo-update
+  - script: cargo install-update -a
+    displayName: Update Cargo packages
