@@ -4,21 +4,25 @@ steps:
     inputs:
         key: rustup | $(Agent.JobName) | $(Agent.OS)
         path: $(HOME)/.rustup
+    condition: ne(variables['Agent.OS'], 'Windows_NT')
   - task: CacheBeta@0
     displayName: Cache Rustup (Windows)
     inputs:
         key: rustup | $(Agent.JobName) | $(Agent.OS)
         path: $(USERPROFILE)\.rustup
+    condition: eq(variables['Agent.OS'], 'Windows_NT')
   - task: CacheBeta@0
     displayName: Cache Cargo (Linux, macOS)
     inputs:
         key: cargo | $(Agent.JobName) | $(Agent.OS)
         path: $(HOME)/.cargo
+    condition: ne(variables['Agent.OS'], 'Windows_NT')
   - task: CacheBeta@0
     displayName: Cache Cargo (Windows)
     inputs:
         key: cargo | $(Agent.JobName) | $(Agent.OS)
         path: $(USERPROFILE)\.cargo
+    condition: eq(variables['Agent.OS'], 'Windows_NT')
   - script: |
         set -e
         set -o pipefail
