@@ -205,26 +205,30 @@ mod tests {
         use HashTableOperation::{Delete, Insert, Inspect};
 
         let test_case = vec![
-            Inspect(vec![], vec![2, 3, 4, 5]),
+            Inspect(vec![], vec![2, 3, 5, 7, 11]),
             Insert(2),
-            Inspect(vec![2], vec![3, 4, 5]),
+            Inspect(vec![2], vec![3, 5, 7, 11]),
             Insert(3),
-            Inspect(vec![2, 3], vec![4, 5]),
-            Insert(4),
-            Inspect(vec![2, 3, 4], vec![5]),
+            Inspect(vec![2, 3], vec![5, 7, 11]),
             Insert(5),
-            Inspect(vec![2, 3, 4, 5], vec![]),
+            Inspect(vec![2, 3, 5], vec![7, 11]),
+            Insert(7),
+            Inspect(vec![2, 3, 5, 7], vec![11]),
+            Insert(11),
+            Inspect(vec![2, 3, 5, 7, 11], vec![]),
             Delete(3),
-            Inspect(vec![2, 4, 5], vec![3]),
+            Inspect(vec![2, 5, 7, 11], vec![3]),
+            Delete(7),
+            Inspect(vec![2, 5, 11], vec![3, 7]),
             Delete(5),
-            Inspect(vec![2, 4], vec![3, 5]),
-            Delete(4),
-            Inspect(vec![2], vec![3, 4, 5]),
+            Inspect(vec![2, 11], vec![3, 5, 7]),
             Delete(2),
-            Inspect(vec![], vec![2, 3, 4, 5]),
+            Inspect(vec![11], vec![2, 3, 5, 7]),
+            Delete(11),
+            Inspect(vec![], vec![2, 3, 5, 7, 11]),
         ];
 
-        let mut hash_table = HashTable::with_capacity(4);
+        let mut hash_table = HashTable::with_capacity(5);
 
         for operation in test_case {
             match operation {
