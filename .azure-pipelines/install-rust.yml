@@ -12,7 +12,8 @@ steps:
   - script: |
         set -e
         set -o pipefail
-        test -x "$HOME/.cargo/bin/rustup" || curl -f https://sh.rustup.rs | bash -s -- -y
+        export PATH="$HOME/.cargo/bin:$PATH"
+        which rustup || curl -f https://sh.rustup.rs | bash -s -- -y
         rustup default stable
         echo "##vso[task.prependpath]$HOME/.cargo/bin"
     displayName: Install Rust
