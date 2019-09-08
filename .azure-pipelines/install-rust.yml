@@ -26,6 +26,14 @@ steps:
   - script: |
         set -e
         set -o pipefail
+        for x in "$HOME/.rustup" "$HOME/.cargo"; do
+            test -d "$x" && find "$x/" -type f -regex '.*/bin/[^/]+' -exec chmod +x '{}' '+'
+        done
+    displayName: Fix executable bit (Linux, macOS)
+    condition: ne(variables['Agent.OS'], 'Windows_NT')
+  - script: |
+        set -e
+        set -o pipefail
         export PATH="$HOME/.cargo/bin:$PATH"
         which rustup || curl -f https://sh.rustup.rs | bash -s -- -y
         rustup default stable
