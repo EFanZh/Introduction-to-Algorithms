@@ -25,9 +25,10 @@ steps:
     condition: eq(variables['Agent.OS'], 'Windows_NT')
   - script: |
         set -e
+        set -x
         set -o pipefail
         for x in "$HOME/.rustup" "$HOME/.cargo"; do
-            test -d "$x" && find "$x/" -type f -regex '.*/bin/[^/]+' -print -exec sudo chmod +x '{}' '+'
+            test -d "$x" && find "$x/" -type f -regex '.*/bin/[^/]+' -exec sudo chmod +x '{}' '+' -ls
         done
     displayName: Fix executable bit (Linux, macOS)
     condition: ne(variables['Agent.OS'], 'Windows_NT')
