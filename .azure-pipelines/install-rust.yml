@@ -2,12 +2,12 @@ steps:
   - task: CacheBeta@0
     displayName: Cache Rustup
     inputs:
-        key: rustup | $(Agent.OS)
+        key: rustup | $(Agent.JobName) | $(Agent.OS)
         path: $(HOME)/.rustup
   - task: CacheBeta@0
     displayName: Cache Cargo
     inputs:
-        key: cargo | $(Agent.OS)
+        key: cargo | $(Agent.JobName) | $(Agent.OS)
         path: $(HOME)/.cargo
   - script: |
         set -e
