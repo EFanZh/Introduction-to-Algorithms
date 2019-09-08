@@ -196,6 +196,18 @@ pub(crate) mod tests {
                 Dequeue(9),
                 Empty(true),
             ],
+            vec![
+                Empty(true),
+                Enqueue(3),
+                Enqueue(7),
+                Enqueue(2),
+                Enqueue(4),
+                Enqueue(9),
+                Length(5),
+                Dequeue(3),
+                Dequeue(7),
+                Length(3),
+            ],
         ];
 
         for test_case in test_cases {
