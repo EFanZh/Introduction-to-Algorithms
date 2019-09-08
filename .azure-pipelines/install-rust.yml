@@ -1,14 +1,24 @@
 steps:
   - task: CacheBeta@0
-    displayName: Cache Rustup
+    displayName: Cache Rustup (Linux, macOS)
     inputs:
         key: rustup | $(Agent.JobName) | $(Agent.OS)
         path: $(HOME)/.rustup
   - task: CacheBeta@0
-    displayName: Cache Cargo
+    displayName: Cache Rustup (Windows)
+    inputs:
+        key: rustup | $(Agent.JobName) | $(Agent.OS)
+        path: $(USERPROFILE)\.rustup
+  - task: CacheBeta@0
+    displayName: Cache Cargo (Linux, macOS)
     inputs:
         key: cargo | $(Agent.JobName) | $(Agent.OS)
         path: $(HOME)/.cargo
+  - task: CacheBeta@0
+    displayName: Cache Cargo (Windows)
+    inputs:
+        key: cargo | $(Agent.JobName) | $(Agent.OS)
+        path: $(USERPROFILE)\.cargo
   - script: |
         set -e
         set -o pipefail
