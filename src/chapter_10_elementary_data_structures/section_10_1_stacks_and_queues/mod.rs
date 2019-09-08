@@ -137,6 +137,18 @@ pub(crate) mod tests {
                 Pop(3),
                 Empty(true),
             ],
+            vec![
+                Empty(true),
+                Push(2),
+                Push(3),
+                Push(5),
+                Push(7),
+                Push(9),
+                Length(5),
+                Pop(9),
+                Pop(7),
+                Length(3),
+            ],
         ];
 
         for test_case in test_cases {
