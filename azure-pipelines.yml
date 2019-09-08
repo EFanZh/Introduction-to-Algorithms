@@ -52,6 +52,7 @@ jobs:
       - script: cargo test -- -Z unstable-options --format json | tee >(cargo2junit > test-results.xml)
         displayName: Run tests (Linux)
         condition: eq(variables['Agent.OS'], 'Linux')
+        continueOnError: true
       - script: cargo test
         displayName: Run tests (macOS, Windows)
         condition: ne(variables['Agent.OS'], 'Linux')
@@ -65,26 +66,12 @@ jobs:
         vmImage: ubuntu-latest
     steps:
       - template: .azure-pipelines/install-rust.yml
-      - script: |
-            set -e
-            set -o pipefail
-            KCOV_VERSION=758f36568abdd19325ba2f7271b28febcb3666a0
-            sudo apt-get install --no-install-recommends -y binutils-dev libcurl4-gnutls-dev libdw-dev libiberty-dev
-            mkdir kcov
-            cd kcov
-            curl -L "https://github.com/SimonKagstrom/kcov/archive/$KCOV_VERSION.tar.gz" | tar xz --strip-components 1
-            mkdir build
-            cd build
-            cmake -DCMAKE_BUILD_TYPE=Release ..
-            make -j
-            sudo make -j install
-        displayName: Install Kcov
-      - script: cargo install cargo-kcov
-        displayName: Install cargo-kcov
-      - script: cargo generate-lockfile && cargo kcov -- --exclude-pattern=/.cargo --verify
+      - script: cargo install cargo-tarpaulin
+        displayName: Install cargo-tarpaulin
+      - script: cargo tarpaulin --out Xml
         displayName: Run coverage tests
       - task: PublishCodeCoverageResults@1
         displayName: Publish coverage result
         inputs:
             codeCoverageTool: Cobertura
-            summaryFileLocation: target/cov/kcov-merged/cobertura.xml
+            summaryFileLocation: cobertura.xml

@@ -1,5 +1,7 @@
 steps:
   - script: |
+        set -e
+        set -o pipefail
         curl -f https://sh.rustup.rs | bash -s -- -y
         echo "##vso[task.prependpath]$HOME/.cargo/bin"
     displayName: Install Rust
