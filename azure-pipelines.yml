@@ -16,7 +16,6 @@ jobs:
         displayName: Install Rustfmt
       - script: cargo fmt -- --check
         displayName: Run Rustfmt checks
-        continueOnError: true
   - job: Clippy
     strategy:
         matrix:
@@ -34,7 +33,6 @@ jobs:
         displayName: Install Clippy
       - script: cargo clippy --all-targets --all-features -- -D warnings
         displayName: Run Clippy checks
-        continueOnError: true
   - job: Tests
     strategy:
         matrix:
@@ -58,7 +56,6 @@ jobs:
       - script: cargo test
         displayName: Run tests (macOS, Windows)
         condition: ne(variables['Agent.OS'], 'Linux')
-        continueOnError: true
       - task: PublishTestResults@2
         displayName: Publish test results
         condition: eq(variables['Agent.OS'], 'Linux')
@@ -73,7 +70,6 @@ jobs:
         displayName: Install cargo-tarpaulin
       - script: cargo tarpaulin --out Xml
         displayName: Run coverage tests
-        continueOnError: true
       - task: PublishCodeCoverageResults@1
         displayName: Publish coverage result
         inputs:
