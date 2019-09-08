@@ -46,8 +46,20 @@ jobs:
         vmImage: $(imageName)
     steps:
       - template: .azure-pipelines/install-rust.yml
+      - script: cargo install cargo2junit
+        displayName: Install cargo2junit
+        condition: eq(variables['Agent.OS'], 'Linux')
+      - script: cargo test -- -Z unstable-options --format json | tee >(cargo2junit > test-results.xml)
+        displayName: Run tests (Linux)
+        condition: eq(variables['Agent.OS'], 'Linux')
       - script: cargo test
-        displayName: Run tests
+        displayName: Run tests (macOS, Windows)
+        condition: ne(variables['Agent.OS'], 'Linux')
+      - task: PublishTestResults@2
+        displayName: Publish test results
+        condition: eq(variables['Agent.OS'], 'Linux')
+        inputs:
+            testResultsFiles: test-results.xml
   - job: Coverage
     pool:
         vmImage: ubuntu-latest
