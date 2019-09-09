@@ -69,10 +69,8 @@ jobs:
       - task: UseDotNet@2
         displayName: 'Use .NET Core runtime'
         inputs:
-            packageType: runtime
             version: 2.x
       - template: .azure-pipelines/install-rust.yml
-      - script: printenv && ls -l /__t/dotnet
       - script: cargo tarpaulin --out Xml
         displayName: Run coverage tests
       - task: PublishCodeCoverageResults@1
