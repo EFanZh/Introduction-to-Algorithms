@@ -66,6 +66,10 @@ jobs:
         image: xd009642/tarpaulin
         options: --security-opt seccomp=unconfined
     steps:
+      - task: UseDotNet@2
+        displayName: 'Use .NET Core runtime'
+        inputs:
+            packageType: runtime
       - template: .azure-pipelines/install-rust.yml
       - script: cargo tarpaulin --out Xml
         displayName: Run coverage tests
