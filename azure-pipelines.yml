@@ -64,7 +64,6 @@ jobs:
   - job: Coverage
     container:
         image: xd009642/tarpaulin
-        options: --security-opt seccomp=unconfined
     steps:
       - task: UseDotNet@2
         displayName: 'Use .NET Core runtime'
