@@ -63,8 +63,8 @@ jobs:
             testResultsFiles: test-results.xml
   - job: Coverage
     container:
-      - image: xd009642/tarpaulin
-      - options: --security-opt seccomp=unconfined
+        image: xd009642/tarpaulin
+        options: --security-opt seccomp=unconfined
     steps:
       - template: .azure-pipelines/install-rust.yml
       - script: cargo tarpaulin --out Xml
