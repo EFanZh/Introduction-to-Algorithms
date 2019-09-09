@@ -62,12 +62,11 @@ jobs:
         inputs:
             testResultsFiles: test-results.xml
   - job: Coverage
-    pool:
-        vmImage: ubuntu-latest
+    container:
+      - image: xd009642/tarpaulin
+      - options: --security-opt seccomp=unconfined
     steps:
       - template: .azure-pipelines/install-rust.yml
-      - script: cargo install cargo-tarpaulin
-        displayName: Install cargo-tarpaulin
       - script: cargo tarpaulin --out Xml
         displayName: Run coverage tests
       - task: PublishCodeCoverageResults@1
