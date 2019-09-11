@@ -451,6 +451,53 @@ mod tests {
     }
 
     #[test]
+    fn red_black_tree_insert_full_left_side() {
+        run_insertion_test(
+            black(
+                11,
+                2,
+                red(2, 3, black_leaf(1, 5), black(7, 7, red_leaf(5, 11), red_leaf(8, 13))),
+                black(14, 17, None, red_leaf(15, 19)),
+            ),
+            4,
+            23,
+            black(
+                7,
+                7,
+                red(2, 3, black_leaf(1, 5), black(5, 11, red_leaf(4, 23), None)),
+                red(11, 2, black_leaf(8, 13), black(14, 17, None, red_leaf(15, 19))),
+            ),
+            None,
+        )
+    }
+
+    #[test]
+    fn red_black_tree_insert_full_right_side() {
+        run_insertion_test(
+            black(
+                5,
+                2,
+                black(2, 3, red_leaf(1, 5), None),
+                red(
+                    14,
+                    7,
+                    black(9, 11, red_leaf(8, 13), red(11, 17, None, None)),
+                    black_leaf(15, 19),
+                ),
+            ),
+            12,
+            23,
+            black(
+                9,
+                11,
+                red(5, 2, black(2, 3, red_leaf(1, 5), None), black_leaf(8, 13)),
+                red(14, 7, black(11, 17, None, red_leaf(12, 23)), black_leaf(15, 19)),
+            ),
+            None,
+        )
+    }
+
+    #[test]
     fn test_red_black_tree_map() {
         let mut map = RedBlackTreeMap::new();
 
