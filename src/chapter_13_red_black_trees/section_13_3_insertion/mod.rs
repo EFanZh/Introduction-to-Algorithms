@@ -80,64 +80,62 @@ pub fn rb_insert_fixup<T>(t: &mut Option<Rc<RefCell<RedBlackTreeNode<T>>>>, mut 
                 let mut z_p_p_ref = z_p_p.borrow_mut();
 
                 if is_left_child(&z_p, &z_p_p_ref) {
-                    if let Some(y) = z_p_p_ref.right.clone() {
-                        let mut y_ref = y.borrow_mut();
+                    if let Some(mut y_ref) = z_p_p_ref
+                        .right
+                        .clone()
+                        .as_ref()
+                        .map(|k| k.borrow_mut())
+                        .filter(|k| k.color == Color::Red)
+                    {
+                        // y.color == red.
 
-                        if y_ref.color == Color::Red {
-                            // y.color == red.
+                        z_p_ref.color = Color::Black;
+                        y_ref.color = Color::Black;
+                        z_p_p_ref.color = Color::Red;
 
+                        drop((z_ref, z_p_p_ref));
+
+                        z = z_p_p;
+                    } else {
+                        // y.color == black.
+
+                        z_p_p_ref.color = Color::Red;
+
+                        if is_right_child(&z, &z_p_ref) {
+                            z_ref.color = Color::Black;
+
+                            drop((z_ref, z_p_ref));
+
+                            left_rotate(&mut z_p_p_ref.left);
+                        } else {
                             z_p_ref.color = Color::Black;
-                            y_ref.color = Color::Black;
-                            z_p_p_ref.color = Color::Red;
 
-                            drop((z_ref, z_p_p_ref));
-
-                            z = z_p_p;
-
-                            continue;
+                            drop(z_p_ref);
                         }
+
+                        // Right rotate z.p.p;
+
+                        drop(z_p_p_ref);
+
+                        right_rotate_2(t, &z_p_p);
                     }
+                } else if let Some(mut y_ref) = z_p_p_ref
+                    .left
+                    .clone()
+                    .as_ref()
+                    .map(|k| k.borrow_mut())
+                    .filter(|k| k.color == Color::Red)
+                {
+                    // y.color == red.
 
-                    // y.color == black.
-
+                    z_p_ref.color = Color::Black;
+                    y_ref.color = Color::Black;
                     z_p_p_ref.color = Color::Red;
 
-                    if is_right_child(&z, &z_p_ref) {
-                        z_ref.color = Color::Black;
+                    drop((z_ref, z_p_p_ref));
 
-                        drop((z_ref, z_p_ref));
-
-                        left_rotate(&mut z_p_p_ref.left);
-                    } else {
-                        z_p_ref.color = Color::Black;
-
-                        drop(z_p_ref);
-                    }
-
-                    // Right rotate z.p.p;
-
-                    drop(z_p_p_ref);
-
-                    right_rotate_2(t, &z_p_p);
+                    z = z_p_p;
                 } else {
-                    if let Some(y) = z_p_p_ref.left.clone() {
-                        let mut y_ref = y.borrow_mut();
-
-                        if y_ref.color == Color::Red {
-                            // y.color == red.
-
-                            z_p_ref.color = Color::Black;
-                            y_ref.color = Color::Black;
-                            z_p_p_ref.color = Color::Red;
-
-                            drop((z_ref, z_p_p_ref));
-
-                            z = z_p_p;
-
-                            continue;
-                        }
-                    }
-
                     // y.color == black.
 
                     z_p_p_ref.color = Color::Red;
