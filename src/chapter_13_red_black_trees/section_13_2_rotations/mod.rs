@@ -21,40 +21,29 @@ pub mod exercises;
 // 12  x.p = y
 
 pub fn left_rotate<T>(x: &mut Option<Rc<RefCell<RedBlackTreeNode<T>>>>) {
-    // Break x from parent.
-
-    let x_rc = x.take().unwrap();
+    let x_rc = x.as_mut().unwrap();
     let mut x_ref = x_rc.borrow_mut();
-    let p_weak = mem::replace(&mut x_ref.p, Weak::new());
 
     // Break y from x.
 
     let y_rc = x_ref.right.take().unwrap();
     let mut y_ref = y_rc.borrow_mut();
-    let x_weak = mem::replace(&mut y_ref.p, Weak::new());
+    let x_weak = mem::replace(&mut y_ref.p, mem::replace(&mut x_ref.p, Weak::new()));
 
     // Attach y.left to x.right.
 
     if let Some(y_left) = y_ref.left.take() {
-        y_left.borrow_mut().p = x_weak;
+        x_ref.p = mem::replace(&mut y_left.borrow_mut().p, x_weak);
         x_ref.right = Some(y_left);
-    }
+    } else {
+        x_ref.p = Rc::downgrade(&y_rc);
+    };
 
-    // Attach x to y.left.
+    // Change root to y and attach x to y.left.
 
-    x_ref.p = Rc::downgrade(&y_rc);
+    drop((x_ref, y_ref));
 
-    drop(x_ref);
-
-    y_ref.left = Some(x_rc);
-
-    // Attach y to parent.
-
-    y_ref.p = p_weak;
-
-    drop(y_ref);
-
-    *x = Some(y_rc);
+    x_rc.borrow_mut().left = Some(mem::replace(x_rc, y_rc));
 }
 
 #[cfg(test)]
