@@ -3,41 +3,30 @@ use std::cell::RefCell;
 use std::mem;
 use std::rc::{Rc, Weak};
 
-pub fn right_rotate<T>(y: &mut Option<Rc<RefCell<RedBlackTreeNode<T>>>>) {
-    // Break y from parent.
-
-    let y_rc = y.take().unwrap();
-    let mut y_ref = y_rc.borrow_mut();
-    let p_weak = mem::replace(&mut y_ref.p, Weak::new());
-
-    // Break x from y.
-
-    let x_rc = y_ref.left.take().unwrap();
+pub fn right_rotate<T>(x: &mut Option<Rc<RefCell<RedBlackTreeNode<T>>>>) {
+    let x_rc = x.as_mut().unwrap();
     let mut x_ref = x_rc.borrow_mut();
-    let y_weak = mem::replace(&mut x_ref.p, Weak::new());
 
-    // Attach x.right to y.left.
+    // Break y from x.
 
-    if let Some(x_right) = x_ref.right.take() {
-        x_right.borrow_mut().p = y_weak;
-        y_ref.left = Some(x_right);
-    }
+    let y_rc = x_ref.left.take().unwrap();
+    let mut y_ref = y_rc.borrow_mut();
+    let x_weak = mem::replace(&mut y_ref.p, mem::replace(&mut x_ref.p, Weak::new()));
 
-    // Attach y to x.right;
+    // Attach y.right to x.left.
 
-    y_ref.p = Rc::downgrade(&x_rc);
+    if let Some(y_right) = y_ref.right.take() {
+        x_ref.p = mem::replace(&mut y_right.borrow_mut().p, x_weak);
+        x_ref.left = Some(y_right);
+    } else {
+        x_ref.p = Rc::downgrade(&y_rc)
+    };
 
-    drop(y_ref);
+    // Change root to y and attach x to y.right.
 
-    x_ref.right = Some(y_rc);
+    drop((x_ref, y_ref));
 
-    // Attach x to parent.
-
-    x_ref.p = p_weak;
-
-    drop(x_ref);
-
-    *y = Some(x_rc);
+    x_rc.borrow_mut().right = Some(mem::replace(x_rc, y_rc));
 }
 
 #[cfg(test)]
