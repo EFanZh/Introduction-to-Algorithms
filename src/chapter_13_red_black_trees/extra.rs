@@ -53,7 +53,7 @@ fn right_rotate<K: Ord, V>(root: &mut Box<Node<K, V>>) {
     root.right = Some(mem::replace(root, left));
 }
 
-fn relaxed_insert<K: Ord, V>(node_ref: &mut Tree<K, V>, key: K, value: V) -> Result<(), Option<V>> {
+fn relaxed_insert<K: Ord, V>(node_ref: &mut Tree<K, V>, key: K, value: V) -> Result<&mut Node<K, V>, Option<V>> {
     if let Some(node) = node_ref {
         match key.cmp(&node.key) {
             Ordering::Less => {
@@ -69,7 +69,7 @@ fn relaxed_insert<K: Ord, V>(node_ref: &mut Tree<K, V>, key: K, value: V) -> Res
                                 if let Some(right) = node.right.as_mut().filter(|x| x.color == Color::Red) {
                                     right.color = Color::Black;
 
-                                    Ok(())
+                                    Ok(node)
                                 } else {
                                     right_rotate(node);
 
@@ -78,7 +78,7 @@ fn relaxed_insert<K: Ord, V>(node_ref: &mut Tree<K, V>, key: K, value: V) -> Res
                             }
                             Ordering::Equal => Err(Some(mem::replace(&mut left.value, value))),
                             Ordering::Greater => {
-                                relaxed_insert(&mut left.right, key, value)?;
+                                let left_right = relaxed_insert(&mut left.right, key, value)?;
 
                                 node.color = Color::Red;
 
@@ -86,9 +86,9 @@ fn relaxed_insert<K: Ord, V>(node_ref: &mut Tree<K, V>, key: K, value: V) -> Res
                                     left.color = Color::Black;
                                     right.color = Color::Black;
 
-                                    Ok(())
+                                    Ok(node)
                                 } else {
-                                    left.right.as_mut().unwrap().color = Color::Black;
+                                    left_right.color = Color::Black;
 
                                     left_rotate(left);
                                     right_rotate(node);
@@ -121,16 +121,17 @@ fn relaxed_insert<K: Ord, V>(node_ref: &mut Tree<K, V>, key: K, value: V) -> Res
                     match right.color {
                         Color::Red => match key.cmp(&right.key) {
                             Ordering::Less => {
-                                relaxed_insert(&mut right.left, key, value)?;
+                                let right_left = relaxed_insert(&mut right.left, key, value)?;
+
                                 node.color = Color::Red;
 
                                 if let Some(left) = node.left.as_mut().filter(|x| x.color == Color::Red) {
                                     right.color = Color::Black;
                                     left.color = Color::Black;
 
-                                    Ok(())
+                                    Ok(node)
                                 } else {
-                                    right.left.as_mut().unwrap().color = Color::Black;
+                                    right_left.color = Color::Black;
 
                                     right_rotate(right);
                                     left_rotate(node);
@@ -148,7 +149,7 @@ fn relaxed_insert<K: Ord, V>(node_ref: &mut Tree<K, V>, key: K, value: V) -> Res
                                 if let Some(left) = node.left.as_mut().filter(|x| x.color == Color::Red) {
                                     left.color = Color::Black;
 
-                                    Ok(())
+                                    Ok(node)
                                 } else {
                                     left_rotate(node);
 
@@ -184,14 +185,15 @@ fn relaxed_insert<K: Ord, V>(node_ref: &mut Tree<K, V>, key: K, value: V) -> Res
             right: None,
         }));
 
-        Ok(())
+        Ok(node_ref.as_mut().unwrap())
     }
 }
 
 fn insert<K: Ord, V>(tree: &mut Tree<K, V>, key: K, value: V) -> Option<V> {
     match relaxed_insert(tree, key, value) {
-        Ok(_) => {
-            tree.as_mut().unwrap().color = Color::Black;
+        Ok(root) => {
+            root.color = Color::Black;
+
             None
         }
         Err(maybe_old_value) => maybe_old_value,
