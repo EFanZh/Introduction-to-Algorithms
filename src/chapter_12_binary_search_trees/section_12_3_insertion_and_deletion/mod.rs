@@ -33,10 +33,8 @@ pub fn tree_insert<T: Ord>(mut x: &mut Option<Box<SimpleBinaryTreeNode<T>>>, z: 
     *x = Some(z);
 }
 
-pub fn lift_min<T>(mut root: Box<SimpleBinaryTreeNode<T>>) -> Box<SimpleBinaryTreeNode<T>> {
-    if root.left.is_none() {
-        root
-    } else {
+pub fn lift_min<T>(root: &mut Box<SimpleBinaryTreeNode<T>>) {
+    if root.left.is_some() {
         let mut node_ref = &mut root.left;
 
         let min_right = loop {
@@ -49,11 +47,10 @@ pub fn lift_min<T>(mut root: Box<SimpleBinaryTreeNode<T>>) -> Box<SimpleBinaryTr
             }
         };
 
-        let mut min = mem::replace(node_ref, min_right).unwrap();
+        let min = mem::replace(node_ref, min_right).unwrap();
+        let old_root = mem::replace(root, min);
 
-        min.right = Some(root);
-
-        min
+        root.right = Some(old_root);
     }
 }
 
@@ -79,12 +76,12 @@ pub fn tree_delete<T>(z: &mut Option<Box<SimpleBinaryTreeNode<T>>>) {
         // The node being deleted doesn’t have left child.
 
         *z = z_unwrapped.right.take();
-    } else if let Some(z_right) = z_unwrapped.right.take() {
-        let mut new_root = lift_min(z_right);
+    } else if let Some(z_right) = z_unwrapped.right.as_mut() {
+        lift_min(z_right);
 
-        new_root.left = z_unwrapped.left.take();
+        z_right.left = z_unwrapped.left.take();
 
-        *z = Some(new_root);
+        *z = z_unwrapped.right.take();
     } else {
         // The node being deleted doesn’t have right child.
 
