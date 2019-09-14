@@ -93,7 +93,7 @@ fn relaxed_insert<K: Ord, V>(node_ref: &mut Tree<K, V>, key: K, value: V) -> Res
                                     left_rotate(left);
                                     right_rotate(node);
 
-                                    Ok(())
+                                    Err(None)
                                 }
                             }
                         },
