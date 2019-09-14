@@ -37,24 +37,22 @@ fn get_value<'a, K: Borrow<Q>, V, Q: Ord + ?Sized>(mut node_ref: &'a Tree<K, V>,
 
 // Insertion.
 
-fn left_rotate<K: Ord, V>(node_ref: &mut Tree<K, V>) {
-    let mut node = node_ref.take().unwrap();
-    let mut right = node.right.take().unwrap();
+#[allow(clippy::borrowed_box)]
+fn left_rotate<K: Ord, V>(root: &mut Box<Node<K, V>>) {
+    let right = root.right.take().unwrap();
+    let mut old_root = mem::replace(root, right);
 
-    node.right = right.left.take();
-    right.left = Some(node);
-
-    *node_ref = Some(right);
+    old_root.right = root.left.take();
+    root.left = Some(old_root);
 }
 
-fn right_rotate<K: Ord, V>(node_ref: &mut Tree<K, V>) {
-    let mut node = node_ref.take().unwrap();
-    let mut left = node.left.take().unwrap();
+#[allow(clippy::borrowed_box)]
+fn right_rotate<K: Ord, V>(root: &mut Box<Node<K, V>>) {
+    let left = root.left.take().unwrap();
+    let mut old_root = mem::replace(root, left);
 
-    node.left = left.right.take();
-    left.right = Some(node);
-
-    *node_ref = Some(left);
+    old_root.left = root.right.take();
+    root.right = Some(old_root);
 }
 
 fn relaxed_insert<K: Ord, V>(node_ref: &mut Tree<K, V>, key: K, value: V) -> Result<(), Option<V>> {
@@ -75,7 +73,7 @@ fn relaxed_insert<K: Ord, V>(node_ref: &mut Tree<K, V>, key: K, value: V) -> Res
 
                                     Ok(())
                                 } else {
-                                    right_rotate(node_ref);
+                                    right_rotate(node);
 
                                     Err(None)
                                 }
@@ -94,8 +92,8 @@ fn relaxed_insert<K: Ord, V>(node_ref: &mut Tree<K, V>, key: K, value: V) -> Res
                                 } else {
                                     left.right.as_mut().unwrap().color = Color::Black;
 
-                                    left_rotate(&mut node.left);
-                                    right_rotate(node_ref);
+                                    left_rotate(left);
+                                    right_rotate(node);
 
                                     Ok(())
                                 }
@@ -136,8 +134,8 @@ fn relaxed_insert<K: Ord, V>(node_ref: &mut Tree<K, V>, key: K, value: V) -> Res
                                 } else {
                                     right.left.as_mut().unwrap().color = Color::Black;
 
-                                    right_rotate(&mut node.right);
-                                    left_rotate(node_ref);
+                                    right_rotate(right);
+                                    left_rotate(node);
 
                                     Err(None)
                                 }
@@ -154,7 +152,7 @@ fn relaxed_insert<K: Ord, V>(node_ref: &mut Tree<K, V>, key: K, value: V) -> Res
 
                                     Ok(())
                                 } else {
-                                    left_rotate(node_ref);
+                                    left_rotate(node);
 
                                     Err(None)
                                 }

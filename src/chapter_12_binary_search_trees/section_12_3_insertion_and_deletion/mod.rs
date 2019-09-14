@@ -33,6 +33,7 @@ pub fn tree_insert<T: Ord>(mut x: &mut Option<Box<SimpleBinaryTreeNode<T>>>, z: 
     *x = Some(z);
 }
 
+#[allow(clippy::borrowed_box)]
 pub fn lift_min<T>(root: &mut Box<SimpleBinaryTreeNode<T>>) {
     if root.left.is_some() {
         let mut node_ref = &mut root.left;
