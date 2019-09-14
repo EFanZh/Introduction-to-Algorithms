@@ -53,129 +53,130 @@ fn right_rotate<K: Ord, V>(root: &mut Box<Node<K, V>>) {
     root.right = Some(mem::replace(root, left));
 }
 
-fn relaxed_insert<K: Ord, V>(node_ref: &mut Tree<K, V>, key: K, value: V) -> Result<&mut Node<K, V>, Option<V>> {
-    if let Some(node) = node_ref {
-        match key.cmp(&node.key) {
-            Ordering::Less => {
-                if let Some(left) = &mut node.left {
-                    match left.color {
-                        Color::Red => match key.cmp(&left.key) {
-                            Ordering::Less => {
-                                relaxed_insert(&mut left.left, key, value)?;
+#[allow(clippy::borrowed_box)]
+fn relaxed_insert_non_null<K: Ord, V>(
+    node: &mut Box<Node<K, V>>,
+    key: K,
+    value: V,
+) -> Result<&mut Node<K, V>, Option<V>> {
+    match key.cmp(&node.key) {
+        Ordering::Less => {
+            if let Some(left) = &mut node.left {
+                match left.color {
+                    Color::Red => match key.cmp(&left.key) {
+                        Ordering::Less => {
+                            relaxed_insert(&mut left.left, key, value)?;
 
-                                left.color = Color::Black;
-                                node.color = Color::Red;
+                            left.color = Color::Black;
+                            node.color = Color::Red;
 
-                                if let Some(right) = node.right.as_mut().filter(|x| x.color == Color::Red) {
-                                    right.color = Color::Black;
-
-                                    Ok(node)
-                                } else {
-                                    right_rotate(node);
-
-                                    Err(None)
-                                }
-                            }
-                            Ordering::Equal => Err(Some(mem::replace(&mut left.value, value))),
-                            Ordering::Greater => {
-                                let left_right = relaxed_insert(&mut left.right, key, value)?;
-
-                                node.color = Color::Red;
-
-                                if let Some(right) = node.right.as_mut().filter(|x| x.color == Color::Red) {
-                                    left.color = Color::Black;
-                                    right.color = Color::Black;
-
-                                    Ok(node)
-                                } else {
-                                    left_right.color = Color::Black;
-
-                                    left_rotate(left);
-                                    right_rotate(node);
-
-                                    Err(None)
-                                }
-                            }
-                        },
-                        Color::Black => {
-                            relaxed_insert(&mut node.left, key, value)?;
-
-                            Err(None)
-                        }
-                    }
-                } else {
-                    node.left = Some(Box::new(Node {
-                        key,
-                        value,
-                        color: Color::Red,
-                        left: None,
-                        right: None,
-                    }));
-
-                    Err(None)
-                }
-            }
-            Ordering::Equal => Err(Some(mem::replace(&mut node.value, value))),
-            Ordering::Greater => {
-                if let Some(right) = &mut node.right {
-                    match right.color {
-                        Color::Red => match key.cmp(&right.key) {
-                            Ordering::Less => {
-                                let right_left = relaxed_insert(&mut right.left, key, value)?;
-
-                                node.color = Color::Red;
-
-                                if let Some(left) = node.left.as_mut().filter(|x| x.color == Color::Red) {
-                                    right.color = Color::Black;
-                                    left.color = Color::Black;
-
-                                    Ok(node)
-                                } else {
-                                    right_left.color = Color::Black;
-
-                                    right_rotate(right);
-                                    left_rotate(node);
-
-                                    Err(None)
-                                }
-                            }
-                            Ordering::Equal => Err(Some(mem::replace(&mut right.value, value))),
-                            Ordering::Greater => {
-                                relaxed_insert(&mut right.right, key, value)?;
-
+                            if let Some(right) = node.right.as_mut().filter(|x| x.color == Color::Red) {
                                 right.color = Color::Black;
-                                node.color = Color::Red;
 
-                                if let Some(left) = node.left.as_mut().filter(|x| x.color == Color::Red) {
-                                    left.color = Color::Black;
+                                Ok(node)
+                            } else {
+                                right_rotate(node);
 
-                                    Ok(node)
-                                } else {
-                                    left_rotate(node);
-
-                                    Err(None)
-                                }
+                                Err(None)
                             }
-                        },
-                        Color::Black => {
-                            relaxed_insert(&mut node.right, key, value)?;
-
-                            Err(None)
                         }
-                    }
-                } else {
-                    node.right = Some(Box::new(Node {
-                        key,
-                        value,
-                        color: Color::Red,
-                        right: None,
-                        left: None,
-                    }));
+                        Ordering::Equal => Err(Some(mem::replace(&mut left.value, value))),
+                        Ordering::Greater => {
+                            let left_right = relaxed_insert(&mut left.right, key, value)?;
 
-                    Err(None)
+                            node.color = Color::Red;
+
+                            if let Some(right) = node.right.as_mut().filter(|x| x.color == Color::Red) {
+                                left.color = Color::Black;
+                                right.color = Color::Black;
+
+                                Ok(node)
+                            } else {
+                                left_right.color = Color::Black;
+
+                                left_rotate(left);
+                                right_rotate(node);
+
+                                Err(None)
+                            }
+                        }
+                    },
+                    Color::Black => relaxed_insert_non_null(left, key, value).and(Err(None)),
                 }
+            } else {
+                node.left = Some(Box::new(Node {
+                    key,
+                    value,
+                    color: Color::Red,
+                    left: None,
+                    right: None,
+                }));
+
+                Err(None)
             }
         }
+        Ordering::Equal => Err(Some(mem::replace(&mut node.value, value))),
+        Ordering::Greater => {
+            if let Some(right) = &mut node.right {
+                match right.color {
+                    Color::Red => match key.cmp(&right.key) {
+                        Ordering::Less => {
+                            let right_left = relaxed_insert(&mut right.left, key, value)?;
+
+                            node.color = Color::Red;
+
+                            if let Some(left) = node.left.as_mut().filter(|x| x.color == Color::Red) {
+                                right.color = Color::Black;
+                                left.color = Color::Black;
+
+                                Ok(node)
+                            } else {
+                                right_left.color = Color::Black;
+
+                                right_rotate(right);
+                                left_rotate(node);
+
+                                Err(None)
+                            }
+                        }
+                        Ordering::Equal => Err(Some(mem::replace(&mut right.value, value))),
+                        Ordering::Greater => {
+                            relaxed_insert(&mut right.right, key, value)?;
+
+                            right.color = Color::Black;
+                            node.color = Color::Red;
+
+                            if let Some(left) = node.left.as_mut().filter(|x| x.color == Color::Red) {
+                                left.color = Color::Black;
+
+                                Ok(node)
+                            } else {
+                                left_rotate(node);
+
+                                Err(None)
+                            }
+                        }
+                    },
+                    Color::Black => relaxed_insert_non_null(right, key, value).and(Err(None)),
+                }
+            } else {
+                node.right = Some(Box::new(Node {
+                    key,
+                    value,
+                    color: Color::Red,
+                    right: None,
+                    left: None,
+                }));
+
+                Err(None)
+            }
+        }
+    }
+}
+
+fn relaxed_insert<K: Ord, V>(node_ref: &mut Tree<K, V>, key: K, value: V) -> Result<&mut Node<K, V>, Option<V>> {
+    if let Some(node) = node_ref {
+        relaxed_insert_non_null(node, key, value)
     } else {
         *node_ref = Some(Box::new(Node {
             key,
