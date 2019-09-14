@@ -3,8 +3,7 @@ use std::cell::RefCell;
 use std::mem;
 use std::rc::{Rc, Weak};
 
-pub fn right_rotate<T>(x: &mut Option<Rc<RefCell<RedBlackTreeNode<T>>>>) {
-    let x_rc = x.as_mut().unwrap();
+pub fn right_rotate<T>(x_rc: &mut Rc<RefCell<RedBlackTreeNode<T>>>) {
     let mut x_ref = x_rc.borrow_mut();
 
     // Break y from x.
@@ -51,7 +50,7 @@ mod tests {
             make_node(5, None, None),
         );
 
-        right_rotate(&mut tree);
+        right_rotate(tree.as_mut().unwrap());
 
         check_valid_tree(&tree);
 

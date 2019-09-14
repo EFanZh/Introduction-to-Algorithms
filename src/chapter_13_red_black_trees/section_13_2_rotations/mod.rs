@@ -20,8 +20,7 @@ pub mod exercises;
 // 11  y.left = x            // put x on y’s left
 // 12  x.p = y
 
-pub fn left_rotate<T>(x: &mut Option<Rc<RefCell<RedBlackTreeNode<T>>>>) {
-    let x_rc = x.as_mut().unwrap();
+pub fn left_rotate<T>(x_rc: &mut Rc<RefCell<RedBlackTreeNode<T>>>) {
     let mut x_ref = x_rc.borrow_mut();
 
     // Break y from x.
@@ -68,7 +67,7 @@ mod tests {
             make_node(4, make_node(3, None, None), make_node(5, None, None)),
         );
 
-        left_rotate(&mut tree);
+        left_rotate(tree.as_mut().unwrap());
 
         check_valid_tree(&tree);
 
