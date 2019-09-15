@@ -12,7 +12,7 @@ enum Color {
 
 type Tree<K, V> = Option<Box<Node<K, V>>>;
 
-#[derive(PartialEq, Eq, Debug)]
+#[derive(Clone, PartialEq, Eq, Debug)]
 struct Node<K, V> {
     key: K,
     value: V,
@@ -201,6 +201,244 @@ fn insert<K: Ord, V>(tree: &mut Tree<K, V>, key: K, value: V) -> Option<V> {
     }
 }
 
+// Deletion.
+
+#[allow(clippy::borrowed_box)]
+fn adjust_on_left_child_black_sibling_red_root<K, V>(node: &mut Box<Node<K, V>>) -> bool {
+    let right = node.right.as_mut().unwrap();
+
+    if let Some(right_right) = right.right.as_mut().filter(|x| x.color == Color::Red) {
+        node.color = Color::Black;
+        right.color = Color::Red;
+        right_right.color = Color::Black;
+
+        left_rotate(node);
+    } else if right.left.as_ref().map(|x| x.color) == Some(Color::Red) {
+        node.color = Color::Black;
+
+        right_rotate(right);
+        left_rotate(node);
+    } else {
+        node.color = Color::Black;
+        right.color = Color::Red;
+    }
+
+    false
+}
+
+#[allow(clippy::borrowed_box)]
+fn adjust_on_left_child_black_sibling<K, V>(node: &mut Box<Node<K, V>>) -> bool {
+    let right = node.right.as_mut().unwrap();
+
+    if let Some(right_right) = right.right.as_mut().filter(|x| x.color == Color::Red) {
+        right.color = mem::replace(&mut node.color, Color::Black);
+        right_right.color = Color::Red;
+
+        left_rotate(node);
+    } else if let Some(right_left) = right.left.as_mut().filter(|x| x.color == Color::Red) {
+        right_left.color = mem::replace(&mut node.color, Color::Black);
+
+        right_rotate(right);
+        left_rotate(node);
+    } else {
+        right.color = Color::Red;
+
+        match node.color {
+            Color::Red => node.color = Color::Black,
+            Color::Black => return true,
+        }
+    }
+
+    false
+}
+
+#[allow(clippy::borrowed_box)]
+fn adjust_on_left_child<K, V>(node: &mut Box<Node<K, V>>) -> bool {
+    // Change right neighbor into a black node.
+
+    let right = node.right.as_mut().unwrap();
+
+    if right.color == Color::Red {
+        node.color = Color::Red;
+        right.color = Color::Black;
+
+        left_rotate(node);
+
+        adjust_on_left_child_black_sibling_red_root(node.left.as_mut().unwrap())
+    } else {
+        adjust_on_left_child_black_sibling(node)
+    }
+}
+
+#[allow(clippy::borrowed_box)]
+fn adjust_on_right_child_black_sibling_red_root<K, V>(node: &mut Box<Node<K, V>>) -> bool {
+    let left = node.left.as_mut().unwrap();
+
+    if let Some(left_left) = left.left.as_mut().filter(|x| x.color == Color::Red) {
+        node.color = Color::Black;
+        left.color = Color::Red;
+        left_left.color = Color::Black;
+
+        right_rotate(node);
+    } else if left.right.as_ref().map(|x| x.color) == Some(Color::Red) {
+        node.color = Color::Black;
+
+        left_rotate(left);
+        right_rotate(node);
+    } else {
+        node.color = Color::Black;
+        left.color = Color::Red;
+    }
+
+    false
+}
+
+#[allow(clippy::borrowed_box)]
+fn adjust_on_right_child_black_sibling<K, V>(node: &mut Box<Node<K, V>>) -> bool {
+    let left = node.left.as_mut().unwrap();
+
+    if let Some(left_left) = left.left.as_mut().filter(|x| x.color == Color::Red) {
+        left.color = mem::replace(&mut node.color, Color::Black);
+        left_left.color = Color::Red;
+
+        right_rotate(node);
+    } else if let Some(left_right) = left.right.as_mut().filter(|x| x.color == Color::Red) {
+        left_right.color = mem::replace(&mut node.color, Color::Black);
+
+        left_rotate(left);
+        right_rotate(node);
+    } else {
+        left.color = Color::Red;
+
+        match node.color {
+            Color::Red => node.color = Color::Black,
+            Color::Black => return true,
+        }
+    }
+
+    false
+}
+
+#[allow(clippy::borrowed_box)]
+fn adjust_on_right_child<K, V>(node: &mut Box<Node<K, V>>) -> bool {
+    // Change left neighbor into a black node.
+
+    let left = node.left.as_mut().unwrap();
+
+    if left.color == Color::Red {
+        node.color = Color::Red;
+        left.color = Color::Black;
+
+        right_rotate(node);
+
+        adjust_on_right_child_black_sibling_red_root(node.right.as_mut().unwrap())
+    } else {
+        adjust_on_right_child_black_sibling(node)
+    }
+}
+
+fn remove_min<K, V>(node_ref: &mut Option<Box<Node<K, V>>>) -> (bool, Box<Node<K, V>>) {
+    let node = node_ref.as_mut().unwrap();
+
+    if node.left.is_some() {
+        let (mut height_changed, min) = remove_min(&mut node.left);
+
+        if height_changed {
+            height_changed = adjust_on_left_child(node);
+        }
+
+        (height_changed, min)
+    } else {
+        let min_right = node.right.take();
+        let min = mem::replace(node_ref, min_right).unwrap();
+
+        (min.color == Color::Black, min)
+    }
+}
+
+#[allow(clippy::borrowed_box)]
+fn lift_min<K, V>(node: &mut Box<Node<K, V>>) -> bool {
+    if node.left.is_some() {
+        let (height_changed, min) = remove_min(&mut node.left);
+
+        node.right = Some(mem::replace(node, min));
+
+        height_changed
+    } else {
+        node.color == Color::Black
+    }
+}
+
+fn delete<K, V>(node_ref: &mut Tree<K, V>) -> (bool, V) {
+    let mut node = node_ref.take().unwrap();
+
+    match (node.left.take(), node.right.take()) {
+        (None, None) => (node.color == Color::Black, node.value),
+        (None, Some(mut right)) => {
+            right.color = Color::Black;
+            *node_ref = Some(right);
+
+            (false, node.value)
+        }
+        (Some(mut left), None) => {
+            left.color = Color::Black;
+            *node_ref = Some(left);
+
+            (false, node.value)
+        }
+        (Some(left), Some(mut right)) => {
+            let mut height_changed = lift_min(&mut right);
+
+            right.color = node.color;
+            right.left = Some(left);
+
+            if height_changed {
+                height_changed = adjust_on_right_child(&mut right);
+            }
+
+            *node_ref = Some(right);
+
+            (height_changed, node.value)
+        }
+    }
+}
+
+fn remove<K: Borrow<Q>, V, Q: Ord + ?Sized>(node_ref: &mut Tree<K, V>, key: &Q) -> Result<V, Option<V>> {
+    if let Some(node) = node_ref {
+        match key.cmp(node.key.borrow()) {
+            Ordering::Less => {
+                let result = remove(&mut node.left, key)?;
+
+                if adjust_on_left_child(node) {
+                    Err(Some(result))
+                } else {
+                    Ok(result)
+                }
+            }
+            Ordering::Equal => {
+                let (height_changed, value) = delete(node_ref);
+
+                if height_changed {
+                    Ok(value)
+                } else {
+                    Err(Some(value))
+                }
+            }
+            Ordering::Greater => {
+                let result = remove(&mut node.right, key)?;
+
+                if adjust_on_right_child(node) {
+                    Err(Some(result))
+                } else {
+                    Ok(result)
+                }
+            }
+        }
+    } else {
+        Err(None)
+    }
+}
+
 // Public interface.
 
 pub struct RedBlackTreeMap<K, V> {
@@ -228,11 +466,24 @@ impl<K: Ord, V> RedBlackTreeMap<K, V> {
     pub fn insert(&mut self, key: K, value: V) -> Option<V> {
         insert(&mut self.root, key, value)
     }
+
+    pub fn remove<Q: Ord + ?Sized>(&mut self, key: &Q) -> Option<V>
+    where
+        K: Borrow<Q>,
+    {
+        match remove(&mut self.root, key) {
+            Ok(result) => Some(result),
+            Err(result) => result,
+        }
+    }
 }
 
 #[cfg(test)]
 mod tests {
-    use super::{insert, Color, Node, RedBlackTreeMap, Tree};
+    use super::{
+        adjust_on_left_child, adjust_on_left_child_black_sibling, adjust_on_left_child_black_sibling_red_root, insert,
+        Color, Node, RedBlackTreeMap, Tree,
+    };
 
     fn red<K, V>(key: K, value: V, left: Tree<K, V>, right: Tree<K, V>) -> Tree<K, V> {
         Some(Box::new(Node {
@@ -494,6 +745,60 @@ mod tests {
             ),
             None,
         )
+    }
+
+    #[test]
+    fn test_adjust_on_left_child_case_1_minimal() {
+        let mut tree = black(1, 2, None, red(3, 5, black_leaf(2, 3), black_leaf(4, 7)));
+
+        assert!(!adjust_on_left_child(tree.as_mut().unwrap()));
+
+        assert_eq!(tree, black(3, 5, black(1, 2, None, red_leaf(2, 3)), black_leaf(4, 7)));
+    }
+
+    #[test]
+    fn test_adjust_on_left_child_case_1_full() {
+        let mut tree = black(
+            2,
+            3,
+            black_leaf(1, 2),
+            red(
+                6,
+                13,
+                black(4, 7, black_leaf(3, 5), black_leaf(5, 11)),
+                black(8, 19, black_leaf(7, 17), black_leaf(9, 23)),
+            ),
+        );
+
+        assert!(!adjust_on_left_child(tree.as_mut().unwrap()));
+
+        assert_eq!(
+            tree,
+            black(
+                6,
+                13,
+                black(2, 3, black_leaf(1, 2), red(4, 7, black_leaf(3, 5), black_leaf(5, 11))),
+                black(8, 19, black_leaf(7, 17), black_leaf(9, 23))
+            )
+        );
+    }
+
+    #[test]
+    fn test_adjust_on_left_child_case_2_red_root_minimal() {
+        let red_tree = red(1, 2, None, black(3, 5, None, None));
+        let expected_red_tree_result = black(1, 2, None, red(3, 5, None, None));
+
+        for f in &[
+            adjust_on_left_child_black_sibling_red_root,
+            adjust_on_left_child_black_sibling,
+            adjust_on_left_child,
+        ] {
+            let mut tree = red_tree.clone();
+
+            assert!(!f(tree.as_mut().unwrap()));
+
+            assert_eq!(&tree, &expected_red_tree_result);
+        }
     }
 
     #[test]
