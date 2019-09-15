@@ -77,12 +77,12 @@ pub fn tree_delete<T>(z: &mut Option<Box<SimpleBinaryTreeNode<T>>>) {
         // The node being deleted doesn’t have left child.
 
         *z = z_unwrapped.right.take();
-    } else if let Some(z_right) = z_unwrapped.right.as_mut() {
-        lift_min(z_right);
+    } else if let Some(mut z_right) = z_unwrapped.right.take() {
+        lift_min(&mut z_right);
 
         z_right.left = z_unwrapped.left.take();
 
-        *z = z_unwrapped.right.take();
+        *z_unwrapped = z_right;
     } else {
         // The node being deleted doesn’t have right child.
 
