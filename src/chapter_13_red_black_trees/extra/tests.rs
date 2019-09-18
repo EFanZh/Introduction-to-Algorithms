@@ -307,7 +307,7 @@ fn test_adjust_on_left_child_case_1_full() {
 
 #[test]
 fn test_adjust_on_left_child_case_2_red_root_minimal() {
-    let red_tree = red(1, 2, None, black(3, 5, None, None));
+    let tree = red(1, 2, None, black(3, 5, None, None));
     let expected_red_tree_result = black(1, 2, None, red(3, 5, None, None));
 
     for f in &[
@@ -315,9 +315,55 @@ fn test_adjust_on_left_child_case_2_red_root_minimal() {
         adjust_on_left_child_black_sibling,
         adjust_on_left_child,
     ] {
-        let mut tree = red_tree.clone();
+        let mut tree = tree.clone();
 
         assert!(!f(tree.as_mut().unwrap()));
+
+        assert_eq!(&tree, &expected_red_tree_result);
+    }
+}
+
+#[test]
+fn test_adjust_on_left_child_case_2_red_root_full() {
+    let tree = red(2, 3, black_leaf(1, 2), black(4, 7, black_leaf(3, 5), black_leaf(5, 11)));
+    let expected_red_tree_result = black(2, 3, black_leaf(1, 2), red(4, 7, black_leaf(3, 5), black_leaf(5, 11)));
+
+    for f in &[
+        adjust_on_left_child_black_sibling_red_root,
+        adjust_on_left_child_black_sibling,
+        adjust_on_left_child,
+    ] {
+        let mut tree = tree.clone();
+
+        assert!(!f(tree.as_mut().unwrap()));
+
+        assert_eq!(&tree, &expected_red_tree_result);
+    }
+}
+
+#[test]
+fn test_adjust_on_left_child_case_2_black_root_minimal() {
+    let tree = black(1, 2, None, black(3, 5, None, None));
+    let expected_red_tree_result = black(1, 2, None, red(3, 5, None, None));
+
+    for f in &[adjust_on_left_child_black_sibling, adjust_on_left_child] {
+        let mut tree = tree.clone();
+
+        assert!(f(tree.as_mut().unwrap()));
+
+        assert_eq!(&tree, &expected_red_tree_result);
+    }
+}
+
+#[test]
+fn test_adjust_on_left_child_case_2_black_root_full() {
+    let tree = black(2, 3, black_leaf(1, 2), black(4, 7, black_leaf(3, 5), black_leaf(5, 11)));
+    let expected_red_tree_result = black(2, 3, black_leaf(1, 2), red(4, 7, black_leaf(3, 5), black_leaf(5, 11)));
+
+    for f in &[adjust_on_left_child_black_sibling, adjust_on_left_child] {
+        let mut tree = tree.clone();
+
+        assert!(f(tree.as_mut().unwrap()));
 
         assert_eq!(&tree, &expected_red_tree_result);
     }
