@@ -456,6 +456,92 @@ fn test_adjust_on_left_child_case_3_black_root_full() {
 }
 
 #[test]
+fn test_adjust_on_left_child_case_4_red_root_minimal() {
+    let tree = red(1, 2, None, black(2, 3, None, red_leaf(3, 5)));
+    let expected_red_tree_result = red(2, 3, black_leaf(1, 2), black_leaf(3, 5));
+
+    for f in &[
+        adjust_on_left_child_black_sibling_red_root,
+        adjust_on_left_child_black_sibling,
+        adjust_on_left_child,
+    ] {
+        let mut tree = tree.clone();
+
+        assert!(!f(tree.as_mut().unwrap()));
+
+        assert_eq!(&tree, &expected_red_tree_result);
+    }
+}
+
+#[test]
+fn test_adjust_on_left_child_case_4_red_root_full() {
+    let tree = red(
+        2,
+        3,
+        black_leaf(1, 2),
+        black(4, 7, black_leaf(3, 5), red(6, 13, black_leaf(5, 11), black_leaf(7, 17))),
+    );
+
+    let expected_red_tree_result = red(
+        4,
+        7,
+        black(2, 3, black_leaf(1, 2), black_leaf(3, 5)),
+        black(6, 13, black_leaf(5, 11), black_leaf(7, 17)),
+    );
+
+    for f in &[
+        adjust_on_left_child_black_sibling_red_root,
+        adjust_on_left_child_black_sibling,
+        adjust_on_left_child,
+    ] {
+        let mut tree = tree.clone();
+
+        assert!(!f(tree.as_mut().unwrap()));
+
+        assert_eq!(&tree, &expected_red_tree_result);
+    }
+}
+
+#[test]
+fn test_adjust_on_left_child_case_4_black_root_minimal() {
+    let tree = black(1, 2, None, black(2, 3, None, red_leaf(3, 5)));
+    let expected_red_tree_result = black(2, 3, black_leaf(1, 2), black_leaf(3, 5));
+
+    for f in &[adjust_on_left_child_black_sibling, adjust_on_left_child] {
+        let mut tree = tree.clone();
+
+        assert!(!f(tree.as_mut().unwrap()));
+
+        assert_eq!(&tree, &expected_red_tree_result);
+    }
+}
+
+#[test]
+fn test_adjust_on_left_child_case_4_black_root_full() {
+    let tree = black(
+        2,
+        3,
+        black_leaf(1, 2),
+        black(4, 7, black_leaf(3, 5), red(6, 13, black_leaf(5, 11), black_leaf(7, 17))),
+    );
+
+    let expected_red_tree_result = black(
+        4,
+        7,
+        black(2, 3, black_leaf(1, 2), black_leaf(3, 5)),
+        black(6, 13, black_leaf(5, 11), black_leaf(7, 17)),
+    );
+
+    for f in &[adjust_on_left_child_black_sibling, adjust_on_left_child] {
+        let mut tree = tree.clone();
+
+        assert!(!f(tree.as_mut().unwrap()));
+
+        assert_eq!(&tree, &expected_red_tree_result);
+    }
+}
+
+#[test]
 fn test_red_black_tree_map() {
     let mut map = RedBlackTreeMap::new();
 

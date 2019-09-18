@@ -235,7 +235,7 @@ fn adjust_on_left_child_black_sibling<K, V>(node: &mut Box<Node<K, V>>) -> bool 
 
     if let Some(right_right) = right.right.as_mut().filter(|x| x.color == Color::Red) {
         right.color = mem::replace(&mut node.color, Color::Black);
-        right_right.color = Color::Red;
+        right_right.color = Color::Black;
 
         left_rotate(node);
     } else if let Some(right_left) = right.left.as_mut().filter(|x| x.color == Color::Red) {
@@ -302,7 +302,7 @@ fn adjust_on_right_child_black_sibling<K, V>(node: &mut Box<Node<K, V>>) -> bool
 
     if let Some(left_left) = left.left.as_mut().filter(|x| x.color == Color::Red) {
         left.color = mem::replace(&mut node.color, Color::Black);
-        left_left.color = Color::Red;
+        left_left.color = Color::Black;
 
         right_rotate(node);
     } else if let Some(left_right) = left.right.as_mut().filter(|x| x.color == Color::Red) {
