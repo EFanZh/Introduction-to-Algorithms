@@ -1,5 +1,6 @@
 use super::{
-    adjust_on_left_child, adjust_on_left_child_black_sibling, adjust_on_left_child_black_sibling_red_root, insert,
+    adjust_on_left_child, adjust_on_left_child_black_sibling, adjust_on_left_child_black_sibling_red_root,
+    adjust_on_right_child, adjust_on_right_child_black_sibling, adjust_on_right_child_black_sibling_red_root, insert,
     Color, Node, RedBlackTreeMap, Tree,
 };
 
@@ -527,6 +528,272 @@ fn test_adjust_on_left_child_case_4_black_root_full() {
     );
 
     for f in &[adjust_on_left_child_black_sibling, adjust_on_left_child] {
+        let mut tree = tree.clone();
+
+        assert!(!f(tree.as_mut().unwrap()));
+
+        assert_eq!(&tree, &expected_red_tree_result);
+    }
+}
+
+#[test]
+fn test_adjust_on_right_child_case_1_minimal() {
+    let mut tree = black(4, 2, red(2, 5, black_leaf(1, 7), black_leaf(3, 3)), None);
+
+    assert!(!adjust_on_right_child(tree.as_mut().unwrap()));
+
+    assert_eq!(tree, black(2, 5, black_leaf(1, 7), black(4, 2, red_leaf(3, 3), None)));
+}
+
+#[test]
+fn test_adjust_on_right_child_case_1_full() {
+    let mut tree = black(
+        8,
+        3,
+        red(
+            4,
+            13,
+            black(2, 19, black_leaf(1, 23), black_leaf(3, 17)),
+            black(6, 7, black_leaf(5, 11), black_leaf(7, 5)),
+        ),
+        black_leaf(9, 2),
+    );
+
+    assert!(!adjust_on_right_child(tree.as_mut().unwrap()));
+
+    assert_eq!(
+        tree,
+        black(
+            4,
+            13,
+            black(2, 19, black_leaf(1, 23), black_leaf(3, 17)),
+            black(8, 3, red(6, 7, black_leaf(5, 11), black_leaf(7, 5)), black_leaf(9, 2)),
+        )
+    );
+}
+
+#[test]
+fn test_adjust_on_right_child_case_2_red_root_minimal() {
+    let mut tree = red(3, 2, black(1, 5, None, None), None);
+    let expected_red_tree_result = black(3, 2, red(1, 5, None, None), None);
+
+    for f in &[adjust_on_right_child_black_sibling, adjust_on_right_child] {
+        let mut tree = tree.clone();
+
+        assert!(!f(tree.as_mut().unwrap()));
+
+        assert_eq!(&tree, &expected_red_tree_result);
+    }
+
+    adjust_on_right_child_black_sibling_red_root(tree.as_mut().unwrap());
+    assert_eq!(&tree, &expected_red_tree_result);
+}
+
+#[test]
+fn test_adjust_on_right_child_case_2_red_root_full() {
+    let mut tree = red(4, 3, black(2, 7, black_leaf(1, 11), black_leaf(3, 5)), black_leaf(5, 2));
+    let expected_red_tree_result = black(4, 3, red(2, 7, black_leaf(1, 11), black_leaf(3, 5)), black_leaf(5, 2));
+
+    for f in &[adjust_on_right_child_black_sibling, adjust_on_right_child] {
+        let mut tree = tree.clone();
+
+        assert!(!f(tree.as_mut().unwrap()));
+
+        assert_eq!(&tree, &expected_red_tree_result);
+    }
+
+    adjust_on_right_child_black_sibling_red_root(tree.as_mut().unwrap());
+    assert_eq!(&tree, &expected_red_tree_result);
+}
+
+#[test]
+fn test_adjust_on_right_child_case_2_black_root_minimal() {
+    let tree = black(3, 2, black(1, 5, None, None), None);
+    let expected_red_tree_result = black(3, 2, red(1, 5, None, None), None);
+
+    for f in &[adjust_on_right_child_black_sibling, adjust_on_right_child] {
+        let mut tree = tree.clone();
+
+        assert!(f(tree.as_mut().unwrap()));
+
+        assert_eq!(&tree, &expected_red_tree_result);
+    }
+}
+
+#[test]
+fn test_adjust_on_right_child_case_2_black_root_full() {
+    let tree = black(4, 3, black(2, 7, black_leaf(1, 11), black_leaf(3, 5)), black_leaf(5, 2));
+    let expected_red_tree_result = black(4, 3, red(2, 7, black_leaf(1, 11), black_leaf(3, 5)), black_leaf(5, 2));
+
+    for f in &[adjust_on_right_child_black_sibling, adjust_on_right_child] {
+        let mut tree = tree.clone();
+
+        assert!(f(tree.as_mut().unwrap()));
+
+        assert_eq!(&tree, &expected_red_tree_result);
+    }
+}
+
+#[test]
+fn test_adjust_on_right_child_case_3_red_root_minimal() {
+    let mut tree = red(3, 2, black(1, 5, None, red_leaf(2, 3)), None);
+    let expected_red_tree_result = red(2, 3, black_leaf(1, 5), black_leaf(3, 2));
+
+    for f in &[adjust_on_right_child_black_sibling, adjust_on_right_child] {
+        let mut tree = tree.clone();
+
+        assert!(!f(tree.as_mut().unwrap()));
+
+        assert_eq!(&tree, &expected_red_tree_result);
+    }
+
+    adjust_on_right_child_black_sibling_red_root(tree.as_mut().unwrap());
+    assert_eq!(&tree, &expected_red_tree_result);
+}
+
+#[test]
+fn test_adjust_on_right_child_case_3_red_root_full() {
+    let mut tree = red(
+        6,
+        3,
+        black(2, 13, black_leaf(1, 17), red(4, 7, black_leaf(3, 11), black_leaf(5, 5))),
+        black_leaf(7, 2),
+    );
+
+    let expected_red_tree_result = red(
+        4,
+        7,
+        black(2, 13, black_leaf(1, 17), black_leaf(3, 11)),
+        black(6, 3, black_leaf(5, 5), black_leaf(7, 2)),
+    );
+
+    for f in &[adjust_on_right_child_black_sibling, adjust_on_right_child] {
+        let mut tree = tree.clone();
+
+        assert!(!f(tree.as_mut().unwrap()));
+
+        assert_eq!(&tree, &expected_red_tree_result);
+    }
+
+    adjust_on_right_child_black_sibling_red_root(tree.as_mut().unwrap());
+    assert_eq!(&tree, &expected_red_tree_result);
+}
+
+#[test]
+fn test_adjust_on_right_child_case_3_black_root_minimal() {
+    let tree = black(3, 2, black(1, 5, None, red_leaf(2, 3)), None);
+    let expected_red_tree_result = black(2, 3, black_leaf(1, 5), black_leaf(3, 2));
+
+    for f in &[adjust_on_right_child_black_sibling, adjust_on_right_child] {
+        let mut tree = tree.clone();
+
+        assert!(!f(tree.as_mut().unwrap()));
+
+        assert_eq!(&tree, &expected_red_tree_result);
+    }
+}
+
+#[test]
+fn test_adjust_on_right_child_case_3_black_root_full() {
+    let tree = black(
+        6,
+        3,
+        black(2, 13, black_leaf(1, 17), red(4, 7, black_leaf(3, 11), black_leaf(5, 5))),
+        black_leaf(7, 2),
+    );
+
+    let expected_red_tree_result = black(
+        4,
+        7,
+        black(2, 13, black_leaf(1, 17), black_leaf(3, 11)),
+        black(6, 3, black_leaf(5, 5), black_leaf(7, 2)),
+    );
+
+    for f in &[adjust_on_right_child_black_sibling, adjust_on_right_child] {
+        let mut tree = tree.clone();
+
+        assert!(!f(tree.as_mut().unwrap()));
+
+        assert_eq!(&tree, &expected_red_tree_result);
+    }
+}
+
+#[test]
+fn test_adjust_on_right_child_case_4_red_root_minimal() {
+    let mut tree = red(3, 2, black(2, 3, red_leaf(1, 5), None), None);
+    let expected_red_tree_result = red(2, 3, black_leaf(1, 5), black_leaf(3, 2));
+
+    for f in &[adjust_on_right_child_black_sibling, adjust_on_right_child] {
+        let mut tree = tree.clone();
+
+        assert!(!f(tree.as_mut().unwrap()));
+
+        assert_eq!(&tree, &expected_red_tree_result);
+    }
+
+    adjust_on_right_child_black_sibling_red_root(tree.as_mut().unwrap());
+    assert_eq!(&tree, &expected_red_tree_result);
+}
+
+#[test]
+fn test_adjust_on_right_child_case_4_red_root_full() {
+    let mut tree = red(
+        6,
+        3,
+        black(4, 7, red(2, 13, black_leaf(1, 17), black_leaf(3, 11)), black_leaf(5, 5)),
+        black_leaf(7, 2),
+    );
+
+    let expected_red_tree_result = red(
+        4,
+        7,
+        black(2, 13, black_leaf(1, 17), black_leaf(3, 11)),
+        black(6, 3, black_leaf(5, 5), black_leaf(7, 2)),
+    );
+
+    for f in &[adjust_on_right_child_black_sibling, adjust_on_right_child] {
+        let mut tree = tree.clone();
+
+        assert!(!f(tree.as_mut().unwrap()));
+
+        assert_eq!(&tree, &expected_red_tree_result);
+    }
+
+    adjust_on_right_child_black_sibling_red_root(tree.as_mut().unwrap());
+    assert_eq!(&tree, &expected_red_tree_result);
+}
+
+#[test]
+fn test_adjust_on_right_child_case_4_black_root_minimal() {
+    let tree = black(3, 2, black(2, 3, red_leaf(1, 5), None), None);
+    let expected_red_tree_result = black(2, 3, black_leaf(1, 5), black_leaf(3, 2));
+
+    for f in &[adjust_on_right_child_black_sibling, adjust_on_right_child] {
+        let mut tree = tree.clone();
+
+        assert!(!f(tree.as_mut().unwrap()));
+
+        assert_eq!(&tree, &expected_red_tree_result);
+    }
+}
+
+#[test]
+fn test_adjust_on_right_child_case_4_black_root_full() {
+    let tree = black(
+        6,
+        3,
+        black(4, 7, red(2, 13, black_leaf(1, 17), black_leaf(3, 11)), black_leaf(5, 5)),
+        black_leaf(7, 2),
+    );
+
+    let expected_red_tree_result = black(
+        4,
+        7,
+        black(2, 13, black_leaf(1, 17), black_leaf(3, 11)),
+        black(6, 3, black_leaf(5, 5), black_leaf(7, 2)),
+    );
+
+    for f in &[adjust_on_right_child_black_sibling, adjust_on_right_child] {
         let mut tree = tree.clone();
 
         assert!(!f(tree.as_mut().unwrap()));
