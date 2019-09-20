@@ -207,7 +207,7 @@ fn insert<K: Ord, V>(tree: &mut Tree<K, V>, key: K, value: V) -> Option<V> {
 // Deletion.
 
 #[allow(clippy::borrowed_box)]
-fn adjust_on_left_child_black_sibling_red_root<K, V>(node: &mut Box<Node<K, V>>) -> bool {
+fn adjust_on_left_child_black_sibling_red_root<K, V>(node: &mut Box<Node<K, V>>) {
     let right = node.right.as_mut().unwrap();
 
     if let Some(right_right) = right.right.as_mut().filter(|x| x.color == Color::Red) {
@@ -225,8 +225,6 @@ fn adjust_on_left_child_black_sibling_red_root<K, V>(node: &mut Box<Node<K, V>>)
         node.color = Color::Black;
         right.color = Color::Red;
     }
-
-    false
 }
 
 #[allow(clippy::borrowed_box)]
@@ -267,14 +265,16 @@ fn adjust_on_left_child<K, V>(node: &mut Box<Node<K, V>>) -> bool {
 
         left_rotate(node);
 
-        adjust_on_left_child_black_sibling_red_root(node.left.as_mut().unwrap())
+        adjust_on_left_child_black_sibling_red_root(node.left.as_mut().unwrap());
+
+        false
     } else {
         adjust_on_left_child_black_sibling(node)
     }
 }
 
 #[allow(clippy::borrowed_box)]
-fn adjust_on_right_child_black_sibling_red_root<K, V>(node: &mut Box<Node<K, V>>) -> bool {
+fn adjust_on_right_child_black_sibling_red_root<K, V>(node: &mut Box<Node<K, V>>) {
     let left = node.left.as_mut().unwrap();
 
     if let Some(left_left) = left.left.as_mut().filter(|x| x.color == Color::Red) {
@@ -292,8 +292,6 @@ fn adjust_on_right_child_black_sibling_red_root<K, V>(node: &mut Box<Node<K, V>>
         node.color = Color::Black;
         left.color = Color::Red;
     }
-
-    false
 }
 
 #[allow(clippy::borrowed_box)]
@@ -334,7 +332,9 @@ fn adjust_on_right_child<K, V>(node: &mut Box<Node<K, V>>) -> bool {
 
         right_rotate(node);
 
-        adjust_on_right_child_black_sibling_red_root(node.right.as_mut().unwrap())
+        adjust_on_right_child_black_sibling_red_root(node.right.as_mut().unwrap());
+
+        false
     } else {
         adjust_on_right_child_black_sibling(node)
     }
