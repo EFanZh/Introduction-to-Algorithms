@@ -926,7 +926,24 @@ fn test_remove_right_adjust_2() {
 }
 
 #[test]
-fn test_remove_extra() {
+fn test_remove_extra_1() {
+    let mut tree = black(
+        2,
+        3,
+        black_leaf(1, 2),
+        red(5, 11, black(4, 7, red_leaf(3, 5), None), black_leaf(6, 13)),
+    );
+
+    assert_eq!(remove(&mut tree, &2), Err(Some(3)));
+
+    assert_eq!(
+        tree,
+        black(3, 5, black_leaf(1, 2), red(5, 11, black_leaf(4, 7), black_leaf(6, 13)),)
+    );
+}
+
+#[test]
+fn test_remove_extra_2() {
     let mut tree = black(
         4,
         7,
