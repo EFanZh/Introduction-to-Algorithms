@@ -1,7 +1,7 @@
 use super::{
     adjust_on_left_child, adjust_on_left_child_black_sibling, adjust_on_left_child_black_sibling_red_root,
-    adjust_on_right_child, adjust_on_right_child_black_sibling, adjust_on_right_child_black_sibling_red_root, insert,
-    Color, Node, RedBlackTreeMap, Tree,
+    adjust_on_right_child, adjust_on_right_child_black_sibling, adjust_on_right_child_black_sibling_red_root, delete,
+    insert, remove, Color, Node, RedBlackTreeMap, Tree,
 };
 
 fn red<K, V>(key: K, value: V, left: Tree<K, V>, right: Tree<K, V>) -> Tree<K, V> {
@@ -803,6 +803,129 @@ fn test_adjust_on_right_child_case_4_black_root_full() {
 }
 
 #[test]
+fn test_delete_red_leaf() {
+    let mut node = red_leaf(2, 3);
+
+    assert_eq!(delete(&mut node), (false, 3));
+    assert_eq!(node, None);
+}
+
+#[test]
+fn test_delete_black_leaf() {
+    let mut node = black_leaf(2, 3);
+
+    assert_eq!(delete(&mut node), (true, 3));
+    assert_eq!(node, None);
+}
+
+#[test]
+fn test_delete_left_empty() {
+    let mut node = black(2, 3, None, red_leaf(5, 7));
+
+    assert_eq!(delete(&mut node), (false, 3));
+    assert_eq!(node, black_leaf(5, 7));
+}
+
+#[test]
+fn test_delete_right_empty() {
+    let mut node = black(2, 3, red_leaf(1, 2), None);
+
+    assert_eq!(delete(&mut node), (false, 3));
+    assert_eq!(node, black_leaf(1, 2));
+}
+
+#[test]
+fn test_delete_both_children_1() {
+    let mut node = black(2, 3, red_leaf(1, 2), red_leaf(3, 5));
+
+    assert_eq!(delete(&mut node), (false, 3));
+    assert_eq!(node, black(3, 5, red_leaf(1, 2), None));
+}
+
+#[test]
+fn test_delete_both_children_2() {
+    let mut node = black(2, 3, black_leaf(1, 2), black_leaf(3, 5));
+
+    assert_eq!(delete(&mut node), (true, 3));
+    assert_eq!(node, black(3, 5, red_leaf(1, 2), None));
+}
+
+#[test]
+fn test_delete_both_children_3() {
+    let mut node = black(4, 7, red(2, 3, black_leaf(1, 2), black_leaf(3, 5)), black_leaf(5, 13));
+
+    assert_eq!(delete(&mut node), (false, 7));
+    assert_eq!(node, black(2, 3, black_leaf(1, 2), black(5, 13, red_leaf(3, 5), None)));
+}
+
+#[test]
+fn test_remove_empty() {
+    let mut tree: Tree<i32, i32> = None;
+
+    assert_eq!(remove(&mut tree, &4), Err(None));
+    assert_eq!(tree, None);
+}
+
+#[test]
+fn test_remove_not_exist() {
+    let mut tree: Tree<i32, i32> = black(2, 3, black_leaf(1, 2), black_leaf(3, 5));
+    let tree_2 = tree.clone();
+
+    assert_eq!(remove(&mut tree, &0), Err(None));
+    assert_eq!(&tree, &tree_2);
+    assert_eq!(remove(&mut tree, &4), Err(None));
+    assert_eq!(&tree, &tree_2);
+}
+
+#[test]
+fn test_remove_left_no_adjust() {
+    let mut tree: Tree<i32, i32> = black(2, 3, red_leaf(1, 2), red_leaf(3, 5));
+
+    assert_eq!(remove(&mut tree, &1), Err(Some(2)));
+    assert_eq!(tree, black(2, 3, None, red_leaf(3, 5)));
+}
+
+#[test]
+fn test_remove_left_adjust_1() {
+    let mut tree: Tree<i32, i32> = black(2, 3, black_leaf(1, 2), black_leaf(3, 5));
+
+    assert_eq!(remove(&mut tree, &1), Ok(2));
+    assert_eq!(tree, black(2, 3, None, red_leaf(3, 5)));
+}
+
+#[test]
+fn test_remove_left_adjust_2() {
+    let mut tree: Tree<i32, i32> = black(2, 3, black_leaf(1, 2), red(4, 7, black_leaf(3, 5), black_leaf(5, 11)));
+
+    assert_eq!(remove(&mut tree, &1), Err(Some(2)));
+    assert_eq!(tree, black(4, 7, black(2, 3, None, red_leaf(3, 5)), black_leaf(5, 11)));
+}
+
+#[test]
+fn test_remove_right_no_adjust() {
+    let mut tree: Tree<i32, i32> = black(2, 3, red_leaf(1, 5), red_leaf(3, 2));
+
+    assert_eq!(remove(&mut tree, &3), Err(Some(2)));
+    assert_eq!(tree, black(2, 3, red_leaf(1, 5), None));
+}
+
+#[test]
+fn test_remove_right_adjust_1() {
+    let mut tree: Tree<i32, i32> = black(2, 3, black_leaf(1, 5), black_leaf(3, 2));
+
+    assert_eq!(remove(&mut tree, &3), Ok(2));
+    assert_eq!(tree, black(2, 3, red_leaf(1, 5), None));
+}
+
+#[test]
+fn test_remove_right_adjust_2() {
+    let mut tree: Tree<i32, i32> = black(4, 3, red(2, 7, black_leaf(1, 11), black_leaf(3, 5)), black_leaf(5, 2));
+
+    assert_eq!(remove(&mut tree, &5), Err(Some(2)));
+    assert_eq!(tree, black(2, 7, black_leaf(1, 11), black(4, 3, red_leaf(3, 5), None)));
+}
+
+#[test]
 fn test_red_black_tree_map() {
     let mut map = RedBlackTreeMap::new();
 
@@ -818,4 +941,8 @@ fn test_red_black_tree_map() {
 
     assert_eq!(map.get(&4), Some(&8));
     assert_eq!(map.get(&5), None);
+
+    assert_eq!(map.remove(&5), None);
+    assert_eq!(map.remove(&4), Some(8));
+    assert_eq!(map.get(&4), None);
 }

@@ -413,9 +413,9 @@ fn remove<K: Borrow<Q>, V, Q: Ord + ?Sized>(node_ref: &mut Tree<K, V>, key: &Q) 
                 let result = remove(&mut node.left, key)?;
 
                 if adjust_on_left_child(node) {
-                    Err(Some(result))
-                } else {
                     Ok(result)
+                } else {
+                    Err(Some(result))
                 }
             }
             Ordering::Equal => {
@@ -431,9 +431,9 @@ fn remove<K: Borrow<Q>, V, Q: Ord + ?Sized>(node_ref: &mut Tree<K, V>, key: &Q) 
                 let result = remove(&mut node.right, key)?;
 
                 if adjust_on_right_child(node) {
-                    Err(Some(result))
-                } else {
                     Ok(result)
+                } else {
+                    Err(Some(result))
                 }
             }
         }
