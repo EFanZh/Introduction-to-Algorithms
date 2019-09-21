@@ -868,7 +868,7 @@ fn test_remove_empty() {
 
 #[test]
 fn test_remove_not_exist() {
-    let mut tree: Tree<i32, i32> = black(2, 3, black_leaf(1, 2), black_leaf(3, 5));
+    let mut tree = black(2, 3, black_leaf(1, 2), black_leaf(3, 5));
     let tree_2 = tree.clone();
 
     assert_eq!(remove(&mut tree, &0), Err(None));
@@ -879,7 +879,7 @@ fn test_remove_not_exist() {
 
 #[test]
 fn test_remove_left_no_adjust() {
-    let mut tree: Tree<i32, i32> = black(2, 3, red_leaf(1, 2), red_leaf(3, 5));
+    let mut tree = black(2, 3, red_leaf(1, 2), red_leaf(3, 5));
 
     assert_eq!(remove(&mut tree, &1), Err(Some(2)));
     assert_eq!(tree, black(2, 3, None, red_leaf(3, 5)));
@@ -887,7 +887,7 @@ fn test_remove_left_no_adjust() {
 
 #[test]
 fn test_remove_left_adjust_1() {
-    let mut tree: Tree<i32, i32> = black(2, 3, black_leaf(1, 2), black_leaf(3, 5));
+    let mut tree = black(2, 3, black_leaf(1, 2), black_leaf(3, 5));
 
     assert_eq!(remove(&mut tree, &1), Ok(2));
     assert_eq!(tree, black(2, 3, None, red_leaf(3, 5)));
@@ -895,7 +895,7 @@ fn test_remove_left_adjust_1() {
 
 #[test]
 fn test_remove_left_adjust_2() {
-    let mut tree: Tree<i32, i32> = black(2, 3, black_leaf(1, 2), red(4, 7, black_leaf(3, 5), black_leaf(5, 11)));
+    let mut tree = black(2, 3, black_leaf(1, 2), red(4, 7, black_leaf(3, 5), black_leaf(5, 11)));
 
     assert_eq!(remove(&mut tree, &1), Err(Some(2)));
     assert_eq!(tree, black(4, 7, black(2, 3, None, red_leaf(3, 5)), black_leaf(5, 11)));
@@ -903,7 +903,7 @@ fn test_remove_left_adjust_2() {
 
 #[test]
 fn test_remove_right_no_adjust() {
-    let mut tree: Tree<i32, i32> = black(2, 3, red_leaf(1, 5), red_leaf(3, 2));
+    let mut tree = black(2, 3, red_leaf(1, 5), red_leaf(3, 2));
 
     assert_eq!(remove(&mut tree, &3), Err(Some(2)));
     assert_eq!(tree, black(2, 3, red_leaf(1, 5), None));
@@ -911,7 +911,7 @@ fn test_remove_right_no_adjust() {
 
 #[test]
 fn test_remove_right_adjust_1() {
-    let mut tree: Tree<i32, i32> = black(2, 3, black_leaf(1, 5), black_leaf(3, 2));
+    let mut tree = black(2, 3, black_leaf(1, 5), black_leaf(3, 2));
 
     assert_eq!(remove(&mut tree, &3), Ok(2));
     assert_eq!(tree, black(2, 3, red_leaf(1, 5), None));
@@ -919,10 +919,42 @@ fn test_remove_right_adjust_1() {
 
 #[test]
 fn test_remove_right_adjust_2() {
-    let mut tree: Tree<i32, i32> = black(4, 3, red(2, 7, black_leaf(1, 11), black_leaf(3, 5)), black_leaf(5, 2));
+    let mut tree = black(4, 3, red(2, 7, black_leaf(1, 11), black_leaf(3, 5)), black_leaf(5, 2));
 
     assert_eq!(remove(&mut tree, &5), Err(Some(2)));
     assert_eq!(tree, black(2, 7, black_leaf(1, 11), black(4, 3, red_leaf(3, 5), None)));
+}
+
+#[test]
+fn test_remove_extra() {
+    let mut tree = black(
+        4,
+        7,
+        black(2, 3, black_leaf(1, 2), black_leaf(3, 5)),
+        red(
+            8,
+            19,
+            black(6, 13, black_leaf(5, 11), black_leaf(7, 17)),
+            black(10, 29, black_leaf(9, 23), black_leaf(11, 31)),
+        ),
+    );
+
+    assert_eq!(remove(&mut tree, &4), Err(Some(7)));
+
+    assert_eq!(
+        tree,
+        black(
+            5,
+            11,
+            black(2, 3, black_leaf(1, 2), black_leaf(3, 5)),
+            black(
+                8,
+                19,
+                black(6, 13, None, red_leaf(7, 17)),
+                red(10, 29, black_leaf(9, 23), black_leaf(11, 31))
+            ),
+        )
+    );
 }
 
 #[test]

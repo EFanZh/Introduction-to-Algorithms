@@ -340,29 +340,31 @@ fn adjust_on_right_child<K, V>(node: &mut Box<Node<K, V>>) -> bool {
     }
 }
 
-fn remove_min<K, V>(node_ref: &mut Option<Box<Node<K, V>>>) -> (bool, Box<Node<K, V>>) {
-    let node = node_ref.as_mut().unwrap();
+fn remove_min<K, V>(node_ref: &mut Option<Box<Node<K, V>>>) -> Option<(bool, Box<Node<K, V>>)> {
+    if let Some(node) = node_ref.as_mut() {
+        if let Some((mut height_changed, min)) = remove_min(&mut node.left) {
+            if height_changed {
+                height_changed = adjust_on_left_child(node);
+            }
 
-    if node.left.is_some() {
-        let (mut height_changed, min) = remove_min(&mut node.left);
+            Some((height_changed, min))
+        } else {
+            let min_right = node.right.take();
+            let min = mem::replace(node_ref, min_right).unwrap();
 
-        if height_changed {
-            height_changed = adjust_on_left_child(node);
+            Some((min.color == Color::Black, min))
         }
-
-        (height_changed, min)
     } else {
-        let min_right = node.right.take();
-        let min = mem::replace(node_ref, min_right).unwrap();
-
-        (min.color == Color::Black, min)
+        None
     }
 }
 
 #[allow(clippy::borrowed_box)]
 fn lift_min<K, V>(node: &mut Box<Node<K, V>>) -> bool {
-    if node.left.is_some() {
-        let (height_changed, min) = remove_min(&mut node.left);
+    if let Some((mut height_changed, min)) = remove_min(&mut node.left) {
+        if height_changed {
+            height_changed = adjust_on_left_child(node);
+        }
 
         node.right = Some(mem::replace(node, min));
 
