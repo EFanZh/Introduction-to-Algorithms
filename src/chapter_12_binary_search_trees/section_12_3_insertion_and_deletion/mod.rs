@@ -164,5 +164,12 @@ mod tests {
             delete(make_simple_tree![(2, 1, (5, (3, (), 4), ()))]),
             make_simple_tree![(3, 1, (5, 4, ()))]
         );
+
+        // The minimum element in the right subtree is in deep subtree.
+
+        assert_eq!(
+            delete(make_simple_tree![(4, (2, 1, 3), (8, (6, 5, 7), (10, 9, 11)))]),
+            make_simple_tree![(5, (2, 1, 3), (8, (6, (), 7), (10, 9, 11)))]
+        );
     }
 }
