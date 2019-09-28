@@ -71,5 +71,10 @@ mod tests {
             make_unbounded_branching_tree![(4, (5, (), (6, 7, ())), ())],
             vec![4, 5, 6, 7],
         );
+
+        run_single_tests(
+            make_unbounded_branching_tree![(1, (2, (3, (), (4, (), 5)), 6), ())],
+            vec![1, 2, 3, 4, 5, 6],
+        );
     }
 }
