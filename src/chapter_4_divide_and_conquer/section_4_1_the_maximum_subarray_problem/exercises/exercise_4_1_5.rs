@@ -1,10 +1,10 @@
 use num_traits::Zero;
 
 pub fn find_maximum_subarray_linear_time<T: Clone + Ord + Zero>(a: &[T]) -> (usize, usize, T) {
-    let mut max_left = 0usize;
-    let mut max_right = 0usize;
+    let mut max_left = 0;
+    let mut max_right = 0;
     let mut max_sum = a[0].clone();
-    let mut max_sum_end_left = 0usize;
+    let mut max_sum_end_left = 0;
     let mut max_sum_end = a[0].clone();
 
     for (i, a_i) in a.iter().enumerate().skip(1) {
