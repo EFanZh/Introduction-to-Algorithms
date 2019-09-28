@@ -39,12 +39,14 @@ mod tests {
 
     #[test]
     fn test_tree_successor() {
-        let root = make_tree![(5, 2, 8)].unwrap();
+        let root = make_tree![(5, (3, 2, 4), 8)].unwrap();
         let left = root.get_left_child().clone().unwrap();
+        let left_left = left.get_left_child().clone().unwrap();
         let right = root.get_right_child().clone().unwrap();
 
-        assert_eq!(*tree_predecessor(root.clone()).as_ref().unwrap().get_key(), 2);
-        assert!(tree_predecessor(left).is_none());
+        assert_eq!(*tree_predecessor(root.clone()).as_ref().unwrap().get_key(), 4);
+        assert_eq!(*tree_predecessor(left).as_ref().unwrap().get_key(), 2);
+        assert!(tree_predecessor(left_left).is_none());
         assert_eq!(*tree_predecessor(right).as_ref().unwrap().get_key(), 5);
     }
 }
