@@ -1,5 +1,6 @@
 use super::super::super::utilities::Infinitable;
 use std::cmp::Ordering;
+use std::iter;
 
 pub struct YoungTableau<T: Ord> {
     data: Box<[Infinitable<T>]>,
@@ -9,7 +10,9 @@ pub struct YoungTableau<T: Ord> {
 impl<T: Ord> YoungTableau<T> {
     pub fn new(num_rows: usize, num_columns: usize) -> Self {
         YoungTableau {
-            data: (0..num_columns * num_rows).map(|_| Infinitable::Infinity).collect(),
+            data: iter::repeat_with(|| Infinitable::Infinity)
+                .take(num_columns * num_rows)
+                .collect(),
             num_columns,
         }
     }

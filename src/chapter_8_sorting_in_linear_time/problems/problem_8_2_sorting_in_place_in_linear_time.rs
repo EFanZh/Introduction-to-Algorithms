@@ -41,6 +41,7 @@ mod tests {
     use super::super::super::super::test_utilities::{assign_vec, assign_vec_from_iter};
     use super::counting_sort_by_key_inplace_unstable;
     use rand::{thread_rng, Rng};
+    use std::iter;
 
     #[test]
     fn test_counting_sort_by_key_inplace_unstable() {
@@ -50,7 +51,7 @@ mod tests {
 
         for n in 0usize..10 {
             for _ in 0..2usize.pow(n as _) {
-                assign_vec_from_iter(&mut a, (0..n).map(|_| rng.gen_range(0, n)));
+                assign_vec_from_iter(&mut a, iter::repeat_with(|| rng.gen_range(0, n)).take(n));
                 assign_vec(&mut b, &a);
 
                 counting_sort_by_key_inplace_unstable(&mut a, n, |x| *x);

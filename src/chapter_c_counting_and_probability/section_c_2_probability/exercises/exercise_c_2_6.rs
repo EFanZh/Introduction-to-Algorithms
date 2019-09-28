@@ -26,15 +26,16 @@ pub fn flip_coin_2<C: FnMut() -> bool>(mut fair_coin: C, a: i32, b: i32) -> bool
 mod tests {
     use super::{flip_coin, flip_coin_2};
     use rand::{thread_rng, Rng};
+    use std::iter;
 
     fn run_test_flip_coin<F: FnMut(i32, i32) -> bool>(mut f: F) {
         let samples = 100_000;
 
         for a in 1..=5 {
             for b in a + 1..=6 {
-                let heads = (0..samples).map(|_| f(a, b)).filter(|&x| x).count() as i32;
+                let heads = iter::repeat_with(|| f(a, b)).take(samples).filter(|&x| x).count() as i32;
 
-                assert!((f64::from(b * heads) / f64::from(a * samples) - 1.0).abs() < 0.03);
+                assert!((f64::from(b * heads) / f64::from(a * (samples as i32)) - 1.0).abs() < 0.03);
             }
         }
     }

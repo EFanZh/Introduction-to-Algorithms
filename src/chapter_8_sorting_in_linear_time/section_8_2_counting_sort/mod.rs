@@ -45,6 +45,7 @@ mod tests {
     use super::super::super::test_utilities::assign_vec_from_iter;
     use super::counting_sort;
     use rand::{thread_rng, Rng};
+    use std::iter;
 
     #[test]
     fn test_counting_sort() {
@@ -54,7 +55,7 @@ mod tests {
 
         for n in 0usize..10 {
             for _ in 0..2usize.pow(n as _) {
-                assign_vec_from_iter(&mut a, (0..n).map(|_| rng.gen_range(0, n)));
+                assign_vec_from_iter(&mut a, iter::repeat_with(|| rng.gen_range(0, n)).take(n));
                 b.resize(n, 0);
 
                 counting_sort(&a, &mut b, n);
