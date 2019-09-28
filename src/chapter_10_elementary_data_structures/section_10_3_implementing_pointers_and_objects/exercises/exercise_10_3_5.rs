@@ -214,4 +214,15 @@ mod tests {
 
         run_single_test(key, prev, next, l, f);
     }
+
+    #[test]
+    fn test_compactify_free_at_head() {
+        let key = &mut [2, 3, 5, 7, 11];
+        let prev = &mut [Handle(789), Handle(456), NIL, Handle(2), Handle(3)];
+        let next = &mut [NIL, Handle(0), Handle(3), Handle(4), NIL];
+        let l = Handle(2);
+        let f = Handle(1);
+
+        run_single_test(key, prev, next, l, f);
+    }
 }
