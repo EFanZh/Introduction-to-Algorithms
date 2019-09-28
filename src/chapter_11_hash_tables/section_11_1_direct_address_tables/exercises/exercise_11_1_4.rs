@@ -42,27 +42,23 @@ impl<T> DirectAddressDictionary<T> {
     }
 
     pub fn delete(&mut self, key: usize) {
-        if let Some((value, key_index)) = self.memory.get_mut(key) {
-            if self.keys.get(*key_index) == Some(&key) {
-                // Clear value.
+        let (value, key_index) = self.memory.get_mut(key).unwrap();
 
-                *value = None;
+        assert_eq!(self.keys.get(*key_index), Some(&key));
 
-                // Remove `key` from `self.keys`.
+        // Clear value.
 
-                self.keys.swap_remove(*key_index);
+        *value = None;
 
-                if let Some(moved_key) = self.keys.get(*key_index) {
-                    // The last entry in `self.keys` is moved to `*key_index`, update the memory accordingly.
+        // Remove `key` from `self.keys`.
 
-                    self.memory[*moved_key].1 = *key_index;
-                }
+        self.keys.swap_remove(*key_index);
 
-                return;
-            }
+        if let Some(moved_key) = self.keys.get(*key_index) {
+            // The last entry in `self.keys` is moved to `*key_index`, update the memory accordingly.
+
+            self.memory[*moved_key].1 = *key_index;
         }
-
-        panic!();
     }
 
     pub fn search(&self, key: usize) -> Option<&T> {
