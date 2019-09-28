@@ -20,10 +20,7 @@ impl<T> Default for FifoQueue<T> {
 
 impl<T: Ord> FifoQueue<T> {
     pub fn new() -> Self {
-        FifoQueue {
-            q: VecMinPriorityQueue::new(),
-            next_key: 0,
-        }
+        Default::default()
     }
 }
 
@@ -63,10 +60,7 @@ impl<T> Default for LifoStack<T> {
 
 impl<T: Ord> LifoStack<T> {
     pub fn new() -> Self {
-        LifoStack {
-            q: VecMaxPriorityQueue::new(),
-            next_key: 0,
-        }
+        Default::default()
     }
 }
 
