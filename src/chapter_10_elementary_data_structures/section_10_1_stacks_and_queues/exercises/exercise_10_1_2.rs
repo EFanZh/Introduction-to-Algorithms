@@ -19,13 +19,6 @@ impl<T> TwoStacks<T> {
         Default::default()
     }
 
-    pub fn with_capacity(capacity: usize) -> Self {
-        Self {
-            storage: VecDeque::with_capacity(capacity),
-            left_stack_size: 0,
-        }
-    }
-
     pub fn empty_1(&self) -> bool {
         self.left_stack_size == 0
     }
