@@ -64,7 +64,7 @@ impl<T> DoublyLinkedList<T> {
     // List-Search(L, k)
     //
     // 1  x = L.head
-    // 2  while x ≠ Nil and x.key ≠ k
+    // 2  while x ≠ nil and x.key ≠ k
     // 3      x = x.next
     // 4  return x
 
@@ -84,10 +84,10 @@ impl<T> DoublyLinkedList<T> {
     // List-Insert(L, x)
     //
     // 1  x.next = L.head
-    // 2  if L.head ≠ Nil
+    // 2  if L.head ≠ nil
     // 3      L.head.prev = x
     // 4  L.head = x
-    // 5  x.prev = Nil
+    // 5  x.prev = nil
 
     pub fn insert(&mut self, x: DoublyLinkedListElement<T>) {
         let mut x_ref = x.0.borrow_mut();
@@ -109,10 +109,10 @@ impl<T> DoublyLinkedList<T> {
 
     // List-Delete(L, x)
     //
-    // 1  if x.prev ≠ NIL
+    // 1  if x.prev ≠ nil
     // 2      x.prev.next = x.next
     // 3  else L.head = x.next
-    // 4  if x.next ≠ NIL
+    // 4  if x.next ≠ nil
     // 5      x.next.prev = x.prev
 
     pub fn delete(&mut self, x: DoublyLinkedListElement<T>) {

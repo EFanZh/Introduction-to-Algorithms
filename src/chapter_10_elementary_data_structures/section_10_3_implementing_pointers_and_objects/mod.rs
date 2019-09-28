@@ -30,7 +30,7 @@ impl<T> MultipleArrayDoublyLinkedListElementPool<T> {
 
     // Allocate-Object()
     //
-    // 1  if free == NIL
+    // 1  if free == nil
     // 2      error “out of space”
     // 3  else x = free
     // 4      free = x.next
@@ -72,14 +72,6 @@ impl<T> MultipleArrayDoublyLinkedListElementPool<T> {
 
     pub fn get_key(&self, handle: Handle) -> &T {
         &self.key[handle.0]
-    }
-
-    pub fn get_next(&self, handle: Handle) -> Handle {
-        self.next[handle.0]
-    }
-
-    pub fn get_prev(&self, handle: Handle) -> Handle {
-        self.prev[handle.0]
     }
 }
 
