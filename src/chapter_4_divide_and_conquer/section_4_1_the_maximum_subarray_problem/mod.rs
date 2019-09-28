@@ -147,6 +147,7 @@ mod tests {
         run_test(&f, [2, 1, 4], 7);
         run_test(&f, [2, 0, 4], 6);
         run_test(&f, [2, 4, 0], 6);
+        run_test(&f, [-1, 2, 4, 3, -1, 2], 10);
 
         // Test cases from LeetCode (https://leetcode.com/problems/maximum-subarray/).
 
