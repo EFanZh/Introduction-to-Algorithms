@@ -269,6 +269,66 @@ mod tests {
     }
 
     #[test]
+    fn test_persistent_tree_delete_left() {
+        assert_eq!(
+            persistent_tree_delete(
+                &Some(
+                    Node::new(
+                        1.into(),
+                        3.into(),
+                        Some(Node::new_leaf(0.into(), 4.into()).into()),
+                        Some(Node::new_leaf(2.into(), 5.into()).into())
+                    )
+                    .into()
+                ),
+                &0
+            ),
+            Some((
+                Some(
+                    Node::new(
+                        1.into(),
+                        3.into(),
+                        None,
+                        Some(Node::new_leaf(2.into(), 5.into()).into())
+                    )
+                    .into()
+                ),
+                4.into()
+            ))
+        );
+    }
+
+    #[test]
+    fn test_persistent_tree_delete_right() {
+        assert_eq!(
+            persistent_tree_delete(
+                &Some(
+                    Node::new(
+                        1.into(),
+                        3.into(),
+                        Some(Node::new_leaf(0.into(), 4.into()).into()),
+                        Some(Node::new_leaf(2.into(), 5.into()).into())
+                    )
+                    .into()
+                ),
+                &2
+            ),
+            Some((
+                Some(
+                    Node::new(
+                        1.into(),
+                        3.into(),
+                        Some(Node::new_leaf(0.into(), 4.into()).into()),
+                        None
+                    )
+                    .into()
+                ),
+                5.into()
+            ))
+        );
+    }
+
+    #[test]
     fn test_persistent_tree_delete_left_empty() {
         assert_eq!(
             persistent_tree_delete(
