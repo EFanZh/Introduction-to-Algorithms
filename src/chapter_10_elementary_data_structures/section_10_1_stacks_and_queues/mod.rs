@@ -18,12 +18,6 @@ impl<T> ArrayStack<T> {
     pub fn new() -> Self {
         Default::default()
     }
-
-    pub fn with_capacity(capacity: usize) -> Self {
-        ArrayStack {
-            storage: Vec::with_capacity(capacity),
-        }
-    }
 }
 
 impl<T> Stack<T> for ArrayStack<T> {
@@ -59,12 +53,6 @@ impl<T> Default for ArrayQueue<T> {
 impl<T> ArrayQueue<T> {
     pub fn new() -> Self {
         Default::default()
-    }
-
-    pub fn with_capacity(capacity: usize) -> Self {
-        ArrayQueue {
-            storage: VecDeque::with_capacity(capacity),
-        }
     }
 }
 
