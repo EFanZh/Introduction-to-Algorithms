@@ -20,24 +20,20 @@ impl<T: Ord> DAryHeap<T> {
     }
 
     fn max_heapify(&mut self, mut i: usize) {
-        loop {
+        while let Some((j, child_value)) = {
             let (start, end) = self.children(i);
 
-            if let Some((j, child_value)) = self
-                .data
+            self.data
                 .iter()
                 .enumerate()
                 .take(end)
                 .skip(start)
                 .max_by_key(|(_, v)| *v)
-            {
-                if *child_value > self.data[i] {
-                    self.data.swap(i, j);
+        } {
+            if *child_value > self.data[i] {
+                self.data.swap(i, j);
 
-                    i = j;
-                } else {
-                    break;
-                }
+                i = j;
             } else {
                 break;
             }
@@ -83,7 +79,7 @@ impl<T: Ord> DAryHeap<T> {
 mod tests {
     use super::super::super::super::test_utilities::assign_vec_from_iter;
     use super::DAryHeap;
-    use permutohedron::heap_recursive;
+    use permutohedron;
     use std::iter;
 
     #[test]
@@ -96,7 +92,7 @@ mod tests {
                 assign_vec_from_iter(&mut data, 0..n);
                 assign_vec_from_iter(&mut sorted_data, (0..n).rev());
 
-                heap_recursive(&mut data, |sequence| {
+                permutohedron::heap_recursive(&mut data, |sequence| {
                     let mut heap = DAryHeap::new(d);
 
                     for value in sequence {
