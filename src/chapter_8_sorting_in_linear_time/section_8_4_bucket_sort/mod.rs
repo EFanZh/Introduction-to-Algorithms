@@ -37,6 +37,7 @@ mod tests {
     use super::super::super::test_utilities::{assign_vec, assign_vec_from_iter};
     use super::bucket_sort;
     use rand::{thread_rng, Rng};
+    use std::iter;
 
     #[test]
     fn test_bucket_sort() {
@@ -46,7 +47,7 @@ mod tests {
 
         for n in 0usize..10 {
             for _ in 0..2usize.pow(n as _) {
-                assign_vec_from_iter(&mut a, (0..n).map(|_| rng.gen()));
+                assign_vec_from_iter(&mut a, iter::repeat_with(|| rng.gen()).take(n));
                 assign_vec(&mut b, &a);
 
                 bucket_sort(&mut b);

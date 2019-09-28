@@ -84,6 +84,7 @@ mod tests {
     use super::super::super::super::test_utilities::assign_vec_from_iter;
     use super::DAryHeap;
     use permutohedron::heap_recursive;
+    use std::iter;
 
     #[test]
     fn test_n_ary_heap_insert_and_extract_max() {
@@ -102,7 +103,7 @@ mod tests {
                         heap.insert(value);
                     }
 
-                    assert!((0..n).map(|_| heap.extract_max()).eq(sorted_data.iter()));
+                    assert!(iter::repeat_with(|| heap.extract_max()).take(n).eq(sorted_data.iter()));
                 });
             }
         }

@@ -16,6 +16,7 @@ mod tests {
     use super::super::section_8_2_counting_sort::extra::counting_sort_by_key;
     use super::radix_sort;
     use rand::{thread_rng, Rng};
+    use std::iter;
 
     #[test]
     fn test_radix_sort() {
@@ -28,7 +29,8 @@ mod tests {
                 for _ in 0..2usize.pow(n as _) {
                     assign_vec_from_iter(
                         &mut array_1,
-                        (0..n).map(|_| (0..k).map(|_| rng.gen_range(0, n)).collect::<Box<_>>()),
+                        iter::repeat_with(|| iter::repeat_with(|| rng.gen_range(0, n)).take(k).collect::<Box<_>>())
+                            .take(n),
                     );
 
                     assign_vec(&mut array_2, &array_1);

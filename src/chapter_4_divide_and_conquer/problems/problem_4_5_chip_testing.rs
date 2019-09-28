@@ -68,7 +68,9 @@ mod tests {
     use super::{find_one_good_chip, find_one_good_chip_naive, Chip};
     use rand::random;
     use rand::seq::SliceRandom;
+    use std::iter;
 
+    #[derive(Clone)]
     enum TestChip {
         Good,
         Bad,
@@ -99,8 +101,8 @@ mod tests {
 
                 let num_good_chips = num_chips - num_bad_chips;
 
-                chips.extend((0..num_bad_chips).map(|_| TestChip::Bad));
-                chips.extend((0..num_good_chips).map(|_| TestChip::Good));
+                chips.extend(iter::repeat(TestChip::Bad).take(num_bad_chips));
+                chips.extend(iter::repeat(TestChip::Good).take(num_good_chips));
 
                 for _ in 0..num_instance_tests {
                     chips.shuffle(&mut rng);

@@ -89,6 +89,7 @@ mod tests {
     use super::{compare_interval, fuzzy_sort};
     use rand::{thread_rng, Rng};
     use std::cmp::Ordering;
+    use std::iter;
 
     fn is_fuzzy_sorted<T: Ord>(a: &[(T, T)]) -> bool {
         for (j, y) in a.iter().enumerate().skip(1) {
@@ -111,12 +112,13 @@ mod tests {
             for _ in 0..10000 {
                 assign_vec_from_iter(
                     &mut a,
-                    (0..n).map(|_| {
+                    iter::repeat_with(|| {
                         let a = rng.gen_range(0, 30);
                         let len = rng.gen_range(0, 30);
 
                         (a, a + len)
-                    }),
+                    })
+                    .take(n),
                 );
 
                 fuzzy_sort(&mut a);

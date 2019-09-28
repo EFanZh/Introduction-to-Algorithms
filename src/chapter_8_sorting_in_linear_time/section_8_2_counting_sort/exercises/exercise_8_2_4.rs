@@ -38,6 +38,7 @@ mod tests {
     use super::super::super::super::super::test_utilities::assign_vec_from_iter;
     use super::make_range_counter;
     use rand::{thread_rng, Rng};
+    use std::iter;
 
     #[test]
     fn test_make_range_counter() {
@@ -47,7 +48,7 @@ mod tests {
 
         for n in 0usize..10 {
             for _ in 0..2usize.pow(n as _) {
-                assign_vec_from_iter(&mut array, (0..n).map(|_| rng.gen_range(0, n)));
+                assign_vec_from_iter(&mut array, iter::repeat_with(|| rng.gen_range(0, n)).take(n));
                 b.resize(n, 0);
 
                 let counter = make_range_counter(&array, n);
