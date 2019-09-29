@@ -98,9 +98,9 @@ pub fn persistent_tree_search<'a, K: Ord + Borrow<Q>, V, Q: Ord + ?Sized>(
     None
 }
 
-fn persistent_tree_delete_min<K, V>(tree: &Node<K, V>) -> (Tree<K, V>, (Rc<K>, Rc<V>)) {
+fn persistent_tree_remove_min<K, V>(tree: &Node<K, V>) -> (Tree<K, V>, (Rc<K>, Rc<V>)) {
     if let Some(left) = &tree.left {
-        let (new_left, (min_key, min_value)) = persistent_tree_delete_min(left);
+        let (new_left, (min_key, min_value)) = persistent_tree_remove_min(left);
 
         (Some(Rc::new(tree.with_left(new_left))), (min_key, min_value))
     } else {
@@ -108,17 +108,17 @@ fn persistent_tree_delete_min<K, V>(tree: &Node<K, V>) -> (Tree<K, V>, (Rc<K>, R
     }
 }
 
-pub fn persistent_tree_delete<K: Ord + Borrow<Q>, V, Q: Ord + ?Sized>(
+pub fn persistent_tree_remove<K: Ord + Borrow<Q>, V, Q: Ord + ?Sized>(
     tree: &Tree<K, V>,
     key: &Q,
 ) -> Option<(Tree<K, V>, Rc<V>)> {
     tree.as_ref().and_then(|node| match key.cmp((*node.key).borrow()) {
-        Ordering::Less => persistent_tree_delete(&node.left, key)
+        Ordering::Less => persistent_tree_remove(&node.left, key)
             .map(|(new_left, old_value)| (Some(Rc::new(node.with_left(new_left))), old_value)),
         Ordering::Equal => {
             let new_tree = if let Some(left) = &node.left {
                 if let Some(right) = &node.right {
-                    let (new_right, (min_key, min_value)) = persistent_tree_delete_min(right);
+                    let (new_right, (min_key, min_value)) = persistent_tree_remove_min(right);
 
                     Some(Rc::new(Node::new(min_key, min_value, Some(left.clone()), new_right)))
                 } else {
@@ -132,14 +132,14 @@ pub fn persistent_tree_delete<K: Ord + Borrow<Q>, V, Q: Ord + ?Sized>(
 
             Some((new_tree, node.value.clone()))
         }
-        Ordering::Greater => persistent_tree_delete(&node.right, key)
+        Ordering::Greater => persistent_tree_remove(&node.right, key)
             .map(|(new_right, old_value)| (Some(Rc::new(node.with_right(new_right))), old_value)),
     })
 }
 
 #[cfg(test)]
 mod tests {
-    use super::{persistent_tree_delete, persistent_tree_insert, persistent_tree_search, Node};
+    use super::{persistent_tree_insert, persistent_tree_remove, persistent_tree_search, Node};
     use std::rc::Rc;
 
     #[test]
@@ -262,16 +262,16 @@ mod tests {
     }
 
     #[test]
-    fn test_persistent_tree_delete_empty() {
+    fn test_persistent_tree_remove_empty() {
         let tree: Option<Rc<Node<i32, i32>>> = None;
 
-        assert_eq!(persistent_tree_delete(&tree, &2), None);
+        assert_eq!(persistent_tree_remove(&tree, &2), None);
     }
 
     #[test]
-    fn test_persistent_tree_delete_left() {
+    fn test_persistent_tree_remove_left() {
         assert_eq!(
-            persistent_tree_delete(
+            persistent_tree_remove(
                 &Some(
                     Node::new(
                         1.into(),
@@ -299,9 +299,9 @@ mod tests {
     }
 
     #[test]
-    fn test_persistent_tree_delete_right() {
+    fn test_persistent_tree_remove_right() {
         assert_eq!(
-            persistent_tree_delete(
+            persistent_tree_remove(
                 &Some(
                     Node::new(
                         1.into(),
@@ -329,9 +329,9 @@ mod tests {
     }
 
     #[test]
-    fn test_persistent_tree_delete_left_empty() {
+    fn test_persistent_tree_remove_left_empty() {
         assert_eq!(
-            persistent_tree_delete(
+            persistent_tree_remove(
                 &Some(
                     Node::new(
                         1.into(),
@@ -348,9 +348,9 @@ mod tests {
     }
 
     #[test]
-    fn test_persistent_tree_delete_right_empty() {
+    fn test_persistent_tree_remove_right_empty() {
         assert_eq!(
-            persistent_tree_delete(
+            persistent_tree_remove(
                 &Some(
                     Node::new(
                         1.into(),
@@ -367,9 +367,9 @@ mod tests {
     }
 
     #[test]
-    fn test_persistent_tree_delete_both_non_empty_1() {
+    fn test_persistent_tree_remove_both_non_empty_1() {
         assert_eq!(
-            persistent_tree_delete(
+            persistent_tree_remove(
                 &Some(
                     Node::new(
                         1.into(),
@@ -397,9 +397,9 @@ mod tests {
     }
 
     #[test]
-    fn test_persistent_tree_delete_both_non_empty_2() {
+    fn test_persistent_tree_remove_both_non_empty_2() {
         assert_eq!(
-            persistent_tree_delete(
+            persistent_tree_remove(
                 &Some(
                     Node::new(
                         1.into(),
