@@ -255,8 +255,6 @@ fn adjust_on_left_child_black_sibling<K, V>(node: &mut Box<Node<K, V>>) -> bool 
 
 #[allow(clippy::borrowed_box)]
 fn adjust_on_left_child<K, V>(node: &mut Box<Node<K, V>>) -> bool {
-    // Change right neighbor into a black node.
-
     let right = node.right.as_mut().unwrap();
 
     if right.color == Color::Red {
@@ -322,8 +320,6 @@ fn adjust_on_right_child_black_sibling<K, V>(node: &mut Box<Node<K, V>>) -> bool
 
 #[allow(clippy::borrowed_box)]
 fn adjust_on_right_child<K, V>(node: &mut Box<Node<K, V>>) -> bool {
-    // Change left neighbor into a black node.
-
     let left = node.left.as_mut().unwrap();
 
     if left.color == Color::Red {
@@ -348,9 +344,14 @@ fn remove_min<K, V>(node_ref: &mut Option<Box<Node<K, V>>>) -> Option<(bool, Box
             }
 
             Some((height_changed, min))
+        } else if let Some(mut min_right) = node.right.take() {
+            min_right.color = Color::Black;
+
+            let min = mem::replace(node_ref, Some(min_right)).unwrap();
+
+            Some((false, min))
         } else {
-            let min_right = node.right.take();
-            let min = mem::replace(node_ref, min_right).unwrap();
+            let min = node_ref.take().unwrap();
 
             Some((min.color == Color::Black, min))
         }
