@@ -938,7 +938,7 @@ fn test_remove_extra_1() {
 
     assert_eq!(
         tree,
-        black(3, 5, black_leaf(1, 2), red(5, 11, black_leaf(4, 7), black_leaf(6, 13)),)
+        black(3, 5, black_leaf(1, 2), red(5, 11, black_leaf(4, 7), black_leaf(6, 13)))
     );
 }
 
@@ -987,7 +987,7 @@ fn test_remove_extra_3() {
 
     assert_eq!(
         tree,
-        black(3, 5, black_leaf(1, 2), red(5, 11, black_leaf(4, 7), black_leaf(6, 13)),)
+        black(3, 5, black_leaf(1, 2), red(5, 11, black_leaf(4, 7), black_leaf(6, 13)))
     );
 }
 
