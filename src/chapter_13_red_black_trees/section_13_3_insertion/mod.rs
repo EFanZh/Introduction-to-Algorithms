@@ -21,7 +21,7 @@ fn is_right_child<T>(node: &Rc<RefCell<RedBlackTreeNode<T>>>, maybe_parent: &Red
 }
 
 fn rotate_2<T, F: FnOnce(&mut Rc<RefCell<RedBlackTreeNode<T>>>)>(
-    node: &mut Rc<RefCell<RedBlackTreeNode<T>>>,
+    root: &mut Rc<RefCell<RedBlackTreeNode<T>>>,
     node: &Rc<RefCell<RedBlackTreeNode<T>>>,
     f: F,
 ) {
@@ -36,16 +36,16 @@ fn rotate_2<T, F: FnOnce(&mut Rc<RefCell<RedBlackTreeNode<T>>>)>(
             f(parent_ref.right.as_mut().unwrap());
         }
     } else {
-        f(node);
+        f(root);
     }
 }
 
-fn left_rotate_2<T>(node: &mut Rc<RefCell<RedBlackTreeNode<T>>>, node: &Rc<RefCell<RedBlackTreeNode<T>>>) {
-    rotate_2(node, node, left_rotate);
+fn left_rotate_2<T>(root: &mut Rc<RefCell<RedBlackTreeNode<T>>>, node: &Rc<RefCell<RedBlackTreeNode<T>>>) {
+    rotate_2(root, node, left_rotate);
 }
 
-fn right_rotate_2<T>(node: &mut Rc<RefCell<RedBlackTreeNode<T>>>, node: &Rc<RefCell<RedBlackTreeNode<T>>>) {
-    rotate_2(node, node, right_rotate);
+fn right_rotate_2<T>(root: &mut Rc<RefCell<RedBlackTreeNode<T>>>, node: &Rc<RefCell<RedBlackTreeNode<T>>>) {
+    rotate_2(root, node, right_rotate);
 }
 
 // RB-Insert-Fixup(T, z)

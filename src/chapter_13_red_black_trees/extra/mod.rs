@@ -41,19 +41,19 @@ fn get_value<'a, K: Borrow<Q>, V, Q: Ord + ?Sized>(mut node_ref: &'a Tree<K, V>,
 // Insertion.
 
 #[allow(clippy::borrowed_box)]
-fn left_rotate<K, V>(node: &mut Box<Node<K, V>>) {
-    let mut right = node.right.take().unwrap();
+fn left_rotate<K, V>(root: &mut Box<Node<K, V>>) {
+    let mut right = root.right.take().unwrap();
 
-    node.right = right.left.take();
-    node.left = Some(mem::replace(node, right));
+    root.right = right.left.take();
+    root.left = Some(mem::replace(root, right));
 }
 
 #[allow(clippy::borrowed_box)]
-fn right_rotate<K, V>(node: &mut Box<Node<K, V>>) {
-    let mut left = node.left.take().unwrap();
+fn right_rotate<K, V>(root: &mut Box<Node<K, V>>) {
+    let mut left = root.left.take().unwrap();
 
-    node.left = left.right.take();
-    node.right = Some(mem::replace(node, left));
+    root.left = left.right.take();
+    root.right = Some(mem::replace(root, left));
 }
 
 #[allow(clippy::borrowed_box)]
