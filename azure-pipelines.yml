@@ -71,7 +71,7 @@ jobs:
         inputs:
             version: 2.x
       - template: .azure-pipelines/install-rust.yml
-      - script: cargo tarpaulin --out Xml
+      - script: cargo tarpaulin --out Xml -- --test-threads=1
         displayName: Run coverage tests
         continueOnError: true
       - task: PublishCodeCoverageResults@1
