@@ -2,6 +2,7 @@ pub mod chapter_10_elementary_data_structures;
 pub mod chapter_11_hash_tables;
 pub mod chapter_12_binary_search_trees;
 pub mod chapter_13_red_black_trees;
+pub mod chapter_15_dynamic_programming;
 pub mod chapter_2_getting_started;
 pub mod chapter_4_divide_and_conquer;
 pub mod chapter_5_probabilistic_analysis_and_randomized_algorithms;
