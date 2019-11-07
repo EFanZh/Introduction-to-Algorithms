@@ -113,7 +113,7 @@ pub fn rb_insert_fixup<T>(t: &mut Rc<RefCell<RedBlackTreeNode<T>>>, mut z: Rc<Re
                             drop(z_p_ref);
                         }
 
-                        // Right rotate z.p.p;
+                        // Right rotate z.p.p.
 
                         drop(z_p_p_ref);
 
@@ -152,7 +152,7 @@ pub fn rb_insert_fixup<T>(t: &mut Rc<RefCell<RedBlackTreeNode<T>>>, mut z: Rc<Re
                         drop(z_p_ref);
                     }
 
-                    // Left rotate z.p.p;
+                    // Left rotate z.p.p.
 
                     drop(z_p_p_ref);
 
