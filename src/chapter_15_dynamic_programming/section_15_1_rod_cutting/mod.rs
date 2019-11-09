@@ -1,5 +1,7 @@
 use std::iter;
 
+pub mod exercises;
+
 // Cut-Rod(p, n)
 //
 // 1  if n == 0
@@ -244,7 +246,7 @@ mod tests {
         );
 
         assert_eq!(
-            extended_bottom_up_cut_rod(&[1, 5, 8, 9, 10, 17, 17, 20, 24, 30],),
+            extended_bottom_up_cut_rod(&[1, 5, 8, 9, 10, 17, 17, 20, 24, 30]),
             (
                 vec![0, 1, 5, 8, 10, 13, 17, 18, 22, 25, 30].into(),
                 vec![1, 2, 3, 2, 2, 6, 1, 2, 3, 10].into()
