@@ -257,7 +257,6 @@ mod tests {
     #[test]
     fn test_print_cut_rod_solution() {
         assert_eq!(print_cut_rod_solution(&[]), vec![].into());
-
         assert_eq!(print_cut_rod_solution(&[1]), vec![1].into());
         assert_eq!(print_cut_rod_solution(&[1, 5]), vec![2].into());
         assert_eq!(print_cut_rod_solution(&[1, 5, 8,]), vec![3].into());
