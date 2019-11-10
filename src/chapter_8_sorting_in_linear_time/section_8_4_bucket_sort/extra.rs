@@ -31,7 +31,7 @@ mod tests {
 
     #[test]
     fn test_bucket_sort_by() {
-        let mut a = Vec::new();
+        let mut a = Vec::<f64>::new();
         let mut b = Vec::new();
         let mut rng = thread_rng();
 

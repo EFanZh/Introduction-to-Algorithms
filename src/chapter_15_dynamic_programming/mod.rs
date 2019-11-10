@@ -1,1 +1,2 @@
 pub mod section_15_1_rod_cutting;
+pub mod section_15_2_matrix_chain_multiplication;
