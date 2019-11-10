@@ -1,6 +1,8 @@
 use ndarray::Array2;
 use std::fmt::{Display, Formatter, Result};
 
+pub mod exercises;
+
 // Matrix-Chain-Order(p)
 //
 //  1  n = p.length - 1
