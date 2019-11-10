@@ -40,11 +40,11 @@ mod tests {
 
         let expected_result = array![[162, 212, 262, 312], [369, 482, 595, 708]];
 
-        assert_eq!(&matrix_chain_multiply(&a, &s, 0, a.len()), &expected_result);
-
         assert_eq!(
-            a[1..].iter().fold(a[0].clone(), |lhs, rhs| lhs.dot(rhs)),
-            array![[162, 212, 262, 312], [369, 482, 595, 708]]
+            &a[1..].iter().fold(a[0].clone(), |lhs, rhs| lhs.dot(rhs)),
+            &expected_result
         );
+
+        assert_eq!(&matrix_chain_multiply(&a, &s, 0, a.len()), &expected_result);
     }
 }
