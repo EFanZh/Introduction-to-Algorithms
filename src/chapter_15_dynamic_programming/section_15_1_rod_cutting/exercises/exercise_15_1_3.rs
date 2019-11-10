@@ -8,7 +8,7 @@ pub fn extended_bottom_up_cut_rod_with_cutting_cost(p: &[u32], c: u32) -> (Box<[
         let mut best_first_cut = length;
 
         for first_cut in 1..length {
-            let revenue = c + p[first_cut - 1] + revenues[length - first_cut];
+            let revenue = p[first_cut - 1] + revenues[length - first_cut] - c;
 
             if revenue > max_revenue {
                 max_revenue = revenue;
@@ -121,48 +121,45 @@ mod tests {
 
         assert_eq!(
             extended_bottom_up_cut_rod_with_cutting_cost(&[1, 5, 8, 9], 2),
-            (vec![0, 1, 5, 8, 12].into(), vec![1, 2, 3, 2].into())
+            (vec![0, 1, 5, 8, 9].into(), vec![1, 2, 3, 4].into())
         );
 
         assert_eq!(
             extended_bottom_up_cut_rod_with_cutting_cost(&[1, 5, 8, 9, 10], 2),
-            (vec![0, 1, 5, 8, 12, 15].into(), vec![1, 2, 3, 2, 1].into())
+            (vec![0, 1, 5, 8, 9, 11].into(), vec![1, 2, 3, 4, 2].into())
         );
 
         assert_eq!(
             extended_bottom_up_cut_rod_with_cutting_cost(&[1, 5, 8, 9, 10, 17], 2),
-            (vec![0, 1, 5, 8, 12, 15, 19].into(), vec![1, 2, 3, 2, 1, 2].into())
+            (vec![0, 1, 5, 8, 9, 11, 17].into(), vec![1, 2, 3, 4, 2, 6].into())
         );
 
         assert_eq!(
             extended_bottom_up_cut_rod_with_cutting_cost(&[1, 5, 8, 9, 10, 17, 17], 2),
-            (
-                vec![0, 1, 5, 8, 12, 15, 19, 22].into(),
-                vec![1, 2, 3, 2, 1, 2, 1].into()
-            )
+            (vec![0, 1, 5, 8, 9, 11, 17, 17].into(), vec![1, 2, 3, 4, 2, 6, 7].into())
         );
 
         assert_eq!(
             extended_bottom_up_cut_rod_with_cutting_cost(&[1, 5, 8, 9, 10, 17, 17, 20], 2),
             (
-                vec![0, 1, 5, 8, 12, 15, 19, 22, 26].into(),
-                vec![1, 2, 3, 2, 1, 2, 1, 2].into()
+                vec![0, 1, 5, 8, 9, 11, 17, 17, 20].into(),
+                vec![1, 2, 3, 4, 2, 6, 7, 8].into()
             )
         );
 
         assert_eq!(
             extended_bottom_up_cut_rod_with_cutting_cost(&[1, 5, 8, 9, 10, 17, 17, 20, 24], 2),
             (
-                vec![0, 1, 5, 8, 12, 15, 19, 22, 26, 29].into(),
-                vec![1, 2, 3, 2, 1, 2, 1, 2, 1].into()
+                vec![0, 1, 5, 8, 9, 11, 17, 17, 20, 24].into(),
+                vec![1, 2, 3, 4, 2, 6, 7, 8, 9].into()
             )
         );
 
         assert_eq!(
             extended_bottom_up_cut_rod_with_cutting_cost(&[1, 5, 8, 9, 10, 17, 17, 20, 24, 30], 2),
             (
-                vec![0, 1, 5, 8, 12, 15, 19, 22, 26, 29, 33].into(),
-                vec![1, 2, 3, 2, 1, 2, 1, 2, 1, 2].into()
+                vec![0, 1, 5, 8, 9, 11, 17, 17, 20, 24, 30].into(),
+                vec![1, 2, 3, 4, 2, 6, 7, 8, 9, 10].into()
             )
         );
     }
