@@ -1,3 +1,5 @@
+pub mod exercises;
+
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum Arrow {
     UpLeft,
