@@ -27,11 +27,11 @@ mod tests {
 
     #[test]
     fn test_print_lcs_2() {
-        let x = "ABCBDAB".chars().collect::<Box<_>>();
-        let y = "BDCABA".chars().collect::<Box<_>>();
+        let x = b"ABCBDAB";
+        let y = b"BDCABA";
 
-        let (c, _) = lcs_length(&x, &y);
+        let (c, _) = lcs_length(x, y);
 
-        assert_eq!(*print_lcs_2(&c, &x, &y), ['B', 'C', 'B', 'A']);
+        assert_eq!(&*print_lcs_2(&c, x, y), b"BCBA");
     }
 }
