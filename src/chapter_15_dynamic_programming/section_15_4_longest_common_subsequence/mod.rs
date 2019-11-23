@@ -98,10 +98,7 @@ mod tests {
     fn test_lcs_length() {
         use Arrow::{Left, Up, UpLeft};
 
-        let (c, b) = lcs_length(
-            &"ABCBDAB".chars().collect::<Box<_>>(),
-            &"BDCABA".chars().collect::<Box<_>>(),
-        );
+        let (c, b) = lcs_length(b"ABCBDAB", b"BDCABA");
 
         let expected_c: &[usize] = &[
             0, 0, 0, 0, 0, 0, 0, //
@@ -131,11 +128,11 @@ mod tests {
 
     #[test]
     fn test_print_lcs() {
-        let x = "ABCBDAB".chars().collect::<Box<_>>();
-        let y = "BDCABA".chars().collect::<Box<_>>();
+        let x = b"ABCBDAB";
+        let y = b"BDCABA";
 
-        let (_, b) = lcs_length(&x, &y);
+        let (_, b) = lcs_length(x, y);
 
-        assert_eq!(*print_lcs(&b, &x, x.len(), y.len()), ['B', 'C', 'B', 'A']);
+        assert_eq!(&*print_lcs(&b, x, x.len(), y.len()), b"BCBA");
     }
 }
