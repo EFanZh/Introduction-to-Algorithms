@@ -1,5 +1,7 @@
 use std::f64;
 
+pub mod exercises;
+
 // Optimal-BST(p, q, n)
 //
 //  1  let e[1‥n + 1, 0‥n], w[1‥n + 1, 0‥n],
