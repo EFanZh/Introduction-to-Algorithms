@@ -32,6 +32,6 @@ mod tests {
 
         let (c, _) = lcs_length(x, y);
 
-        assert_eq!(&*print_lcs_2(&c, x, y), b"BCBA");
+        assert_eq!(*print_lcs_2(&c, x, y), *b"BCBA");
     }
 }

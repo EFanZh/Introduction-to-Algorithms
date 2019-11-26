@@ -49,21 +49,20 @@ mod tests {
         ];
 
         assert_eq!(
-            construct_optimal_bst(&root, 5),
-            vec![
-                "k_1 is the root".into(),
-                "k_0 is the left child of k_1".into(),
-                "d_0 is the left child of k_0".into(),
-                "d_1 is the right child of k_0".into(),
-                "k_4 is the right child of k_1".into(),
-                "k_3 is the left child of k_4".into(),
-                "k_2 is the left child of k_3".into(),
-                "d_2 is the left child of k_2".into(),
-                "d_3 is the right child of k_2".into(),
-                "d_4 is the right child of k_3".into(),
-                "d_5 is the right child of k_4".into(),
+            *construct_optimal_bst(&root, 5),
+            [
+                "k_1 is the root",
+                "k_0 is the left child of k_1",
+                "d_0 is the left child of k_0",
+                "d_1 is the right child of k_0",
+                "k_4 is the right child of k_1",
+                "k_3 is the left child of k_4",
+                "k_2 is the left child of k_3",
+                "d_2 is the left child of k_2",
+                "d_3 is the right child of k_2",
+                "d_4 is the right child of k_3",
+                "d_5 is the right child of k_4",
             ]
-            .into()
         );
     }
 }
