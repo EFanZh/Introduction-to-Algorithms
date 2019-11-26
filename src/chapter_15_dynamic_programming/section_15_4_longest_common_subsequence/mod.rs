@@ -111,7 +111,7 @@ mod tests {
             0, 1, 2, 2, 3, 4, 4, //
         ];
 
-        assert_eq!(&*c, expected_c);
+        assert_eq!(*c, *expected_c);
 
         let expected_b: &[Arrow] = &[
             Up, Up, Up, UpLeft, Left, UpLeft, //
@@ -123,7 +123,7 @@ mod tests {
             UpLeft, Up, Up, Up, UpLeft, Up, //
         ];
 
-        assert_eq!(&*b, expected_b);
+        assert_eq!(*b, *expected_b);
     }
 
     #[test]
@@ -133,6 +133,6 @@ mod tests {
 
         let (_, b) = lcs_length(x, y);
 
-        assert_eq!(&*print_lcs(&b, x, x.len(), y.len()), b"BCBA");
+        assert_eq!(*print_lcs(&b, x, x.len(), y.len()), *b"BCBA");
     }
 }
