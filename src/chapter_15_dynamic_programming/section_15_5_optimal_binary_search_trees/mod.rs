@@ -62,12 +62,11 @@ pub fn optimal_bst(p: &[f64], q: &[f64]) -> (Box<[f64]>, Box<[usize]>) {
 mod tests {
     use super::optimal_bst;
 
-    #[test]
-    fn test_optimal_bst() {
+    pub fn run_optimal_bst_test<F: FnMut(&[f64], &[f64]) -> (Box<[f64]>, Box<[usize]>)>(mut f: F) {
         let p = [0.15, 0.10, 0.05, 0.10, 0.20];
         let q = [0.05, 0.10, 0.05, 0.05, 0.05, 0.10];
 
-        let (mut e, root) = optimal_bst(&p, &q);
+        let (mut e, root) = f(&p, &q);
 
         e.iter_mut().for_each(|x| *x = (*x * 100.0).round() / 100.0);
 
@@ -92,5 +91,10 @@ mod tests {
                 0, 0, 0, 0, 4, //
             ]
         );
+    }
+
+    #[test]
+    fn test_optimal_bst() {
+        run_optimal_bst_test(optimal_bst);
     }
 }
