@@ -1,5 +1,5 @@
 #[derive(Clone)]
-struct CachedItem {
+struct Choice {
     length: f64,
     next: usize,
 }
@@ -17,7 +17,7 @@ fn reverse_copy<T: Copy>(target: &mut [T], source: &[T]) {
     }
 }
 
-fn construct_tour(indices: &[usize], cache: &[CachedItem]) -> Box<[usize]> {
+fn construct_tour(indices: &[usize], cache: &[Choice]) -> Box<[usize]> {
     let n = indices.len();
     let mut result = vec![0; n].into_boxed_slice();
     let mut start = 1;
@@ -77,7 +77,7 @@ pub fn shortest_tour(points: &[(f64, f64)]) -> Box<[usize]> {
         //
         // Actually, we don’t need the real value of the last segment since it will be included in all paths.
 
-        let mut cache = vec![CachedItem { length: 0.0, next: 0 }; n - 1];
+        let mut cache = vec![Choice { length: 0.0, next: 0 }; n - 1];
 
         for (i, index) in indices.iter().enumerate().take(n - 2).rev() {
             let p_i = &points[*index];
@@ -87,7 +87,7 @@ pub fn shortest_tour(points: &[(f64, f64)]) -> Box<[usize]> {
                 .iter()
                 .enumerate()
                 .skip(i + 1)
-                .map(|(j, x)| CachedItem {
+                .map(|(j, x)| Choice {
                     length: distance(p_i, &points[indices[j + 1]])
                         + x.length
                         + (horizontal_distances[j] - anchor_distance),
@@ -103,7 +103,7 @@ pub fn shortest_tour(points: &[(f64, f64)]) -> Box<[usize]> {
 
 #[cfg(test)]
 mod tests {
-    use super::{construct_tour, shortest_tour, CachedItem};
+    use super::{construct_tour, shortest_tour, Choice};
     use std::iter;
 
     #[test]
@@ -115,7 +115,7 @@ mod tests {
                 .iter()
                 .copied()
                 .chain(iter::once(0))
-                .map(|next| CachedItem { length: 0.0, next })
+                .map(|next| Choice { length: 0.0, next })
                 .collect::<Box<_>>();
 
             assert_eq!(*construct_tour(&indices, &cache), *expected);
