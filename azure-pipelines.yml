@@ -49,7 +49,7 @@ jobs:
       - script: cargo install cargo2junit
         displayName: Install cargo2junit
         condition: eq(variables['Agent.OS'], 'Linux')
-      - script: cargo test -- -Z unstable-options --format json | tee >(cargo2junit > test-results.xml)
+      - script: cargo test -- -Z unstable-options --format json --report-time | tee >(cargo2junit > test-results.xml)
         displayName: Run tests (Linux)
         condition: eq(variables['Agent.OS'], 'Linux')
         continueOnError: true
