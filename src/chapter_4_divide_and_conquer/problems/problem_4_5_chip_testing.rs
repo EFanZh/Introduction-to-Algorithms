@@ -89,8 +89,8 @@ mod tests {
     }
 
     fn run_tests(f: fn(&[TestChip]) -> Option<&TestChip>) {
-        let max_num_chips = 16;
-        let num_instance_tests = 10000;
+        let max_num_chips = 12;
+        let num_instance_tests = 4000;
 
         let mut rng = rand::thread_rng();
         let mut chips = Vec::new();
