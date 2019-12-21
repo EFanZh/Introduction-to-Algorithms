@@ -16,11 +16,10 @@ mod tests {
     #[test]
     fn test_random() {
         let test_count = 100_000;
-        let mut p = 0.1;
         let mut rng = rand::thread_rng();
 
-        loop {
-            let distribution = Bernoulli::new(p).unwrap();
+        for p_times_10 in 3..=7 {
+            let distribution = Bernoulli::new(f64::from(p_times_10) / 10.0).unwrap();
             let mut biased_random = || distribution.sample(&mut rng);
 
             let mut diff: i32 = 0;
@@ -34,14 +33,6 @@ mod tests {
             }
 
             assert!((f64::from(diff.abs()) / f64::from(test_count)) < 0.02); // Does not guarantee to success.
-
-            // Next loop.
-
-            p += 0.2;
-
-            if p > 0.9 {
-                break;
-            }
         }
     }
 }
