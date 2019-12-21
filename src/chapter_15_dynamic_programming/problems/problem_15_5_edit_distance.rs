@@ -45,12 +45,12 @@ pub fn transform<T: Clone>(source: &[T], operations: &[Operation<T>]) -> Box<[T]
 }
 
 pub struct Costs {
-    pub copy: u64,
-    pub replace: u64,
-    pub delete: u64,
-    pub insert: u64,
-    pub twiddle: u64,
-    pub kill: u64,
+    pub copy: i32,
+    pub replace: i32,
+    pub delete: i32,
+    pub insert: i32,
+    pub twiddle: i32,
+    pub kill: i32,
 }
 
 #[derive(Clone)]
@@ -68,7 +68,7 @@ pub fn find_optimal_transform_sequence<T: Eq + Clone>(
     source: &[T],
     target: &[T],
     costs: &Costs,
-) -> Box<[Operation<T>]> {
+) -> (Box<[Operation<T>]>, i32) {
     // d(i, j) = edit_distance(source[i..], target[j..]).
     //
     // Optimal cost(i, j) if first operation is:
@@ -199,12 +199,27 @@ pub fn find_optimal_transform_sequence<T: Eq + Clone>(
         }
     }
 
-    operations.into()
+    (operations.into(), cache[0].1)
+}
+
+pub fn align_sequences<T: Eq + Clone>(source: &[T], target: &[T]) -> (Box<[Operation<T>]>, i32) {
+    let costs = Costs {
+        copy: -1,
+        replace: 1,
+        delete: 2,
+        insert: 2,
+        twiddle: i32::max_value(),
+        kill: i32::max_value(),
+    };
+
+    let (operations, cost) = find_optimal_transform_sequence(source, target, &costs);
+
+    (operations, -cost)
 }
 
 #[cfg(test)]
 mod tests {
-    use super::{find_optimal_transform_sequence, transform, Costs, Operation};
+    use super::{align_sequences, find_optimal_transform_sequence, transform, Costs, Operation};
 
     #[test]
     fn test_transform() {
@@ -353,7 +368,9 @@ mod tests {
             kill: 1,
         };
 
-        let expected_result = [
+        let (operations, cost) = find_optimal_transform_sequence(source, target, &costs);
+
+        let expected_operations = [
             Operation::Copy,
             Operation::Copy,
             Operation::Replace(b't'),
@@ -367,9 +384,33 @@ mod tests {
             Operation::Kill,
         ];
 
-        assert_eq!(
-            *find_optimal_transform_sequence(source, target, &costs),
-            expected_result
-        );
+        assert_eq!(*operations, expected_operations);
+        assert_eq!(cost, 18);
+    }
+
+    #[test]
+    fn test_align_sequences() {
+        let (operations, score) = align_sequences(b"GATCGGCAT", b"CAATGTGAATC");
+
+        // GATCG GCAT
+        // CAATGTGAATC
+        // -+--+*+-++*
+
+        let expected_operations = [
+            Operation::Replace(b'C'),
+            Operation::Copy,
+            Operation::Replace(b'A'),
+            Operation::Replace(b'T'),
+            Operation::Copy,
+            Operation::Insert(b'T'),
+            Operation::Copy,
+            Operation::Replace(b'A'),
+            Operation::Copy,
+            Operation::Copy,
+            Operation::Insert(b'C'),
+        ];
+
+        assert_eq!(*operations, expected_operations);
+        assert_eq!(score, -3);
     }
 }
