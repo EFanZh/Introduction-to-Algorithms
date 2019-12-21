@@ -44,7 +44,7 @@ mod tests {
         let left_left = left.get_left_child().clone().unwrap();
         let right = root.get_right_child().clone().unwrap();
 
-        assert_eq!(*tree_predecessor(root.clone()).as_ref().unwrap().get_key(), 4);
+        assert_eq!(*tree_predecessor(root).as_ref().unwrap().get_key(), 4);
         assert_eq!(*tree_predecessor(left).as_ref().unwrap().get_key(), 2);
         assert!(tree_predecessor(left_left).is_none());
         assert_eq!(*tree_predecessor(right).as_ref().unwrap().get_key(), 5);

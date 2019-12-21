@@ -66,7 +66,7 @@ mod tests {
         let tree_1 = black(2, 3, black_leaf(1, 2), black_leaf(3, 5));
 
         assert_eq!(search(tree_1.clone(), 1), Some(2.into()));
-        assert_eq!(search(tree_1.clone(), 3), Some(5.into()));
+        assert_eq!(search(tree_1, 3), Some(5.into()));
 
         let tree_2 = black(
             4,
@@ -78,6 +78,6 @@ mod tests {
         assert_eq!(search(tree_2.clone(), 1), Some(2.into()));
         assert_eq!(search(tree_2.clone(), 3), Some(5.into()));
         assert_eq!(search(tree_2.clone(), 5), Some(11.into()));
-        assert_eq!(search(tree_2.clone(), 7), Some(17.into()));
+        assert_eq!(search(tree_2, 7), Some(17.into()));
     }
 }
