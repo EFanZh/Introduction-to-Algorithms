@@ -1,4 +1,5 @@
 use super::super::chapter_7_quicksort::section_7_3_a_randomized_version_of_quicksort::randomized_partition;
+use std::cmp::Ordering;
 
 pub mod exercises;
 
@@ -22,12 +23,10 @@ pub fn randomized_select<T: Ord>(a: &mut [T], p: usize, r: usize, i: usize) -> &
     let q = randomized_partition(a, p, r);
     let k = q - p;
 
-    if i == k {
-        &mut a[q]
-    } else if i < k {
-        randomized_select(a, p, q, i)
-    } else {
-        randomized_select(a, q + 1, r, i - k - 1)
+    match i.cmp(&k) {
+        Ordering::Less => randomized_select(a, p, q, i),
+        Ordering::Equal => &mut a[q],
+        Ordering::Greater => randomized_select(a, q + 1, r, i - k - 1),
     }
 }
 
