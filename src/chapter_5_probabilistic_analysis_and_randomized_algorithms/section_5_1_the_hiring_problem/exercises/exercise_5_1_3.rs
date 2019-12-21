@@ -37,7 +37,7 @@ mod tests {
 
             // Next loop.
 
-            p += 0.1;
+            p += 0.2;
 
             if p > 0.9 {
                 break;
