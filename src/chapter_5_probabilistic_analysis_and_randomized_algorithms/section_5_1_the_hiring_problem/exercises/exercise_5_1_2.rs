@@ -25,7 +25,7 @@ mod tests {
     use std::collections::HashSet;
 
     const _TEST_RANGE: i32 = 16;
-    const _TEST_SAMPLES: i32 = 10000;
+    const _TEST_SAMPLES: i32 = 1000;
 
     #[test]
     fn test_random_range() {
