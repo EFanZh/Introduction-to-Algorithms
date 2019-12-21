@@ -2,3 +2,4 @@ pub mod problem_15_1_longest_simple_path_in_a_directed_acyclic_graph;
 pub mod problem_15_2_longest_palindrome_subsequence;
 pub mod problem_15_3_bitonic_euclidean_traveling_salesman_problem;
 pub mod problem_15_4_printing_neatly;
+pub mod problem_15_5_edit_distance;
