@@ -187,9 +187,9 @@ mod tests {
         let right = root.get_right_child().clone().unwrap();
         let right_right = right.get_right_child().clone().unwrap();
 
-        assert_eq!(*tree_successor(root).as_ref().unwrap().get_key(), 6);
         assert_eq!(*tree_successor(left).as_ref().unwrap().get_key(), 5);
         assert_eq!(*tree_successor(right).as_ref().unwrap().get_key(), 8);
         assert!(tree_successor(right_right).is_none());
+        assert_eq!(*tree_successor(root).as_ref().unwrap().get_key(), 6);
     }
 }
