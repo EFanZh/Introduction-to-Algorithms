@@ -303,7 +303,7 @@ mod tests {
         );
 
         assert_eq!(
-            insert(tree.clone(), 13, 1313),
+            insert(tree, 13, 1313),
             (
                 black(
                     8,

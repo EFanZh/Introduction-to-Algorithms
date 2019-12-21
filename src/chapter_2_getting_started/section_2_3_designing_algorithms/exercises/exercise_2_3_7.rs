@@ -1,3 +1,5 @@
+use std::cmp::Ordering;
+
 pub fn two_sum(s: &[i32], x: i32) -> bool {
     let a_sorted = {
         let mut a_temp = s.to_vec();
@@ -11,12 +13,10 @@ pub fn two_sum(s: &[i32], x: i32) -> bool {
         let first = range[0];
         let last = range[range.len() - 1];
 
-        if first + last < x {
-            range = &range[1..];
-        } else if first + last > x {
-            range = &range[..range.len() - 1];
-        } else {
-            return true;
+        match (first + last).cmp(&x) {
+            Ordering::Less => range = &range[1..],
+            Ordering::Equal => return true,
+            Ordering::Greater => range = &range[..range.len() - 1],
         }
     }
 
