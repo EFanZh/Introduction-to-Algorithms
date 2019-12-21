@@ -61,7 +61,7 @@ mod tests {
         let mut expected_permutations = 1;
 
         for n in 0..=6 {
-            for _ in 0..100_000 {
+            for _ in 0..10000 {
                 f(&mut a);
 
                 permutation_counter
