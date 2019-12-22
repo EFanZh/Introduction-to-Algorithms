@@ -12,13 +12,13 @@ pub fn solve() -> (f64, Box<[String]>) {
 #[cfg(test)]
 mod tests {
     use super::solve;
-    use std::f64;
+    use approx::assert_relative_eq;
 
     #[test]
     fn test_solve() {
         let (cost, construction) = solve();
 
-        assert!((cost - 3.12).abs() < f64::EPSILON);
+        assert_relative_eq!(cost, 3.12);
 
         let expected_construction = [
             "k_4 is the root",
