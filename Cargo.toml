@@ -5,6 +5,7 @@ authors = ["EFanZh <efanzh@gmail.com>"]
 edition = "2018"
 
 [dependencies]
+approx = "*"
 lazy_static = "*"
 ndarray = "*"
 num-integer = "*"

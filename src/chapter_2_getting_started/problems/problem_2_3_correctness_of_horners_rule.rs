@@ -39,22 +39,19 @@ where
 #[cfg(test)]
 mod tests {
     use super::{polynomial, polynomial_naive};
+    use approx::assert_relative_eq;
 
     fn run_polynomial_test(f: fn(&[f64], &f64) -> f64) {
-        fn check_almost_equal(left: f64, right: f64) {
-            assert!((left - right).abs() < std::f64::EPSILON)
-        }
-
-        check_almost_equal(f(&[], &0.0), 0.0);
-        check_almost_equal(f(&[], &1.0), 0.0);
-        check_almost_equal(f(&[1.0], &0.0), 1.0);
-        check_almost_equal(f(&[1.0], &1.0), 1.0);
-        check_almost_equal(f(&[1.0, 2.0], &0.0), 1.0);
-        check_almost_equal(f(&[1.0, 2.0], &1.0), 3.0);
-        check_almost_equal(f(&[1.0, 2.0], &2.0), 5.0);
-        check_almost_equal(f(&[1.0, 2.0, 3.0], &0.0), 1.0);
-        check_almost_equal(f(&[1.0, 2.0, 3.0], &1.0), 6.0);
-        check_almost_equal(f(&[1.0, 2.0, 3.0], &2.0), 17.0);
+        assert_relative_eq!(f(&[], &0.0), 0.0);
+        assert_relative_eq!(f(&[], &1.0), 0.0);
+        assert_relative_eq!(f(&[1.0], &0.0), 1.0);
+        assert_relative_eq!(f(&[1.0], &1.0), 1.0);
+        assert_relative_eq!(f(&[1.0, 2.0], &0.0), 1.0);
+        assert_relative_eq!(f(&[1.0, 2.0], &1.0), 3.0);
+        assert_relative_eq!(f(&[1.0, 2.0], &2.0), 5.0);
+        assert_relative_eq!(f(&[1.0, 2.0, 3.0], &0.0), 1.0);
+        assert_relative_eq!(f(&[1.0, 2.0, 3.0], &1.0), 6.0);
+        assert_relative_eq!(f(&[1.0, 2.0, 3.0], &2.0), 17.0);
     }
 
     #[test]
