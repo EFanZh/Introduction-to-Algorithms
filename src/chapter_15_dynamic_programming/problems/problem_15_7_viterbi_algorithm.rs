@@ -26,10 +26,7 @@ struct CacheValue<'a, T> {
 
 impl<T> Clone for CacheValue<'_, T> {
     fn clone(&self) -> Self {
-        Self {
-            next: self.next,
-            probability: self.probability,
-        }
+        *self
     }
 }
 
