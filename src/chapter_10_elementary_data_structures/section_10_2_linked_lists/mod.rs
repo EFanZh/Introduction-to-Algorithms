@@ -1,6 +1,5 @@
 use std::cell::{Ref, RefCell};
 use std::iter;
-use std::mem;
 use std::rc::Rc;
 
 pub mod exercises;
@@ -133,17 +132,7 @@ impl<T> DoublyLinkedList<T> {
     }
 
     fn iter(&self) -> impl Iterator<Item = DoublyLinkedListElement<T>> {
-        let mut maybe_element = self.head.clone();
-
-        iter::from_fn(move || {
-            if let Some(element) = &maybe_element {
-                let maybe_next_element = element.0.borrow().next.clone();
-
-                mem::replace(&mut maybe_element, maybe_next_element)
-            } else {
-                None
-            }
-        })
+        iter::successors(self.head.clone(), |element| element.0.borrow().next.clone())
     }
 }
 
