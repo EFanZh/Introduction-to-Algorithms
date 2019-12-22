@@ -3,3 +3,4 @@ pub mod problem_15_2_longest_palindrome_subsequence;
 pub mod problem_15_3_bitonic_euclidean_traveling_salesman_problem;
 pub mod problem_15_4_printing_neatly;
 pub mod problem_15_5_edit_distance;
+pub mod problem_15_6_planning_a_company_party;
