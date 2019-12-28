@@ -6,3 +6,4 @@ pub mod problem_15_5_edit_distance;
 pub mod problem_15_6_planning_a_company_party;
 pub mod problem_15_7_viterbi_algorithm;
 pub mod problem_15_8_image_compression_by_seam_carving;
+pub mod problem_15_9_breaking_a_string;
