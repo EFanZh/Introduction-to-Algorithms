@@ -51,4 +51,20 @@ mod tests {
         assert_eq!(cost, 38);
         assert_eq!(*break_sequence, [10, 2, 8]);
     }
+
+    #[test]
+    fn test_break_string_no_break() {
+        let (cost, break_sequence) = break_string(20, &[]);
+
+        assert_eq!(cost, 0);
+        assert_eq!(*break_sequence, []);
+    }
+
+    #[test]
+    fn test_break_string_one_break() {
+        let (cost, break_sequence) = break_string(20, &[7]);
+
+        assert_eq!(cost, 20);
+        assert_eq!(*break_sequence, [7]);
+    }
 }
