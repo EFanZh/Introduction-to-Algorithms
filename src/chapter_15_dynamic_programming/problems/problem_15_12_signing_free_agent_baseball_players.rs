@@ -56,8 +56,6 @@ pub fn sign_baseball_players(
         }
     }
 
-    dbg!(&cache);
-
     // Build result.
 
     (
