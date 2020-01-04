@@ -1,5 +1,6 @@
 pub mod problem_15_10_planning_an_investment_strategy;
 pub mod problem_15_11_inventory_planning;
+pub mod problem_15_12_signing_free_agent_baseball_players;
 pub mod problem_15_1_longest_simple_path_in_a_directed_acyclic_graph;
 pub mod problem_15_2_longest_palindrome_subsequence;
 pub mod problem_15_3_bitonic_euclidean_traveling_salesman_problem;
