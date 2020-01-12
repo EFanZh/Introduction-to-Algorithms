@@ -1,9 +1,9 @@
 use std::iter;
 
 pub struct Activity {
-    start_time: u64,
-    finish_time: u64,
-    value: u64,
+    pub start_time: u64,
+    pub finish_time: u64,
+    pub value: u64,
 }
 
 pub fn select_activities(activities: &[Activity]) -> (u64, Box<[usize]>) {
