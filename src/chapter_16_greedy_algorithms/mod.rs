@@ -1,1 +1,2 @@
 pub mod section_16_1_an_activity_selection_problem;
+pub mod section_16_2_elements_of_the_greedy_strategy;
