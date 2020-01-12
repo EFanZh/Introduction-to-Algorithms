@@ -57,7 +57,7 @@ mod tests {
         assert_eq!(memoized_cut_rod_with_solution(&[]), (0, vec![].into()));
         assert_eq!(memoized_cut_rod_with_solution(&[1]), (1, vec![1].into()));
         assert_eq!(memoized_cut_rod_with_solution(&[1, 5]), (5, vec![2].into()));
-        assert_eq!(memoized_cut_rod_with_solution(&[1, 5, 8,]), (8, vec![3].into()));
+        assert_eq!(memoized_cut_rod_with_solution(&[1, 5, 8]), (8, vec![3].into()));
         assert_eq!(memoized_cut_rod_with_solution(&[1, 5, 8, 9]), (10, vec![2, 2].into()));
 
         assert_eq!(

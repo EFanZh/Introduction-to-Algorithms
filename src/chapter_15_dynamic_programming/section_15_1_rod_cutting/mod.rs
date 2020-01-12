@@ -166,7 +166,7 @@ mod tests {
         assert_eq!(f(&[]), 0);
         assert_eq!(f(&[1]), 1);
         assert_eq!(f(&[1, 5]), 5);
-        assert_eq!(f(&[1, 5, 8,]), 8);
+        assert_eq!(f(&[1, 5, 8]), 8);
         assert_eq!(f(&[1, 5, 8, 9]), 10);
         assert_eq!(f(&[1, 5, 8, 9, 10]), 13);
         assert_eq!(f(&[1, 5, 8, 9, 10, 17]), 17);
@@ -259,7 +259,7 @@ mod tests {
         assert_eq!(print_cut_rod_solution(&[]), vec![].into());
         assert_eq!(print_cut_rod_solution(&[1]), vec![1].into());
         assert_eq!(print_cut_rod_solution(&[1, 5]), vec![2].into());
-        assert_eq!(print_cut_rod_solution(&[1, 5, 8,]), vec![3].into());
+        assert_eq!(print_cut_rod_solution(&[1, 5, 8]), vec![3].into());
         assert_eq!(print_cut_rod_solution(&[1, 5, 8, 9]), vec![2, 2].into());
         assert_eq!(print_cut_rod_solution(&[1, 5, 8, 9, 10]), vec![2, 3].into());
         assert_eq!(print_cut_rod_solution(&[1, 5, 8, 9, 10, 17]), vec![6].into());
