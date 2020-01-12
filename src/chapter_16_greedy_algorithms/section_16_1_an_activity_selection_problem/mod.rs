@@ -1,3 +1,5 @@
+pub mod exercises;
+
 // Recursive-Activity-Selector(s, f, k, n)
 //
 // 1  m = k + 1
