@@ -1,3 +1,4 @@
+use std::collections::VecDeque;
 use std::iter;
 
 #[derive(PartialEq, Eq, PartialOrd, Ord, Clone, Copy)]
@@ -25,13 +26,13 @@ pub fn schedule_activities(activities: &[(u64, u64)]) -> Box<[usize]> {
 
     time_points.sort_by(|lhs, rhs| lhs.1.cmp(&rhs.1));
 
-    let mut free_slots = Vec::new();
+    let mut free_slots = VecDeque::new();
     let mut max_slots = 0;
     let mut result = vec![usize::max_value(); activities.len()];
 
     for (i, TimePoint { is_start, .. }) in time_points {
         if is_start {
-            result[i] = if let Some(free_slot) = free_slots.pop() {
+            result[i] = if let Some(free_slot) = free_slots.pop_front() {
                 free_slot
             } else {
                 let slot = max_slots;
@@ -41,7 +42,7 @@ pub fn schedule_activities(activities: &[(u64, u64)]) -> Box<[usize]> {
                 slot
             };
         } else {
-            free_slots.push(result[i]);
+            free_slots.push_back(result[i]);
         }
     }
 
@@ -70,6 +71,6 @@ pub mod tests {
 
         let result = schedule_activities(&activities);
 
-        assert_eq!(*result, [1, 3, 0, 3, 4, 1, 0, 3, 5, 2, 5]);
+        assert_eq!(*result, [1, 3, 0, 1, 4, 3, 0, 1, 5, 2, 4]);
     }
 }
