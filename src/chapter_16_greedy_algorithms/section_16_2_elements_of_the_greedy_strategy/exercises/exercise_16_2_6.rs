@@ -1,5 +1,6 @@
 use super::super::super::super::chapter_7_quicksort::section_7_1_description_of_quicksort::extra;
 use super::super::super::super::chapter_9_medians_and_order_statistics::section_9_3_selection_in_worst_case_linear_time;
+use num_rational::Ratio;
 use std::cmp::Ordering;
 
 pub struct Item {
@@ -10,7 +11,7 @@ pub struct Item {
 struct ProcessedItem {
     index: usize,
     weight: u64,
-    unit_value: f64,
+    unit_value: Ratio<u64>,
 }
 
 impl PartialEq for ProcessedItem {
@@ -34,27 +35,23 @@ impl Ord for ProcessedItem {
 }
 
 fn partition(items: &mut [&ProcessedItem]) -> usize {
-    if items.len() < 2 {
-        0
-    } else {
-        let mut group_medians = items
-            .chunks_mut(5)
-            .map(|chunk| {
-                chunk.sort();
-                let middle = chunk.len() / 2;
-                chunk[middle]
-            })
-            .collect::<Box<_>>();
+    let mut group_medians = items
+        .chunks_mut(5)
+        .map(|chunk| {
+            chunk.sort();
+            let middle = chunk.len() / 2;
+            chunk[middle]
+        })
+        .collect::<Box<_>>();
 
-        let num_groups = group_medians.len();
+    let num_groups = group_medians.len();
 
-        let median_of_medians =
-            *section_9_3_selection_in_worst_case_linear_time::select(&mut group_medians, 0, num_groups, num_groups / 2);
+    let median_of_medians =
+        *section_9_3_selection_in_worst_case_linear_time::select(&mut group_medians, 0, num_groups, num_groups / 2);
 
-        let (left, _, _) = extra::partition_by_key(&mut group_medians, &median_of_medians);
+    let (left, _, _) = extra::partition_by_key(&mut group_medians, &median_of_medians);
 
-        left.len()
-    }
+    left.len()
 }
 
 fn quick_select(mut items: &mut [&ProcessedItem], mut capacity: u64) -> usize {
@@ -91,7 +88,7 @@ pub fn select_items(items: &[Item], capacity: u64) -> Box<[u64]> {
         .map(|(index, item)| ProcessedItem {
             index,
             weight: item.weight,
-            unit_value: item.value as f64 / item.weight as f64,
+            unit_value: Ratio::new(item.value, item.weight),
         })
         .collect::<Box<_>>();
 
