@@ -1,7 +1,7 @@
 use super::super::super::super::chapter_7_quicksort::section_7_1_description_of_quicksort::extra;
 use super::super::super::super::chapter_9_medians_and_order_statistics::section_9_3_selection_in_worst_case_linear_time;
+use super::super::super::super::utilities::KeyValuePair;
 use num_rational::Ratio;
-use std::cmp::Ordering;
 
 pub struct Item {
     pub value: u64,
@@ -11,30 +11,9 @@ pub struct Item {
 struct ProcessedItem {
     index: usize,
     weight: u64,
-    unit_value: Ratio<u64>,
 }
 
-impl PartialEq for ProcessedItem {
-    fn eq(&self, other: &Self) -> bool {
-        self.unit_value.eq(&other.unit_value)
-    }
-}
-
-impl Eq for ProcessedItem {}
-
-impl PartialOrd for ProcessedItem {
-    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
-        self.unit_value.partial_cmp(&other.unit_value)
-    }
-}
-
-impl Ord for ProcessedItem {
-    fn cmp(&self, other: &Self) -> Ordering {
-        self.unit_value.partial_cmp(&other.unit_value).unwrap()
-    }
-}
-
-fn partition(items: &mut [&ProcessedItem]) -> usize {
+fn partition(items: &mut [&KeyValuePair<Ratio<u64>, ProcessedItem>]) -> usize {
     let mut group_medians = items
         .chunks_mut(5)
         .map(|chunk| {
@@ -54,17 +33,17 @@ fn partition(items: &mut [&ProcessedItem]) -> usize {
     left.len()
 }
 
-fn quick_select(mut items: &mut [&ProcessedItem], mut capacity: u64) -> usize {
+fn quick_select(mut items: &mut [&KeyValuePair<Ratio<u64>, ProcessedItem>], mut capacity: u64) -> usize {
     let mut base = 0;
 
     while items.len() > 1 {
         let left_length = partition(items);
         let (left, middle_and_right) = items.split_at_mut(left_length);
         let (middle, right) = middle_and_right.split_first_mut().unwrap();
-        let right_weight: u64 = right.iter().map(|item| item.weight).sum();
+        let right_weight: u64 = right.iter().map(|item| item.value.weight).sum();
 
         if right_weight < capacity {
-            let middle_and_right_weight = right_weight + middle.weight;
+            let middle_and_right_weight = right_weight + middle.value.weight;
 
             if middle_and_right_weight >= capacity {
                 return base + left_length;
@@ -85,10 +64,14 @@ pub fn select_items(items: &[Item], capacity: u64) -> Box<[u64]> {
     let processed_items = items
         .iter()
         .enumerate()
-        .map(|(index, item)| ProcessedItem {
-            index,
-            weight: item.weight,
-            unit_value: Ratio::new(item.value, item.weight),
+        .map(|(index, item)| {
+            KeyValuePair::new(
+                Ratio::new(item.value, item.weight),
+                ProcessedItem {
+                    index,
+                    weight: item.weight,
+                },
+            )
         })
         .collect::<Box<_>>();
 
@@ -100,14 +83,18 @@ pub fn select_items(items: &[Item], capacity: u64) -> Box<[u64]> {
     if let Some((first, rest)) = right.split_first() {
         let mut remaining_capacity = capacity;
 
-        for ProcessedItem { index, .. } in rest {
+        for KeyValuePair {
+            value: ProcessedItem { index, .. },
+            ..
+        } in rest
+        {
             let weight = items[*index].weight;
 
             result[*index] = weight;
             remaining_capacity -= weight;
         }
 
-        result[first.index] = remaining_capacity.min(items[first.index].weight);
+        result[first.value.index] = remaining_capacity.min(items[first.value.index].weight);
     }
 
     result.into()
