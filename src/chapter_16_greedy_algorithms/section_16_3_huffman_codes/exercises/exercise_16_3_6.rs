@@ -132,7 +132,7 @@ fn decode_helper<I: IntoIterator<Item = bool>>(values: I) -> Node {
 
     let length = slots.len();
 
-    for (slot, i) in slots.into_iter().zip(decode_enumeration(length, iter)) {
+    for (i, slot) in decode_enumeration(length, iter).zip(slots) {
         if let Node::Leaf { value } = slot {
             *value = i;
         } else {
@@ -193,56 +193,56 @@ mod tests {
 
     fn get_test_cases() -> Box<[TestCase]> {
         let test_cases = [
-            (make_leaf(0), (&[0b_1_u8] as &[_], 1)),
-            (make_tree(make_leaf(0), make_leaf(1)), (&[0b_10_110], 5)),
-            (make_tree(make_leaf(1), make_leaf(0)), (&[0b_01_110], 5)),
+            (make_leaf(0), (&[0b1u8] as &[_], 1)),
+            (make_tree(make_leaf(0), make_leaf(1)), (&[0b1_0110], 5)),
+            (make_tree(make_leaf(1), make_leaf(0)), (&[0b0_1110], 5)),
             (
                 make_tree(make_leaf(0), make_tree(make_leaf(1), make_leaf(2))),
-                (&[0b_00_1_11010, 0b_10], 10),
+                (&[0b0011_1010, 0b10], 10),
             ),
             (
                 make_tree(make_leaf(0), make_tree(make_leaf(2), make_leaf(1))),
-                (&[0b_10_1_11010, 0b_00], 10),
+                (&[0b1011_1010, 0b00], 10),
             ),
             (
                 make_tree(make_leaf(1), make_tree(make_leaf(0), make_leaf(2))),
-                (&[0b_1_00_11010, 0b_10], 10),
+                (&[0b1001_1010, 0b10], 10),
             ),
             (
                 make_tree(make_leaf(1), make_tree(make_leaf(2), make_leaf(0))),
-                (&[0b_0_00_11010, 0b_1_1], 10),
+                (&[0b0001_1010, 0b11], 10),
             ),
             (
                 make_tree(make_leaf(2), make_tree(make_leaf(0), make_leaf(1))),
-                (&[0b_1_10_11010, 0b_00], 10),
+                (&[0b1101_1010, 0b00], 10),
             ),
             (
                 make_tree(make_leaf(2), make_tree(make_leaf(1), make_leaf(0))),
-                (&[0b_0_10_11010, 0b_1_0], 10),
+                (&[0b0101_1010, 0b10], 10),
             ),
             (
                 make_tree(make_tree(make_leaf(0), make_leaf(1)), make_leaf(2)),
-                (&[0b_00_1_11100, 0b_10], 10),
+                (&[0b0011_1100, 0b10], 10),
             ),
             (
                 make_tree(make_tree(make_leaf(0), make_leaf(2)), make_leaf(1)),
-                (&[0b_10_1_11100, 0b_00], 10),
+                (&[0b1011_1100, 0b00], 10),
             ),
             (
                 make_tree(make_tree(make_leaf(1), make_leaf(0)), make_leaf(2)),
-                (&[0b_1_00_11100, 0b_10], 10),
+                (&[0b1001_1100, 0b10], 10),
             ),
             (
                 make_tree(make_tree(make_leaf(1), make_leaf(2)), make_leaf(0)),
-                (&[0b_0_00_11100, 0b_1_1], 10),
+                (&[0b0001_1100, 0b11], 10),
             ),
             (
                 make_tree(make_tree(make_leaf(2), make_leaf(0)), make_leaf(1)),
-                (&[0b_1_10_11100, 0b_00], 10),
+                (&[0b1101_1100, 0b00], 10),
             ),
             (
                 make_tree(make_tree(make_leaf(2), make_leaf(1)), make_leaf(0)),
-                (&[0b_0_10_11100, 0b_1_0], 10),
+                (&[0b0101_1100, 0b10], 10),
             ),
             (
                 make_tree(
@@ -252,8 +252,7 @@ mod tests {
                         make_tree(make_leaf(3), make_tree(make_leaf(1), make_leaf(4))),
                     ),
                 ),
-                (&[0b_10101010, 0b_000_10_11_1, 0b_100_01], 21),
-                //        tree       3  0  2         4  1
+                (&[0b1010_1010, 0b0001_0111, 0b1_0001], 21),
             ),
         ];
 
