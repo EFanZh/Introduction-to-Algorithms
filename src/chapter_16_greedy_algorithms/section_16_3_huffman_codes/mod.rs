@@ -1,7 +1,8 @@
 use super::super::utilities::KeyValuePair;
 use std::cmp::Reverse;
-
 use std::collections::BinaryHeap;
+
+pub mod exercises;
 
 #[derive(PartialEq, Eq, Debug)]
 pub enum NodeContent<T> {
