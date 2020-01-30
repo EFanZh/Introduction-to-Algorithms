@@ -4,46 +4,44 @@ jobs:
     rustfmt:
         runs-on: ${{ matrix.os }}
         steps:
-          - uses: hecrj/setup-rust-action@v1.1.0
-            with:
-                components: rustfmt
           - uses: actions/checkout@v1
-          - name: Run Rustfmt checks
-            run: cargo fmt -- --check
+          - uses: actions-rs/toolchain@v1
+            with:
+                toolchain: stable
+                components: rustfmt
+          - run: cargo fmt -- --check
         strategy:
             matrix:
                 os:
                   - macOS-latest
                   - ubuntu-latest
                   - windows-latest
-            fail-fast: false
     clippy:
         runs-on: ${{ matrix.os }}
         steps:
-          - uses: hecrj/setup-rust-action@v1.1.0
-            with:
-                components: clippy
           - uses: actions/checkout@v1
-          - name: Run Clippy checks
-            run: cargo clippy --all-targets --all-features -- -D warnings
+          - uses: actions-rs/toolchain@v1
+            with:
+                toolchain: stable
+                components: clippy
+          - run: cargo clippy --all-targets --all-features -- -D warnings
         strategy:
             matrix:
                 os:
                   - macOS-latest
                   - ubuntu-latest
                   - windows-latest
-            fail-fast: false
     tests:
         runs-on: ${{ matrix.os }}
         steps:
-          - uses: hecrj/setup-rust-action@v1.1.0
           - uses: actions/checkout@v1
-          - name: Run tests
-            run: cargo test
+          - uses: actions-rs/toolchain@v1
+            with:
+                toolchain: stable
+          - run: cargo test
         strategy:
             matrix:
                 os:
                   - macOS-latest
                   - ubuntu-latest
                   - windows-latest
-            fail-fast: false
