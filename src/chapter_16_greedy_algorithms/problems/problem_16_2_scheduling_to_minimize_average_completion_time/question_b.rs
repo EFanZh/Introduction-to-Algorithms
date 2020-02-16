@@ -149,5 +149,7 @@ mod tests {
         );
 
         run_test(&[(2, 8), (3, 1)], &[idle(2), work(0, 1), work(1, 1), work(0, 7)]);
+
+        run_test(&[(2, 1), (4, 1)], &[idle(2), work(0, 1), idle(1), work(1, 1)]);
     }
 }
