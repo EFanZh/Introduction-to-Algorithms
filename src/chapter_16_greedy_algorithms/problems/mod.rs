@@ -1,1 +1,2 @@
 pub mod problem_16_1_coin_changing;
+pub mod problem_16_2_scheduling_to_minimize_average_completion_time;
