@@ -27,6 +27,10 @@ impl<T> DynamicTable<T> {
         self.length
     }
 
+    pub fn is_empty(&self) -> bool {
+        self.length == 0
+    }
+
     fn capacity(&self) -> usize {
         self.slots.len()
     }
@@ -114,6 +118,7 @@ mod tests {
         let mut table = DynamicTable::new();
         let mut control = Vec::new();
 
+        assert!(table.is_empty());
         assert!(table.iter().eq(control.iter()));
         assert_eq!(table.capacity(), 0);
 
@@ -173,20 +178,22 @@ mod tests {
         ] as &[_];
 
         for operation in operations {
-            match operation {
-                &Push(value, expected_len, expected_capacity) => {
+            match *operation {
+                Push(value, expected_len, expected_capacity) => {
                     table.push(value);
                     control.push(value);
 
                     assert_eq!(table.len(), expected_len);
                     assert_eq!(table.capacity(), expected_capacity);
                 }
-                &Pop(expected_len, expected_capacity) => {
+                Pop(expected_len, expected_capacity) => {
                     assert_eq!(table.pop(), control.pop());
                     assert_eq!(table.len(), expected_len);
                     assert_eq!(table.capacity(), expected_capacity);
                 }
             }
+
+            assert_eq!(table.is_empty(), table.len().eq(&0));
         }
     }
 }
