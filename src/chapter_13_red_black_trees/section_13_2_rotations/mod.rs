@@ -1,7 +1,7 @@
 use super::section_13_1_properties_of_red_black_trees::RedBlackTreeNode;
 use std::cell::RefCell;
 use std::mem;
-use std::rc::{Rc, Weak};
+use std::rc::Rc;
 
 pub mod exercises;
 
@@ -27,7 +27,7 @@ pub fn left_rotate<T>(x_rc: &mut Rc<RefCell<RedBlackTreeNode<T>>>) {
 
     let y_rc = x_ref.right.take().unwrap();
     let mut y_ref = y_rc.borrow_mut();
-    let x_weak = mem::replace(&mut y_ref.p, mem::replace(&mut x_ref.p, Weak::new()));
+    let x_weak = mem::replace(&mut y_ref.p, mem::take(&mut x_ref.p));
 
     // Attach y.left to x.right.
 
