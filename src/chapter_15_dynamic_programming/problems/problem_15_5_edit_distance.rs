@@ -208,8 +208,8 @@ pub fn align_sequences<T: Eq + Clone>(source: &[T], target: &[T]) -> (Box<[Opera
         replace: 1,
         delete: 2,
         insert: 2,
-        twiddle: i32::max_value(),
-        kill: i32::max_value(),
+        twiddle: i32::MAX,
+        kill: i32::MAX,
     };
 
     let (operations, cost) = find_optimal_transform_sequence(source, target, &costs);

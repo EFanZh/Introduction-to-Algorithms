@@ -10,7 +10,7 @@ pub fn sign_baseball_players(
     players_per_position: usize,
     budget: usize,
 ) -> (u64, Box<[Option<usize>]>) {
-    const CURRENT_PLAYER: usize = usize::max_value();
+    const CURRENT_PLAYER: usize = usize::MAX;
 
     let num_positions = players.len() / players_per_position;
     let cache_columns = budget + 1;

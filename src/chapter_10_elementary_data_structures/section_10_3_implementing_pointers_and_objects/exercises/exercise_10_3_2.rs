@@ -6,7 +6,7 @@ enum Slot<T> {
     Occupied(T),
 }
 
-const NIL: Handle = Handle(usize::max_value());
+const NIL: Handle = Handle(usize::MAX);
 
 pub struct ObjectPool<T> {
     memory: Vec<Slot<T>>,

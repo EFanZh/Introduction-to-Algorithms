@@ -1,7 +1,7 @@
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub struct Handle(usize);
 
-pub const NIL: Handle = Handle(usize::max_value());
+pub const NIL: Handle = Handle(usize::MAX);
 
 fn fix_doubly_linked_list(prev: &mut [Handle], next: &mut [Handle], mut head: Handle) {
     if head != NIL {

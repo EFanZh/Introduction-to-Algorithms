@@ -22,7 +22,7 @@ pub fn select_activities(activities: &[Activity]) -> (u64, Box<[usize]>) {
                 }
             })
             .max_by_key(|(v, _)| *v)
-            .unwrap_or((0, usize::max_value()));
+            .unwrap_or((0, usize::MAX));
 
         choice.0 += activity_i.value;
 
@@ -34,7 +34,7 @@ pub fn select_activities(activities: &[Activity]) -> (u64, Box<[usize]>) {
         |i| {
             let next = cache[*i].1;
 
-            if next == usize::max_value() {
+            if next == usize::MAX {
                 None
             } else {
                 Some(next)
