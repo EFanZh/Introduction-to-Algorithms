@@ -31,7 +31,7 @@ jobs:
       - template: .azure-pipelines/install-rust.yml
       - script: rustup component add clippy
         displayName: Install Clippy
-      - script: cargo clippy --all-targets --all-features -- -D warnings
+      - script: cargo clippy --all-targets --all-features -- -W clippy::pedantic -A clippy::cast-possible-truncation -A clippy::cast-possible-wrap -A clippy::cast-precision-loss -A clippy::cast-sign-loss -A clippy::must-use-candidate -A clippy::non-ascii-literal -D warnings
         displayName: Run Clippy checks
   - job: Tests
     strategy:
