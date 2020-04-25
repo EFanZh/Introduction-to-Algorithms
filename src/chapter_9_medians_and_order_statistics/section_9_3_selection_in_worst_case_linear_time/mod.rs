@@ -51,11 +51,11 @@ pub fn select<T: Ord + Clone>(a: &mut [T], p: usize, r: usize, i: usize) -> &mut
 
 #[cfg(test)]
 mod tests {
-    use super::super::tests::run_all_select_tests;
+    use super::super::tests::run_all_select_test_cases;
     use super::select;
 
     #[test]
     fn test_select() {
-        run_all_select_tests(select);
+        run_all_select_test_cases(select);
     }
 }

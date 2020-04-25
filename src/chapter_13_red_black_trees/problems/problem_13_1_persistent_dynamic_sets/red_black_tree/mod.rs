@@ -1,12 +1,12 @@
 use std::rc::Rc;
 
-mod insert;
-mod remove;
-mod search;
+mod insert_impl;
+mod remove_impl;
+mod search_impl;
 
-pub use insert::persistent_red_black_tree_insert;
-pub use remove::persistent_red_black_tree_remove;
-pub use search::persistent_red_black_tree_search;
+pub use insert_impl::persistent_red_black_tree_insert;
+pub use remove_impl::persistent_red_black_tree_remove;
+pub use search_impl::persistent_red_black_tree_search;
 
 // NodeContent.
 

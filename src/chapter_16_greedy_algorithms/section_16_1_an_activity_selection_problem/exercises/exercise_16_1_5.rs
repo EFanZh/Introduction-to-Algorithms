@@ -43,7 +43,7 @@ pub fn select_activities(activities: &[Activity]) -> (u64, Box<[usize]>) {
     )
     .collect::<Box<_>>();
 
-    let total_value = selected_activities.first().map(|i| cache[*i].0).unwrap_or(0);
+    let total_value = selected_activities.first().map_or(0, |i| cache[*i].0);
 
     (total_value, selected_activities)
 }

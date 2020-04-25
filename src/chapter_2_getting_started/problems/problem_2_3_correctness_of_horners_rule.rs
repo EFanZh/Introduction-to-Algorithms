@@ -8,7 +8,7 @@ pub fn polynomial<T: Default>(a: &[T], x: &T) -> T
 where
     for<'a> &'a T: Add<Output = T> + Mul<Output = T>,
 {
-    let mut y: T = Default::default();
+    let mut y: T = T::default();
 
     for a_i in a.iter().rev() {
         y = a_i + &(x * &y);
@@ -21,7 +21,7 @@ pub fn polynomial_naive<T: Default + Clone>(a: &[T], x: &T) -> T
 where
     for<'a> &'a T: Add<Output = T> + Mul<Output = T>,
 {
-    let mut y: T = Default::default();
+    let mut y: T = T::default();
 
     for (i, a_i) in a.iter().enumerate() {
         let mut p = a_i.clone();

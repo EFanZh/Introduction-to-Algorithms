@@ -22,13 +22,13 @@ impl<T> Drop for SinglyLinkedListStack<T> {
 
 impl<T> Default for SinglyLinkedListStack<T> {
     fn default() -> Self {
-        Self { head: None, length: 0 }
+        Self::new()
     }
 }
 
 impl<T> SinglyLinkedListStack<T> {
     pub fn new() -> Self {
-        Default::default()
+        Self { head: None, length: 0 }
     }
 }
 
@@ -62,11 +62,11 @@ impl<T> Stack<T> for SinglyLinkedListStack<T> {
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::super::section_10_1_stacks_and_queues::tests::run_stack_tests;
+    use super::super::super::super::section_10_1_stacks_and_queues::tests::run_stack_test_cases;
     use super::SinglyLinkedListStack;
 
     #[test]
     fn test_singly_linked_list_stack() {
-        run_stack_tests(SinglyLinkedListStack::new);
+        run_stack_test_cases(SinglyLinkedListStack::new);
     }
 }

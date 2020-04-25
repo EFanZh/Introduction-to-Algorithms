@@ -14,18 +14,18 @@ pub struct MultipleArrayDoublyLinkedListElementPool<T> {
 
 impl<T> Default for MultipleArrayDoublyLinkedListElementPool<T> {
     fn default() -> Self {
-        MultipleArrayDoublyLinkedListElementPool {
-            key: Vec::new(),
-            next: Vec::new(),
-            prev: Vec::new(),
-            free: NIL,
-        }
+        Self::new()
     }
 }
 
 impl<T> MultipleArrayDoublyLinkedListElementPool<T> {
     pub fn new() -> MultipleArrayDoublyLinkedListElementPool<T> {
-        Default::default()
+        Self {
+            key: Vec::new(),
+            next: Vec::new(),
+            prev: Vec::new(),
+            free: NIL,
+        }
     }
 
     // Allocate-Object()

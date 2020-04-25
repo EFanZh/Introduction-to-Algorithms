@@ -206,7 +206,7 @@ pub fn run_all_num_inversions_tests<F: Fn(&[i32]) -> usize>(num_inversions: F) {
 }
 
 pub fn loop_on_all_max_heap_test_cases<F: FnMut(&[i32])>(f: F) {
-    MAX_HEAP_TEST_CASES.iter().map(|x| x.as_ref()).for_each(f);
+    MAX_HEAP_TEST_CASES.iter().map(AsRef::as_ref).for_each(f);
 }
 
 mod tests {

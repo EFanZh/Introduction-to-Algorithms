@@ -9,16 +9,16 @@ pub struct ArrayQueueStack<T> {
 
 impl<T> Default for ArrayQueueStack<T> {
     fn default() -> Self {
-        ArrayQueueStack {
-            queue: Default::default(),
-            temp_queue: Default::default(),
-        }
+        Self::new()
     }
 }
 
 impl<T> ArrayQueueStack<T> {
     pub fn new() -> Self {
-        Default::default()
+        Self {
+            queue: ArrayQueue::new(),
+            temp_queue: ArrayQueue::new(),
+        }
     }
 }
 
@@ -50,11 +50,11 @@ impl<T> Stack<T> for ArrayQueueStack<T> {
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::tests::run_stack_tests;
+    use super::super::super::tests::run_stack_test_cases;
     use super::ArrayQueueStack;
 
     #[test]
     fn test_array_queue_stack() {
-        run_stack_tests(ArrayQueueStack::new);
+        run_stack_test_cases(ArrayQueueStack::new);
     }
 }

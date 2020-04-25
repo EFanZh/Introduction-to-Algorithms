@@ -10,13 +10,13 @@ pub struct ArrayStack<T> {
 
 impl<T> Default for ArrayStack<T> {
     fn default() -> Self {
-        ArrayStack { storage: Vec::new() }
+        Self::new()
     }
 }
 
 impl<T> ArrayStack<T> {
     pub fn new() -> Self {
-        Default::default()
+        Self { storage: Vec::new() }
     }
 }
 
@@ -44,15 +44,15 @@ pub struct ArrayQueue<T> {
 
 impl<T> Default for ArrayQueue<T> {
     fn default() -> Self {
-        ArrayQueue {
-            storage: VecDeque::new(),
-        }
+        Self::new()
     }
 }
 
 impl<T> ArrayQueue<T> {
     pub fn new() -> Self {
-        Default::default()
+        Self {
+            storage: VecDeque::new(),
+        }
     }
 }
 
@@ -93,7 +93,7 @@ pub(crate) mod tests {
         Length(usize),
     }
 
-    pub fn run_stack_tests<S: Stack<i32>, F: FnMut() -> S>(mut f: F) {
+    pub fn run_stack_test_cases<S: Stack<i32>, F: FnMut() -> S>(mut f: F) {
         use StackOperation::{Empty, Length, Pop, Push};
 
         let test_cases = vec![
@@ -153,7 +153,7 @@ pub(crate) mod tests {
         }
     }
 
-    pub fn run_queue_tests<S: Queue<i32>, F: FnMut() -> S>(mut f: F) {
+    pub fn run_queue_test_cases<S: Queue<i32>, F: FnMut() -> S>(mut f: F) {
         use QueueOperation::{Dequeue, Empty, Enqueue, Length};
 
         let test_cases = vec![
@@ -214,11 +214,11 @@ pub(crate) mod tests {
 
     #[test]
     fn test_array_stack() {
-        run_stack_tests(ArrayStack::new);
+        run_stack_test_cases(ArrayStack::new);
     }
 
     #[test]
     fn test_array_queue() {
-        run_queue_tests(ArrayQueue::new);
+        run_queue_test_cases(ArrayQueue::new);
     }
 }

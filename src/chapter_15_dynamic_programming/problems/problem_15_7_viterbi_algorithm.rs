@@ -77,6 +77,10 @@ fn get_most_probable_path_helper<'a, T: Eq + Hash, S: Eq, H: BuildHasher>(
     }
 }
 
+/// # Errors
+///
+/// Will return `Error::NoSuchPath` if the path is not found.
+
 pub fn get_most_probable_path<T: Eq + Hash + Clone, S: Eq, H: BuildHasher + Default>(
     graph: &HashMap<T, Vec<Edge<T, S>>, H>,
     start: &T,

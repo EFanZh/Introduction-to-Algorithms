@@ -29,12 +29,12 @@ pub fn min_heapify_iterative<T: Ord>(a: &mut [T], mut i: usize) {
             smallest = r
         }
 
-        if smallest != i {
+        if smallest == i {
+            break;
+        } else {
             a.swap(i, smallest);
 
             i = smallest;
-        } else {
-            break;
         }
     }
 }
@@ -43,7 +43,7 @@ pub fn min_heapify_iterative<T: Ord>(a: &mut [T], mut i: usize) {
 mod tests {
     use super::{min_heapify, min_heapify_iterative};
 
-    pub fn run_min_heapify_tests<F: Fn(&mut [i32], usize)>(f: F) {
+    pub fn run_min_heapify_test_cases<F: Fn(&mut [i32], usize)>(f: F) {
         let run_single_test = |a: &mut [i32], i, b: &[i32]| {
             f(a, i);
 
@@ -59,11 +59,11 @@ mod tests {
 
     #[test]
     fn test_min_heapify() {
-        run_min_heapify_tests(min_heapify);
+        run_min_heapify_test_cases(min_heapify);
     }
 
     #[test]
     fn test_min_heapify_iterative() {
-        run_min_heapify_tests(min_heapify_iterative);
+        run_min_heapify_test_cases(min_heapify_iterative);
     }
 }

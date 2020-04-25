@@ -10,12 +10,12 @@ fn fix_doubly_linked_list(prev: &mut [Handle], next: &mut [Handle], mut head: Ha
         loop {
             let head_next = next[head.0];
 
-            if head_next != NIL {
+            if head_next == NIL {
+                break;
+            } else {
                 prev[head_next.0] = head;
 
                 head = head_next;
-            } else {
-                break;
             }
         }
     }
@@ -56,20 +56,20 @@ pub fn compactify_list<T>(
             let i_prev = prev[i];
             let i_next = next[i];
 
-            if element_prev != NIL {
-                next[element_prev.0] = element;
-            } else {
+            if element_prev == NIL {
                 f = element // This is the new head of the free list.
+            } else {
+                next[element_prev.0] = element;
             }
 
             if element_next != NIL {
                 prev[element_next.0] = element;
             }
 
-            if i_prev != NIL {
-                next[i_prev.0] = Handle(i);
-            } else {
+            if i_prev == NIL {
                 l = Handle(i);
+            } else {
+                next[i_prev.0] = Handle(i);
             }
 
             if i_next != NIL {
@@ -96,12 +96,12 @@ mod tests {
             loop {
                 let head_next = next[head.0];
 
-                if head_next != NIL {
+                if head_next == NIL {
+                    break;
+                } else {
                     assert_eq!(prev[head_next.0], head);
 
                     head = head_next;
-                } else {
-                    break;
                 }
             }
         }

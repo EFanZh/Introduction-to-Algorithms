@@ -27,23 +27,23 @@ pub(crate) mod tests {
 
     fn run_single_tests<F: FnOnce(&MaybeNode<i32>) -> HashSet<i32>, I: IntoIterator<Item = i32>>(
         f: F,
-        root: MaybeNode<i32>,
+        root: &MaybeNode<i32>,
         result: I,
     ) {
-        assert_eq!(f(&root), result.into_iter().collect());
+        assert_eq!(f(root), result.into_iter().collect());
     }
 
-    pub fn run_iterate_tree_tests<F: FnMut(&MaybeNode<i32>) -> HashSet<i32>>(mut f: F) {
-        run_single_tests(&mut f, None, iter::empty());
-        run_single_tests(&mut f, make_tree![4], iter::once(4));
-        run_single_tests(&mut f, make_tree![(4, 5, ())], vec![4, 5]);
-        run_single_tests(&mut f, make_tree![(4, 5, 6)], vec![4, 5, 6]);
-        run_single_tests(&mut f, make_tree![(4, 5, (6, 7, ()))], vec![4, 5, 6, 7]);
+    pub fn run_iterate_tree_test_cases<F: FnMut(&MaybeNode<i32>) -> HashSet<i32>>(mut f: F) {
+        run_single_tests(&mut f, &None, iter::empty());
+        run_single_tests(&mut f, &make_tree![4], iter::once(4));
+        run_single_tests(&mut f, &make_tree![(4, 5, ())], vec![4, 5]);
+        run_single_tests(&mut f, &make_tree![(4, 5, 6)], vec![4, 5, 6]);
+        run_single_tests(&mut f, &make_tree![(4, 5, (6, 7, ()))], vec![4, 5, 6, 7]);
     }
 
     #[test]
     fn test_iterate_tree() {
-        run_iterate_tree_tests(|root| {
+        run_iterate_tree_test_cases(|root| {
             let mut result = HashSet::new();
 
             iterate_tree(root, |key| {

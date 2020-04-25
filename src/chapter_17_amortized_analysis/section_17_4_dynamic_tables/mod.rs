@@ -7,16 +7,16 @@ pub struct DynamicTable<T> {
 
 impl<T> Default for DynamicTable<T> {
     fn default() -> Self {
-        Self {
-            slots: Box::new([]),
-            length: 0,
-        }
+        Self::new()
     }
 }
 
 impl<T> DynamicTable<T> {
     pub fn new() -> Self {
-        Default::default()
+        Self {
+            slots: Box::new([]),
+            length: 0,
+        }
     }
 
     fn allocate(length: usize) -> Box<[Option<T>]> {

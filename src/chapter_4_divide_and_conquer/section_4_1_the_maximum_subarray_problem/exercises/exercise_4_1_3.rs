@@ -16,8 +16,8 @@ use num_traits::Zero;
 // 12  return (max-left, max-right, max-sum)
 
 pub fn find_maximum_subarray_brute_force<T: Clone + Ord + Zero>(a: &[T]) -> (usize, usize, T) {
-    let mut max_left = 0usize;
-    let mut max_right = 0usize;
+    let mut max_left = 0_usize;
+    let mut max_right = 0_usize;
     let mut max_sum = a[0].clone();
 
     for i in 0..a.len() {
@@ -39,11 +39,11 @@ pub fn find_maximum_subarray_brute_force<T: Clone + Ord + Zero>(a: &[T]) -> (usi
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::tests::run_find_maximum_subarray_tests;
+    use super::super::super::tests::run_find_maximum_subarray_test_cases;
     use super::find_maximum_subarray_brute_force;
 
     #[test]
     fn test_find_maximum_subarray_brute_force() {
-        run_find_maximum_subarray_tests(find_maximum_subarray_brute_force);
+        run_find_maximum_subarray_test_cases(find_maximum_subarray_brute_force);
     }
 }

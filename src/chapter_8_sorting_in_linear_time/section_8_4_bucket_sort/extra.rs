@@ -13,7 +13,7 @@ pub fn bucket_sort_by<T: Clone, F: FnMut(&T) -> usize, G: FnMut(&T, &T) -> Order
         b[f(a_i)].push(a_i.clone());
     }
 
-    for b_i in b.iter_mut() {
+    for b_i in &mut b {
         insertion_sort_slice_by(b_i, &mut compare);
     }
 
@@ -35,8 +35,8 @@ mod tests {
         let mut b = Vec::new();
         let mut rng = thread_rng();
 
-        for n in 0usize..10 {
-            for _ in 0..2usize.pow(n as _) {
+        for n in 0_usize..10 {
+            for _ in 0..2_usize.pow(n as _) {
                 assign_vec_from_iter(&mut a, iter::repeat_with(|| rng.gen()).take(n));
                 assign_vec(&mut b, &a);
 

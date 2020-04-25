@@ -96,9 +96,9 @@ mod tests {
         let mut b = Vec::new();
         let mut rng = thread_rng();
 
-        for n in 0usize..10 {
+        for n in 0_usize..10 {
             for max_length in 0..10 {
-                for _ in 0..2usize.pow(n as _) {
+                for _ in 0..2_usize.pow(n as _) {
                     assign_vec_from_iter(&mut a, iter::repeat_with(|| random_str(max_length, &mut rng)).take(n));
                     assign_vec(&mut b, &a);
 

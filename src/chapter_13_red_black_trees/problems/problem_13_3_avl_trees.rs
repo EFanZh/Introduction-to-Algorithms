@@ -13,7 +13,7 @@ pub struct Node<K, V> {
 type Tree<K, V> = Option<Box<Node<K, V>>>;
 
 fn get_height<K, V>(node: &Option<Box<Node<K, V>>>) -> i32 {
-    node.as_ref().map(|x| x.height).unwrap_or(0)
+    node.as_ref().map_or(0, |x| x.height)
 }
 
 fn get_balance_factor<K, V>(node: &Node<K, V>) -> i32 {

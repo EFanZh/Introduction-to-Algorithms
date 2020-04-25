@@ -1,5 +1,5 @@
 pub fn hash_string(s: &[u8], m: u32) -> u32 {
-    let mut result = 0u64;
+    let mut result = 0_u64;
     let m = u64::from(m);
 
     for c in s.iter().map(|c| u64::from(*c)) {

@@ -204,7 +204,7 @@ mod tests {
 
     #[test]
     fn test_young_tableau_contains() {
-        for (num_rows, num_columns) in [(2, 4), (3, 3), (4, 2)].iter() {
+        for (num_rows, num_columns) in &[(2, 4), (3, 3), (4, 2)] {
             let mut young_tableau = YoungTableau::new(*num_rows, *num_columns);
 
             young_tableau.insert(2);

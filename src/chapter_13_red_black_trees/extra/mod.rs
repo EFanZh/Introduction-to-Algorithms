@@ -451,15 +451,15 @@ pub struct RedBlackTreeMap<K, V> {
     root: Tree<K, V>,
 }
 
-impl<K, V> Default for RedBlackTreeMap<K, V> {
+impl<K: Ord, V> Default for RedBlackTreeMap<K, V> {
     fn default() -> Self {
-        RedBlackTreeMap { root: None }
+        Self::new()
     }
 }
 
 impl<K: Ord, V> RedBlackTreeMap<K, V> {
     pub fn new() -> Self {
-        Default::default()
+        Self { root: None }
     }
 
     pub fn get<Q: Ord + ?Sized>(&self, key: &Q) -> Option<&V>

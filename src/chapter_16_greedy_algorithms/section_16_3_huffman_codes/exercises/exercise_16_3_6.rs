@@ -9,7 +9,7 @@ pub enum Node {
 fn decode_enumeration<I: IntoIterator<Item = bool>>(length: usize, bits: I) -> impl Iterator<Item = usize> {
     let num_internal_nodes = length - 1;
     let mut iter = bits.into_iter();
-    let mut i = 0usize;
+    let mut i = 0_usize;
 
     iter::from_fn(move || loop {
         if let Some(index) = i.checked_sub(num_internal_nodes) {
@@ -193,7 +193,7 @@ mod tests {
 
     fn get_test_cases() -> Box<[TestCase]> {
         let test_cases = [
-            (make_leaf(0), (&[0b1u8] as &[_], 1)),
+            (make_leaf(0), (&[0b1_u8] as &[_], 1)),
             (make_tree(make_leaf(0), make_leaf(1)), (&[0b1_0110], 5)),
             (make_tree(make_leaf(1), make_leaf(0)), (&[0b0_1110], 5)),
             (

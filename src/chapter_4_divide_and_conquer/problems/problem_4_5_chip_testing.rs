@@ -9,13 +9,16 @@ pub fn find_one_good_chip_naive<T: Chip>(chips: &[T]) -> Option<&T> {
         } else {
             let filtered_chips = chips
                 .chunks_exact(2)
-                .filter(|pair| {
+                .filter_map(|pair| {
                     let chip_1 = pair[0];
                     let chip_2 = pair[1];
 
-                    chip_1.test(chip_2) && chip_2.test(chip_1)
+                    if chip_1.test(chip_2) && chip_2.test(chip_1) {
+                        Some(pair[0])
+                    } else {
+                        None
+                    }
                 })
-                .map(|pair| pair[0])
                 .collect::<Box<_>>();
 
             if chips.len() % 2 == 0 {

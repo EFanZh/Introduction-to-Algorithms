@@ -187,9 +187,10 @@ fn remove_min_black<K, V>(node: &BlackNode<K, V>) -> (RedBlackTree<K, V>, NodeCo
         RedOrBlackNode::Black(Some(left)) => match remove_min_black(left) {
             (new_left, min_node_content, false) => (Some(node.with_left_rc(new_left)), min_node_content, false),
             (new_left, min_node_content, true) => {
-                match rebalance_left_black(node.content.clone(), &node.right, new_left) {
-                    (new_node, black_height_reduced) => (Some(new_node), min_node_content, black_height_reduced),
-                }
+                let (new_node, black_height_reduced) =
+                    rebalance_left_black(node.content.clone(), &node.right, new_left);
+
+                (Some(new_node), min_node_content, black_height_reduced)
             }
         },
     }
@@ -342,18 +343,18 @@ mod tests {
 
     fn remove<K: Borrow<Q>, V, T: Into<RedBlackTree<K, V>>, Q: Ord>(
         tree: T,
-        key: Q,
+        key: &Q,
     ) -> Option<(RedBlackTree<K, V>, Rc<V>)> {
-        persistent_red_black_tree_remove(&tree.into(), &key)
+        persistent_red_black_tree_remove(&tree.into(), key)
     }
 
     #[test]
     fn test_remove_not_exist() {
-        assert_eq!(remove(None as RedBlackTree<i32, i32>, 4), None);
-        assert_eq!(remove(black(4, 3, red_leaf(2, 2), red_leaf(6, 5)), 1), None);
-        assert_eq!(remove(black(4, 3, red_leaf(2, 2), red_leaf(6, 5)), 3), None);
-        assert_eq!(remove(black(4, 3, red_leaf(2, 2), red_leaf(6, 5)), 5), None);
-        assert_eq!(remove(black(4, 3, red_leaf(2, 2), red_leaf(6, 5)), 7), None);
+        assert_eq!(remove(None as RedBlackTree<i32, i32>, &4), None);
+        assert_eq!(remove(black(4, 3, red_leaf(2, 2), red_leaf(6, 5)), &1), None);
+        assert_eq!(remove(black(4, 3, red_leaf(2, 2), red_leaf(6, 5)), &3), None);
+        assert_eq!(remove(black(4, 3, red_leaf(2, 2), red_leaf(6, 5)), &5), None);
+        assert_eq!(remove(black(4, 3, red_leaf(2, 2), red_leaf(6, 5)), &7), None);
     }
 
     #[test]
@@ -361,7 +362,7 @@ mod tests {
         assert_eq!(
             remove(
                 black(2, 3, black_leaf(1, 2), red(4, 7, black_leaf(3, 5), black_leaf(5, 11))),
-                1
+                &1
             ),
             Some((
                 Some(black(4, 7, black(2, 3, None, red_leaf(3, 5)), black_leaf(5, 11))),
@@ -372,7 +373,7 @@ mod tests {
         assert_eq!(
             remove(
                 black(4, 3, red(2, 7, black_leaf(1, 11), black_leaf(3, 5)), black_leaf(5, 2)),
-                5
+                &5
             ),
             Some((
                 Some(black(2, 7, black_leaf(1, 11), black(4, 3, red_leaf(3, 5), None))),
@@ -384,14 +385,14 @@ mod tests {
     #[test]
     fn test_remove_case_2() {
         assert_eq!(
-            remove(black(2, 3, black_leaf(1, 2), black_leaf(3, 5)), 1),
+            remove(black(2, 3, black_leaf(1, 2), black_leaf(3, 5)), &1),
             Some((Some(black(2, 3, None, red_leaf(3, 5))), 2.into()))
         );
 
         assert_eq!(
             remove(
                 black(2, 3, black_leaf(1, 2), red(4, 7, black_leaf(3, 5), black_leaf(5, 11))),
-                3
+                &3
             ),
             Some((
                 Some(black(2, 3, black_leaf(1, 2), black(4, 7, None, red_leaf(5, 11)))),
@@ -400,14 +401,14 @@ mod tests {
         );
 
         assert_eq!(
-            remove(black(2, 3, black_leaf(1, 5), black_leaf(3, 2)), 3),
+            remove(black(2, 3, black_leaf(1, 5), black_leaf(3, 2)), &3),
             Some((Some(black(2, 3, red_leaf(1, 5), None)), 2.into()))
         );
 
         assert_eq!(
             remove(
                 black(4, 3, red(2, 7, black_leaf(1, 11), black_leaf(3, 5)), black_leaf(5, 2)),
-                3
+                &3
             ),
             Some((
                 Some(black(4, 3, black(2, 7, red_leaf(1, 11), None), black_leaf(5, 2))),
@@ -419,7 +420,7 @@ mod tests {
     #[test]
     fn test_remove_case_3() {
         assert_eq!(
-            remove(black(2, 3, black_leaf(1, 2), black(4, 7, red_leaf(3, 5), None)), 1),
+            remove(black(2, 3, black_leaf(1, 2), black(4, 7, red_leaf(3, 5), None)), &1),
             Some((Some(black(3, 5, black_leaf(2, 3), black_leaf(4, 7))), 2.into()))
         );
 
@@ -431,7 +432,7 @@ mod tests {
                     black_leaf(1, 2),
                     red(4, 7, black_leaf(3, 5), black(6, 13, red_leaf(5, 11), None))
                 ),
-                3
+                &3
             ),
             Some((
                 Some(black(
@@ -445,7 +446,7 @@ mod tests {
         );
 
         assert_eq!(
-            remove(black(3, 3, black(1, 7, None, red_leaf(2, 5)), black_leaf(4, 2)), 4),
+            remove(black(3, 3, black(1, 7, None, red_leaf(2, 5)), black_leaf(4, 2)), &4),
             Some((Some(black(2, 5, black_leaf(1, 7), black_leaf(3, 3))), 2.into()))
         );
 
@@ -457,7 +458,7 @@ mod tests {
                     red(3, 7, black(1, 13, None, red_leaf(2, 11)), black_leaf(4, 5)),
                     black_leaf(6, 2),
                 ),
-                4
+                &4
             ),
             Some((
                 Some(black(
@@ -474,7 +475,7 @@ mod tests {
     #[test]
     fn test_remove_case_4() {
         assert_eq!(
-            remove(black(2, 3, black_leaf(1, 2), black(3, 5, None, red_leaf(4, 7))), 1),
+            remove(black(2, 3, black_leaf(1, 2), black(3, 5, None, red_leaf(4, 7))), &1),
             Some((Some(black(3, 5, black_leaf(2, 3), black_leaf(4, 7))), 2.into()))
         );
 
@@ -486,7 +487,7 @@ mod tests {
                     black_leaf(1, 2),
                     red(4, 7, black_leaf(3, 5), black(5, 11, None, red_leaf(6, 13)))
                 ),
-                3
+                &3
             ),
             Some((
                 Some(black(
@@ -500,7 +501,7 @@ mod tests {
         );
 
         assert_eq!(
-            remove(black(3, 3, black(2, 5, red_leaf(1, 7), None), black_leaf(4, 2)), 4),
+            remove(black(3, 3, black(2, 5, red_leaf(1, 7), None), black_leaf(4, 2)), &4),
             Some((Some(black(2, 5, black_leaf(1, 7), black_leaf(3, 3))), 2.into()))
         );
 
@@ -512,7 +513,7 @@ mod tests {
                     red(3, 7, black(2, 11, red_leaf(1, 13), None), black_leaf(4, 5)),
                     black_leaf(6, 2),
                 ),
-                4
+                &4
             ),
             Some((
                 Some(black(
@@ -531,7 +532,7 @@ mod tests {
         assert_eq!(
             remove(
                 black(2, 3, black_leaf(1, 2), red(4, 7, black_leaf(3, 5), black_leaf(5, 11))),
-                2
+                &2
             ),
             Some((
                 Some(black(3, 5, black_leaf(1, 2), black(4, 7, None, red_leaf(5, 11)))),
@@ -550,7 +551,7 @@ mod tests {
                     black(2, 3, red_leaf(1, 2), red_leaf(3, 5)),
                     black(6, 13, red_leaf(5, 11), red_leaf(7, 17))
                 ),
-                4
+                &4
             ),
             Some((
                 Some(black(
@@ -571,7 +572,7 @@ mod tests {
                     black(2, 3, black_leaf(1, 2), black_leaf(3, 5)),
                     black(6, 13, black_leaf(5, 11), black_leaf(7, 17))
                 ),
-                4
+                &4
             ),
             Some((
                 Some(black(
@@ -588,14 +589,14 @@ mod tests {
     #[test]
     fn test_remove_red_node() {
         assert_eq!(
-            remove(black(2, 3, red_leaf(1, 2), red_leaf(3, 5)), 1),
+            remove(black(2, 3, red_leaf(1, 2), red_leaf(3, 5)), &1),
             Some((Some(black(2, 3, None, red_leaf(3, 5))), 2.into()))
         );
 
         assert_eq!(
             remove(
                 black(2, 3, black_leaf(1, 2), red(4, 7, black_leaf(3, 5), black_leaf(5, 11))),
-                4
+                &4
             ),
             Some((
                 Some(black(2, 3, black_leaf(1, 2), black(5, 11, red_leaf(3, 5), None))),
@@ -611,7 +612,7 @@ mod tests {
                     black_leaf(1, 2),
                     red(4, 7, black_leaf(3, 5), black(6, 13, red_leaf(5, 11), None))
                 ),
-                4
+                &4
             ),
             Some((
                 Some(black(
@@ -625,12 +626,12 @@ mod tests {
         );
 
         assert_eq!(
-            remove(black(3, 5, black(2, 3, red_leaf(1, 2), None), black_leaf(4, 7)), 1),
+            remove(black(3, 5, black(2, 3, red_leaf(1, 2), None), black_leaf(4, 7)), &1),
             Some((Some(black(3, 5, black_leaf(2, 3), black_leaf(4, 7))), 2.into()))
         );
 
         assert_eq!(
-            remove(black(2, 5, black_leaf(1, 7), black(3, 3, None, red_leaf(4, 2))), 4),
+            remove(black(2, 5, black_leaf(1, 7), black(3, 3, None, red_leaf(4, 2))), &4),
             Some((Some(black(2, 5, black_leaf(1, 7), black_leaf(3, 3))), 2.into()))
         );
     }
@@ -638,24 +639,24 @@ mod tests {
     #[test]
     fn test_remove_black_node() {
         assert_eq!(
-            remove(black(2, 3, None, red_leaf(3, 5)), 2),
+            remove(black(2, 3, None, red_leaf(3, 5)), &2),
             Some((Some(black_leaf(3, 5)), 3.into()))
         );
 
         assert_eq!(
-            remove(black(2, 3, red_leaf(1, 2), None), 2),
+            remove(black(2, 3, red_leaf(1, 2), None), &2),
             Some((Some(black_leaf(1, 2)), 3.into()))
         );
 
         assert_eq!(
-            remove(black(2, 3, black_leaf(1, 2), black_leaf(3, 5)), 2),
+            remove(black(2, 3, black_leaf(1, 2), black_leaf(3, 5)), &2),
             Some((Some(black(3, 5, red_leaf(1, 2), None)), 3.into()))
         );
 
         assert_eq!(
             remove(
                 black(4, 7, red(2, 3, black_leaf(1, 2), black_leaf(3, 5)), black_leaf(5, 11)),
-                4
+                &4
             ),
             Some((
                 Some(black(2, 3, black_leaf(1, 2), black(5, 11, red_leaf(3, 5), None))),

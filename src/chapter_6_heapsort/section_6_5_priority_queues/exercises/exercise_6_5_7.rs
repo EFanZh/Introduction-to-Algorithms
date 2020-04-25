@@ -9,18 +9,18 @@ pub struct FifoQueue<T> {
     next_key: usize,
 }
 
-impl<T> Default for FifoQueue<T> {
+impl<T: Ord> Default for FifoQueue<T> {
     fn default() -> Self {
-        FifoQueue {
-            q: VecMinPriorityQueue::new(),
-            next_key: 0,
-        }
+        Self::new()
     }
 }
 
 impl<T: Ord> FifoQueue<T> {
     pub fn new() -> Self {
-        Default::default()
+        Self {
+            q: VecMinPriorityQueue::new(),
+            next_key: 0,
+        }
     }
 }
 
@@ -49,18 +49,18 @@ pub struct LifoStack<T> {
     next_key: usize,
 }
 
-impl<T> Default for LifoStack<T> {
+impl<T: Ord> Default for LifoStack<T> {
     fn default() -> Self {
-        LifoStack {
-            q: VecMaxPriorityQueue::new(),
-            next_key: 0,
-        }
+        Self::new()
     }
 }
 
 impl<T: Ord> LifoStack<T> {
     pub fn new() -> Self {
-        Default::default()
+        Self {
+            q: VecMaxPriorityQueue::new(),
+            next_key: 0,
+        }
     }
 }
 
@@ -89,17 +89,17 @@ mod tests {
     use super::{FifoQueue, LifoStack};
 
     use super::super::super::super::super::chapter_10_elementary_data_structures::section_10_1_stacks_and_queues::tests::{
-        run_queue_tests,
-        run_stack_tests
+        run_queue_test_cases,
+        run_stack_test_cases
     };
 
     #[test]
     fn test_fifo_queue() {
-        run_queue_tests(FifoQueue::new);
+        run_queue_test_cases(FifoQueue::new);
     }
 
     #[test]
     fn test_lifo_stack() {
-        run_stack_tests(LifoStack::new);
+        run_stack_test_cases(LifoStack::new);
     }
 }

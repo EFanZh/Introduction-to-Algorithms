@@ -150,7 +150,7 @@ mod tests {
             ),
         ];
 
-        for ((items, capacity), expected) in test_cases.iter() {
+        for ((items, capacity), expected) in &test_cases {
             let items = items
                 .iter()
                 .map(|&(value, weight)| Item { value, weight })

@@ -23,13 +23,13 @@ pub struct VecMaxPriorityQueue<T> {
 
 impl<T: Ord> Default for VecMaxPriorityQueue<T> {
     fn default() -> Self {
-        VecMaxPriorityQueue { a: Vec::new() }
+        Self::new()
     }
 }
 
 impl<T: Ord> VecMaxPriorityQueue<T> {
     pub fn new() -> Self {
-        Default::default()
+        Self { a: Vec::new() }
     }
 }
 
@@ -61,13 +61,13 @@ pub struct VecMinPriorityQueue<T> {
 
 impl<T: Ord> Default for VecMinPriorityQueue<T> {
     fn default() -> Self {
-        VecMinPriorityQueue { a: Vec::new() }
+        Self::new()
     }
 }
 
 impl<T: Ord> VecMinPriorityQueue<T> {
     pub fn new() -> Self {
-        Default::default()
+        Self { a: Vec::new() }
     }
 }
 

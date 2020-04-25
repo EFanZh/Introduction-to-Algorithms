@@ -7,16 +7,16 @@ pub struct TwoStacks<T> {
 
 impl<T> Default for TwoStacks<T> {
     fn default() -> Self {
-        Self {
-            storage: VecDeque::new(),
-            left_stack_size: 0,
-        }
+        Self::new()
     }
 }
 
 impl<T> TwoStacks<T> {
     pub fn new() -> Self {
-        Default::default()
+        Self {
+            storage: VecDeque::new(),
+            left_stack_size: 0,
+        }
     }
 
     pub fn empty_1(&self) -> bool {

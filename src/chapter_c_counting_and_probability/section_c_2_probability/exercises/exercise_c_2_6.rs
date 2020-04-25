@@ -4,10 +4,10 @@ pub fn flip_coin<C: FnMut() -> bool>(mut fair_coin: C, mut a: i32, b: i32) -> bo
     loop {
         let bit = a * 2 < b;
 
-        if fair_coin() != bit {
-            return !bit;
-        } else {
+        if fair_coin() == bit {
             a = (a * 2) % b;
+        } else {
+            return !bit;
         }
     }
 }

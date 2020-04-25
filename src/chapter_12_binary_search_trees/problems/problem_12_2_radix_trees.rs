@@ -7,16 +7,16 @@ pub struct RadixTree<T> {
 
 impl<T: Ord> Default for RadixTree<T> {
     fn default() -> Self {
-        RadixTree {
-            has_value: false,
-            children: BTreeMap::new(),
-        }
+        Self::new()
     }
 }
 
 impl<T: Ord> RadixTree<T> {
     pub fn new() -> Self {
-        Default::default()
+        Self {
+            has_value: false,
+            children: BTreeMap::new(),
+        }
     }
 
     pub fn insert<I: IntoIterator<Item = T>>(&mut self, key: I) {
@@ -34,7 +34,7 @@ impl<T: Ord> RadixTree<T> {
             f(buffer);
         }
 
-        for (key, value) in self.children.iter() {
+        for (key, value) in &self.children {
             buffer.push(key);
             value.for_each_helper(buffer, f);
             buffer.pop();
