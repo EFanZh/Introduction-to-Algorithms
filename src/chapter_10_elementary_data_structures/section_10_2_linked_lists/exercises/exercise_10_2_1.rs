@@ -44,21 +44,21 @@ impl<T> Drop for SinglyLinkedList<T> {
 
 impl<T> Default for SinglyLinkedList<T> {
     fn default() -> Self {
-        Self { head: None }
+        Self::new()
     }
 }
 
 impl<T> SinglyLinkedList<T> {
     pub fn new() -> Self {
-        Default::default()
+        Self { head: None }
     }
 
-    pub fn search<U>(&self, k: U) -> Option<SinglyLinkedListElement<T>>
+    pub fn search<U>(&self, k: &U) -> Option<SinglyLinkedListElement<T>>
     where
         T: PartialEq<U>,
     {
         for element in self.iter() {
-            if *element.borrow() == k {
+            if *element.borrow() == *k {
                 return Some(element);
             }
         }
@@ -80,7 +80,7 @@ impl<T> SinglyLinkedList<T> {
         self.head = Some(x);
     }
 
-    pub fn delete(&mut self, x: SinglyLinkedListElement<T>) {
+    pub fn delete(&mut self, x: &SinglyLinkedListElement<T>) {
         if let Some(next_rc) = {
             // Note: these two lines are necessary. Why?
 
@@ -156,7 +156,7 @@ mod tests {
         for operation in operations {
             match operation {
                 Search(value, found) => {
-                    if let Some(result) = list.search(value) {
+                    if let Some(result) = list.search(&value) {
                         assert!(found);
                         assert_eq!(*result.borrow(), value);
                     } else {
@@ -165,7 +165,7 @@ mod tests {
                 }
                 Insert(value) => list.insert(SinglyLinkedListElement::new(value)),
                 RawInsert(value) => list.insert(value),
-                Delete(value) => list.delete(value),
+                Delete(value) => list.delete(&value),
                 Inspect(values) => assert_eq!(singly_linked_list_to_vec(&list), values),
             }
         }

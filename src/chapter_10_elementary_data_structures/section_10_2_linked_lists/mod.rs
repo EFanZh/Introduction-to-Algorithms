@@ -38,7 +38,7 @@ pub struct DoublyLinkedList<T> {
 
 impl<T> Default for DoublyLinkedList<T> {
     fn default() -> Self {
-        Self { head: None }
+        Self::new()
     }
 }
 
@@ -57,7 +57,7 @@ impl<T> Drop for DoublyLinkedList<T> {
 
 impl<T> DoublyLinkedList<T> {
     pub fn new() -> Self {
-        Default::default()
+        Self { head: None }
     }
 
     // List-Search(L, k)
@@ -67,12 +67,12 @@ impl<T> DoublyLinkedList<T> {
     // 3      x = x.next
     // 4  return x
 
-    pub fn search<U>(&self, k: U) -> Option<DoublyLinkedListElement<T>>
+    pub fn search<U>(&self, k: &U) -> Option<DoublyLinkedListElement<T>>
     where
         T: PartialEq<U>,
     {
         for element in self.iter() {
-            if *element.borrow() == k {
+            if *element.borrow() == *k {
                 return Some(element);
             }
         }
@@ -114,7 +114,7 @@ impl<T> DoublyLinkedList<T> {
     // 4  if x.next ≠ nil
     // 5      x.next.prev = x.prev
 
-    pub fn delete(&mut self, x: DoublyLinkedListElement<T>) {
+    pub fn delete(&mut self, x: &DoublyLinkedListElement<T>) {
         let mut x_ref = x.0.borrow_mut();
 
         if let Some(x_prev) = x_ref.prev.take() {
@@ -160,7 +160,7 @@ mod tests {
         for operation in operations {
             match operation {
                 Search(value, found) => {
-                    if let Some(result) = list.search(value) {
+                    if let Some(result) = list.search(&value) {
                         assert!(found);
                         assert_eq!(*result.borrow(), value);
                     } else {
@@ -169,7 +169,7 @@ mod tests {
                 }
                 Insert(value) => list.insert(DoublyLinkedListElement::new(value)),
                 RawInsert(value) => list.insert(value),
-                Delete(value) => list.delete(value),
+                Delete(value) => list.delete(&value),
                 Inspect(values) => assert_eq!(doubly_linked_list_to_vec(&list), values),
             }
         }

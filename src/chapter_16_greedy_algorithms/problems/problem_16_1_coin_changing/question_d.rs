@@ -15,8 +15,7 @@ pub fn change_coins(coins: &[usize], n: usize) -> Box<[usize]> {
                     .and_then(|j| cache_line[j].map(|(count, _)| (count + 1, j))),
             ) {
                 (None, None) => None,
-                (None, r @ Some(_)) => r,
-                (r @ Some(_), None) => r,
+                (None, r @ Some(_)) | (r @ Some(_), None) => r,
                 (Some((count_1, remain_1)), Some((count_2, remain_2))) => Some(if count_1 <= count_2 {
                     (count_1, remain_1)
                 } else {

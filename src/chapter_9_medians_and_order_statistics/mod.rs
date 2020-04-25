@@ -7,7 +7,7 @@ pub mod section_9_3_selection_in_worst_case_linear_time;
 mod tests {
     use super::super::test_utilities::{assign_vec, loop_on_all_unordered_sequences};
 
-    pub fn run_all_select_tests<F: FnMut(&mut [i32], usize, usize, usize) -> &mut i32>(mut f: F) {
+    pub fn run_all_select_test_cases<F: FnMut(&mut [i32], usize, usize, usize) -> &mut i32>(mut f: F) {
         let mut buffer = Vec::new();
 
         loop_on_all_unordered_sequences(|sequence, sorted_sequence| {

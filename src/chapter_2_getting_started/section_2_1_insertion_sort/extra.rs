@@ -5,8 +5,7 @@ pub fn insertion_sort_slice_by<T, F: FnMut(&T, &T) -> Ordering>(a: &mut [T], mut
         let x = &a[i];
 
         let p = match a[..i].binary_search_by(|y| compare(y, x)) {
-            Ok(p) => p,
-            Err(p) => p,
+            Ok(p) | Err(p) => p,
         };
 
         a[p..=i].rotate_right(1);

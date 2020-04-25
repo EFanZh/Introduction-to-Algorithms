@@ -1,4 +1,3 @@
-use rand;
 use std::cmp::Ordering;
 use std::mem;
 

@@ -50,10 +50,10 @@ mod tests {
 
     type MaybeNode<T> = Option<Rc<UnboundedBranchingTreeNode<T>>>;
 
-    fn run_single_tests<I: IntoIterator<Item = i32>>(root: MaybeNode<i32>, result: I) {
+    fn run_single_tests<I: IntoIterator<Item = i32>>(root: &MaybeNode<i32>, result: I) {
         let mut collected_elements = HashSet::new();
 
-        iterate_tree(&root, |&key| {
+        iterate_tree(root, |&key| {
             collected_elements.insert(key);
         });
 
@@ -62,18 +62,18 @@ mod tests {
 
     #[test]
     fn test_iterate_tree() {
-        run_single_tests(None, iter::empty());
-        run_single_tests(make_unbounded_branching_tree![4], iter::once(4));
-        run_single_tests(make_unbounded_branching_tree![(4, 5, ())], vec![4, 5]);
-        run_single_tests(make_unbounded_branching_tree![(4, (5, (), 6), ())], vec![4, 5, 6]);
+        run_single_tests(&None, iter::empty());
+        run_single_tests(&make_unbounded_branching_tree![4], iter::once(4));
+        run_single_tests(&make_unbounded_branching_tree![(4, 5, ())], vec![4, 5]);
+        run_single_tests(&make_unbounded_branching_tree![(4, (5, (), 6), ())], vec![4, 5, 6]);
 
         run_single_tests(
-            make_unbounded_branching_tree![(4, (5, (), (6, 7, ())), ())],
+            &make_unbounded_branching_tree![(4, (5, (), (6, 7, ())), ())],
             vec![4, 5, 6, 7],
         );
 
         run_single_tests(
-            make_unbounded_branching_tree![(1, (2, (3, (), (4, (), 5)), 6), ())],
+            &make_unbounded_branching_tree![(1, (2, (3, (), (4, (), 5)), 6), ())],
             vec![1, 2, 3, 4, 5, 6],
         );
     }

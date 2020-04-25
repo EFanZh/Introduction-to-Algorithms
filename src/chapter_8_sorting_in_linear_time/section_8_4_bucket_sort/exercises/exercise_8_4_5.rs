@@ -24,8 +24,8 @@ mod tests {
         let mut b = Vec::new();
         let mut rng = thread_rng();
 
-        for n in 0usize..10 {
-            for _ in 0..2usize.pow(n as _) {
+        for n in 0_usize..10 {
+            for _ in 0..2_usize.pow(n as _) {
                 assign_vec_from_iter(&mut a, iter::repeat_with(|| rng.gen::<f64>()).take(n));
 
                 assign_vec(&mut b, &a);

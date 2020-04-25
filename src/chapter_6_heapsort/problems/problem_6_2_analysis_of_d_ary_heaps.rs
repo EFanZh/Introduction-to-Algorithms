@@ -79,7 +79,6 @@ impl<T: Ord> DAryHeap<T> {
 mod tests {
     use super::super::super::super::test_utilities::assign_vec_from_iter;
     use super::DAryHeap;
-    use permutohedron;
     use std::iter;
 
     #[test]

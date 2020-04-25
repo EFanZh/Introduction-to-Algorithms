@@ -45,12 +45,7 @@ pub fn schedule<R: Ord>(requests: &[R], cache_size: usize) -> Box<[Option<&R>]> 
 
                 let element_to_evict = cache_elements
                     .iter()
-                    .map(|&r| {
-                        KeyValuePair::new(
-                            memory_queue_iters.get(r).map(|(i, _)| *i).unwrap_or(usize::max_value()),
-                            r,
-                        )
-                    })
+                    .map(|&r| KeyValuePair::new(memory_queue_iters.get(r).map_or(usize::max_value(), |(i, _)| *i), r))
                     .max()
                     .unwrap();
 
@@ -82,7 +77,7 @@ mod tests {
             let result = schedule(&requests.chars().collect::<Box<_>>(), cache_size)
                 .into_vec()
                 .into_iter()
-                .map(|r| r.copied())
+                .map(Option::<&char>::copied)
                 .collect::<Box<_>>();
 
             assert_eq!(*result, *expected_result);

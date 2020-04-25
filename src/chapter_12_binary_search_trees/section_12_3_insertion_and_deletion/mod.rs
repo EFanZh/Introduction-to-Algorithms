@@ -96,7 +96,7 @@ mod tests {
     use super::{tree_delete, tree_insert};
     use crate::make_simple_tree;
 
-    pub fn run_tree_insert_tests<
+    pub fn run_tree_insert_test_cases<
         F: FnMut(&mut Option<Box<SimpleBinaryTreeNode<i32>>>, Box<SimpleBinaryTreeNode<i32>>),
     >(
         mut f: F,
@@ -128,7 +128,7 @@ mod tests {
 
     #[test]
     fn test_tree_insert() {
-        run_tree_insert_tests(tree_insert);
+        run_tree_insert_test_cases(tree_insert);
     }
 
     #[test]

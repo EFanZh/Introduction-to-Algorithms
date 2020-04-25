@@ -221,137 +221,147 @@ pub fn align_sequences<T: Eq + Clone>(source: &[T], target: &[T]) -> (Box<[Opera
 mod tests {
     use super::{align_sequences, find_optimal_transform_sequence, transform, Costs, Operation};
 
+    type TransformTestCase<'a> = ((&'a [u8], &'a [Operation<u8>]), &'a [u8]);
+
+    const TRANSFORM_TEST_CASES: &[TransformTestCase] = &[
+        ((b"", &[]), b""),
+        ((b"a", &[Operation::Copy]), b"a"),
+        ((b"al", &[Operation::Copy, Operation::Copy]), b"al"),
+        (
+            (b"alg", &[Operation::Copy, Operation::Copy, Operation::Replace(b't')]),
+            b"alt",
+        ),
+        (
+            (
+                b"algo",
+                &[
+                    Operation::Copy,
+                    Operation::Copy,
+                    Operation::Replace(b't'),
+                    Operation::Delete,
+                ],
+            ),
+            b"alt",
+        ),
+        (
+            (
+                b"algor",
+                &[
+                    Operation::Copy,
+                    Operation::Copy,
+                    Operation::Replace(b't'),
+                    Operation::Delete,
+                    Operation::Copy,
+                ],
+            ),
+            b"altr",
+        ),
+        (
+            (
+                b"algor",
+                &[
+                    Operation::Copy,
+                    Operation::Copy,
+                    Operation::Replace(b't'),
+                    Operation::Delete,
+                    Operation::Copy,
+                    Operation::Insert(b'u'),
+                ],
+            ),
+            b"altru",
+        ),
+        (
+            (
+                b"algor",
+                &[
+                    Operation::Copy,
+                    Operation::Copy,
+                    Operation::Replace(b't'),
+                    Operation::Delete,
+                    Operation::Copy,
+                    Operation::Insert(b'u'),
+                    Operation::Insert(b'i'),
+                ],
+            ),
+            b"altrui",
+        ),
+        (
+            (
+                b"algor",
+                &[
+                    Operation::Copy,
+                    Operation::Copy,
+                    Operation::Replace(b't'),
+                    Operation::Delete,
+                    Operation::Copy,
+                    Operation::Insert(b'u'),
+                    Operation::Insert(b'i'),
+                    Operation::Insert(b's'),
+                ],
+            ),
+            b"altruis",
+        ),
+        (
+            (
+                b"algorit",
+                &[
+                    Operation::Copy,
+                    Operation::Copy,
+                    Operation::Replace(b't'),
+                    Operation::Delete,
+                    Operation::Copy,
+                    Operation::Insert(b'u'),
+                    Operation::Insert(b'i'),
+                    Operation::Insert(b's'),
+                    Operation::Twiddle,
+                ],
+            ),
+            b"altruisti",
+        ),
+        (
+            (
+                b"algorit",
+                &[
+                    Operation::Copy,
+                    Operation::Copy,
+                    Operation::Replace(b't'),
+                    Operation::Delete,
+                    Operation::Copy,
+                    Operation::Insert(b'u'),
+                    Operation::Insert(b'i'),
+                    Operation::Insert(b's'),
+                    Operation::Twiddle,
+                    Operation::Insert(b'c'),
+                ],
+            ),
+            b"altruistic",
+        ),
+        (
+            (
+                b"algorithm",
+                &[
+                    Operation::Copy,
+                    Operation::Copy,
+                    Operation::Replace(b't'),
+                    Operation::Delete,
+                    Operation::Copy,
+                    Operation::Insert(b'u'),
+                    Operation::Insert(b'i'),
+                    Operation::Insert(b's'),
+                    Operation::Twiddle,
+                    Operation::Insert(b'c'),
+                    Operation::Kill,
+                ],
+            ),
+            b"altruistic",
+        ),
+    ];
+
     #[test]
     fn test_transform() {
-        fn run_test(source: &[u8], operations: &[Operation<u8>], expected: &[u8]) {
+        for ((source, operations), expected) in TRANSFORM_TEST_CASES.iter().copied() {
             assert_eq!(*transform(source, operations), *expected);
         }
-
-        run_test(b"", &[], b"");
-        run_test(b"a", &[Operation::Copy], b"a");
-        run_test(b"al", &[Operation::Copy, Operation::Copy], b"al");
-
-        run_test(
-            b"alg",
-            &[Operation::Copy, Operation::Copy, Operation::Replace(b't')],
-            b"alt",
-        );
-
-        run_test(
-            b"algo",
-            &[
-                Operation::Copy,
-                Operation::Copy,
-                Operation::Replace(b't'),
-                Operation::Delete,
-            ],
-            b"alt",
-        );
-
-        run_test(
-            b"algor",
-            &[
-                Operation::Copy,
-                Operation::Copy,
-                Operation::Replace(b't'),
-                Operation::Delete,
-                Operation::Copy,
-            ],
-            b"altr",
-        );
-
-        run_test(
-            b"algor",
-            &[
-                Operation::Copy,
-                Operation::Copy,
-                Operation::Replace(b't'),
-                Operation::Delete,
-                Operation::Copy,
-                Operation::Insert(b'u'),
-            ],
-            b"altru",
-        );
-
-        run_test(
-            b"algor",
-            &[
-                Operation::Copy,
-                Operation::Copy,
-                Operation::Replace(b't'),
-                Operation::Delete,
-                Operation::Copy,
-                Operation::Insert(b'u'),
-                Operation::Insert(b'i'),
-            ],
-            b"altrui",
-        );
-
-        run_test(
-            b"algor",
-            &[
-                Operation::Copy,
-                Operation::Copy,
-                Operation::Replace(b't'),
-                Operation::Delete,
-                Operation::Copy,
-                Operation::Insert(b'u'),
-                Operation::Insert(b'i'),
-                Operation::Insert(b's'),
-            ],
-            b"altruis",
-        );
-
-        run_test(
-            b"algorit",
-            &[
-                Operation::Copy,
-                Operation::Copy,
-                Operation::Replace(b't'),
-                Operation::Delete,
-                Operation::Copy,
-                Operation::Insert(b'u'),
-                Operation::Insert(b'i'),
-                Operation::Insert(b's'),
-                Operation::Twiddle,
-            ],
-            b"altruisti",
-        );
-
-        run_test(
-            b"algorit",
-            &[
-                Operation::Copy,
-                Operation::Copy,
-                Operation::Replace(b't'),
-                Operation::Delete,
-                Operation::Copy,
-                Operation::Insert(b'u'),
-                Operation::Insert(b'i'),
-                Operation::Insert(b's'),
-                Operation::Twiddle,
-                Operation::Insert(b'c'),
-            ],
-            b"altruistic",
-        );
-
-        run_test(
-            b"algorithm",
-            &[
-                Operation::Copy,
-                Operation::Copy,
-                Operation::Replace(b't'),
-                Operation::Delete,
-                Operation::Copy,
-                Operation::Insert(b'u'),
-                Operation::Insert(b'i'),
-                Operation::Insert(b's'),
-                Operation::Twiddle,
-                Operation::Insert(b'c'),
-                Operation::Kill,
-            ],
-            b"altruistic",
-        );
     }
 
     #[test]

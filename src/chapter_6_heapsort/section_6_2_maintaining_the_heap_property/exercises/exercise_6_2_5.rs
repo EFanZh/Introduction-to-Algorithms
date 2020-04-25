@@ -12,23 +12,23 @@ pub fn max_heapify_iterative<T: Ord>(a: &mut [T], mut i: usize) {
             largest = r
         }
 
-        if largest != i {
+        if largest == i {
+            break;
+        } else {
             a.swap(i, largest);
 
             i = largest;
-        } else {
-            break;
         }
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::tests::run_max_heapify_tests;
+    use super::super::super::tests::run_max_heapify_test_cases;
     use super::max_heapify_iterative;
 
     #[test]
     fn test_max_heapify_iterative() {
-        run_max_heapify_tests(max_heapify_iterative);
+        run_max_heapify_test_cases(max_heapify_iterative);
     }
 }

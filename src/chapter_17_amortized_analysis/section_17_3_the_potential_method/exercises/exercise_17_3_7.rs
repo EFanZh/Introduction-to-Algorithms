@@ -6,13 +6,13 @@ pub struct DynamicMultiset<T> {
 
 impl<T: Ord> Default for DynamicMultiset<T> {
     fn default() -> Self {
-        DynamicMultiset { data: Vec::new() }
+        Self::new()
     }
 }
 
 impl<T: Ord> DynamicMultiset<T> {
     pub fn new() -> Self {
-        Default::default()
+        Self { data: Vec::new() }
     }
 
     pub fn insert(&mut self, value: T) {

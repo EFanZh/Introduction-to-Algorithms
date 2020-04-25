@@ -6,16 +6,16 @@ pub struct DirectAddressDictionary<T> {
 
 impl<T> Default for DirectAddressDictionary<T> {
     fn default() -> Self {
-        Self {
-            memory: Vec::new(),
-            keys: Vec::new(),
-        }
+        Self::new()
     }
 }
 
 impl<T> DirectAddressDictionary<T> {
     pub fn new() -> Self {
-        Default::default()
+        Self {
+            memory: Vec::new(),
+            keys: Vec::new(),
+        }
     }
 
     pub fn insert(&mut self, key: usize, value: T) {

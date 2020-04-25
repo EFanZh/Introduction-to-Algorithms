@@ -15,16 +15,16 @@ pub struct ObjectPool<T> {
 
 impl<T> Default for ObjectPool<T> {
     fn default() -> Self {
-        ObjectPool {
-            memory: Vec::new(),
-            free: NIL,
-        }
+        Self::new()
     }
 }
 
 impl<T> ObjectPool<T> {
     pub fn new() -> ObjectPool<T> {
-        Default::default()
+        Self {
+            memory: Vec::new(),
+            free: NIL,
+        }
     }
 
     pub fn allocate_object(&mut self, value: T) -> Handle {

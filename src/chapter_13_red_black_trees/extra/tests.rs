@@ -48,12 +48,12 @@ fn run_insertion_test(
     mut tree: Tree<i32, i32>,
     key: i32,
     value: i32,
-    exprected_tree: Tree<i32, i32>,
+    exprected_tree: &Tree<i32, i32>,
     expected_result: Option<i32>,
 ) {
     let result = insert(&mut tree, key, value);
 
-    assert_eq!(tree, exprected_tree);
+    assert_eq!(tree, *exprected_tree);
     assert_eq!(result, expected_result);
 }
 
@@ -61,12 +61,12 @@ fn run_insertion_test(
 
 #[test]
 fn test_red_black_tree_insert_root() {
-    run_insertion_test(None, 2, 7, black_leaf(2, 7), None);
+    run_insertion_test(None, 2, 7, &black_leaf(2, 7), None);
 }
 
 #[test]
 fn test_red_black_tree_insert_root_equal() {
-    run_insertion_test(black_leaf(2, 7), 2, 9, black_leaf(2, 9), Some(7));
+    run_insertion_test(black_leaf(2, 7), 2, 9, &black_leaf(2, 9), Some(7));
 }
 
 #[test]
@@ -75,7 +75,7 @@ fn test_red_black_tree_insert_root_left_side_case_1() {
         black(4, 3, red_leaf(2, 7), red_leaf(7, 9)),
         1,
         5,
-        black(4, 3, black(2, 7, red_leaf(1, 5), None), black_leaf(7, 9)),
+        &black(4, 3, black(2, 7, red_leaf(1, 5), None), black_leaf(7, 9)),
         None,
     );
 
@@ -83,7 +83,7 @@ fn test_red_black_tree_insert_root_left_side_case_1() {
         black(4, 3, red_leaf(2, 7), red_leaf(7, 9)),
         3,
         5,
-        black(4, 3, black(2, 7, None, red_leaf(3, 5)), black_leaf(7, 9)),
+        &black(4, 3, black(2, 7, None, red_leaf(3, 5)), black_leaf(7, 9)),
         None,
     );
 }
@@ -94,7 +94,7 @@ fn test_red_black_tree_insert_root_left_side_case_2_and_3() {
         black(4, 3, red_leaf(2, 7), None),
         1,
         5,
-        black(2, 7, red_leaf(1, 5), red_leaf(4, 3)),
+        &black(2, 7, red_leaf(1, 5), red_leaf(4, 3)),
         None,
     );
 
@@ -102,7 +102,7 @@ fn test_red_black_tree_insert_root_left_side_case_2_and_3() {
         black(4, 3, red_leaf(2, 7), None),
         3,
         5,
-        black(3, 5, red_leaf(2, 7), red_leaf(4, 3)),
+        &black(3, 5, red_leaf(2, 7), red_leaf(4, 3)),
         None,
     );
 }
@@ -113,7 +113,7 @@ fn test_red_black_tree_insert_root_left_side_recurse_red() {
         black(5, 7, black(3, 1, red_leaf(2, 6), red_leaf(4, 8)), black_leaf(9, 4)),
         1,
         5,
-        black(
+        &black(
             5,
             7,
             red(3, 1, black(2, 6, red_leaf(1, 5), None), black_leaf(4, 8)),
@@ -129,7 +129,7 @@ fn test_red_black_tree_insert_root_left_side_recurse_black() {
         black(5, 7, black_leaf(3, 1), black_leaf(9, 4)),
         2,
         5,
-        black(5, 7, black(3, 1, red_leaf(2, 5), None), black_leaf(9, 4)),
+        &black(5, 7, black(3, 1, red_leaf(2, 5), None), black_leaf(9, 4)),
         None,
     );
 }
@@ -140,7 +140,7 @@ fn test_red_black_tree_insert_root_left_side_equal() {
         black(5, 7, red_leaf(3, 1), red_leaf(9, 4)),
         3,
         2,
-        black(5, 7, red_leaf(3, 2), red_leaf(9, 4)),
+        &black(5, 7, red_leaf(3, 2), red_leaf(9, 4)),
         Some(1),
     );
 }
@@ -151,7 +151,7 @@ fn test_red_black_tree_insert_root_right_side_case_1() {
         black(4, 3, red_leaf(1, 9), red_leaf(6, 7)),
         7,
         5,
-        black(4, 3, black_leaf(1, 9), black(6, 7, None, red_leaf(7, 5))),
+        &black(4, 3, black_leaf(1, 9), black(6, 7, None, red_leaf(7, 5))),
         None,
     );
 
@@ -159,7 +159,7 @@ fn test_red_black_tree_insert_root_right_side_case_1() {
         black(4, 3, red_leaf(1, 9), red_leaf(6, 7)),
         5,
         5,
-        black(4, 3, black_leaf(1, 9), black(6, 7, red_leaf(5, 5), None)),
+        &black(4, 3, black_leaf(1, 9), black(6, 7, red_leaf(5, 5), None)),
         None,
     );
 }
@@ -170,7 +170,7 @@ fn test_red_black_tree_insert_root_right_side_case_2_and_3() {
         black(1, 3, None, red_leaf(3, 7)),
         4,
         5,
-        black(3, 7, red_leaf(1, 3), red_leaf(4, 5)),
+        &black(3, 7, red_leaf(1, 3), red_leaf(4, 5)),
         None,
     );
 
@@ -178,7 +178,7 @@ fn test_red_black_tree_insert_root_right_side_case_2_and_3() {
         black(1, 3, None, red_leaf(3, 7)),
         2,
         5,
-        black(2, 5, red_leaf(1, 3), red_leaf(3, 7)),
+        &black(2, 5, red_leaf(1, 3), red_leaf(3, 7)),
         None,
     );
 }
@@ -189,7 +189,7 @@ fn test_red_black_tree_insert_root_right_side_recurse_red() {
         black(5, 7, black_leaf(1, 4), black(7, 1, red_leaf(6, 8), red_leaf(8, 6))),
         9,
         5,
-        black(
+        &black(
             5,
             7,
             black_leaf(1, 4),
@@ -205,7 +205,7 @@ fn test_red_black_tree_insert_root_right_side_recurse_black() {
         black(6, 7, black_leaf(2, 4), black_leaf(8, 1)),
         9,
         5,
-        black(6, 7, black_leaf(2, 4), black(8, 1, None, red_leaf(9, 5))),
+        &black(6, 7, black_leaf(2, 4), black(8, 1, None, red_leaf(9, 5))),
         None,
     );
 }
@@ -216,7 +216,7 @@ fn test_red_black_tree_insert_root_right_side_equal() {
         black(7, 7, red_leaf(3, 4), red_leaf(9, 1)),
         9,
         2,
-        black(7, 7, red_leaf(3, 4), red_leaf(9, 2)),
+        &black(7, 7, red_leaf(3, 4), red_leaf(9, 2)),
         Some(1),
     );
 }
@@ -232,7 +232,7 @@ fn red_black_tree_insert_full_left_side() {
         ),
         4,
         23,
-        black(
+        &black(
             7,
             7,
             red(2, 3, black_leaf(1, 5), black(5, 11, red_leaf(4, 23), None)),
@@ -258,7 +258,7 @@ fn red_black_tree_insert_full_right_side() {
         ),
         12,
         23,
-        black(
+        &black(
             9,
             11,
             red(5, 2, black(2, 3, red_leaf(1, 5), None), black_leaf(8, 13)),

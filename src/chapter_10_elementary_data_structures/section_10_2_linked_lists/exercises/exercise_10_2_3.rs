@@ -25,17 +25,17 @@ impl<T> Drop for SinglyLinkedListQueue<T> {
 
 impl<T> Default for SinglyLinkedListQueue<T> {
     fn default() -> Self {
-        Self {
-            head: None,
-            tail: None,
-            length: 0,
-        }
+        Self::new()
     }
 }
 
 impl<T> SinglyLinkedListQueue<T> {
     pub fn new() -> Self {
-        Default::default()
+        Self {
+            head: None,
+            tail: None,
+            length: 0,
+        }
     }
 }
 
@@ -83,11 +83,11 @@ impl<T> Queue<T> for SinglyLinkedListQueue<T> {
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::super::section_10_1_stacks_and_queues::tests::run_queue_tests;
+    use super::super::super::super::section_10_1_stacks_and_queues::tests::run_queue_test_cases;
     use super::SinglyLinkedListQueue;
 
     #[test]
     fn test_singly_linked_list_queue() {
-        run_queue_tests(SinglyLinkedListQueue::new);
+        run_queue_test_cases(SinglyLinkedListQueue::new);
     }
 }

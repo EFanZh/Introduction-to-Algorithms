@@ -10,7 +10,7 @@ pub mod exercises;
 // 6  else return ∅
 
 pub fn recursive_activity_selector(s: &[u64], f: &[u64], k: usize) -> Vec<usize> {
-    let last_finish_time = k.checked_sub(1).map(|i| f[i]).unwrap_or(0);
+    let last_finish_time = k.checked_sub(1).map_or(0, |i| f[i]);
 
     if let Some(m) = s
         .iter()

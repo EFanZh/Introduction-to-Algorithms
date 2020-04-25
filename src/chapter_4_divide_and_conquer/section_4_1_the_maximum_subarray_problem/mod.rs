@@ -27,28 +27,34 @@ pub fn find_max_crossing_subarray<T: Clone + Ord + Zero>(
     high: usize,
 ) -> (usize, usize, T) {
     let mut left_sum = a[mid - 1].clone();
-    let mut sum = left_sum.clone();
     let mut max_left = mid - 1;
 
-    for i in (low..mid - 1).rev() {
-        sum = sum + a[i].clone();
+    {
+        let mut sum = left_sum.clone();
 
-        if sum > left_sum {
-            left_sum = sum.clone();
-            max_left = i;
+        for i in (low..mid - 1).rev() {
+            sum = sum + a[i].clone();
+
+            if sum > left_sum {
+                left_sum = sum.clone();
+                max_left = i;
+            }
         }
     }
 
     let mut right_sum = a[mid].clone();
-    let mut sum = right_sum.clone();
     let mut max_right = mid;
 
-    for (j, a_j) in a.iter().enumerate().take(high).skip(mid + 1) {
-        sum = sum + a_j.clone();
+    {
+        let mut sum = right_sum.clone();
 
-        if sum > right_sum {
-            right_sum = sum.clone();
-            max_right = j;
+        for (j, a_j) in a.iter().enumerate().take(high).skip(mid + 1) {
+            sum = sum + a_j.clone();
+
+            if sum > right_sum {
+                right_sum = sum.clone();
+                max_right = j;
+            }
         }
     }
 
@@ -94,7 +100,7 @@ pub fn find_maximum_subarray<T: Clone + Ord + Zero>(a: &[T], low: usize, high: u
 mod tests {
     use super::find_maximum_subarray;
 
-    pub fn run_find_maximum_subarray_tests<F: Fn(&[i32]) -> (usize, usize, i32)>(f: F) {
+    pub fn run_find_maximum_subarray_test_cases<F: Fn(&[i32]) -> (usize, usize, i32)>(f: F) {
         fn run_test<T: AsRef<[i32]>, F: Fn(&[i32]) -> (usize, usize, i32)>(f: F, a: T, expected: i32) {
             let a_ref = a.as_ref();
 
@@ -156,6 +162,6 @@ mod tests {
 
     #[test]
     fn test_find_maximum_subarray() {
-        run_find_maximum_subarray_tests(|a| find_maximum_subarray(a, 0, a.len()));
+        run_find_maximum_subarray_test_cases(|a| find_maximum_subarray(a, 0, a.len()));
     }
 }
