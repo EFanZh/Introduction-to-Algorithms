@@ -1,4 +1,4 @@
-const INVALID_INDEX: usize = usize::max_value();
+const INVALID_INDEX: usize = usize::MAX;
 
 use std::collections::hash_map::DefaultHasher;
 use std::hash::{Hash, Hasher};

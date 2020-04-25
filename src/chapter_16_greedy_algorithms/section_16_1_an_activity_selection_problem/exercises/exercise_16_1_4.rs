@@ -28,7 +28,7 @@ pub fn schedule_activities(activities: &[(u64, u64)]) -> Box<[usize]> {
 
     let mut free_slots = VecDeque::new();
     let mut max_slots = 0;
-    let mut result = vec![usize::max_value(); activities.len()];
+    let mut result = vec![usize::MAX; activities.len()];
 
     for (i, TimePoint { is_start, .. }) in time_points {
         if is_start {

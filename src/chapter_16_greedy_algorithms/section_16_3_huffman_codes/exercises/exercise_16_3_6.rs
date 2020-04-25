@@ -92,10 +92,7 @@ fn encode_helper(node: &Node) -> Vec<bool> {
 }
 
 fn decode_helper<I: IntoIterator<Item = bool>>(values: I) -> Node {
-    let mut result = Node::Leaf {
-        value: usize::max_value(),
-    };
-
+    let mut result = Node::Leaf { value: usize::MAX };
     let mut iter = values.into_iter();
     let mut slots = Vec::new();
     let mut stack = Vec::new();
@@ -112,12 +109,8 @@ fn decode_helper<I: IntoIterator<Item = bool>>(values: I) -> Node {
             }
         } else {
             *node_ref = Node::Node {
-                left: Box::new(Node::Leaf {
-                    value: usize::max_value(),
-                }),
-                right: Box::new(Node::Leaf {
-                    value: usize::max_value(),
-                }),
+                left: Box::new(Node::Leaf { value: usize::MAX }),
+                right: Box::new(Node::Leaf { value: usize::MAX }),
             };
 
             if let Node::Node { left, right } = node_ref {

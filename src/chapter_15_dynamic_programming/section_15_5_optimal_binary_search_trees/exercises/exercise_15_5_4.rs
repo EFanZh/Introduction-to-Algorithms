@@ -25,7 +25,7 @@ pub fn optimal_bst_fast(p: &[f64], q: &[f64]) -> (Box<[f64]>, Box<[usize]>) {
             let j = i + l;
             let mut e_i_j = f64::INFINITY;
             let w_i_j = w[columns * i + (j - 1)] + p[j - 1] + q[j];
-            let mut root_i_j = usize::max_value();
+            let mut root_i_j = usize::MAX;
 
             for r in root[n * i + (j - 2)]..=root[n * (i + 1) + (j - 1)] {
                 let temp = e[columns * i + r] + e[columns * (r + 1) + j] + w_i_j;

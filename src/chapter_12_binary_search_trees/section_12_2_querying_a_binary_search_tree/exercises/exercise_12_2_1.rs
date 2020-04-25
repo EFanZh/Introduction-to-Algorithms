@@ -23,7 +23,7 @@ mod tests {
     use super::is_valid_search_sequence;
 
     fn is_valid_i32_search_sequence(values: &[i32]) -> bool {
-        is_valid_search_sequence(values, &i32::min_value(), &i32::max_value())
+        is_valid_search_sequence(values, &i32::MIN, &i32::MAX)
     }
 
     #[test]

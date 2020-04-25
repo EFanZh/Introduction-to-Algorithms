@@ -3,7 +3,7 @@ use std::borrow::Borrow;
 pub fn sort_strings<T: Borrow<[u8]>>(strs: &mut [T]) {
     fn helper<T: Borrow<[u8]>>(strs: &mut [T], start: usize) {
         if strs.len() > 1 {
-            let mut c = [(0, 0); u8::max_value() as usize + 1];
+            let mut c = [(0, 0); u8::MAX as usize + 1];
 
             // Count strings with certain letters in position `start`.
 

@@ -45,7 +45,7 @@ pub fn schedule<R: Ord>(requests: &[R], cache_size: usize) -> Box<[Option<&R>]> 
 
                 let element_to_evict = cache_elements
                     .iter()
-                    .map(|&r| KeyValuePair::new(memory_queue_iters.get(r).map_or(usize::max_value(), |(i, _)| *i), r))
+                    .map(|&r| KeyValuePair::new(memory_queue_iters.get(r).map_or(usize::MAX, |(i, _)| *i), r))
                     .max()
                     .unwrap();
 

@@ -3,7 +3,7 @@ pub mod exercises;
 #[derive(Clone, Copy, PartialEq, Eq)]
 pub struct Handle(usize);
 
-const NIL: Handle = Handle(usize::max_value());
+const NIL: Handle = Handle(usize::MAX);
 
 pub struct MultipleArrayDoublyLinkedListElementPool<T> {
     key: Vec<T>,

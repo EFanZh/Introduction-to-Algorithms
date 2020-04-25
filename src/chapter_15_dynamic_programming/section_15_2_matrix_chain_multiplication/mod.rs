@@ -30,8 +30,8 @@ pub fn matrix_chain_order(p: &[usize]) -> (Array2<usize>, Array2<usize>) {
 
         for i in 0..=n - l {
             let j = i + l;
-            let mut m_i_j = usize::max_value();
-            let mut s_i_j = usize::max_value();
+            let mut m_i_j = usize::MAX;
+            let mut s_i_j = usize::MAX;
 
             for k in i + 1..j {
                 let q = m[[i, k - 1]] + m[[k, j - 1]] + p[i] * p[k] * p[j];
