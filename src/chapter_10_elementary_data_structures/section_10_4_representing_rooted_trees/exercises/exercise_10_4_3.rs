@@ -50,7 +50,7 @@ mod tests {
             let mut result = HashSet::new();
 
             iterate_tree_1(root, |key| {
-                result.insert(key.clone());
+                result.insert(*key);
             });
 
             result
@@ -63,7 +63,7 @@ mod tests {
             let mut result = HashSet::new();
 
             iterate_tree_2(root, |key| {
-                result.insert(key.clone());
+                result.insert(*key);
             });
 
             result

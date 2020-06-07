@@ -47,7 +47,7 @@ pub(crate) mod tests {
             let mut result = HashSet::new();
 
             iterate_tree(root, |key| {
-                result.insert(key.clone());
+                result.insert(*key);
             });
 
             result

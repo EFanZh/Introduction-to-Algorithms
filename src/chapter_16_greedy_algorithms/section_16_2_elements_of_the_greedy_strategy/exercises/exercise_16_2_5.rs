@@ -28,6 +28,6 @@ mod tests {
         let result = cover_points(&points);
         let exprected_result = [0.46, 2.08, 3.27, 4.58, 6.20, 7.63, 8.79];
 
-        assert_eq!(*result, exprected_result);
+        approx::assert_relative_eq!(*result, exprected_result);
     }
 }
