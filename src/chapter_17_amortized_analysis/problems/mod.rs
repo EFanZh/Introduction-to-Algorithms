@@ -1,2 +1,3 @@
 pub mod problem_17_1_bit_reversed_binary_counter;
 pub mod problem_17_2_making_binary_search_dynamic;
+pub mod problem_17_3_amortized_weight_balanced_trees;
