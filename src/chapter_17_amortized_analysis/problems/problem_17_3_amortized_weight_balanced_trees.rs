@@ -58,7 +58,7 @@ fn rebuild_tree<K, V, I: Iterator<Item = Box<Node<K, V>>>>(iter: &mut I, length:
     if length == 0 {
         None
     } else {
-        let half = (length - 1) / 2;
+        let half = length / 2;
         let left = rebuild_tree(iter, half);
         let mut middle = iter.next().unwrap();
         let right = rebuild_tree(iter, length - (half + 1));
@@ -402,11 +402,11 @@ mod tests {
         let test_cases = [
             (
                 make_tree!(5, 55, (4, 44, (3, 33, (2, 22, (1, 11, (0, -17), ()), ()), ()), ()), ()),
-                make_tree!(2, 22, (0, -17, (), (1, 11)), (4, 44, (3, 33), (5, 55))),
+                make_tree!(3, 33, (1, 11, (0, -17), (2, 22)), (5, 55, (4, 44), ())),
             ),
             (
                 make_tree!(0, -17, (), (1, 11, (), (2, 22, (), (3, 33, (), (4, 44, (), (5, 55)))))),
-                make_tree!(2, 22, (0, -17, (), (1, 11)), (4, 44, (3, 33), (5, 55))),
+                make_tree!(3, 33, (1, 11, (0, -17), (2, 22)), (5, 55, (4, 44), ())),
             ),
         ];
 
