@@ -3,6 +3,8 @@ use std::borrow::Borrow;
 use std::cmp::Ordering;
 use std::mem;
 
+pub mod exercises;
+
 // B-Tree-Search(x, k)
 //
 // 1  i = 1
