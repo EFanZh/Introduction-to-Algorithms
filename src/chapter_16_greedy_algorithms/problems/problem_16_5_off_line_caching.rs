@@ -28,7 +28,7 @@ pub fn schedule<R: Ord>(requests: &[R], cache_size: usize) -> Box<[Option<&R>]> 
     for request in requests {
         let mut queue_entry = match memory_queue_iters.entry(request) {
             Entry::Occupied(entry) => entry,
-            _ => unreachable!(),
+            Entry::Vacant(_) => unreachable!(),
         };
 
         if let Some(next) = queue_entry.get_mut().1.next() {
