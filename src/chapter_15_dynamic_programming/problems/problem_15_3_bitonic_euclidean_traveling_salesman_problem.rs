@@ -27,13 +27,15 @@ fn construct_tour(indices: &[usize], cache: &[Choice]) -> Box<[usize]> {
     while i != n - 1 {
         // Invariant: end - start = n - i.
 
-        let new_i = cache[i - 1].next;
-        let new_start = start + (new_i - i);
+        {
+            let new_i = cache[i - 1].next;
+            let new_start = start + (new_i - i);
 
-        result[start..new_start].copy_from_slice(&indices[i..new_i]);
+            result[start..new_start].copy_from_slice(&indices[i..new_i]);
 
-        start = new_start;
-        i = new_i;
+            start = new_start;
+            i = new_i;
+        }
 
         // Again, but with direction reversed.
 
@@ -41,13 +43,15 @@ fn construct_tour(indices: &[usize], cache: &[Choice]) -> Box<[usize]> {
             break;
         }
 
-        let new_i = cache[i - 1].next;
-        let new_end = end - (new_i - i);
+        {
+            let new_i = cache[i - 1].next;
+            let new_end = end - (new_i - i);
 
-        reverse_copy(&mut result[new_end..end], &indices[i..new_i]);
+            reverse_copy(&mut result[new_end..end], &indices[i..new_i]);
 
-        end = new_end;
-        i = new_i;
+            end = new_end;
+            i = new_i;
+        }
     }
 
     result[start] = indices[i];

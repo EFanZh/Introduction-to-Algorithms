@@ -36,12 +36,12 @@ impl<I: Iterator> Iterator for SkipSingle<I> {
     type Item = I::Item;
 
     fn next(&mut self) -> Option<Self::Item> {
-        self.iter.next().and_then(|(i, item)| {
+        self.iter.next().map(|(i, item)| {
             if i == self.skip_minus_one {
                 self.skipped = self.iter.next().map(|(_, next_item)| next_item);
             }
 
-            Some(item)
+            item
         })
     }
 }
