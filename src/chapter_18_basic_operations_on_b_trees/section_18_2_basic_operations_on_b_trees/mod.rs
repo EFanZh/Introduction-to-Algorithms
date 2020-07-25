@@ -44,12 +44,12 @@ pub fn b_tree_create<K, V>() -> Node<K, V> {
 
 fn split_node<K, V>(node: &mut Node<K, V>) -> (K, V, Node<K, V>) {
     let half = node.data.len() / 2;
-    let mut data_iter = node.data.drain(half..);
-    let (key, value) = data_iter.next().unwrap();
+    let data = node.data.split_off(half + 1);
+    let (key, value) = node.data.pop().unwrap();
 
     let z = Node {
-        data: data_iter.collect(),
-        children: node.children.drain((node.children.len() + 1) / 2..).collect(),
+        data,
+        children: node.children.split_off((node.children.len() + 1) / 2),
     };
 
     (key, value, z)
