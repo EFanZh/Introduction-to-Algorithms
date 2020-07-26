@@ -2,6 +2,8 @@ use super::section_18_1_definition_of_b_trees::Node;
 use std::borrow::Borrow;
 use std::mem;
 
+pub mod exercises;
+
 fn merge_into_left<K, V>(left: &mut Node<K, V>, middle: (K, V), right: &mut Node<K, V>) {
     left.data.push(middle);
     left.data.extend(right.data.drain(..));
@@ -67,12 +69,12 @@ fn delete_max<K: Borrow<Q>, V, Q: Ord + ?Sized>(node: &mut Node<K, V>, t: usize)
 }
 
 fn b_tree_delete_i<K: Borrow<Q>, V, Q: Ord + ?Sized>(node: &mut Node<K, V>, t: usize, i: usize) -> (K, V) {
-    if let Some([left_child, right_child, ..]) = node.children.get_mut(i..) {
-        if left_child.data.len() < t {
+    if let Some([child, right_child, ..]) = node.children.get_mut(i..) {
+        if child.data.len() < t {
             if right_child.data.len() < t {
-                let child_data_index = left_child.data.len();
+                let child_data_index = child.data.len();
 
-                merge_into_left(left_child, node.data.remove(i), right_child);
+                merge_into_left(child, node.data.remove(i), right_child);
                 node.children.remove(i + 1);
 
                 b_tree_delete_i(&mut node.children[i], t, child_data_index)
@@ -80,7 +82,7 @@ fn b_tree_delete_i<K: Borrow<Q>, V, Q: Ord + ?Sized>(node: &mut Node<K, V>, t: u
                 mem::replace(&mut node.data[i], delete_min(right_child, t))
             }
         } else {
-            mem::replace(&mut node.data[i], delete_max(left_child, t))
+            mem::replace(&mut node.data[i], delete_max(child, t))
         }
     } else {
         node.data.remove(i)
@@ -97,12 +99,12 @@ fn b_tree_delete_helper<K: Borrow<Q>, V, Q: Ord + ?Sized>(node: &mut Node<K, V>,
                         match node.children.as_mut_slice() {
                             [child, right_child, ..] => {
                                 if right_child.data.len() < t {
-                                    merge_into_left(child, node.data.remove(0), right_child);
+                                    merge_into_left(child, node.data.remove(i), right_child);
                                     node.children.remove(1);
 
-                                    b_tree_delete_helper(&mut node.children[0], t, key)
+                                    b_tree_delete_helper(&mut node.children[i], t, key)
                                 } else {
-                                    borrow_into_left(child, &mut node.data[0], right_child);
+                                    borrow_into_left(child, &mut node.data[i], right_child);
 
                                     b_tree_delete_helper(child, t, key)
                                 }
@@ -114,7 +116,7 @@ fn b_tree_delete_helper<K: Borrow<Q>, V, Q: Ord + ?Sized>(node: &mut Node<K, V>,
                             [left_child, child, right_child, ..] => {
                                 if left_child.data.len() < t {
                                     if right_child.data.len() < t {
-                                        merge_into_left(left_child, node.data.remove(0), child);
+                                        merge_into_left(left_child, node.data.remove(i - 1), child);
                                         node.children.remove(i);
 
                                         b_tree_delete_helper(&mut node.children[i - 1], t, key)
@@ -131,7 +133,7 @@ fn b_tree_delete_helper<K: Borrow<Q>, V, Q: Ord + ?Sized>(node: &mut Node<K, V>,
                             }
                             [left_child, child] => {
                                 if left_child.data.len() < t {
-                                    merge_into_left(left_child, node.data.remove(0), child);
+                                    merge_into_left(left_child, node.data.remove(i - 1), child);
                                     node.children.pop();
 
                                     b_tree_delete_helper(node.children.last_mut().unwrap(), t, key)
@@ -363,6 +365,7 @@ mod tests {
             assert_eq!(node, expected_node);
         }
     }
+
     #[test]
     fn test_b_tree_delete_extra() {
         let test_cases = [
