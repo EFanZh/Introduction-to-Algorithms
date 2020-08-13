@@ -2,6 +2,8 @@ use std::cell::Cell;
 use std::cmp::Ordering;
 use std::rc::Rc;
 
+pub mod exercises;
+
 pub struct Node<T> {
     pub value: T,
     parent: Cell<Option<Rc<Node<T>>>>,
