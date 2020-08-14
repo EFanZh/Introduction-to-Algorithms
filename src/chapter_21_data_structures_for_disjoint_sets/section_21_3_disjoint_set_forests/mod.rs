@@ -6,7 +6,7 @@ pub mod exercises;
 
 pub struct Node<T> {
     pub value: T,
-    parent: Cell<Option<Rc<Node<T>>>>,
+    parent: Cell<Option<Rc<Self>>>,
     rank: Cell<u8>,
 }
 
