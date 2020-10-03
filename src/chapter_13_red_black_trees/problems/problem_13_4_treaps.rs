@@ -12,7 +12,6 @@ pub struct Node<K, V> {
 
 type Tree<K, V> = Option<Box<Node<K, V>>>;
 
-#[allow(clippy::borrowed_box)]
 fn left_rotate<K, V>(node: &mut Box<Node<K, V>>) {
     let mut right = node.right.take().unwrap();
 
@@ -20,7 +19,6 @@ fn left_rotate<K, V>(node: &mut Box<Node<K, V>>) {
     node.left = Some(mem::replace(node, right));
 }
 
-#[allow(clippy::borrowed_box)]
 fn right_rotate<K, V>(node: &mut Box<Node<K, V>>) {
     let mut left = node.left.take().unwrap();
 
