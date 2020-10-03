@@ -211,7 +211,6 @@ fn extract_min<K, V>(node_ref: &mut Option<Box<Node<K, V>>>, balance_factor: f64
     }
 }
 
-#[allow(clippy::borrowed_box)]
 fn lift_min_no_adjust<K, V>(node: &mut Box<Node<K, V>>) {
     if let Some(min) = extract_min_no_adjust(&mut node.left) {
         node.size -= 1;
@@ -223,7 +222,6 @@ fn lift_min_no_adjust<K, V>(node: &mut Box<Node<K, V>>) {
     }
 }
 
-#[allow(clippy::borrowed_box)]
 fn lift_min<K, V>(node: &mut Box<Node<K, V>>, balance_factor: f64) {
     let max_children = ((node.size - 1) as f64 * balance_factor).floor() as usize;
 

@@ -40,7 +40,6 @@ fn get_value<'a, K: Borrow<Q>, V, Q: Ord + ?Sized>(mut node_ref: &'a Tree<K, V>,
 
 // Insertion.
 
-#[allow(clippy::borrowed_box)]
 fn left_rotate<K, V>(node: &mut Box<Node<K, V>>) {
     let mut right = node.right.take().unwrap();
 
@@ -48,7 +47,6 @@ fn left_rotate<K, V>(node: &mut Box<Node<K, V>>) {
     node.left = Some(mem::replace(node, right));
 }
 
-#[allow(clippy::borrowed_box)]
 fn right_rotate<K, V>(node: &mut Box<Node<K, V>>) {
     let mut left = node.left.take().unwrap();
 
@@ -56,7 +54,6 @@ fn right_rotate<K, V>(node: &mut Box<Node<K, V>>) {
     node.right = Some(mem::replace(node, left));
 }
 
-#[allow(clippy::borrowed_box)]
 fn relaxed_insert_non_null<K: Ord, V>(
     node: &mut Box<Node<K, V>>,
     key: K,
@@ -206,7 +203,6 @@ fn insert<K: Ord, V>(tree: &mut Tree<K, V>, key: K, value: V) -> Option<V> {
 
 // Deletion.
 
-#[allow(clippy::borrowed_box)]
 fn adjust_on_left_child_black_sibling_red_root<K, V>(node: &mut Box<Node<K, V>>) {
     let right = node.right.as_mut().unwrap();
 
@@ -227,7 +223,6 @@ fn adjust_on_left_child_black_sibling_red_root<K, V>(node: &mut Box<Node<K, V>>)
     }
 }
 
-#[allow(clippy::borrowed_box)]
 fn adjust_on_left_child_black_sibling<K, V>(node: &mut Box<Node<K, V>>) -> bool {
     let right = node.right.as_mut().unwrap();
 
@@ -253,7 +248,6 @@ fn adjust_on_left_child_black_sibling<K, V>(node: &mut Box<Node<K, V>>) -> bool 
     false
 }
 
-#[allow(clippy::borrowed_box)]
 fn adjust_on_left_child<K, V>(node: &mut Box<Node<K, V>>) -> bool {
     let right = node.right.as_mut().unwrap();
 
@@ -271,7 +265,6 @@ fn adjust_on_left_child<K, V>(node: &mut Box<Node<K, V>>) -> bool {
     }
 }
 
-#[allow(clippy::borrowed_box)]
 fn adjust_on_right_child_black_sibling_red_root<K, V>(node: &mut Box<Node<K, V>>) {
     let left = node.left.as_mut().unwrap();
 
@@ -292,7 +285,6 @@ fn adjust_on_right_child_black_sibling_red_root<K, V>(node: &mut Box<Node<K, V>>
     }
 }
 
-#[allow(clippy::borrowed_box)]
 fn adjust_on_right_child_black_sibling<K, V>(node: &mut Box<Node<K, V>>) -> bool {
     let left = node.left.as_mut().unwrap();
 
@@ -318,7 +310,6 @@ fn adjust_on_right_child_black_sibling<K, V>(node: &mut Box<Node<K, V>>) -> bool
     false
 }
 
-#[allow(clippy::borrowed_box)]
 fn adjust_on_right_child<K, V>(node: &mut Box<Node<K, V>>) -> bool {
     let left = node.left.as_mut().unwrap();
 
@@ -360,7 +351,6 @@ fn remove_min<K, V>(node_ref: &mut Option<Box<Node<K, V>>>) -> Option<(bool, Box
     }
 }
 
-#[allow(clippy::borrowed_box)]
 fn lift_min<K, V>(node: &mut Box<Node<K, V>>) -> bool {
     if let Some((mut height_changed, min)) = remove_min(&mut node.left) {
         if height_changed {

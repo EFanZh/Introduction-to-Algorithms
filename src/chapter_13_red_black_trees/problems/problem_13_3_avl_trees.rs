@@ -29,7 +29,6 @@ fn fix_height<K, V>(node: &mut Node<K, V>) -> bool {
     needs_fixing
 }
 
-#[allow(clippy::borrowed_box)]
 fn left_rotate<K, V>(node: &mut Box<Node<K, V>>) {
     let mut right = node.right.take().unwrap();
 
@@ -42,7 +41,6 @@ fn left_rotate<K, V>(node: &mut Box<Node<K, V>>) {
     fix_height(node);
 }
 
-#[allow(clippy::borrowed_box)]
 fn right_rotate<K, V>(node: &mut Box<Node<K, V>>) {
     let mut left = node.left.take().unwrap();
 
@@ -55,21 +53,18 @@ fn right_rotate<K, V>(node: &mut Box<Node<K, V>>) {
     fix_height(node);
 }
 
-#[allow(clippy::borrowed_box)]
 fn make_left_higher<K, V>(node: &mut Box<Node<K, V>>) {
     if get_balance_factor(node) == -1 {
         left_rotate(node);
     }
 }
 
-#[allow(clippy::borrowed_box)]
 fn make_right_higher<K, V>(node: &mut Box<Node<K, V>>) {
     if get_balance_factor(node) == 1 {
         right_rotate(node);
     }
 }
 
-#[allow(clippy::borrowed_box)]
 fn balance<K, V>(node: &mut Box<Node<K, V>>) {
     match get_balance_factor(node) {
         -2 => {
