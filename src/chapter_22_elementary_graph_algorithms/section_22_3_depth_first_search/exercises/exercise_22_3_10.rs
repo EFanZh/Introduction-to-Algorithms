@@ -30,14 +30,13 @@ fn helper(
                 helper(graph, root, next, colors, result);
             }
             Color::Gray => result.push(((node, next), EdgeType::Back)),
-            Color::Black(next_root) => result.push((
-                (node, next),
+            Color::Black(next_root) => {
                 if next_root == root {
-                    EdgeType::Forward
+                    result.push(((node, next), EdgeType::Forward))
                 } else {
-                    EdgeType::Cross
-                },
-            )),
+                    result.push(((node, next), EdgeType::Cross))
+                }
+            }
         }
     }
 
