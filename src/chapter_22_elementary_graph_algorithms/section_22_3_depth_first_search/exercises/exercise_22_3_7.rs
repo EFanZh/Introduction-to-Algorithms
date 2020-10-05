@@ -1,23 +1,4 @@
-#[derive(Clone, Copy, PartialEq, Eq)]
-pub enum Color {
-    White,
-    Gray,
-    Black,
-}
-
-impl Default for Color {
-    fn default() -> Self {
-        Self::White
-    }
-}
-
-#[derive(Copy, Clone, PartialEq, Eq, Default)]
-pub struct Attribute {
-    pub color: Color,
-    pub predecessor: Option<usize>,
-    pub discovery_time: usize,
-    pub finishing_time: usize,
-}
+use super::super::{Attribute, Color};
 
 pub fn dfs(graph: &[Vec<usize>]) -> Vec<Attribute> {
     let mut stack = Vec::new();
@@ -75,41 +56,11 @@ pub fn dfs(graph: &[Vec<usize>]) -> Vec<Attribute> {
 
 #[cfg(test)]
 mod tests {
-    use super::{dfs, Attribute, Color};
+    use super::super::super::tests::run_dfs_test;
+    use super::dfs;
 
     #[test]
     fn test_dfs() {
-        let test_cases = [(
-            &[&[1_usize, 3] as &[usize], &[4], &[4, 5], &[1], &[3], &[5]] as &[&[usize]],
-            &[
-                (None, 1, 8),
-                (Some(0), 2, 7),
-                (None, 9, 12),
-                (Some(4), 4, 5),
-                (Some(1), 3, 6),
-                (Some(2), 10, 11),
-            ],
-        )];
-
-        for (graph, expected) in test_cases.iter().copied() {
-            let result = dfs(graph.iter().map(|node| node.to_vec()).collect::<Box<_>>().as_ref());
-
-            assert!(result.iter().all(|attribute| attribute.color == Color::Black));
-
-            assert_eq!(
-                result
-                    .iter()
-                    .map(
-                        |&Attribute {
-                             predecessor,
-                             discovery_time,
-                             finishing_time,
-                             ..
-                         }| (predecessor, discovery_time, finishing_time)
-                    )
-                    .collect::<Vec<_>>(),
-                expected
-            );
-        }
+        run_dfs_test(dfs)
     }
 }
