@@ -9,8 +9,6 @@ fn weighted_select<T: Ord + Clone, F: FnMut(&T) -> f64>(a: &mut [T], target: f64
             let median = select(a, 0, a.len(), a.len() / 2).clone();
             let (left, middle, _) = partition_by_key(a, &median);
 
-            // TODO: Use `Iterator::copied`: https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.copied.
-
             let left_middle_sum = left.iter().map(|x| f(x)).sum::<f64>() + f(&middle[0]);
             let left_len = left.len();
 
