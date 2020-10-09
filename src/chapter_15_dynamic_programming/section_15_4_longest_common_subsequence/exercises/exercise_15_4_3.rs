@@ -1,8 +1,5 @@
 fn memoized_lcs_length_helper<T: Eq>(x: &[T], y: &[T], cache: &mut [Option<usize>], columns: usize) -> usize {
-    #[allow(clippy::option_if_let_else)]
-    if let Some(result) = cache[columns * x.len() + y.len()] {
-        result
-    } else {
+    cache[columns * x.len() + y.len()].unwrap_or_else(|| {
         let result = if let (Some((x_tail, x_elements)), Some((y_tail, y_elements))) = (x.split_last(), y.split_last())
         {
             if x_tail == y_tail {
@@ -20,7 +17,7 @@ fn memoized_lcs_length_helper<T: Eq>(x: &[T], y: &[T], cache: &mut [Option<usize
         cache[columns * x.len() + y.len()] = Some(result);
 
         result
-    }
+    })
 }
 
 pub fn memoized_lcs_length<T: Eq>(x: &[T], y: &[T]) -> usize {
