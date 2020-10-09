@@ -18,15 +18,11 @@ pub fn tree_search<'a, T: Ord>(
     x: &'a Option<Box<SimpleBinaryTreeNode<T>>>,
     k: &T,
 ) -> Option<&'a SimpleBinaryTreeNode<T>> {
-    if let Some(node) = x {
-        match node.key.cmp(k) {
-            Ordering::Less => tree_search(&node.right, k),
-            Ordering::Equal => Some(node),
-            Ordering::Greater => tree_search(&node.left, k),
-        }
-    } else {
-        None
-    }
+    x.as_deref().and_then(|node| match node.key.cmp(k) {
+        Ordering::Less => tree_search(&node.right, k),
+        Ordering::Equal => Some(node),
+        Ordering::Greater => tree_search(&node.left, k),
+    })
 }
 
 // Iterative-Tree-Search(x, k)

@@ -7,6 +7,7 @@ fn longest_simple_path_dfs<I: IntoIterator<Item = (f64, usize)>, F: FnMut(usize)
     t: usize,
     cache: &mut HashMap<usize, (f64, Option<usize>)>,
 ) -> f64 {
+    #[allow(clippy::option_if_let_else)]
     if let Some(result) = cache.get(&s) {
         result.0
     } else {

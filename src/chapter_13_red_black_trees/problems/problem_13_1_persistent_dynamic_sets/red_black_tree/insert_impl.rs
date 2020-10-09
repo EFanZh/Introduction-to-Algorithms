@@ -125,6 +125,7 @@ fn relaxed_insert_right<K: Ord, V>(node: &BlackNode<K, V>, key: Rc<K>, value: Rc
 }
 
 fn relaxed_insert<K: Ord, V>(node: &RedBlackTree<K, V>, key: Rc<K>, value: Rc<V>) -> RelaxedInsertResult<K, V> {
+    #[allow(clippy::option_if_let_else)]
     if let Some(node) = node {
         match key.cmp(&node.content.key) {
             Ordering::Less => relaxed_insert_left(node, key, value),

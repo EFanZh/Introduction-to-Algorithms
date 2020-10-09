@@ -80,6 +80,7 @@ fn balance<K, V>(node: &mut Box<Node<K, V>>) {
 }
 
 pub fn avl_insert<K: Ord, V>(tree: &mut Tree<K, V>, key: K, value: V) -> Option<V> {
+    #[allow(clippy::option_if_let_else)]
     if let Some(node) = tree {
         match key.cmp(&node.key) {
             Ordering::Less => {

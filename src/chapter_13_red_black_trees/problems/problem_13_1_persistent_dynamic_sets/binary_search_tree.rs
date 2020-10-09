@@ -64,6 +64,7 @@ pub fn persistent_tree_insert<K: Ord, V>(
     key: Rc<K>,
     value: Rc<V>,
 ) -> (Rc<Node<K, V>>, Option<Rc<V>>) {
+    #[allow(clippy::option_if_let_else)]
     if let Some(node) = tree {
         match key.cmp(&node.key) {
             Ordering::Less => {
@@ -99,13 +100,14 @@ pub fn persistent_tree_search<'a, K: Ord + Borrow<Q>, V, Q: Ord + ?Sized>(
 }
 
 fn persistent_tree_remove_min<K, V>(tree: &Node<K, V>) -> (Tree<K, V>, (Rc<K>, Rc<V>)) {
-    if let Some(left) = &tree.left {
-        let (new_left, (min_key, min_value)) = persistent_tree_remove_min(left);
+    tree.left.as_deref().map_or_else(
+        || (tree.right.clone(), (tree.key.clone(), tree.value.clone())),
+        |left| {
+            let (new_left, (min_key, min_value)) = persistent_tree_remove_min(left);
 
-        (Some(Rc::new(tree.with_left(new_left))), (min_key, min_value))
-    } else {
-        (tree.right.clone(), (tree.key.clone(), tree.value.clone()))
-    }
+            (Some(Rc::new(tree.with_left(new_left))), (min_key, min_value))
+        },
+    )
 }
 
 pub fn persistent_tree_remove<K: Ord + Borrow<Q>, V, Q: Ord + ?Sized>(
@@ -116,19 +118,19 @@ pub fn persistent_tree_remove<K: Ord + Borrow<Q>, V, Q: Ord + ?Sized>(
         Ordering::Less => persistent_tree_remove(&node.left, key)
             .map(|(new_left, old_value)| (Some(Rc::new(node.with_left(new_left))), old_value)),
         Ordering::Equal => {
-            let new_tree = if let Some(left) = &node.left {
-                if let Some(right) = &node.right {
-                    let (new_right, (min_key, min_value)) = persistent_tree_remove_min(right);
+            let new_tree = node.left.as_ref().map_or_else(
+                || node.right.clone(),
+                |left| {
+                    Some(node.right.as_deref().map_or_else(
+                        || left.clone(),
+                        |right| {
+                            let (new_right, (min_key, min_value)) = persistent_tree_remove_min(right);
 
-                    Some(Rc::new(Node::new(min_key, min_value, Some(left.clone()), new_right)))
-                } else {
-                    Some(left.clone())
-                }
-            } else if let Some(right) = &node.right {
-                Some(right.clone())
-            } else {
-                None
-            };
+                            Rc::new(Node::new(min_key, min_value, Some(left.clone()), new_right))
+                        },
+                    ))
+                },
+            );
 
             Some((new_tree, node.value.clone()))
         }

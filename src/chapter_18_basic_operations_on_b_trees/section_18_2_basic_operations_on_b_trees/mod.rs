@@ -20,13 +20,7 @@ pub mod exercises;
 pub fn b_tree_search<'a, K: Ord + Borrow<Q>, V, Q: Ord + ?Sized>(x: &'a Node<K, V>, k: &Q) -> Option<&'a V> {
     match x.data.binary_search_by(|(key, _)| key.borrow().cmp(k)) {
         Ok(i) => Some(&x.data[i].1),
-        Err(i) => {
-            if let Some(child) = x.children.get(i) {
-                b_tree_search(child, k)
-            } else {
-                None
-            }
-        }
+        Err(i) => x.children.get(i).and_then(|child| b_tree_search(child, k)),
     }
 }
 

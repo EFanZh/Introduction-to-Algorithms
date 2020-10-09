@@ -54,7 +54,7 @@ mod tests {
             );
 
             for value in result.values_mut() {
-                value.sort();
+                value.sort_unstable();
             }
 
             assert_eq!(result, expected.iter().copied().map(|(k, v)| (k, v.to_vec())).collect());

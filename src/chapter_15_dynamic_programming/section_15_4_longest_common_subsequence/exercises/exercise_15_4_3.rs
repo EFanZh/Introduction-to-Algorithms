@@ -1,4 +1,5 @@
 fn memoized_lcs_length_helper<T: Eq>(x: &[T], y: &[T], cache: &mut [Option<usize>], columns: usize) -> usize {
+    #[allow(clippy::option_if_let_else)]
     if let Some(result) = cache[columns * x.len() + y.len()] {
         result
     } else {

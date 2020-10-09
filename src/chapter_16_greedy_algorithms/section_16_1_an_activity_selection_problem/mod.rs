@@ -6,26 +6,27 @@ pub mod exercises;
 // 2  while m ≤ n and s[m] < f[k] // find the first activity in S_k to finish
 // 3      m = m + 1
 // 4  if m ≤ n
-// 5       return {a_m} ∪ Recursive-Activity-Selector(s, f, m, n)
+// 5      return {a_m} ∪ Recursive-Activity-Selector(s, f, m, n)
 // 6  else return ∅
 
 pub fn recursive_activity_selector(s: &[u64], f: &[u64], k: usize) -> Vec<usize> {
     let last_finish_time = k.checked_sub(1).map_or(0, |i| f[i]);
 
-    if let Some(m) = s
-        .iter()
+    s.iter()
         .enumerate()
         .skip(k)
-        .find_map(|(i, s_i)| if *s_i < last_finish_time { None } else { Some(i) })
-    {
-        let mut result = recursive_activity_selector(s, f, m + 1);
+        .find_map(|(i, s_i)| {
+            if *s_i < last_finish_time {
+                None
+            } else {
+                let mut result = recursive_activity_selector(s, f, i + 1);
 
-        result.push(m);
+                result.push(i);
 
-        result
-    } else {
-        Vec::new()
-    }
+                Some(result)
+            }
+        })
+        .unwrap_or_else(Vec::new)
 }
 
 // Greedy-Activity-Selector(s, f)

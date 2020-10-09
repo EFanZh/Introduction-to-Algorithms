@@ -32,6 +32,7 @@ fn treap_insert_helper<K: Ord, V>(
     value: V,
     priority: usize,
 ) -> (&mut Node<K, V>, Option<V>) {
+    #[allow(clippy::option_if_let_else)]
     if let Some(node) = tree {
         let result = match key.cmp(&node.key) {
             Ordering::Less => {
