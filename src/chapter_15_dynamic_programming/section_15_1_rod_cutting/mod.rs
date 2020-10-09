@@ -36,10 +36,7 @@ pub fn cut_rod(p: &[u32]) -> u32 {
 fn memoized_cut_rod_aux(p: &[u32], r: &mut [Option<u32>]) -> u32 {
     let n = p.len();
 
-    #[allow(clippy::option_if_let_else)]
-    if let Some(r_n) = r[n] {
-        r_n
-    } else {
+    r[n].unwrap_or_else(|| {
         let q = p
             .iter()
             .enumerate()
@@ -50,7 +47,7 @@ fn memoized_cut_rod_aux(p: &[u32], r: &mut [Option<u32>]) -> u32 {
         r[n] = Some(q);
 
         q
-    }
+    })
 }
 
 // Memoized-Cut-Rod(p, n)
