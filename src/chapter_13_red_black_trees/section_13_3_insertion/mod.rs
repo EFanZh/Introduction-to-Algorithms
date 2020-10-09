@@ -5,19 +5,14 @@ use std::cell::RefCell;
 use std::rc::{Rc, Weak};
 
 fn is_left_child<T>(node: &Rc<RefCell<RedBlackTreeNode<T>>>, maybe_parent: &RedBlackTreeNode<T>) -> bool {
-    if let Some(left) = maybe_parent.left.as_ref() {
-        Rc::ptr_eq(node, left)
-    } else {
-        false
-    }
+    maybe_parent.left.as_ref().map_or(false, |left| Rc::ptr_eq(node, left))
 }
 
 fn is_right_child<T>(node: &Rc<RefCell<RedBlackTreeNode<T>>>, maybe_parent: &RedBlackTreeNode<T>) -> bool {
-    if let Some(right) = maybe_parent.right.as_ref() {
-        Rc::ptr_eq(node, right)
-    } else {
-        false
-    }
+    maybe_parent
+        .right
+        .as_ref()
+        .map_or(false, |right| Rc::ptr_eq(node, right))
 }
 
 fn rotate_2<T, F: FnOnce(&mut Rc<RefCell<RedBlackTreeNode<T>>>)>(

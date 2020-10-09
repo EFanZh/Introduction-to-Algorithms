@@ -1,7 +1,5 @@
 fn dfs(graph: &[Vec<usize>], from: usize, to: usize, cache: &mut Vec<Option<usize>>) -> usize {
-    if let Some(result) = cache[from] {
-        result
-    } else {
+    cache[from].unwrap_or_else(|| {
         let result = if from == graph.len() - 1 {
             1
         } else {
@@ -11,7 +9,7 @@ fn dfs(graph: &[Vec<usize>], from: usize, to: usize, cache: &mut Vec<Option<usiz
         cache[from] = Some(result);
 
         result
-    }
+    })
 }
 
 pub fn get_number_of_paths(graph: &[Vec<usize>], s: usize, t: usize) -> usize {

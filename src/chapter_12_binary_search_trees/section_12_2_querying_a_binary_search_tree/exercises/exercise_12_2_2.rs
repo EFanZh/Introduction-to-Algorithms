@@ -1,19 +1,11 @@
 use super::super::super::super::chapter_10_elementary_data_structures::section_10_4_representing_rooted_trees::SimpleBinaryTreeNode;
 
 pub fn recursive_tree_minimum<T: Ord>(x: &SimpleBinaryTreeNode<T>) -> &SimpleBinaryTreeNode<T> {
-    if let Some(left) = &x.left {
-        recursive_tree_minimum(left)
-    } else {
-        x
-    }
+    x.left.as_deref().map_or(x, recursive_tree_minimum)
 }
 
 pub fn recursive_tree_maximum<T: Ord>(x: &SimpleBinaryTreeNode<T>) -> &SimpleBinaryTreeNode<T> {
-    if let Some(right) = &x.right {
-        recursive_tree_maximum(right)
-    } else {
-        x
-    }
+    x.right.as_deref().map_or(x, recursive_tree_maximum)
 }
 
 #[cfg(test)]

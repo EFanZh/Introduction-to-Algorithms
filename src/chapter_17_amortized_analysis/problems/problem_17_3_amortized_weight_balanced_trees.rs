@@ -13,11 +13,7 @@ pub struct Node<K, V> {
 }
 
 fn get_size<K, V>(maybe_node: &Option<Box<Node<K, V>>>) -> usize {
-    if let Some(node) = maybe_node {
-        node.size
-    } else {
-        0
-    }
+    maybe_node.as_deref().map_or(0, |node| node.size)
 }
 
 impl<K, V> Node<K, V> {
@@ -80,6 +76,7 @@ pub fn rebalance<K, V>(tree: &mut Option<Box<Node<K, V>>>) {
 // Insertion.
 
 fn insert_no_adjust<K: Ord, V>(tree: &mut Option<Box<Node<K, V>>>, key: K, value: V) -> Option<V> {
+    #[allow(clippy::option_if_let_else)]
     if let Some(node) = tree {
         let result = match key.cmp(&node.key) {
             Ordering::Less => insert_no_adjust(&mut node.left, key, value),
@@ -100,6 +97,7 @@ fn insert_no_adjust<K: Ord, V>(tree: &mut Option<Box<Node<K, V>>>, key: K, value
 }
 
 pub fn insert<K: Ord, V>(tree: &mut Option<Box<Node<K, V>>>, balance_factor: f64, key: K, value: V) -> Option<V> {
+    #[allow(clippy::option_if_let_else)]
     if let Some(node) = tree {
         match key.cmp(&node.key) {
             Ordering::Less => {
@@ -160,6 +158,7 @@ pub fn insert<K: Ord, V>(tree: &mut Option<Box<Node<K, V>>>, balance_factor: f64
 // Removal.
 
 fn extract_min_no_adjust<K, V>(node_ref: &mut Option<Box<Node<K, V>>>) -> Option<Box<Node<K, V>>> {
+    #[allow(clippy::option_if_let_else)]
     if let Some(node) = node_ref {
         Some(if let Some(result) = extract_min_no_adjust(&mut node.left) {
             node.size -= 1;
@@ -178,6 +177,7 @@ fn extract_min_no_adjust<K, V>(node_ref: &mut Option<Box<Node<K, V>>>) -> Option
 }
 
 fn extract_min<K, V>(node_ref: &mut Option<Box<Node<K, V>>>, balance_factor: f64) -> Option<Box<Node<K, V>>> {
+    #[allow(clippy::option_if_let_else)]
     if let Some(node) = node_ref {
         let max_children = ((node.size - 1) as f64 * balance_factor).floor() as usize;
 
@@ -283,6 +283,7 @@ fn remove_root<K: Borrow<Q>, V, Q: Ord + ?Sized>(root: &mut Option<Box<Node<K, V
 }
 
 fn remove_no_adjust<K: Borrow<Q>, V, Q: Ord + ?Sized>(tree: &mut Option<Box<Node<K, V>>>, key: &Q) -> Option<V> {
+    #[allow(clippy::option_if_let_else)]
     if let Some(node) = tree {
         match key.cmp(node.key.borrow()) {
             Ordering::Less => remove_no_adjust(&mut node.left, key),
@@ -299,6 +300,7 @@ pub fn remove<K: Borrow<Q>, V, Q: Ord + ?Sized>(
     balance_factor: f64,
     key: &Q,
 ) -> Option<V> {
+    #[allow(clippy::option_if_let_else)]
     if let Some(node) = tree {
         let max_children = ((node.size - 1) as f64 * balance_factor).floor() as usize;
 

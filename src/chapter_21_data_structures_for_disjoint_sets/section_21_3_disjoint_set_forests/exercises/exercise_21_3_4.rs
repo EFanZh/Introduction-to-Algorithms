@@ -49,13 +49,14 @@ pub fn link<T>(x: &Rc<Node<T>>, y: &Rc<Node<T>>) {
 }
 
 pub fn find_set<T>(x: &Rc<Node<T>>) -> Rc<Node<T>> {
-    if let Some(parent) = x.parent.take() {
-        x.parent.set(Some(find_set(&parent)));
+    x.parent.take().map_or_else(
+        || x.clone(),
+        |parent| {
+            x.parent.set(Some(find_set(&parent)));
 
-        parent
-    } else {
-        x.clone()
-    }
+            parent
+        },
+    )
 }
 
 pub fn union<T>(x: &Rc<Node<T>>, y: &Rc<Node<T>>) {

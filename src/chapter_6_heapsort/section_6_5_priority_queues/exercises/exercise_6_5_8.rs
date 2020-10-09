@@ -56,7 +56,7 @@ mod tests {
 
             heap.push(value); // Put the deleted value back.
 
-            heap.sort(); // Sort the heap.
+            heap.sort_unstable(); // Sort the heap.
 
             assert_eq!(heap.as_slice(), expected_values); // Check value consistency.
         };

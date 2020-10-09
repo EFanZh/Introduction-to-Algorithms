@@ -32,15 +32,13 @@ pub fn schedule_activities(activities: &[(u64, u64)]) -> Box<[usize]> {
 
     for (i, TimePoint { is_start, .. }) in time_points {
         if is_start {
-            result[i] = if let Some(free_slot) = free_slots.pop_front() {
-                free_slot
-            } else {
+            result[i] = free_slots.pop_front().unwrap_or_else(|| {
                 let slot = max_slots;
 
                 max_slots += 1;
 
                 slot
-            };
+            });
         } else {
             free_slots.push_back(result[i]);
         }

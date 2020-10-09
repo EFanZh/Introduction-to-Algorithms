@@ -70,6 +70,7 @@ fn relaxed_insert_non_null<K: Ord, V>(
                             left.color = Color::Black;
                             node.color = Color::Red;
 
+                            #[allow(clippy::option_if_let_else)]
                             if let Some(right) = node.right.as_mut().filter(|x| x.color == Color::Red) {
                                 right.color = Color::Black;
 
@@ -86,6 +87,7 @@ fn relaxed_insert_non_null<K: Ord, V>(
 
                             node.color = Color::Red;
 
+                            #[allow(clippy::option_if_let_else)]
                             if let Some(right) = node.right.as_mut().filter(|x| x.color == Color::Red) {
                                 left.color = Color::Black;
                                 right.color = Color::Black;
@@ -125,6 +127,7 @@ fn relaxed_insert_non_null<K: Ord, V>(
 
                             node.color = Color::Red;
 
+                            #[allow(clippy::option_if_let_else)]
                             if let Some(left) = node.left.as_mut().filter(|x| x.color == Color::Red) {
                                 right.color = Color::Black;
                                 left.color = Color::Black;
@@ -146,6 +149,7 @@ fn relaxed_insert_non_null<K: Ord, V>(
                             right.color = Color::Black;
                             node.color = Color::Red;
 
+                            #[allow(clippy::option_if_let_else)]
                             if let Some(left) = node.left.as_mut().filter(|x| x.color == Color::Red) {
                                 left.color = Color::Black;
 
@@ -175,6 +179,7 @@ fn relaxed_insert_non_null<K: Ord, V>(
 }
 
 fn relaxed_insert<K: Ord, V>(node_ref: &mut Tree<K, V>, key: K, value: V) -> Result<&mut Node<K, V>, Option<V>> {
+    #[allow(clippy::option_if_let_else)]
     if let Some(node) = node_ref {
         relaxed_insert_non_null(node, key, value)
     } else {
@@ -328,6 +333,7 @@ fn adjust_on_right_child<K, V>(node: &mut Box<Node<K, V>>) -> bool {
 }
 
 fn remove_min<K, V>(node_ref: &mut Option<Box<Node<K, V>>>) -> Option<(bool, Box<Node<K, V>>)> {
+    #[allow(clippy::option_if_let_else)]
     if let Some(node) = node_ref.as_mut() {
         if let Some((mut height_changed, min)) = remove_min(&mut node.left) {
             if height_changed {
