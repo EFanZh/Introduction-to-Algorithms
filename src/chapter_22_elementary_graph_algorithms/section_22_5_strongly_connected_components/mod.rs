@@ -1,3 +1,5 @@
+pub mod exercises;
+
 fn dfs_1(graph: &[Vec<usize>], nodes: impl IntoIterator<Item = usize>, visited: &mut [bool], result: &mut Vec<usize>) {
     for node in nodes {
         if let visited_value @ false = &mut visited[node] {
