@@ -73,7 +73,7 @@ impl<T> Queue<T> for SinglyLinkedListQueue<T> {
 
         self.length -= 1;
 
-        Rc::try_unwrap(head_element).map_err(|_| "?").unwrap().key
+        Rc::try_unwrap(head_element).ok().unwrap().key
     }
 
     fn length(&self) -> usize {
