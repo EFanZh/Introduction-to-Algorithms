@@ -1,8 +1,8 @@
 [package]
-name = "introduction-to-algorithms"
-version = "0.1.0"
 authors = ["EFanZh <efanzh@gmail.com>"]
 edition = "2018"
+name = "introduction-to-algorithms"
+version = "0.1.0"
 
 [dependencies]
 approx = "*"

@@ -7,7 +7,6 @@ jobs:
           - uses: actions/checkout@v2
           - uses: actions-rs/toolchain@v1
             with:
-                toolchain: stable
                 components: rustfmt
           - run: cargo fmt -- --check
         strategy:
@@ -22,7 +21,6 @@ jobs:
           - uses: actions/checkout@v2
           - uses: actions-rs/toolchain@v1
             with:
-                toolchain: stable
                 components: clippy
           - run: cargo clippy --all-targets --all-features -- -W clippy::pedantic -A clippy::cast-possible-truncation -A clippy::cast-possible-wrap -A clippy::cast-precision-loss -A clippy::cast-sign-loss -A clippy::must-use-candidate -A clippy::non-ascii-literal -D warnings
         strategy:
@@ -36,8 +34,6 @@ jobs:
         steps:
           - uses: actions/checkout@v2
           - uses: actions-rs/toolchain@v1
-            with:
-                toolchain: stable
           - run: cargo test
         strategy:
             matrix:
