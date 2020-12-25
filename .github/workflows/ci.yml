@@ -67,7 +67,7 @@ jobs:
                 use-tool-cache: true
           - run: cargo test
             env:
-                LLVM_PROFILE_FILE: coverage/rust.profraw
+                LLVM_PROFILE_FILE: coverage/introduction-to-algorithms.profraw
                 RUSTFLAGS: -Zinstrument-coverage
           - run: grcov --branch -b target --keep-only 'src/*' -o coverage/lcov.info -s . coverage
           - uses: codecov/codecov-action@v1
