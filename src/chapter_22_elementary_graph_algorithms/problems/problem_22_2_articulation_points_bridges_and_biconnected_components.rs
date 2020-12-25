@@ -286,6 +286,15 @@ mod tests {
     }
 
     #[test]
+    fn test_compute_articulation_points_root() {
+        let mut result = super::compute_articulation_points(&[vec![1, 2], vec![0], vec![0]]);
+
+        result.sort_unstable();
+
+        assert_eq!(result.as_ref(), &[0]);
+    }
+
+    #[test]
     fn test_compute_bridges() {
         let mut result = super::compute_bridges(&get_clrs_graph());
 
