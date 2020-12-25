@@ -1,7 +1,7 @@
-pub fn counting_sort_by_key_inplace_unstable<T, F: FnMut(&T) -> usize>(a: &mut [T], k: usize, mut f: F) {
+pub fn counting_sort_by_key_inplace_unstable<T, F: FnMut(&T) -> usize>(values: &mut [T], k: usize, mut f: F) {
     let mut c = vec![(0, 0); k];
 
-    for x in a.iter() {
+    for x in values.iter() {
         c[f(x)].1 += 1;
     }
 
@@ -17,7 +17,7 @@ pub fn counting_sort_by_key_inplace_unstable<T, F: FnMut(&T) -> usize>(a: &mut [
         let (mut j, j_end) = c[i];
 
         while j < j_end {
-            let key = f(&a[j]);
+            let key = f(&values[j]);
 
             if key == i {
                 // a[j] is in its place, skip this.
@@ -28,7 +28,7 @@ pub fn counting_sort_by_key_inplace_unstable<T, F: FnMut(&T) -> usize>(a: &mut [
 
                 let mut c_key = &mut c[key];
 
-                a.swap(j, c_key.0);
+                values.swap(j, c_key.0);
 
                 c_key.0 += 1;
             }

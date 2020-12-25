@@ -20,6 +20,7 @@ pub mod exercises;
 // 13                  s[i, j] = k
 // 14  return m and s
 
+#[allow(clippy::many_single_char_names)]
 pub fn matrix_chain_order(p: &[usize]) -> (Array2<usize>, Array2<usize>) {
     let n = p.len() - 1;
     let mut m = Array2::zeros((n, n));

@@ -9,9 +9,9 @@ pub fn matrix_chain_multiply<T: Clone + LinalgScalar>(
     if i + 1 == j {
         a[i].clone()
     } else {
-        let k = s[[i, j - 2]];
-        let lhs = matrix_chain_multiply(a, s, i, k);
-        let rhs = matrix_chain_multiply(a, s, k, j);
+        let split = s[[i, j - 2]];
+        let lhs = matrix_chain_multiply(a, s, i, split);
+        let rhs = matrix_chain_multiply(a, s, split, j);
 
         lhs.dot(&rhs)
     }

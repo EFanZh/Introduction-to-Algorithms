@@ -4,11 +4,11 @@ use super::super::section_7_1_description_of_quicksort::partition;
 use rand::seq::index;
 use rand::{thread_rng, Rng};
 
-fn median_of_3<T: Ord>(a: &[T], i: usize, j: usize, k: usize) -> usize {
+fn median_of_3<T: Ord>(values: &[T], i: usize, j: usize, k: usize) -> usize {
     let mut t = [
-        KeyValuePair::new(&a[i], i),
-        KeyValuePair::new(&a[j], j),
-        KeyValuePair::new(&a[k], k),
+        KeyValuePair::new(&values[i], i),
+        KeyValuePair::new(&values[j], j),
+        KeyValuePair::new(&values[k], k),
     ];
 
     insertion_sort_slice(&mut t);

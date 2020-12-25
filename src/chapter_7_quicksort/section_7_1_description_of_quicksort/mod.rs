@@ -12,6 +12,7 @@ pub mod extra;
 // 7  exchange A[i + 1] with A[r]
 // 8  return i + 1
 
+#[allow(clippy::many_single_char_names)]
 pub fn partition<T: Ord>(a: &mut [T], p: usize, r: usize) -> usize {
     let (s, x) = {
         let (slice_1, slice_2) = a.split_at_mut(r - 1);

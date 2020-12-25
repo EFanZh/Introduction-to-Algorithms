@@ -1,29 +1,29 @@
-pub fn merge<T: Clone + Ord>(a: &mut [T], p: usize, q: usize, r: usize) {
-    let copied = a[p..r].to_vec();
-    let (left, right) = copied.split_at(q - p);
+pub fn merge<T: Clone + Ord>(values: &mut [T], start: usize, middle: usize, end: usize) {
+    let copied = values[start..end].to_vec();
+    let (left, right) = copied.split_at(middle - start);
 
     let mut i = 0;
     let mut j = 0;
 
-    for k in p..r {
+    for k in start..end {
         if i < left.len() {
             if j < right.len() {
                 if left[i] <= right[j] {
-                    a[k] = left[i].clone();
+                    values[k] = left[i].clone();
 
                     i += 1;
                 } else {
-                    a[k] = right[j].clone();
+                    values[k] = right[j].clone();
 
                     j += 1;
                 }
             } else {
-                (&mut a[k..r]).clone_from_slice(&left[i..]);
+                (&mut values[k..end]).clone_from_slice(&left[i..]);
 
                 break;
             }
         } else {
-            (&mut a[k..r]).clone_from_slice(&right[j..]);
+            (&mut values[k..end]).clone_from_slice(&right[j..]);
 
             break;
         }

@@ -1,8 +1,9 @@
-use rand::{thread_rng, Rng};
+use rand::Rng;
 use std::cmp::Ordering;
 
-pub fn partition_prime<T: Ord>(a: &mut [T], p: usize, r: usize) -> (usize, usize) {
-    let (pivot, sub_array) = a[..r].split_last_mut().unwrap();
+#[allow(clippy::many_single_char_names)]
+pub fn partition_prime<T: Ord>(values: &mut [T], p: usize, r: usize) -> (usize, usize) {
+    let (pivot, sub_array) = values[..r].split_last_mut().unwrap();
     let pivot_index = sub_array.len();
 
     let mut q = p;
@@ -33,25 +34,25 @@ pub fn partition_prime<T: Ord>(a: &mut [T], p: usize, r: usize) -> (usize, usize
         }
     }
 
-    a.swap(t, pivot_index);
+    values.swap(t, pivot_index);
 
     (q, t + 1)
 }
 
 pub fn randomized_partition_prime<T: Ord>(a: &mut [T], p: usize, r: usize) -> (usize, usize) {
-    let i = thread_rng().gen_range(p..r);
+    let i = rand::thread_rng().gen_range(p..r);
 
     a.swap(r - 1, i);
 
     partition_prime(a, p, r)
 }
 
-pub fn quicksort_prime<T: Ord>(a: &mut [T], p: usize, r: usize) {
+pub fn quicksort_prime<T: Ord>(values: &mut [T], p: usize, r: usize) {
     if r - p > 1 {
-        let (q, t) = randomized_partition_prime(a, p, r);
+        let (q, t) = randomized_partition_prime(values, p, r);
 
-        quicksort_prime(a, p, q);
-        quicksort_prime(a, t, r);
+        quicksort_prime(values, p, q);
+        quicksort_prime(values, t, r);
     }
 }
 
