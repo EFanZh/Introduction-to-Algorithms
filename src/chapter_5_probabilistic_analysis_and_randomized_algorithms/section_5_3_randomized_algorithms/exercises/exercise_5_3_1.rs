@@ -5,10 +5,10 @@ pub fn randomize_in_place<T>(a: &mut [T]) {
         let n = a.len();
         let mut rng = thread_rng();
 
-        a.swap(0, rng.gen_range(0, n));
+        a.swap(0, rng.gen_range(0..n));
 
         for i in 1..n {
-            a.swap(i, rng.gen_range(i, n));
+            a.swap(i, rng.gen_range(i..n));
         }
     }
 }

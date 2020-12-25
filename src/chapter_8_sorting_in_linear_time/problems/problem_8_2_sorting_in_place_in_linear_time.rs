@@ -51,7 +51,7 @@ mod tests {
 
         for n in 0_usize..10 {
             for _ in 0..2_usize.pow(n as _) {
-                assign_vec_from_iter(&mut a, iter::repeat_with(|| rng.gen_range(0, n)).take(n));
+                assign_vec_from_iter(&mut a, iter::repeat_with(|| rng.gen_range(0..n)).take(n));
                 assign_vec(&mut b, &a);
 
                 counting_sort_by_key_inplace_unstable(&mut a, n, |x| *x);
