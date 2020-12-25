@@ -1,4 +1,3 @@
-name: CI
 on: push
 jobs:
     rustfmt:
@@ -22,7 +21,19 @@ jobs:
           - uses: actions-rs/toolchain@v1
             with:
                 components: clippy
-          - run: cargo clippy --all-targets --all-features -- -W clippy::pedantic -A clippy::cast-possible-truncation -A clippy::cast-possible-wrap -A clippy::cast-precision-loss -A clippy::cast-sign-loss -A clippy::must-use-candidate -A clippy::non-ascii-literal -D warnings
+          - run: >-
+                cargo clippy
+                --all-targets
+                --all-features
+                --
+                -W clippy::pedantic
+                -A clippy::cast-possible-truncation
+                -A clippy::cast-possible-wrap
+                -A clippy::cast-precision-loss
+                -A clippy::cast-sign-loss
+                -A clippy::must-use-candidate
+                -A clippy::non-ascii-literal
+                -D warnings
         strategy:
             matrix:
                 os:
@@ -41,3 +52,27 @@ jobs:
                   - macOS-latest
                   - ubuntu-latest
                   - windows-latest
+    coverage:
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v2
+          - uses: actions-rs/toolchain@v1
+            with:
+                toolchain: nightly
+                override: true
+                components: llvm-tools-preview
+          - uses: actions-rs/install@v0.1
+            with:
+                crate: grcov
+                use-tool-cache: true
+          - run: cargo test
+            env:
+                LLVM_PROFILE_FILE: coverage/rust.profraw
+                RUSTFLAGS: -Zinstrument-coverage
+          - run: grcov --branch -b target --keep-only 'src/*' -o coverage/lcov.info -s . coverage
+          - uses: codecov/codecov-action@v1
+            with:
+                file: coverage/lcov.info
+          - uses: coverallsapp/github-action@master
+            with:
+                github-token: ${{ secrets.GITHUB_TOKEN }}
