@@ -1,11 +1,11 @@
 use std::cmp::Ordering;
 
-pub fn partition<T: Ord>(a: &mut [T]) -> usize {
-    let (x, s) = a.split_last_mut().unwrap();
+pub fn partition<T: Ord>(values: &mut [T]) -> usize {
+    let (last, rest) = values.split_last_mut().unwrap();
 
     let mut i = 0;
     let mut j = 0;
-    let mut k = s.len();
+    let mut k = rest.len();
 
     // All elements in s[0..i] < x.
     // All elements in s[i..j] = x.
@@ -13,9 +13,9 @@ pub fn partition<T: Ord>(a: &mut [T]) -> usize {
     // All elements in s[k..] > x.
 
     while j < k {
-        match s[j].cmp(x) {
+        match rest[j].cmp(last) {
             Ordering::Less => {
-                s.swap(j, i);
+                rest.swap(j, i);
 
                 i += 1;
                 j += 1;
@@ -26,14 +26,14 @@ pub fn partition<T: Ord>(a: &mut [T]) -> usize {
             Ordering::Greater => {
                 k -= 1;
 
-                s.swap(j, k);
+                rest.swap(j, k);
             }
         }
     }
 
-    a.swap(k, a.len() - 1);
+    values.swap(k, values.len() - 1);
 
-    let middle = a.len() / 2;
+    let middle = values.len() / 2;
 
     middle.max(i).min(k)
 }

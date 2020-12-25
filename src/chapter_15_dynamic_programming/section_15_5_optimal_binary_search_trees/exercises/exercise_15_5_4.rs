@@ -1,5 +1,6 @@
 use std::f64;
 
+#[allow(clippy::many_single_char_names)]
 pub fn optimal_bst_fast(p: &[f64], q: &[f64]) -> (Box<[f64]>, Box<[usize]>) {
     let n = p.len();
     let columns = q.len();

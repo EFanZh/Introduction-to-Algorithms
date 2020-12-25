@@ -106,6 +106,7 @@ pub fn bottom_up_cut_rod(p: &[u32]) -> u32 {
 //  9      r[j] = q
 // 10  return r and s
 
+#[allow(clippy::many_single_char_names)]
 pub fn extended_bottom_up_cut_rod(p: &[u32]) -> (Box<[u32]>, Box<[usize]>) {
     let n = p.len();
     let mut r = vec![0; n + 1];

@@ -23,6 +23,7 @@ pub mod extra;
 // 16      else A[k] = R[j]
 // 17          j = j + 1
 
+#[allow(clippy::many_single_char_names)]
 pub fn merge<T: Clone + Ord>(a: &mut [T], p: usize, q: usize, r: usize) {
     let n1 = q - p;
     let n2 = r - q;

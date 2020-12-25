@@ -101,6 +101,7 @@ fn b_tree_split_child<K, V>(x: &mut Node<K, V>, i: usize) {
 // 16           i = i + 1
 // 17       B-Tree-Insert-Nonfull(x.c_i, k)
 
+#[allow(clippy::many_single_char_names)]
 fn b_tree_insert_nonfull<K: Ord, V>(x: &mut Node<K, V>, t: usize, k: K, v: V) -> Option<V> {
     match x.data.binary_search_by(|(key, _)| key.cmp(&k)) {
         Ok(i) => Some(mem::replace(&mut x.data[i].1, v)),

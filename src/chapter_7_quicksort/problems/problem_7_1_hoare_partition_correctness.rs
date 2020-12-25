@@ -13,6 +13,7 @@
 // 12          exchange A[i] with A[j]
 // 13      else return j
 
+#[allow(clippy::many_single_char_names)]
 pub fn hoare_partition<T: Clone + Ord>(a: &mut [T], p: usize, r: usize) -> usize {
     let x = a[p].clone();
     let mut i = p;
