@@ -87,7 +87,7 @@ mod tests {
     #[test]
     fn test_sort_strings() {
         fn random_str<R: Rng>(max_length: usize, rng: &mut R) -> Box<[u8]> {
-            let length = rng.gen_range(0..max_length + 1);
+            let length = rng.gen_range(0..=max_length);
 
             iter::repeat_with(|| rng.gen()).take(length).collect()
         }
