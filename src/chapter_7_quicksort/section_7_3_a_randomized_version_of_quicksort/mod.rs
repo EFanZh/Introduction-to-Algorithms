@@ -8,7 +8,7 @@ use rand::{thread_rng, Rng};
 // 3  return Partition(A, p, r)
 
 pub fn randomized_partition<T: Ord>(a: &mut [T], p: usize, r: usize) -> usize {
-    let i = thread_rng().gen_range(p, r);
+    let i = thread_rng().gen_range(p..r);
 
     a.swap(r - 1, i);
 

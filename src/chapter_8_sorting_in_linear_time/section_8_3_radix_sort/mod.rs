@@ -29,7 +29,7 @@ mod tests {
                 for _ in 0..2_usize.pow(n as _) {
                     assign_vec_from_iter(
                         &mut array_1,
-                        iter::repeat_with(|| iter::repeat_with(|| rng.gen_range(0, n)).take(k).collect::<Box<_>>())
+                        iter::repeat_with(|| iter::repeat_with(|| rng.gen_range(0..n)).take(k).collect::<Box<_>>())
                             .take(n),
                     );
 

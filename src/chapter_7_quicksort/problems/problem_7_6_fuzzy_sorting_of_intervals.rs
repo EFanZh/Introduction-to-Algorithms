@@ -63,7 +63,7 @@ fn fuzzy_partition<T: Clone + Ord>(a: &mut [(T, T)]) -> (usize, usize) {
 }
 
 fn randomized_fuzzy_partition<T: Clone + Ord, R: Rng>(a: &mut [(T, T)], rng: &mut R) -> (usize, usize) {
-    let i = rng.gen_range(0, a.len());
+    let i = rng.gen_range(0..a.len());
 
     a.swap(i, a.len() - 1);
 
@@ -113,8 +113,8 @@ mod tests {
                 assign_vec_from_iter(
                     &mut a,
                     iter::repeat_with(|| {
-                        let a = rng.gen_range(0, 30);
-                        let len = rng.gen_range(0, 30);
+                        let a = rng.gen_range(0..30);
+                        let len = rng.gen_range(0..30);
 
                         (a, a + len)
                     })

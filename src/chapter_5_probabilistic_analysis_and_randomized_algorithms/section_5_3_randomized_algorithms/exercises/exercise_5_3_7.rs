@@ -7,7 +7,7 @@ pub fn random_sample(m: usize, n: usize) -> HashSet<usize> {
             HashSet::new()
         } else {
             let mut s = helper(m - 1, n - 1, rng);
-            let i = rng.gen_range(0, n);
+            let i = rng.gen_range(0..n);
 
             if !s.insert(i) {
                 s.insert(n - 1);
@@ -25,7 +25,7 @@ pub fn random_sample_tail_recursive(m: usize, n: usize) -> HashSet<usize> {
         if k > n {
             s
         } else {
-            let i = rng.gen_range(0, k);
+            let i = rng.gen_range(0..k);
 
             if !s.insert(i) {
                 s.insert(k - 1);
@@ -43,7 +43,7 @@ pub fn random_sample_iterative(m: usize, n: usize) -> HashSet<usize> {
     let mut rng = thread_rng();
 
     for k in n + 1 - m..=n {
-        let i = rng.gen_range(0, k);
+        let i = rng.gen_range(0..k);
 
         if !s.insert(i) {
             s.insert(k - 1);

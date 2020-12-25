@@ -16,7 +16,7 @@ pub fn permute_by_sorting<T: Clone>(a: &mut [T]) {
     let cubed_n = n * n * n;
     let mut rng = thread_rng();
 
-    let p = iter::repeat_with(|| rng.gen_range(0, cubed_n)).take(n);
+    let p = iter::repeat_with(|| rng.gen_range(0..cubed_n)).take(n);
 
     // Have to use Vec<_>: https://github.com/rust-lang/rust/issues/25725
 
@@ -46,7 +46,7 @@ pub fn randomize_in_place<T>(a: &mut [T]) {
     let mut rng = thread_rng();
 
     for i in 0..n {
-        a.swap(i, rng.gen_range(i, n));
+        a.swap(i, rng.gen_range(i..n));
     }
 }
 
