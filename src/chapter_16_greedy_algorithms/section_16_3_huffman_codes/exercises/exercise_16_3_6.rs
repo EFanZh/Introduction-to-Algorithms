@@ -153,7 +153,7 @@ fn compress_bits(bits: &[bool]) -> (Box<[u8]>, usize) {
     )
 }
 
-fn decompress_bits<'a>(bits: &'a [u8], length: usize) -> impl 'a + Iterator<Item = bool> {
+fn decompress_bits(bits: &[u8], length: usize) -> impl '_ + Iterator<Item = bool> {
     bits.iter()
         .flat_map(|byte| (0..8).map(move |i| byte & (1 << i) != 0))
         .take(length)
