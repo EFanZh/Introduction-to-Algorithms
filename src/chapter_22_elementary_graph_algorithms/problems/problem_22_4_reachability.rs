@@ -12,11 +12,11 @@ fn dfs(graph: &[Vec<usize>], node: usize, label: usize, visited: &mut [bool], re
 
 pub fn reachability(graph: &[&[usize]]) -> Box<[usize]> {
     let n = graph.len();
-    let mut new_graph = vec![Vec::new(); n];
+    let mut transposed_graph = vec![Vec::new(); n];
 
     for (node, &nexts) in graph.iter().enumerate() {
         for &next in nexts {
-            new_graph[next].push(node);
+            transposed_graph[next].push(node);
         }
     }
 
@@ -27,7 +27,7 @@ pub fn reachability(graph: &[&[usize]]) -> Box<[usize]> {
         if let visited_value @ false = &mut visited[node] {
             *visited_value = true;
 
-            dfs(&new_graph, node, node, &mut visited, &mut result);
+            dfs(&transposed_graph, node, node, &mut visited, &mut result);
         }
     }
 
