@@ -40,6 +40,7 @@ mod tests {
                 assign_vec_from_iter(&mut a, iter::repeat_with(|| rng.gen()).take(n));
                 assign_vec(&mut b, &a);
 
+                #[allow(clippy::cast_precision_loss)]
                 bucket_sort_by(
                     &mut b,
                     |x| ((n as f64) * x) as usize,

@@ -125,9 +125,9 @@ impl<T: Ord> YoungTableau<T> {
                 Ordering::Greater => {
                     if j == 0 {
                         return false;
-                    } else {
-                        j -= 1;
                     }
+
+                    j -= 1;
                 }
             }
         }
@@ -135,7 +135,9 @@ impl<T: Ord> YoungTableau<T> {
 }
 
 pub fn young_tableau_sort<T: Ord + Clone>(a: &mut [T]) {
+    #[allow(clippy::cast_precision_loss)]
     let n = (a.len() as f64).sqrt().ceil() as usize;
+
     let mut young_tableau = YoungTableau::new(n, n);
 
     for value in a.iter() {

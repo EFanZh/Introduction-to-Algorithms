@@ -27,11 +27,11 @@ pub fn change_coins(mut n: usize) -> Coins {
     ] {
         if n == 0 {
             break;
-        } else {
-            **target = n / *value;
-
-            n -= *value * **target;
         }
+
+        **target = n / *value;
+
+        n -= *value * **target;
     }
 
     result

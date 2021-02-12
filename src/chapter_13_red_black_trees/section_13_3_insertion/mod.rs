@@ -244,18 +244,22 @@ mod tests {
 
     type Tree<T> = Option<Rc<RefCell<RedBlackTreeNode<T>>>>;
 
+    #[allow(clippy::unnecessary_wraps)]
     fn red<T>(key: T, left: Tree<T>, right: Tree<T>) -> Tree<T> {
         Some(RedBlackTreeNode::new(Color::Red, key, left, right))
     }
 
+    #[allow(clippy::unnecessary_wraps)]
     fn red_leaf<T>(key: T) -> Tree<T> {
         Some(RedBlackTreeNode::new_leaf(Color::Red, key))
     }
 
+    #[allow(clippy::unnecessary_wraps)]
     fn black<T>(key: T, left: Tree<T>, right: Tree<T>) -> Tree<T> {
         Some(RedBlackTreeNode::new(Color::Black, key, left, right))
     }
 
+    #[allow(clippy::unnecessary_wraps)]
     fn black_leaf<T>(key: T) -> Tree<T> {
         Some(RedBlackTreeNode::new_leaf(Color::Black, key))
     }

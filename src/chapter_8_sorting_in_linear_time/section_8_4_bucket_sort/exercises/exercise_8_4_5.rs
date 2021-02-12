@@ -6,6 +6,7 @@ pub fn bucker_sort_by_probability_distribution<T: Clone, F: FnMut(&T, &T) -> Ord
     compare: F,
     mut p: P,
 ) {
+    #[allow(clippy::cast_precision_loss)]
     let n = a.len() as f64;
 
     bucket_sort_by(a, |x| (n * p(x)).ceil() as usize - 1, compare);

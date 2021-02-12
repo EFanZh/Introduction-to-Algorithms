@@ -38,11 +38,11 @@ pub fn change_coins(coins: &[usize], n: usize) -> Box<[usize]> {
 
             if next == money {
                 break;
-            } else {
-                *target += 1;
-
-                money = next;
             }
+
+            *target += 1;
+
+            money = next;
         }
     }
 

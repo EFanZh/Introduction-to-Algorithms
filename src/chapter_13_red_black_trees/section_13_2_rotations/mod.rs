@@ -55,6 +55,7 @@ mod tests {
 
     type Tree<T> = Option<Rc<RefCell<RedBlackTreeNode<T>>>>;
 
+    #[allow(clippy::unnecessary_wraps)]
     fn make_node<T>(key: T, left: Tree<T>, right: Tree<T>) -> Tree<T> {
         Some(RedBlackTreeNode::new(Color::Black, key, left, right))
     }

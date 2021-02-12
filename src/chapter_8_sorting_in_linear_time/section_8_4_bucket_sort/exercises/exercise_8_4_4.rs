@@ -5,6 +5,7 @@ fn magnitude2((x, y): &(f64, f64)) -> f64 {
 }
 
 pub fn bucker_sort_points(a: &mut [(f64, f64)]) {
+    #[allow(clippy::cast_precision_loss)]
     let n = a.len() as f64;
 
     bucket_sort_by(
