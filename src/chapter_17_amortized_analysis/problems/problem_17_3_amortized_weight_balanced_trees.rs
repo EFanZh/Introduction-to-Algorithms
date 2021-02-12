@@ -96,12 +96,17 @@ fn insert_no_adjust<K: Ord, V>(tree: &mut Option<Box<Node<K, V>>>, key: K, value
     }
 }
 
+#[allow(clippy::cast_precision_loss)]
+fn apply_balance_factor(value: usize, balance_factor: f64) -> usize {
+    (value as f64 * balance_factor).floor() as _
+}
+
 pub fn insert<K: Ord, V>(tree: &mut Option<Box<Node<K, V>>>, balance_factor: f64, key: K, value: V) -> Option<V> {
     #[allow(clippy::option_if_let_else)]
     if let Some(node) = tree {
         match key.cmp(&node.key) {
             Ordering::Less => {
-                let max_children = ((node.size + 1) as f64 * balance_factor).floor() as usize;
+                let max_children = apply_balance_factor(node.size + 1, balance_factor);
 
                 if get_size(&node.left) + 1 > max_children {
                     let result = insert_no_adjust(&mut node.left, key, value);
@@ -125,7 +130,7 @@ pub fn insert<K: Ord, V>(tree: &mut Option<Box<Node<K, V>>>, balance_factor: f64
             }
             Ordering::Equal => Some(mem::replace(&mut node.value, value)),
             Ordering::Greater => {
-                let max_children = ((node.size + 1) as f64 * balance_factor).floor() as usize;
+                let max_children = apply_balance_factor(node.size + 1, balance_factor);
 
                 if get_size(&node.right) + 1 > max_children {
                     let result = insert_no_adjust(&mut node.right, key, value);
@@ -179,7 +184,7 @@ fn extract_min_no_adjust<K, V>(node_ref: &mut Option<Box<Node<K, V>>>) -> Option
 fn extract_min<K, V>(node_ref: &mut Option<Box<Node<K, V>>>, balance_factor: f64) -> Option<Box<Node<K, V>>> {
     #[allow(clippy::option_if_let_else)]
     if let Some(node) = node_ref {
-        let max_children = ((node.size - 1) as f64 * balance_factor).floor() as usize;
+        let max_children = apply_balance_factor(node.size - 1, balance_factor);
 
         Some(if get_size(&node.right) > max_children {
             if let Some(result) = extract_min_no_adjust(&mut node.left) {
@@ -223,7 +228,7 @@ fn lift_min_no_adjust<K, V>(node: &mut Box<Node<K, V>>) {
 }
 
 fn lift_min<K, V>(node: &mut Box<Node<K, V>>, balance_factor: f64) {
-    let max_children = ((node.size - 1) as f64 * balance_factor).floor() as usize;
+    let max_children = apply_balance_factor(node.size - 1, balance_factor);
 
     if get_size(&node.right) > max_children {
         if let Some(min) = extract_min_no_adjust(&mut node.left) {
@@ -302,7 +307,7 @@ pub fn remove<K: Borrow<Q>, V, Q: Ord + ?Sized>(
 ) -> Option<V> {
     #[allow(clippy::option_if_let_else)]
     if let Some(node) = tree {
-        let max_children = ((node.size - 1) as f64 * balance_factor).floor() as usize;
+        let max_children = apply_balance_factor(node.size - 1, balance_factor);
 
         match key.cmp(node.key.borrow()) {
             Ordering::Less => {

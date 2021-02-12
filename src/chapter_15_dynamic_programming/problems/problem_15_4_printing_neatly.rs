@@ -38,11 +38,11 @@ fn build_cut_positions(cache: &[Choice]) -> Box<[usize]> {
     while let Some(choice) = cache.get(i) {
         if choice.next_split == 0 {
             break;
-        } else {
-            result.push(choice.next_split);
-
-            i = choice.next_split;
         }
+
+        result.push(choice.next_split);
+
+        i = choice.next_split;
     }
 
     result.into()

@@ -25,11 +25,11 @@ pub fn iterate_tree<T, F: FnMut(&T)>(root: &Option<Rc<UnboundedBranchingTreeNode
                             current_node = parent_right_sibling.clone();
 
                             break;
-                        } else {
-                            // No parent’s right sibling, go to one level up.
-
-                            current_node = parent.clone();
                         }
+
+                        // No parent’s right sibling, go to one level up.
+
+                        current_node = parent.clone();
                     } else {
                         return;
                     }

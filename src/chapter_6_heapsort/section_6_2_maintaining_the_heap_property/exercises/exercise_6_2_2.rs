@@ -31,11 +31,11 @@ pub fn min_heapify_iterative<T: Ord>(a: &mut [T], mut i: usize) {
 
         if smallest == i {
             break;
-        } else {
-            a.swap(i, smallest);
-
-            i = smallest;
         }
+
+        a.swap(i, smallest);
+
+        i = smallest;
     }
 }
 

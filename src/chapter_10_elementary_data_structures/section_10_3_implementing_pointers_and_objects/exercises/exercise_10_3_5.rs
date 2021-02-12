@@ -12,11 +12,11 @@ fn fix_doubly_linked_list(prev: &mut [Handle], next: &mut [Handle], mut head: Ha
 
             if head_next == NIL {
                 break;
-            } else {
-                prev[head_next.0] = head;
-
-                head = head_next;
             }
+
+            prev[head_next.0] = head;
+
+            head = head_next;
         }
     }
 }
@@ -98,11 +98,11 @@ mod tests {
 
                 if head_next == NIL {
                     break;
-                } else {
-                    assert_eq!(prev[head_next.0], head);
-
-                    head = head_next;
                 }
+
+                assert_eq!(prev[head_next.0], head);
+
+                head = head_next;
             }
         }
     }

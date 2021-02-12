@@ -122,9 +122,9 @@ impl<T: Hash + Eq> HashTable<T> {
                             *next = new_slot_index;
 
                             break;
-                        } else {
-                            i = *next;
                         }
+
+                        i = *next;
                     }
 
                     self.memory[hash_value] = Slot::Occupied {
@@ -142,9 +142,9 @@ impl<T: Hash + Eq> HashTable<T> {
         while let Some(Slot::Occupied { value, next }) = self.memory.get(i) {
             if value == x {
                 return Some(&value);
-            } else {
-                i = *next;
             }
+
+            i = *next;
         }
 
         None

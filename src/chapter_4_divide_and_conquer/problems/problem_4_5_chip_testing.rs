@@ -51,9 +51,9 @@ pub fn find_one_good_chip<T: Chip>(chips: &[T]) -> Option<&T> {
                         level += 1;
 
                         continue;
-                    } else {
-                        break;
                     }
+
+                    break;
                 }
             }
 

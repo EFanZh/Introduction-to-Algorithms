@@ -20,6 +20,7 @@ pub fn bucket_sort(a: &mut [f64]) {
     let mut b = vec![Vec::new(); n];
 
     for &a_i in a.iter() {
+        #[allow(clippy::cast_precision_loss)]
         b[(n as f64 * a_i) as usize].push(a_i);
     }
 

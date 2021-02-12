@@ -4,6 +4,7 @@ use super::{
     insert, remove, Color, Node, RedBlackTreeMap, Tree,
 };
 
+#[allow(clippy::unnecessary_wraps)]
 fn red<K, V>(key: K, value: V, left: Tree<K, V>, right: Tree<K, V>) -> Tree<K, V> {
     Some(Box::new(Node {
         color: Color::Red,
@@ -14,6 +15,7 @@ fn red<K, V>(key: K, value: V, left: Tree<K, V>, right: Tree<K, V>) -> Tree<K, V
     }))
 }
 
+#[allow(clippy::unnecessary_wraps)]
 fn red_leaf<K, V>(key: K, value: V) -> Tree<K, V> {
     Some(Box::new(Node {
         color: Color::Red,
@@ -24,6 +26,7 @@ fn red_leaf<K, V>(key: K, value: V) -> Tree<K, V> {
     }))
 }
 
+#[allow(clippy::unnecessary_wraps)]
 fn black<K, V>(key: K, value: V, left: Tree<K, V>, right: Tree<K, V>) -> Tree<K, V> {
     Some(Box::new(Node {
         color: Color::Black,
@@ -34,6 +37,7 @@ fn black<K, V>(key: K, value: V, left: Tree<K, V>, right: Tree<K, V>) -> Tree<K,
     }))
 }
 
+#[allow(clippy::unnecessary_wraps)]
 fn black_leaf<K, V>(key: K, value: V) -> Tree<K, V> {
     Some(Box::new(Node {
         color: Color::Black,

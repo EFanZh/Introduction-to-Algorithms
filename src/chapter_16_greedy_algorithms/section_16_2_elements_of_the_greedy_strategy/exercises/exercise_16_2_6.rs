@@ -47,10 +47,10 @@ fn quick_select(mut items: &mut [&KeyValuePair<Ratio<u64>, ProcessedItem>], mut 
 
             if middle_and_right_weight >= capacity {
                 return base + left_length;
-            } else {
-                items = left;
-                capacity -= middle_and_right_weight;
             }
+
+            items = left;
+            capacity -= middle_and_right_weight;
         } else {
             base += left_length + 1;
             items = right;

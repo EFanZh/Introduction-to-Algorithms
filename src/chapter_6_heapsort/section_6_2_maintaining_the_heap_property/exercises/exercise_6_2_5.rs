@@ -14,11 +14,11 @@ pub fn max_heapify_iterative<T: Ord>(a: &mut [T], mut i: usize) {
 
         if largest == i {
             break;
-        } else {
-            a.swap(i, largest);
-
-            i = largest;
         }
+
+        a.swap(i, largest);
+
+        i = largest;
     }
 }
 

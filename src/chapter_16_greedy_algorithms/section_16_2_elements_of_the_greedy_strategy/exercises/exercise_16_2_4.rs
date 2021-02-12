@@ -26,9 +26,9 @@ pub fn select_water_stops(water_stops: &[u64], total_distance: u64, max_skate_le
                 farest_distance = stop + max_skate_length;
 
                 break;
-            } else {
-                return None;
             }
+
+            return None;
         }
     }
 
