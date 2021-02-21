@@ -28,6 +28,7 @@ mod tests {
     use rand::{thread_rng, Rng};
     use std::iter;
 
+    #[allow(clippy::cast_possible_wrap)]
     fn run_test_flip_coin<F: FnMut(i32, i32) -> bool>(mut f: F) {
         let samples = 100_000;
 
