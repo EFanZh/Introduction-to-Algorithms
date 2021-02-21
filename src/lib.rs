@@ -1,6 +1,5 @@
 #![warn(clippy::pedantic)]
 #![allow(clippy::cast_possible_truncation)]
-#![allow(clippy::cast_possible_wrap)]
 #![allow(clippy::cast_sign_loss)]
 #![allow(clippy::must_use_candidate)]
 #![allow(clippy::non_ascii_literal)]
