@@ -43,6 +43,7 @@ impl<T> DirectAddressDictionary<T> {
     }
 
     pub fn delete(&mut self, key: usize) {
+        #[allow(clippy::get_unwrap)]
         let (value, key_index) = self.memory.get_mut(key).unwrap();
 
         assert_eq!(self.keys.get(*key_index), Some(&key));
