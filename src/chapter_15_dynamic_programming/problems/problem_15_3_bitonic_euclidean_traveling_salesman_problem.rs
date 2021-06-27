@@ -8,7 +8,7 @@ fn distance(p_0: &(f64, f64), p_1: &(f64, f64)) -> f64 {
     let dx = p_1.0 - p_0.0;
     let dy = p_1.1 - p_0.1;
 
-    (dx * dx + dy * dy).sqrt()
+    dx.hypot(dy)
 }
 
 fn reverse_copy<T: Copy>(target: &mut [T], source: &[T]) {
