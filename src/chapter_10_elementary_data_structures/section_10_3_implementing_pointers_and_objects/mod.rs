@@ -20,7 +20,7 @@ impl<T> Default for MultipleArrayDoublyLinkedListElementPool<T> {
 
 impl<T> MultipleArrayDoublyLinkedListElementPool<T> {
     #[must_use]
-    pub fn new() -> MultipleArrayDoublyLinkedListElementPool<T> {
+    pub fn new() -> Self {
         Self {
             key: Vec::new(),
             next: Vec::new(),

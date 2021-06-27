@@ -6,8 +6,8 @@ struct Node<T> {
 }
 
 impl<T> Node<T> {
-    fn new(value: T, children: Option<(usize, usize)>) -> Node<T> {
-        Node { value, children }
+    fn new(value: T, children: Option<(usize, usize)>) -> Self {
+        Self { value, children }
     }
 }
 
@@ -20,8 +20,8 @@ struct Region<T> {
 }
 
 impl<T> Region<T> {
-    fn with_capacity(capacity: usize) -> Region<T> {
-        Region {
+    fn with_capacity(capacity: usize) -> Self {
+        Self {
             memory: Vec::with_capacity(capacity),
         }
     }

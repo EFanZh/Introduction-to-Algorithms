@@ -47,7 +47,7 @@ impl Employee {
         self.conviviality
     }
 
-    pub fn subordinates(&self) -> impl Iterator<Item = &Employee> {
+    pub fn subordinates(&self) -> impl Iterator<Item = &Self> {
         iter::successors(self.left_child.as_deref(), |node| node.right_sibling.as_deref())
     }
 }

@@ -6,7 +6,7 @@ pub struct DAryHeap<T> {
 impl<T: Ord> DAryHeap<T> {
     #[must_use]
     pub fn new(d: usize) -> Self {
-        DAryHeap { data: Vec::new(), d }
+        Self { data: Vec::new(), d }
     }
 
     fn parent(&self, i: usize) -> usize {

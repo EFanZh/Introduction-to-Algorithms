@@ -80,7 +80,7 @@ mod tests {
     }
 
     impl Chip for TestChip {
-        fn test(&self, chip: &TestChip) -> bool {
+        fn test(&self, chip: &Self) -> bool {
             match self {
                 TestChip::Good => match chip {
                     TestChip::Good => true,

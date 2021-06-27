@@ -1,12 +1,12 @@
 #[derive(PartialEq, Eq, Clone, Debug)]
 pub struct Node<K, V> {
     pub(super) data: Vec<(K, V)>,
-    pub(super) children: Vec<Node<K, V>>,
+    pub(super) children: Vec<Self>,
 }
 
 impl<K, V> Node<K, V> {
     #[must_use]
-    pub fn internal(data: Vec<(K, V)>, children: Vec<Node<K, V>>) -> Self {
+    pub fn internal(data: Vec<(K, V)>, children: Vec<Self>) -> Self {
         assert_eq!(data.len() + 1, children.len());
 
         Self { data, children }

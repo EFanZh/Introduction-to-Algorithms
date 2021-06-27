@@ -21,7 +21,7 @@ impl<T> Default for ObjectPool<T> {
 
 impl<T> ObjectPool<T> {
     #[must_use]
-    pub fn new() -> ObjectPool<T> {
+    pub fn new() -> Self {
         Self {
             memory: Vec::new(),
             free: NIL,

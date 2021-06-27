@@ -11,7 +11,7 @@ pub struct SinglyLinkedListElement<T>(Rc<RefCell<SinglyLinkedListElementContent<
 
 impl<T> SinglyLinkedListElement<T> {
     pub fn new(value: T) -> Self {
-        SinglyLinkedListElement(Rc::new(RefCell::new(SinglyLinkedListElementContent {
+        Self(Rc::new(RefCell::new(SinglyLinkedListElementContent {
             key: value,
             next: None,
         })))
