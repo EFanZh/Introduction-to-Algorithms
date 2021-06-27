@@ -8,6 +8,7 @@ pub struct FixedSizeArrayDeque<T> {
 }
 
 impl<T> FixedSizeArrayDeque<T> {
+    #[must_use]
     pub fn with_capacity(capacity: usize) -> Self {
         Self {
             storage: iter::repeat_with(|| None).take(capacity + 1).collect(),

@@ -1,5 +1,6 @@
 use super::super::{Attribute, Color};
 
+#[must_use]
 pub fn dfs(graph: &[Vec<usize>]) -> Vec<Attribute> {
     let mut stack = Vec::new();
     let mut attributes = vec![Attribute::default(); graph.len()];

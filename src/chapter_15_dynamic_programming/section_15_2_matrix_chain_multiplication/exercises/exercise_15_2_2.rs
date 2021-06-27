@@ -1,5 +1,6 @@
 use ndarray::{Array2, LinalgScalar};
 
+#[must_use]
 pub fn matrix_chain_multiply<T: Clone + LinalgScalar>(
     a: &[Array2<T>],
     s: &Array2<usize>,

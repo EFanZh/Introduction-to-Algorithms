@@ -16,6 +16,7 @@ impl<T: Ord> Default for FifoQueue<T> {
 }
 
 impl<T: Ord> FifoQueue<T> {
+    #[must_use]
     pub fn new() -> Self {
         Self {
             q: VecMinPriorityQueue::new(),
@@ -56,6 +57,7 @@ impl<T: Ord> Default for LifoStack<T> {
 }
 
 impl<T: Ord> LifoStack<T> {
+    #[must_use]
     pub fn new() -> Self {
         Self {
             q: VecMaxPriorityQueue::new(),

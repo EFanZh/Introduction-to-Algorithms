@@ -32,6 +32,7 @@ pub fn b_tree_search<'a, K: Ord + Borrow<Q>, V, Q: Ord + ?Sized>(x: &'a Node<K, 
 // 4 Disk-Write(x)
 // 5 T.root = x
 
+#[must_use]
 pub fn b_tree_create<K, V>() -> Node<K, V> {
     Node::leaf(Vec::new())
 }

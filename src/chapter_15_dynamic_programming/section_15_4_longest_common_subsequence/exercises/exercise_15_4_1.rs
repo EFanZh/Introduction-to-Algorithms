@@ -1,5 +1,6 @@
 use super::super::{lcs_length, print_lcs};
 
+#[must_use]
 pub fn solve() -> Box<[u8]> {
     let x = [1, 0, 0, 1, 0, 1, 0, 1];
     let y = [0, 1, 0, 1, 1, 0, 1, 1, 0];

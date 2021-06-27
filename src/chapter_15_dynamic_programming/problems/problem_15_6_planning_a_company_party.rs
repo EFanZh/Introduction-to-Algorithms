@@ -27,6 +27,7 @@ impl Employee {
         result
     }
 
+    #[must_use]
     pub fn new_leaf(name: String, conviviality: f64) -> Self {
         Self {
             name,
@@ -36,10 +37,12 @@ impl Employee {
         }
     }
 
+    #[must_use]
     pub fn name(&self) -> &str {
         &self.name
     }
 
+    #[must_use]
     pub fn conviviality(&self) -> f64 {
         self.conviviality
     }
@@ -102,6 +105,7 @@ fn build_attendance_list<'a>(cache: &CacheItem<'a>, result: &mut Vec<&'a Employe
     }
 }
 
+#[must_use]
 pub fn plan_party(president: &Employee) -> (Box<[&Employee]>, f64) {
     let cache = build_conviviality_cache(president);
     let mut result = Vec::new();

@@ -21,6 +21,7 @@ pub mod exercises;
 // 14  return m and s
 
 #[allow(clippy::many_single_char_names)]
+#[must_use]
 pub fn matrix_chain_order(p: &[usize]) -> (Array2<usize>, Array2<usize>) {
     let n = p.len() - 1;
     let mut m = Array2::zeros((n, n));
@@ -77,6 +78,7 @@ impl Display for Parens {
 // 5       Print-Optimal-Parens(s, s[i, j] + 1, j)
 // 6       print “)”
 
+#[must_use]
 pub fn print_optimal_parens(s: &Array2<usize>, i: usize, j: usize) -> Parens {
     if i + 1 == j {
         Parens::Single(i)

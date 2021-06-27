@@ -59,6 +59,7 @@ impl<T: Ord> Default for DynamicArray<T> {
 }
 
 impl<T: Ord> DynamicArray<T> {
+    #[must_use]
     pub fn new() -> Self {
         Self {
             data: Box::new([]),
@@ -67,10 +68,12 @@ impl<T: Ord> DynamicArray<T> {
         }
     }
 
+    #[must_use]
     pub fn len(&self) -> usize {
         self.len
     }
 
+    #[must_use]
     pub fn is_empty(&self) -> bool {
         self.len() == 0
     }

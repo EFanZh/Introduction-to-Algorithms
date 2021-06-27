@@ -1,5 +1,6 @@
 use ndarray::{s, Array2, Axis};
 
+#[must_use]
 pub fn has_universal_sink(matrix: &Array2<bool>) -> bool {
     let n = matrix.nrows();
     let mut row = 0;

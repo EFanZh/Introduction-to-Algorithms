@@ -70,6 +70,7 @@ pub fn dfs_visit(g: &[Vec<usize>], u: usize, time: &mut usize, attributes: &mut 
 // 6      if u.color == white
 // 7          DFS-Visit(G, u)
 
+#[must_use]
 pub fn dfs(g: &[Vec<usize>]) -> Vec<Attribute> {
     let mut attributes = vec![Attribute::default(); g.len()];
     let mut time = 0;

@@ -1,6 +1,7 @@
 use super::super::optimal_bst;
 use super::exercise_15_5_1::construct_optimal_bst;
 
+#[must_use]
 pub fn solve() -> (f64, Box<[String]>) {
     let p = [0.04, 0.06, 0.08, 0.02, 0.10, 0.12, 0.14];
     let q = [0.06, 0.06, 0.06, 0.06, 0.05, 0.05, 0.05, 0.05];

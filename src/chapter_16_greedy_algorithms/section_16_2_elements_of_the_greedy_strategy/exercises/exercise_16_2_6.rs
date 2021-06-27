@@ -60,6 +60,7 @@ fn quick_select(mut items: &mut [&KeyValuePair<Ratio<u64>, ProcessedItem>], mut 
     base
 }
 
+#[must_use]
 pub fn select_items(items: &[Item], capacity: u64) -> Box<[u64]> {
     let processed_items = items
         .iter()

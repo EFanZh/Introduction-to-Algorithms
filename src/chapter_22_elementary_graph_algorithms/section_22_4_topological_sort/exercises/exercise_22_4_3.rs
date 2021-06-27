@@ -14,6 +14,7 @@ fn helper(graph: &[Vec<usize>], parent: usize, node: usize, visited: &mut [bool]
     false
 }
 
+#[must_use]
 pub fn has_cycle(graph: &[Vec<usize>]) -> bool {
     let mut visited = vec![false; graph.len()];
 

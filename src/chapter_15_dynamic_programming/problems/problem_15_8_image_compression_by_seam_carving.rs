@@ -8,6 +8,7 @@ enum NextPixelLocation {
     Right,
 }
 
+#[must_use]
 pub fn seam_carving(disruptions: &[f64], columns: usize) -> Box<[usize]> {
     let pixels = disruptions.len();
     let rows = pixels / columns;

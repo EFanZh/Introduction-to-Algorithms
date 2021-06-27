@@ -6,6 +6,7 @@ pub struct Activity {
     pub value: u64,
 }
 
+#[must_use]
 pub fn select_activities(activities: &[Activity]) -> (u64, Box<[usize]>) {
     let mut cache = vec![(0, 0); activities.len()];
 

@@ -45,6 +45,7 @@ fn dfs_2(
     }
 }
 
+#[must_use]
 pub fn get_scc_graph(g: &[Vec<usize>]) -> (Vec<Vec<usize>>, Vec<Vec<usize>>) {
     // First DFS.
 

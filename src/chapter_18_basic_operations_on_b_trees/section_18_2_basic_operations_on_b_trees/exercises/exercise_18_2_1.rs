@@ -1,6 +1,7 @@
 use super::super::super::section_18_1_definition_of_b_trees::Node;
 use super::super::{b_tree_create, b_tree_insert};
 
+#[must_use]
 pub fn get_tree() -> Node<char, ()> {
     let mut result = b_tree_create();
 

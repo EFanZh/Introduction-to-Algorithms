@@ -5,6 +5,7 @@ pub struct BaseballPlayer {
     vorp: u64,
 }
 
+#[must_use]
 pub fn sign_baseball_players(
     players: &[BaseballPlayer],
     players_per_position: usize,

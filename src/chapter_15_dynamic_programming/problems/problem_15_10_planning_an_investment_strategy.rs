@@ -1,3 +1,4 @@
+#[must_use]
 pub fn plan_investment_strategy(
     return_rates: &[f64],
     years: usize,

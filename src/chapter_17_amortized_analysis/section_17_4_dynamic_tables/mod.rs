@@ -12,6 +12,7 @@ impl<T> Default for DynamicTable<T> {
 }
 
 impl<T> DynamicTable<T> {
+    #[must_use]
     pub fn new() -> Self {
         Self {
             slots: Box::new([]),
@@ -23,10 +24,12 @@ impl<T> DynamicTable<T> {
         iter::repeat_with(|| None).take(length).collect::<Box<_>>()
     }
 
+    #[must_use]
     pub fn len(&self) -> usize {
         self.length
     }
 
+    #[must_use]
     pub fn is_empty(&self) -> bool {
         self.length == 0
     }

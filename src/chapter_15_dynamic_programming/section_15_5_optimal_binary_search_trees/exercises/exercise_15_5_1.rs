@@ -18,6 +18,7 @@ fn construct_optimal_bst_helper<F: FnMut(usize, usize) -> usize>(
     }
 }
 
+#[must_use]
 pub fn construct_optimal_bst(root: &[usize], n: usize) -> Box<[String]> {
     let mut result = Vec::new();
     let mut root_fn = |i, j| root[n * i + (j - 1)];

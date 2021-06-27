@@ -10,6 +10,7 @@ fn dfs_visit(graph: &[Vec<usize>], node: usize, visited: &mut [bool], cc: usize,
     }
 }
 
+#[must_use]
 pub fn get_connected_components(graph: &[Vec<usize>]) -> Vec<usize> {
     let mut cc = 0;
     let mut visited = vec![false; graph.len()];

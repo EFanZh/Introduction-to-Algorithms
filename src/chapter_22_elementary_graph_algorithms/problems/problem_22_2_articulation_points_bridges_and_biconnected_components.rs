@@ -2,6 +2,7 @@ use std::{iter, mem};
 
 type Edge = (usize, usize);
 
+#[must_use]
 pub fn compute_low_values(graph: &[Vec<usize>]) -> Box<[usize]> {
     fn dfs(
         graph: &[Vec<usize>],
@@ -33,6 +34,7 @@ pub fn compute_low_values(graph: &[Vec<usize>]) -> Box<[usize]> {
     states.into_vec().into_iter().map(Option::unwrap).collect()
 }
 
+#[must_use]
 pub fn compute_articulation_points(graph: &[Vec<usize>]) -> Box<[usize]> {
     fn dfs(
         graph: &[Vec<usize>],
@@ -95,6 +97,7 @@ pub fn compute_articulation_points(graph: &[Vec<usize>]) -> Box<[usize]> {
     result.into_boxed_slice()
 }
 
+#[must_use]
 pub fn compute_bridges(graph: &[Vec<usize>]) -> Box<[Edge]> {
     fn dfs(
         graph: &[Vec<usize>],
@@ -145,6 +148,7 @@ pub fn compute_bridges(graph: &[Vec<usize>]) -> Box<[Edge]> {
     result.into_boxed_slice()
 }
 
+#[must_use]
 pub fn compute_biconnected_components(graph: &[Vec<usize>]) -> Box<[Box<[Edge]>]> {
     enum State {
         Unvisited,

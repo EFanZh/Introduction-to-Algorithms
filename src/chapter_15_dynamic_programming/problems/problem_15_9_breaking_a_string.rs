@@ -9,6 +9,7 @@ fn build_result(cache: &[(usize, Option<usize>)], break_points: &[usize], i: usi
     }
 }
 
+#[must_use]
 pub fn break_string(length: usize, break_points: &[usize]) -> (usize, Box<[usize]>) {
     let n = break_points.len();
     let columns = n + 1;

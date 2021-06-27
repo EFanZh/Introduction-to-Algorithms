@@ -1,3 +1,4 @@
+#[must_use]
 pub fn preprocess_numbers_in_range(a: &[usize], k: usize) -> Vec<usize> {
     let mut c = vec![0; k];
 
@@ -16,6 +17,7 @@ pub fn preprocess_numbers_in_range(a: &[usize], k: usize) -> Vec<usize> {
     c
 }
 
+#[must_use]
 pub fn count_numbers_in_range(c: &[usize], a: usize, b: usize) -> usize {
     if a <= b && a < c.len() {
         let low = if a == 0 { 0 } else { c[a - 1] };

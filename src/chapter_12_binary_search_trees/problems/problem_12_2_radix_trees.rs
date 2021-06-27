@@ -12,6 +12,7 @@ impl<T: Ord> Default for RadixTree<T> {
 }
 
 impl<T: Ord> RadixTree<T> {
+    #[must_use]
     pub fn new() -> Self {
         Self {
             has_value: false,

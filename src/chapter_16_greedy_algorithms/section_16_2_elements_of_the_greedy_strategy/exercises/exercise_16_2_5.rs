@@ -1,5 +1,6 @@
 // Assume the points are sorted in increasing order.
 
+#[must_use]
 pub fn cover_points(mut points: &[f64]) -> Box<[f64]> {
     let mut result = Vec::new();
 

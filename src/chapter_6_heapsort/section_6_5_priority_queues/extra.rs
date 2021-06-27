@@ -28,6 +28,7 @@ impl<T: Ord> Default for VecMaxPriorityQueue<T> {
 }
 
 impl<T: Ord> VecMaxPriorityQueue<T> {
+    #[must_use]
     pub fn new() -> Self {
         Self { a: Vec::new() }
     }
@@ -66,6 +67,7 @@ impl<T: Ord> Default for VecMinPriorityQueue<T> {
 }
 
 impl<T: Ord> VecMinPriorityQueue<T> {
+    #[must_use]
     pub fn new() -> Self {
         Self { a: Vec::new() }
     }

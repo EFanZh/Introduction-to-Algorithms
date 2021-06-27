@@ -1,5 +1,6 @@
 use super::super::{matrix_chain_order, print_optimal_parens};
 
+#[must_use]
 pub fn solve() -> String {
     let p = [5, 10, 3, 12, 5, 50, 6];
     let (_, s) = matrix_chain_order(&p);

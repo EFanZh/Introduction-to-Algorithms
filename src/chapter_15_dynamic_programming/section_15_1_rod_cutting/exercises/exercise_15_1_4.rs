@@ -26,6 +26,7 @@ fn memoized_cut_rod_aux(p: &[u32], revenue_and_first_cuts: &mut [Option<(u32, us
     }
 }
 
+#[must_use]
 pub fn memoized_cut_rod_with_solution(p: &[u32]) -> (u32, Box<[usize]>) {
     let n = p.len();
     let mut revenue_and_first_cuts = vec![None; n + 1];

@@ -5,12 +5,14 @@ pub struct Node<K, V> {
 }
 
 impl<K, V> Node<K, V> {
+    #[must_use]
     pub fn internal(data: Vec<(K, V)>, children: Vec<Node<K, V>>) -> Self {
         assert_eq!(data.len() + 1, children.len());
 
         Self { data, children }
     }
 
+    #[must_use]
     pub fn leaf(data: Vec<(K, V)>) -> Self {
         Self {
             data,

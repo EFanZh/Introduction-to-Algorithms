@@ -19,6 +19,7 @@ impl<T> Default for MultipleArrayDoublyLinkedListElementPool<T> {
 }
 
 impl<T> MultipleArrayDoublyLinkedListElementPool<T> {
+    #[must_use]
     pub fn new() -> MultipleArrayDoublyLinkedListElementPool<T> {
         Self {
             key: Vec::new(),
@@ -70,6 +71,7 @@ impl<T> MultipleArrayDoublyLinkedListElementPool<T> {
         self.free = x;
     }
 
+    #[must_use]
     pub fn get_key(&self, handle: Handle) -> &T {
         &self.key[handle.0]
     }

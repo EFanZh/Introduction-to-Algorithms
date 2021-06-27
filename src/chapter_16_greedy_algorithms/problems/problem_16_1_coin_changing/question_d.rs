@@ -1,3 +1,4 @@
+#[must_use]
 pub fn change_coins(coins: &[usize], n: usize) -> Box<[usize]> {
     let columns = n + 1;
     let mut cache = vec![None; columns * (coins.len() + 1)];

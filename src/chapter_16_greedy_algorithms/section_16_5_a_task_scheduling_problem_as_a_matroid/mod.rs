@@ -8,6 +8,7 @@ pub struct Task {
     pub penalty: u64,
 }
 
+#[must_use]
 pub fn schedule_task(tasks: &[Task]) -> Box<[usize]> {
     let mut early_tasks = Vec::new();
     let mut deadline_tasks = vec![0; tasks.len()];

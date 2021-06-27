@@ -1,3 +1,4 @@
+#[must_use]
 pub fn select_water_stops(water_stops: &[u64], total_distance: u64, max_skate_length: u64) -> Option<Box<[usize]>> {
     let mut result = Vec::new();
     let mut iter = water_stops.iter().copied().enumerate();

@@ -1,5 +1,6 @@
 use std::cmp::Ordering;
 
+#[must_use]
 pub fn two_sum(s: &[i32], x: i32) -> bool {
     let a_sorted = {
         let mut a_temp = s.to_vec();

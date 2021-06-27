@@ -60,6 +60,7 @@ fn helper_directed(
     attributes[node].color = Color::Black;
 }
 
+#[must_use]
 pub fn get_edge_types_directed(graph: &[Vec<usize>]) -> Vec<((usize, usize), EdgeType)> {
     let mut result = Vec::new();
 
@@ -110,6 +111,7 @@ fn helper_undirected(
     colors[node] = Color::Black;
 }
 
+#[must_use]
 pub fn get_edge_types_undirected(graph: &[Vec<usize>]) -> Vec<((usize, usize), EdgeType)> {
     let mut result = Vec::new();
     let mut colors = vec![Color::White; graph.len()];

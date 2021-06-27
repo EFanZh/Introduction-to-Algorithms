@@ -1,6 +1,7 @@
 use rand::{thread_rng, Rng};
 use std::collections::HashSet;
 
+#[must_use]
 pub fn random_sample(m: usize, n: usize) -> HashSet<usize> {
     fn helper<R: Rng>(m: usize, n: usize, rng: &mut R) -> HashSet<usize> {
         if m == 0 {
@@ -20,6 +21,7 @@ pub fn random_sample(m: usize, n: usize) -> HashSet<usize> {
     helper(m, n, &mut thread_rng())
 }
 
+#[must_use]
 pub fn random_sample_tail_recursive(m: usize, n: usize) -> HashSet<usize> {
     fn helper<R: Rng>(n: usize, mut s: HashSet<usize>, mut rng: R, k: usize) -> HashSet<usize> {
         if k > n {
@@ -38,6 +40,7 @@ pub fn random_sample_tail_recursive(m: usize, n: usize) -> HashSet<usize> {
     helper(n, HashSet::with_capacity(m), thread_rng(), n + 1 - m)
 }
 
+#[must_use]
 pub fn random_sample_iterative(m: usize, n: usize) -> HashSet<usize> {
     let mut s = HashSet::with_capacity(m);
     let mut rng = thread_rng();

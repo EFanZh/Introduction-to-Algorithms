@@ -4,12 +4,14 @@ pub mod exercises;
 
 /// Returns `k % m`.
 
+#[must_use]
 pub fn hash_by_division(k: u64, m: u64) -> u64 {
     k % m
 }
 
 /// Returns ⌊(2 ^ p) × ((k × (s / (2 ^ 64))) mod 1)⌋.
 
+#[must_use]
 pub fn hash_by_multiplication(k: u64, s: u64, p: usize) -> u64 {
     k.wrapping_mul(s) >> (mem::size_of::<u64>() * 8 - p)
 }

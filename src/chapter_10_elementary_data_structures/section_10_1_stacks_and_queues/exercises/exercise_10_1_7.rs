@@ -14,6 +14,7 @@ impl<T> Default for ArrayQueueStack<T> {
 }
 
 impl<T> ArrayQueueStack<T> {
+    #[must_use]
     pub fn new() -> Self {
         Self {
             queue: ArrayQueue::new(),

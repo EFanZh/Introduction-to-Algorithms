@@ -40,6 +40,7 @@ pub fn recursive_activity_selector(s: &[u64], f: &[u64], k: usize) -> Vec<usize>
 // 7          k = m
 // 8  return A
 
+#[must_use]
 pub fn greedy_activity_selector(s: &[u64], f: &[u64]) -> Box<[usize]> {
     let mut last_finish_time = 0;
 

@@ -20,6 +20,7 @@ impl<T> Default for ObjectPool<T> {
 }
 
 impl<T> ObjectPool<T> {
+    #[must_use]
     pub fn new() -> ObjectPool<T> {
         Self {
             memory: Vec::new(),
@@ -56,6 +57,7 @@ impl<T> ObjectPool<T> {
         self.free = x;
     }
 
+    #[must_use]
     pub fn get(&self, handle: Handle) -> &T {
         if let Slot::Occupied(value) = &self.memory[handle.0] {
             value

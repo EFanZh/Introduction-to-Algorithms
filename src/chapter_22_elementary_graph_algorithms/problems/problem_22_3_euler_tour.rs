@@ -14,6 +14,7 @@ fn dfs(graph: &mut [Vec<usize>], node: usize, target: usize, result: &mut Vec<us
 }
 
 // Not 100 % sure that this is correct.
+#[must_use]
 pub fn euler_tour(graph: &[&[usize]]) -> Option<Box<[usize]>> {
     let mut new_graph = Vec::new();
     let mut total_edges = 0;

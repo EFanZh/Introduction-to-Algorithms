@@ -13,6 +13,7 @@ impl<T> Default for ArrayStackQueue<T> {
 }
 
 impl<T> ArrayStackQueue<T> {
+    #[must_use]
     pub fn new() -> Self {
         Self {
             front: ArrayStack::new(),

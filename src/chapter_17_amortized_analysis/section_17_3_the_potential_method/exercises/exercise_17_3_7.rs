@@ -11,6 +11,7 @@ impl<T: Ord> Default for DynamicMultiset<T> {
 }
 
 impl<T: Ord> DynamicMultiset<T> {
+    #[must_use]
     pub fn new() -> Self {
         Self { data: Vec::new() }
     }
@@ -31,6 +32,7 @@ impl<T: Ord> DynamicMultiset<T> {
         self.data.truncate(half_length);
     }
 
+    #[must_use]
     pub fn as_slice(&self) -> &[T] {
         &self.data
     }

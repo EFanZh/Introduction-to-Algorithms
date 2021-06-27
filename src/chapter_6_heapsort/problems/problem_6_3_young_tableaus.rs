@@ -8,6 +8,7 @@ pub struct YoungTableau<T: Ord> {
 }
 
 impl<T: Ord> YoungTableau<T> {
+    #[must_use]
     pub fn new(num_rows: usize, num_columns: usize) -> Self {
         YoungTableau {
             data: iter::repeat_with(|| Infinitable::Infinity)

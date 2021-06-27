@@ -22,6 +22,7 @@ pub fn transpose_adjacency_list<T: Hash + Eq + Clone, S: BuildHasher + Clone>(
     result
 }
 
+#[must_use]
 pub fn transpose_adjacency_matrix<T: Clone>(matrix: &Array2<T>) -> Array2<T> {
     matrix.t().to_owned()
 }

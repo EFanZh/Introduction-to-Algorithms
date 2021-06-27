@@ -33,6 +33,7 @@ pub fn square_adjacency_list<T: Hash + Eq + Clone, S: BuildHasher + Clone>(
     result
 }
 
+#[must_use]
 pub fn square_adjacency_matrix(matrix: &Array2<bool>) -> Array2<bool> {
     let mut result = matrix.clone();
 

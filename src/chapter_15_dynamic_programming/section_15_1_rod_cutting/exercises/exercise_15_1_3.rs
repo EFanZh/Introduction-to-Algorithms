@@ -1,3 +1,4 @@
+#[must_use]
 pub fn extended_bottom_up_cut_rod_with_cutting_cost(p: &[u32], c: u32) -> (Box<[u32]>, Box<[usize]>) {
     let n = p.len();
     let mut revenues = vec![0; n + 1];

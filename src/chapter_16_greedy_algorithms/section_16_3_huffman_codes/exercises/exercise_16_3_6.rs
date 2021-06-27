@@ -159,10 +159,12 @@ fn decompress_bits(bits: &[u8], length: usize) -> impl '_ + Iterator<Item = bool
         .take(length)
 }
 
+#[must_use]
 pub fn encode_tree(tree: &Node) -> (Box<[u8]>, usize) {
     compress_bits(&encode_helper(tree))
 }
 
+#[must_use]
 pub fn decode_tree(data: &[u8], length: usize) -> Node {
     decode_helper(decompress_bits(data, length))
 }

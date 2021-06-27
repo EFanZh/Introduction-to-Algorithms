@@ -12,6 +12,7 @@ impl<T> Default for TwoStacks<T> {
 }
 
 impl<T> TwoStacks<T> {
+    #[must_use]
     pub fn new() -> Self {
         Self {
             storage: VecDeque::new(),
@@ -19,6 +20,7 @@ impl<T> TwoStacks<T> {
         }
     }
 
+    #[must_use]
     pub fn empty_1(&self) -> bool {
         self.left_stack_size == 0
     }
@@ -38,6 +40,7 @@ impl<T> TwoStacks<T> {
         result
     }
 
+    #[must_use]
     pub fn empty_2(&self) -> bool {
         self.storage.len() == self.left_stack_size
     }

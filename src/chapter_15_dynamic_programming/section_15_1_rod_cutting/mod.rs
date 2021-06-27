@@ -11,6 +11,7 @@ pub mod exercises;
 // 5      q = max(q, p[i] + Cut-Rod(p, n - i))
 // 6  return q
 
+#[must_use]
 pub fn cut_rod(p: &[u32]) -> u32 {
     let n = p.len();
 
@@ -57,6 +58,7 @@ fn memoized_cut_rod_aux(p: &[u32], r: &mut [Option<u32>]) -> u32 {
 // 3      r[i] = -∞
 // 4  return Memoized-Cut-Rod-Aux(p, n, r)
 
+#[must_use]
 pub fn memoized_cut_rod(p: &[u32]) -> u32 {
     let n = p.len();
     let mut r = vec![None; n + 1];
@@ -75,6 +77,7 @@ pub fn memoized_cut_rod(p: &[u32]) -> u32 {
 // 7      r[j] = q
 // 8  return r[n]
 
+#[must_use]
 pub fn bottom_up_cut_rod(p: &[u32]) -> u32 {
     let n = p.len();
     let mut r = vec![0; n + 1];
@@ -107,6 +110,7 @@ pub fn bottom_up_cut_rod(p: &[u32]) -> u32 {
 // 10  return r and s
 
 #[allow(clippy::many_single_char_names)]
+#[must_use]
 pub fn extended_bottom_up_cut_rod(p: &[u32]) -> (Box<[u32]>, Box<[usize]>) {
     let n = p.len();
     let mut r = vec![0; n + 1];
@@ -139,6 +143,7 @@ pub fn extended_bottom_up_cut_rod(p: &[u32]) -> (Box<[u32]>, Box<[usize]>) {
 // 3      print s[n]
 // 4      n = n - s[n]
 
+#[must_use]
 pub fn print_cut_rod_solution(p: &[u32]) -> Box<[usize]> {
     let mut n = p.len();
     let (_, s) = extended_bottom_up_cut_rod(p);

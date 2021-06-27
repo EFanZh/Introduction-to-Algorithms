@@ -27,6 +27,7 @@ impl<T> Default for SinglyLinkedListStack<T> {
 }
 
 impl<T> SinglyLinkedListStack<T> {
+    #[must_use]
     pub fn new() -> Self {
         Self { head: None, length: 0 }
     }

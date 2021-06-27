@@ -16,6 +16,7 @@ fn find_path_helper(tree: &HashMap<usize, (Vec<usize>, Vec<usize>)>, node: usize
     }
 }
 
+#[must_use]
 pub fn find_path(graph: &[Vec<usize>]) -> Vec<usize> {
     let mut tree = HashMap::new();
     let mut queue = VecDeque::new();

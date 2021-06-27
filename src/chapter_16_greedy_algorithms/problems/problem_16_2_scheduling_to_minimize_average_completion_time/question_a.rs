@@ -1,3 +1,4 @@
+#[must_use]
 pub fn schedule_tasks(tasks: &[u64]) -> Box<[usize]> {
     let mut result = tasks.iter().copied().enumerate().collect::<Vec<_>>();
 

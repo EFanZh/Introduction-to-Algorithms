@@ -1,11 +1,14 @@
+#[must_use]
 pub fn parent(i: usize) -> usize {
     (i - 1) / 2
 }
 
+#[must_use]
 pub fn left(i: usize) -> usize {
     i * 2 + 1
 }
 
+#[must_use]
 pub fn right(i: usize) -> usize {
     i * 2 + 2
 }

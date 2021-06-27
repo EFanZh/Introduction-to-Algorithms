@@ -3,6 +3,7 @@ pub struct Item {
     pub weight: usize,
 }
 
+#[must_use]
 pub fn select_items(items: &[Item], capacity: usize) -> (u64, Box<[usize]>) {
     let cache_columns = capacity + 1;
     let mut cache = vec![(0, false); cache_columns * (items.len() + 1)];

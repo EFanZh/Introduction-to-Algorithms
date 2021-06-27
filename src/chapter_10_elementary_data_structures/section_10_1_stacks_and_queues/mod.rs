@@ -15,6 +15,7 @@ impl<T> Default for ArrayStack<T> {
 }
 
 impl<T> ArrayStack<T> {
+    #[must_use]
     pub fn new() -> Self {
         Self { storage: Vec::new() }
     }
@@ -49,6 +50,7 @@ impl<T> Default for ArrayQueue<T> {
 }
 
 impl<T> ArrayQueue<T> {
+    #[must_use]
     pub fn new() -> Self {
         Self {
             storage: VecDeque::new(),

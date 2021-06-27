@@ -63,6 +63,7 @@ fn make_queue_item(task_id: usize, remaining_time: u64) -> QueueItem {
     KeyValuePair::new(Reverse(remaining_time), task_id)
 }
 
+#[must_use]
 pub fn schedule_tasks(tasks: &[Task]) -> Box<[ScheduleItem]> {
     let mut tasks_by_release_time = tasks.iter().enumerate().collect::<Vec<_>>();
 

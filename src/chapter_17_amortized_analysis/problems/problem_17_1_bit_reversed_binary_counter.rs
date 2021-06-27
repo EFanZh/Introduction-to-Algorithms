@@ -1,5 +1,6 @@
 // Question a.
 
+#[must_use]
 pub fn rev_k(value: u64, k: usize) -> u64 {
     let mut result = 0;
 
@@ -10,12 +11,14 @@ pub fn rev_k(value: u64, k: usize) -> u64 {
     result
 }
 
+#[must_use]
 pub fn bit_reversal_permutation(k: usize) -> Box<[u64]> {
     (0..(1 << k)).map(|i| rev_k(i, k)).collect()
 }
 
 // Question c.
 
+#[must_use]
 pub fn bit_reversed_increment(mut value: u64, k: usize) -> u64 {
     let mut probe = 1 << (k - 1);
 

@@ -1,5 +1,6 @@
 use rand::Rng;
 
+#[must_use]
 pub fn random(a: i32, b: i32) -> i32 {
     let range = b - a;
     let bits_needed = f64::from(b - a + 1).log2().ceil() as _;

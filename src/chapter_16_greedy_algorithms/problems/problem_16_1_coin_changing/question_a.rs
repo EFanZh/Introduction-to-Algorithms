@@ -11,6 +11,7 @@ const DIME_CENTS: usize = 10;
 const NICKEL_CENTS: usize = 5;
 const PENNY_CENTS: usize = 1;
 
+#[must_use]
 pub fn change_coins(mut n: usize) -> Coins {
     let mut result = Coins {
         quarters: 0,

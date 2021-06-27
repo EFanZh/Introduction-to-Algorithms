@@ -454,6 +454,7 @@ impl<K: Ord, V> Default for RedBlackTreeMap<K, V> {
 }
 
 impl<K: Ord, V> RedBlackTreeMap<K, V> {
+    #[must_use]
     pub fn new() -> Self {
         Self { root: None }
     }

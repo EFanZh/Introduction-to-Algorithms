@@ -17,6 +17,7 @@ impl<T> SinglyLinkedListElement<T> {
         })))
     }
 
+    #[must_use]
     pub fn borrow(&self) -> Ref<T> {
         Ref::map(self.0.borrow(), |x| &x.key)
     }
@@ -49,6 +50,7 @@ impl<T> Default for SinglyLinkedList<T> {
 }
 
 impl<T> SinglyLinkedList<T> {
+    #[must_use]
     pub fn new() -> Self {
         Self { head: None }
     }

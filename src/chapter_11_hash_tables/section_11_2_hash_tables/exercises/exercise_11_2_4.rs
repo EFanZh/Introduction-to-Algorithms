@@ -15,6 +15,7 @@ pub struct HashTable<T> {
 }
 
 impl<T: Hash + Eq> HashTable<T> {
+    #[must_use]
     pub fn with_capacity(capacity: usize) -> Self {
         Self {
             memory: (0..capacity)

@@ -30,6 +30,7 @@ impl<T> Default for SinglyLinkedListQueue<T> {
 }
 
 impl<T> SinglyLinkedListQueue<T> {
+    #[must_use]
     pub fn new() -> Self {
         Self {
             head: None,

@@ -17,6 +17,7 @@ impl TimePoint {
     }
 }
 
+#[must_use]
 pub fn schedule_activities(activities: &[(u64, u64)]) -> Box<[usize]> {
     let mut time_points = activities
         .iter()

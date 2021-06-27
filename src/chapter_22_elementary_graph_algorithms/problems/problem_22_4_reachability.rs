@@ -10,6 +10,7 @@ fn dfs(graph: &[Vec<usize>], node: usize, label: usize, visited: &mut [bool], re
     }
 }
 
+#[must_use]
 pub fn reachability(graph: &[&[usize]]) -> Box<[usize]> {
     let n = graph.len();
     let mut transposed_graph = vec![Vec::new(); n];

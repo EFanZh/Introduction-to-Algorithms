@@ -21,6 +21,7 @@ impl<T> DoublyLinkedListElement<T> {
         })))
     }
 
+    #[must_use]
     pub fn borrow(&self) -> Ref<T> {
         Ref::map(self.0.borrow(), |x| &x.key)
     }
@@ -56,6 +57,7 @@ impl<T> Drop for DoublyLinkedList<T> {
 }
 
 impl<T> DoublyLinkedList<T> {
+    #[must_use]
     pub fn new() -> Self {
         Self { head: None }
     }

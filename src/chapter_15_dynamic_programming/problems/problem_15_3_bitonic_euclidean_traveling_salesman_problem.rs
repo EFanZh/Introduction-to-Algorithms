@@ -59,6 +59,7 @@ fn construct_tour(indices: &[usize], cache: &[Choice]) -> Box<[usize]> {
     result
 }
 
+#[must_use]
 pub fn shortest_tour(points: &[(f64, f64)]) -> Box<[usize]> {
     let n = points.len();
     let mut indices = (0..n).collect::<Box<_>>();

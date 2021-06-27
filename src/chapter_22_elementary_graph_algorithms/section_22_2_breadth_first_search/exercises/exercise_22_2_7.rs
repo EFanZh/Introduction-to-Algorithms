@@ -1,6 +1,7 @@
 use std::collections::hash_map::Entry;
 use std::collections::{HashMap, VecDeque};
 
+#[must_use]
 pub fn partition(graph: &[Vec<usize>]) -> Option<(Vec<usize>, Vec<usize>)> {
     let mut groups = HashMap::new();
     let mut queue = VecDeque::new();

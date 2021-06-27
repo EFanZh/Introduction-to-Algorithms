@@ -11,6 +11,7 @@ impl<T> Default for DirectAddressDictionary<T> {
 }
 
 impl<T> DirectAddressDictionary<T> {
+    #[must_use]
     pub fn new() -> Self {
         Self {
             memory: Vec::new(),
@@ -61,6 +62,7 @@ impl<T> DirectAddressDictionary<T> {
         }
     }
 
+    #[must_use]
     pub fn search(&self, key: usize) -> Option<&T> {
         if let Some((value, key_index)) = self.memory.get(key) {
             if self.keys.get(*key_index) == Some(&key) {

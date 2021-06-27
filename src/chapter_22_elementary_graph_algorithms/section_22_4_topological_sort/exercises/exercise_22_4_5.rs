@@ -1,3 +1,4 @@
+#[must_use]
 pub fn topological_sort(graph: &[Vec<usize>]) -> Option<Vec<usize>> {
     let mut in_degrees = vec![0; graph.len()];
 

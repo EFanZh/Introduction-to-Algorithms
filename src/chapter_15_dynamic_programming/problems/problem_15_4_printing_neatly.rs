@@ -48,6 +48,7 @@ fn build_cut_positions(cache: &[Choice]) -> Box<[usize]> {
     result.into()
 }
 
+#[must_use]
 pub fn printing_neatly(word_lengths: &[usize], columns: usize) -> Box<[usize]> {
     let (mut cache, remaining_words) = build_initial_cache(word_lengths, columns);
 
@@ -82,6 +83,7 @@ pub fn printing_neatly(word_lengths: &[usize], columns: usize) -> Box<[usize]> {
     build_cut_positions(&cache)
 }
 
+#[must_use]
 pub fn layout_paragraph_neatly(words: &[&str], columns: usize) -> Box<[String]> {
     let mut result = Vec::new();
     let word_lengths = words.iter().map(|s| s.chars().count()).collect::<Box<_>>();

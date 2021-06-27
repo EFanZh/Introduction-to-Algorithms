@@ -31,6 +31,7 @@ fn dfs_2(graph: &[Vec<usize>], node: usize, visited: &mut [bool], result: &mut V
 // 3  call DFS(G^T), but in the main loop of DFS, consider the vertices in order of decreasing u.f (as computed in line 1)
 // 4  output the vertices of each tree in the depth-first forest formed in line 3 as a separate strongly connected component
 
+#[must_use]
 pub fn strongly_connected_components(g: &[Vec<usize>]) -> Vec<Vec<usize>> {
     // First DFS.
 

@@ -1,5 +1,6 @@
 use super::super::{schedule_task, Task};
 
+#[must_use]
 pub fn solve() -> Box<[usize]> {
     let tasks = [(4, 70), (2, 60), (4, 50), (3, 40), (1, 30), (4, 20), (6, 10)];
 
