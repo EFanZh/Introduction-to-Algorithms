@@ -162,7 +162,7 @@ fn rebalance_right_black<K, V>(
 fn remove_min_red<K, V>(node: &RedNode<K, V>) -> (RedOrBlackNode<K, V>, NodeContent<K, V>) {
     node.left.as_deref().map_or_else(
         || (None.into(), node.content.clone()),
-        |left| match remove_min_black(&left) {
+        |left| match remove_min_black(left) {
             (new_left, min_node_content, false) => (node.with_left_rc(new_left).into(), min_node_content),
             (new_left, min_node_content, true) => (
                 rebalance_left_red(node.content.clone(), node.right.as_ref().unwrap(), new_left),

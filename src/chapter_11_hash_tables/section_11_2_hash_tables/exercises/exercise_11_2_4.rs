@@ -138,11 +138,11 @@ impl<T: Hash + Eq> HashTable<T> {
     }
 
     pub fn search(&self, x: &T) -> Option<&T> {
-        let mut i = Self::hash(&x, self.memory.len());
+        let mut i = Self::hash(x, self.memory.len());
 
         while let Some(Slot::Occupied { value, next }) = self.memory.get(i) {
             if value == x {
-                return Some(&value);
+                return Some(value);
             }
 
             i = *next;
@@ -152,7 +152,7 @@ impl<T: Hash + Eq> HashTable<T> {
     }
 
     pub fn delete(&mut self, x: &T) {
-        let hash_value = Self::hash(&x, self.memory.len());
+        let hash_value = Self::hash(x, self.memory.len());
 
         if let Slot::Occupied { ref value, next } = self.memory[hash_value] {
             if value == x {

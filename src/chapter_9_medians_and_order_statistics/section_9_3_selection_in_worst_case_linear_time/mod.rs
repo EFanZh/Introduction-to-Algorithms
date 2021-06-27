@@ -27,7 +27,7 @@ fn select_slice<T: Ord + Clone>(a: &mut [T], i: usize) -> &mut T {
             .collect::<Box<_>>();
 
         let median_of_medians = find_median_by_select(&mut group_medians);
-        let (left, middle, right) = partition_by_key(a, &median_of_medians);
+        let (left, middle, right) = partition_by_key(a, median_of_medians);
 
         if i < left.len() {
             select_slice(left, i)

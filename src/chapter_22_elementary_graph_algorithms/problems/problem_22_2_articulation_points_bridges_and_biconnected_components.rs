@@ -137,7 +137,7 @@ pub fn compute_bridges(graph: &[Vec<usize>]) -> Box<[Edge]> {
     let mut result = Vec::new();
 
     dfs(
-        &graph,
+        graph,
         0,
         0,
         &mut 0,
@@ -203,7 +203,7 @@ pub fn compute_biconnected_components(graph: &[Vec<usize>]) -> Box<[Box<[Edge]>]
     let mut result = Vec::new();
 
     dfs(
-        &graph,
+        graph,
         0,
         0,
         &mut 0,

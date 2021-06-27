@@ -52,7 +52,7 @@ mod tests {
 
             f(heap, i); // Delete the value.
 
-            assert!(is_max_heap(&heap)); // Check max heap property.
+            assert!(is_max_heap(heap)); // Check max heap property.
 
             heap.push(value); // Put the deleted value back.
 
