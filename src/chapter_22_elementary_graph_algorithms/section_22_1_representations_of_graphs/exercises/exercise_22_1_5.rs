@@ -37,8 +37,8 @@ pub fn square_adjacency_list<T: Hash + Eq + Clone, S: BuildHasher + Clone>(
 pub fn square_adjacency_matrix(matrix: &Array2<bool>) -> Array2<bool> {
     let mut result = matrix.clone();
 
-    for (mut target_row, row) in result.genrows_mut().into_iter().zip(matrix.genrows()) {
-        for (target, column) in target_row.iter_mut().zip(matrix.gencolumns()) {
+    for (mut target_row, row) in result.rows_mut().into_iter().zip(matrix.rows()) {
+        for (target, column) in target_row.iter_mut().zip(matrix.columns()) {
             if !*target {
                 for (lhs, rhs) in row.into_iter().zip(column) {
                     if *lhs && *rhs {
