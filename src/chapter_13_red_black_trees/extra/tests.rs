@@ -243,7 +243,7 @@ fn red_black_tree_insert_full_left_side() {
             red(11, 2, black_leaf(8, 13), black(14, 17, None, red_leaf(15, 19))),
         ),
         None,
-    )
+    );
 }
 
 #[test]
@@ -269,7 +269,7 @@ fn red_black_tree_insert_full_right_side() {
             red(14, 7, black(11, 17, None, red_leaf(12, 23)), black_leaf(15, 19)),
         ),
         None,
-    )
+    );
 }
 
 // Deletion tests.

@@ -188,7 +188,7 @@ pub fn compute_biconnected_components(graph: &[Vec<usize>]) -> Box<[Box<[Edge]>]
                     }
                     State::Visiting(d) => {
                         low = low.min(d);
-                        component.push((vertex, next))
+                        component.push((vertex, next));
                     }
                     State::Visited => {}
                 }

@@ -71,7 +71,7 @@ mod tests {
             (42, [1, 1, 1, 2]),
         ];
 
-        for (n, [quarters, dimes, nickels, pennies]) in test_cases.iter().copied() {
+        for (n, [quarters, dimes, nickels, pennies]) in test_cases {
             let result = change_coins(n);
 
             assert_eq!(result.quarters, quarters);

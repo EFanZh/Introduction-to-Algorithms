@@ -22,7 +22,7 @@ pub fn max_heapify<T: Ord>(a: &mut [T], i: usize) {
     let mut largest = if l < heap_size && a[l] > a[i] { l } else { i };
 
     if r < heap_size && a[r] > a[largest] {
-        largest = r
+        largest = r;
     }
 
     if largest != i {
@@ -53,7 +53,7 @@ mod tests {
             &mut [27, 17, 3, 16, 13, 10, 1, 5, 7, 12, 4, 8, 9, 0],
             2,
             &[27, 17, 10, 16, 13, 9, 1, 5, 7, 12, 4, 8, 3, 0],
-        )
+        );
     }
 
     #[test]

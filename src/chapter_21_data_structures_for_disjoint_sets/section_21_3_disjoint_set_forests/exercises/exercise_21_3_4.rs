@@ -33,12 +33,12 @@ fn use_cell<T: Default, U>(cell: &Cell<T>, f: impl FnOnce(&T) -> U) -> U {
 
 pub fn link<T>(x: &Rc<Node<T>>, y: &Rc<Node<T>>) {
     match x.rank.cmp(&y.rank) {
-        Ordering::Less => x.parent.set(Some(y.clone())),
+        Ordering::Less => x.parent.set(Some(Rc::clone(y))),
         Ordering::Equal => {
-            x.parent.set(Some(y.clone()));
+            x.parent.set(Some(Rc::clone(y)));
             y.rank.set(y.rank.get() + 1);
         }
-        Ordering::Greater => y.parent.set(Some(x.clone())),
+        Ordering::Greater => y.parent.set(Some(Rc::clone(x))),
     }
 
     let x_next = use_cell(&x.next, Clone::clone);
@@ -50,7 +50,7 @@ pub fn link<T>(x: &Rc<Node<T>>, y: &Rc<Node<T>>) {
 
 pub fn find_set<T>(x: &Rc<Node<T>>) -> Rc<Node<T>> {
     x.parent.take().map_or_else(
-        || x.clone(),
+        || Rc::clone(x),
         |parent| {
             x.parent.set(Some(find_set(&parent)));
 
@@ -100,6 +100,7 @@ mod tests {
     fn test_union_find() {
         use Operation::{FindSet, MakeSet, Union};
 
+        #[allow(trivial_casts)]
         let test_cases = [
             &[
                 MakeSet(1),
@@ -132,7 +133,7 @@ mod tests {
             ],
         ];
 
-        for operations in test_cases.iter().copied() {
+        for operations in test_cases {
             let mut environment = HashMap::new();
 
             for operation in operations {

@@ -39,7 +39,7 @@ pub fn persistent_red_black_tree_search<'a, K: Borrow<Q>, V, Q: Ord + ?Sized>(
 #[cfg(test)]
 mod tests {
     use super::super::tests::{black, black_leaf, red, red_leaf};
-    use super::super::RedBlackTree;
+    use super::super::{BlackNode, RedBlackTree};
     use super::persistent_red_black_tree_search;
     use std::borrow::Borrow;
     use std::rc::Rc;
@@ -50,7 +50,7 @@ mod tests {
 
     #[test]
     fn test_search_not_found() {
-        assert_eq!(search(None as RedBlackTree<i32, i32>, &4), None);
+        assert_eq!(search(None::<Rc<BlackNode<i32, i32>>>, &4), None);
     }
 
     #[test]
@@ -65,7 +65,7 @@ mod tests {
 
         let tree_1 = black(2, 3, black_leaf(1, 2), black_leaf(3, 5));
 
-        assert_eq!(search(tree_1.clone(), &1), Some(2.into()));
+        assert_eq!(search(Rc::clone(&tree_1), &1), Some(2.into()));
         assert_eq!(search(tree_1, &3), Some(5.into()));
 
         let tree_2 = black(
@@ -75,9 +75,9 @@ mod tests {
             red(6, 13, black_leaf(5, 11), black_leaf(7, 17)),
         );
 
-        assert_eq!(search(tree_2.clone(), &1), Some(2.into()));
-        assert_eq!(search(tree_2.clone(), &3), Some(5.into()));
-        assert_eq!(search(tree_2.clone(), &5), Some(11.into()));
+        assert_eq!(search(Rc::clone(&tree_2), &1), Some(2.into()));
+        assert_eq!(search(Rc::clone(&tree_2), &3), Some(5.into()));
+        assert_eq!(search(Rc::clone(&tree_2), &5), Some(11.into()));
         assert_eq!(search(tree_2, &7), Some(17.into()));
     }
 }

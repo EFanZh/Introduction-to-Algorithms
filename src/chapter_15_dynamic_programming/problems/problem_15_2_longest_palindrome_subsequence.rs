@@ -71,9 +71,14 @@ mod tests {
 
     #[test]
     fn test_longest_palindrome_subsequence() {
-        let test_cases: &[(&[u8], &[u8])] = &[(b"bbbab", b"bbbb"), (b"cbbd", b"bb"), (b"character", b"carac")];
+        #[allow(trivial_casts)]
+        let test_cases = [
+            (b"bbbab" as &[_], b"bbbb" as &[_]),
+            (b"cbbd", b"bb"),
+            (b"character", b"carac"),
+        ];
 
-        for (s, expected) in test_cases.iter().copied() {
+        for (s, expected) in test_cases {
             assert_eq!(*longest_palindrome_subsequence(s), *expected);
         }
     }

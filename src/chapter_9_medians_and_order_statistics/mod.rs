@@ -16,6 +16,6 @@ mod tests {
 
                 assert_eq!(f(&mut buffer, 0, sequence.len(), i), expected_value);
             }
-        })
+        });
     }
 }

@@ -196,6 +196,7 @@ mod tests {
 
     #[test]
     fn test_skip_single() {
+        #[allow(trivial_casts)]
         let test_cases = [
             ((&[] as &[_], 0), (&[] as &[_], None)),
             ((&[], 2), (&[], None)),
@@ -206,7 +207,7 @@ mod tests {
             ((&[3, 2, 5], 4), (&[3, 2, 5], None)),
         ];
 
-        for ((data, skip), (expected_result, expected_skipped)) in test_cases.iter().copied() {
+        for ((data, skip), (expected_result, expected_skipped)) in test_cases {
             let mut iter = SkipSingle::new(data.iter().copied(), skip);
 
             assert_eq!(iter.by_ref().collect::<Box<_>>().as_ref(), expected_result);
@@ -216,6 +217,7 @@ mod tests {
 
     #[test]
     fn test_dynamic_array_insert() {
+        #[allow(trivial_casts)]
         let test_cases = [
             (&[] as &[_], &[] as &[&[_]]),
             (&[3], &[&[3]]),
@@ -229,7 +231,7 @@ mod tests {
             (&[5, 3, 2], &[&[2], &[3, 5]]),
         ];
 
-        for (nums, expected) in test_cases.iter().copied() {
+        for (nums, expected) in test_cases {
             let mut dynamic_array = DynamicArray::new();
 
             for num in nums {
@@ -245,6 +247,7 @@ mod tests {
 
     #[test]
     fn test_dynamic_array_search() {
+        #[allow(trivial_casts)]
         let test_cases = [
             ((&[] as &[_], 2), None),
             ((&[3], 2), None),
@@ -293,7 +296,7 @@ mod tests {
             ((&[5, 3, 2], 6), None),
         ];
 
-        for ((nums, target), expected) in test_cases.iter().copied() {
+        for ((nums, target), expected) in test_cases {
             let mut dynamic_array = DynamicArray::new();
 
             for num in nums {
@@ -306,6 +309,7 @@ mod tests {
 
     #[test]
     fn test_dynamic_array_delete() {
+        #[allow(trivial_casts)]
         let test_cases = [
             ((&[] as &[_], 2), None),
             ((&[3], 2), None),
@@ -354,7 +358,7 @@ mod tests {
             ((&[5, 3, 2], 6), None),
         ];
 
-        for ((nums, target), expected) in test_cases.iter().copied() {
+        for ((nums, target), expected) in test_cases {
             let mut dynamic_array = DynamicArray::new();
 
             for num in nums {

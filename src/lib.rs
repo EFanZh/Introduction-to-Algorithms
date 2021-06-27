@@ -1,8 +1,53 @@
-#![warn(clippy::pedantic)]
-#![allow(clippy::cast_possible_truncation)]
-#![allow(clippy::cast_sign_loss)]
-#![allow(clippy::must_use_candidate)]
-#![allow(clippy::non_ascii_literal)]
+#![warn(
+    explicit_outlives_requirements,
+    macro_use_extern_crate,
+    meta_variable_misuse,
+    missing_abi,
+    noop_method_call,
+    pointer_structural_match,
+    semicolon_in_expressions_from_macros,
+    trivial_casts,
+    trivial_numeric_casts,
+    unaligned_references,
+    unsafe_op_in_unsafe_fn,
+    // unused_crate_dependencies,
+    unused_extern_crates,
+    unused_import_braces,
+    unused_lifetimes,
+    unused_qualifications,
+    clippy::clone_on_ref_ptr,
+    clippy::cognitive_complexity,
+    clippy::debug_assert_with_mut_call,
+    clippy::empty_line_after_outer_attr,
+    clippy::fallible_impl_from,
+    clippy::get_unwrap,
+    clippy::imprecise_flops,
+    clippy::let_underscore_must_use,
+    clippy::lossy_float_literal,
+    clippy::multiple_inherent_impl,
+    clippy::mutex_integer,
+    clippy::needless_borrow,
+    clippy::panic_in_result_fn,
+    clippy::path_buf_push_overwrite,
+    clippy::pedantic,
+    clippy::rc_buffer,
+    clippy::rest_pat_in_fully_bound_structs,
+    clippy::semicolon_if_nothing_returned,
+    clippy::string_lit_as_bytes,
+    clippy::string_to_string,
+    clippy::suboptimal_flops,
+    clippy::todo,
+    clippy::trivial_regex,
+    clippy::unimplemented,
+    clippy::unneeded_field_pattern,
+    clippy::use_debug,
+    clippy::use_self,
+    clippy::useless_let_if_seq,
+    clippy::useless_transmute,
+    clippy::verbose_file_reads,
+    clippy::wrong_pub_self_convention
+)]
+#![allow(clippy::branches_sharing_code, clippy::missing_panics_doc, clippy::non_ascii_literal)]
 
 pub mod chapter_10_elementary_data_structures;
 pub mod chapter_11_hash_tables;

@@ -28,6 +28,7 @@ impl<T: Hash + Eq> HashTable<T> {
         }
     }
 
+    #[allow(clippy::cast_possible_truncation)]
     fn hash(x: &T, memory_size: usize) -> usize {
         let mut hasher = DefaultHasher::new();
 

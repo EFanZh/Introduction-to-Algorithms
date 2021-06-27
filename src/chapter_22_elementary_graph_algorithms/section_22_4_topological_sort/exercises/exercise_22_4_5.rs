@@ -44,15 +44,16 @@ mod tests {
 
     #[test]
     fn test_has_cycle() {
-        let test_cases: &[(&[&[usize]], bool)] = &[
-            (&[&[1], &[]], true),
+        #[allow(trivial_casts)]
+        let test_cases = [
+            (&[&[1_usize] as &[usize], &[]] as &[&[usize]], true),
             (&[&[1, 2], &[], &[], &[1, 2]], true),
             (&[&[]], true),
             (&[&[1], &[0]], false),
             (&[&[1], &[0], &[1]], false),
         ];
 
-        for (graph, can_finish) in test_cases.iter().copied() {
+        for (graph, can_finish) in test_cases {
             let graph = graph.iter().map(|nexts| nexts.to_vec()).collect::<Box<_>>();
             let result = topological_sort(&graph);
 

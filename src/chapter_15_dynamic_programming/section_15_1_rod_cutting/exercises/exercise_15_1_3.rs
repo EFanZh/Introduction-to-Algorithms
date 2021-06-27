@@ -13,7 +13,7 @@ pub fn extended_bottom_up_cut_rod_with_cutting_cost(p: &[u32], c: u32) -> (Box<[
 
             if revenue > max_revenue {
                 max_revenue = revenue;
-                best_first_cut = first_cut
+                best_first_cut = first_cut;
             }
         }
 

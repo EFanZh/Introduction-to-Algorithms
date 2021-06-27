@@ -13,7 +13,7 @@ pub fn minimum<T: Ord>(a: &[T]) -> &T {
 
     for a_i in a {
         if min > a_i {
-            min = a_i
+            min = a_i;
         }
     }
 
@@ -41,11 +41,11 @@ pub fn minimum_and_maximum<T: Ord>(a: &[T]) -> (&T, &T) {
                     };
 
                     if new_min < min {
-                        min = new_min
+                        min = new_min;
                     }
 
                     if new_max > max {
-                        max = new_max
+                        max = new_max;
                     }
                 } else if first < min {
                     break (first, max);

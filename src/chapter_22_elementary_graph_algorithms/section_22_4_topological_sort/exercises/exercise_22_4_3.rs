@@ -33,6 +33,7 @@ mod tests {
 
     #[test]
     fn test_has_cycle() {
+        #[allow(trivial_casts)]
         let test_cases = [
             (
                 &[
@@ -51,7 +52,7 @@ mod tests {
             ),
         ];
 
-        for (graph, expected) in test_cases.iter().copied() {
+        for (graph, expected) in test_cases {
             assert_eq!(
                 has_cycle(graph.iter().map(|node| node.to_vec()).collect::<Box<_>>().as_ref()),
                 expected

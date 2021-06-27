@@ -125,7 +125,7 @@ mod tests {
         assert!(table.iter().eq(control.iter()));
         assert_eq!(table.capacity(), 0);
 
-        let operations = &[
+        let operations = [
             Push(2, 1, 1),    //  1
             Push(3, 2, 2),    //  2
             Push(5, 3, 4),    //  3
@@ -178,10 +178,10 @@ mod tests {
             Pop(2, 8),        // 50
             Pop(1, 4),        // 51
             Pop(0, 0),        // 52
-        ] as &[_];
+        ];
 
         for operation in operations {
-            match *operation {
+            match operation {
                 Push(value, expected_len, expected_capacity) => {
                     table.push(value);
                     control.push(value);

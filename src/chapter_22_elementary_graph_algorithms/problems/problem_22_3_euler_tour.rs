@@ -43,10 +43,12 @@ pub fn euler_tour(graph: &[&[usize]]) -> Option<Box<[usize]>> {
 mod tests {
     #[test]
     fn test_euler_tour() {
-        type Graph<'a> = [&'a [usize]];
-
-        let test_cases: &[(&Graph, Option<&[usize]>)] = &[
-            (&[&[1], &[2], &[0]], Some(&[0, 1, 2, 0])),
+        #[allow(trivial_casts)]
+        let test_cases = [
+            (
+                &[&[1_usize] as &[usize], &[2], &[0]] as &[&[_]],
+                Some(&[0_usize, 1, 2, 0] as &[_]),
+            ),
             (
                 &[&[1, 6], &[2], &[0, 3], &[4], &[2, 5], &[0], &[4]],
                 Some(&[0, 1, 2, 0, 6, 4, 2, 3, 4, 5, 0]),
@@ -57,7 +59,7 @@ mod tests {
             (&[&[1], &[0], &[3], &[2]], None),
         ];
 
-        for (graph, expected) in test_cases.iter().copied() {
+        for (graph, expected) in test_cases {
             assert_eq!(super::euler_tour(graph).as_deref(), expected);
         }
     }

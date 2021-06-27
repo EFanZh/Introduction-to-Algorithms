@@ -48,11 +48,14 @@ fn helper_directed(
                 color: Color::Black,
                 discovery_time: next_discovery_time,
             } => {
-                if next_discovery_time < discovery_time {
-                    result.push(((node, next), EdgeType::Cross))
-                } else {
-                    result.push(((node, next), EdgeType::Forward))
-                }
+                result.push((
+                    (node, next),
+                    if next_discovery_time < discovery_time {
+                        EdgeType::Cross
+                    } else {
+                        EdgeType::Forward
+                    },
+                ));
             }
         }
     }
@@ -131,6 +134,7 @@ mod tests {
 
     #[test]
     fn test_get_edge_types_directed() {
+        #[allow(trivial_casts)]
         let test_cases = [
             (
                 &[&[1_usize, 3] as &[usize], &[4], &[4, 5], &[1], &[3], &[5]] as &[&[usize]],
@@ -155,7 +159,7 @@ mod tests {
             ),
         ];
 
-        for (graph, expected) in test_cases.iter().copied() {
+        for (graph, expected) in test_cases {
             assert_eq!(
                 get_edge_types_directed(graph.iter().map(|node| node.to_vec()).collect::<Box<_>>().as_ref()),
                 expected
@@ -165,6 +169,7 @@ mod tests {
 
     #[test]
     fn test_get_edge_types_undirected() {
+        #[allow(trivial_casts)]
         let test_cases = [(
             &[
                 &[1_usize, 3] as &[usize],
@@ -186,7 +191,7 @@ mod tests {
             ],
         )];
 
-        for (graph, expected) in test_cases.iter().copied() {
+        for (graph, expected) in test_cases {
             assert_eq!(
                 get_edge_types_undirected(graph.iter().map(|node| node.to_vec()).collect::<Box<_>>().as_ref()),
                 expected

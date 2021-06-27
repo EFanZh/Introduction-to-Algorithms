@@ -56,6 +56,7 @@ mod tests {
 
     #[test]
     fn test_change_coins() {
+        #[allow(trivial_casts)]
         let test_cases = [
             ((&[] as &[_], 0), &[] as &[_]),
             ((&[25, 10, 5, 1], 0), &[0, 0, 0, 0]),
@@ -85,7 +86,7 @@ mod tests {
             ((&[1, 3, 4], 6), &[0, 2, 0]),
         ];
 
-        for ((coins, n), expected) in test_cases.iter().copied() {
+        for ((coins, n), expected) in test_cases {
             assert_eq!(*change_coins(coins, n), *expected);
         }
     }

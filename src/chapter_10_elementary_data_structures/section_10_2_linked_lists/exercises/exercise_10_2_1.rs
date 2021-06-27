@@ -25,7 +25,7 @@ impl<T> SinglyLinkedListElement<T> {
 
 impl<T> Clone for SinglyLinkedListElement<T> {
     fn clone(&self) -> Self {
-        Self(self.0.clone())
+        Self(Rc::clone(&self.0))
     }
 }
 

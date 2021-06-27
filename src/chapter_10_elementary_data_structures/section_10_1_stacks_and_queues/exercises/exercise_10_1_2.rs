@@ -46,7 +46,7 @@ impl<T> TwoStacks<T> {
     }
 
     pub fn push_2(&mut self, x: T) {
-        self.storage.push_back(x)
+        self.storage.push_back(x);
     }
 
     pub fn pop_2(&mut self) -> T {

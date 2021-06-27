@@ -50,7 +50,7 @@ mod tests {
         let mut rng = thread_rng();
 
         for n in 0_usize..10 {
-            for _ in 0..2_usize.pow(n as _) {
+            for _ in 0..(1 << n) {
                 assign_vec_from_iter(&mut a, iter::repeat_with(|| rng.gen_range(0..n)).take(n));
                 assign_vec(&mut b, &a);
 

@@ -228,7 +228,7 @@ mod tests {
         ];
 
         for ((tree, key), expected) in test_cases.iter().cloned() {
-            assert_eq!(b_tree_search(&tree, &key).copied(), expected)
+            assert_eq!(b_tree_search(&tree, &key).copied(), expected);
         }
     }
 

@@ -26,6 +26,7 @@ pub fn flip_coin_2<C: FnMut() -> bool>(mut fair_coin: C, a: i32, b: i32) -> bool
 mod tests {
     use super::{flip_coin, flip_coin_2};
     use rand::{thread_rng, Rng};
+    use std::convert::{TryFrom, TryInto};
     use std::iter;
 
     #[allow(clippy::cast_possible_wrap)]
@@ -34,9 +35,14 @@ mod tests {
 
         for a in 1..=5 {
             for b in a + 1..=6 {
-                let heads = iter::repeat_with(|| f(a, b)).take(samples).filter(|&x| x).count() as i32;
+                let heads: i32 = iter::repeat_with(|| f(a, b))
+                    .take(samples)
+                    .filter(|&x| x)
+                    .count()
+                    .try_into()
+                    .unwrap();
 
-                assert!((f64::from(b * heads) / f64::from(a * (samples as i32)) - 1.0).abs() < 0.03);
+                assert!((f64::from(b * heads) / f64::from(a * i32::try_from(samples).unwrap()) - 1.0).abs() < 0.03);
             }
         }
     }

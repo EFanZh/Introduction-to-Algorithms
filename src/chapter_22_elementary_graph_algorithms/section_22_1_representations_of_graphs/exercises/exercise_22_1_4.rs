@@ -33,12 +33,13 @@ mod tests {
 
     #[test]
     fn test_normalize() {
+        #[allow(trivial_casts)]
         let test_cases = [(
             &[(2, &[3, 4, 3] as &[_]), (3, &[2, 2, 3]), (4, &[2])] as &[(_, &[_])],
             &[(2, &[3, 4] as &[_]), (3, &[2]), (4, &[2])] as &[(_, &[_])],
         )];
 
-        for (graph, expected) in test_cases.iter().copied() {
+        for (graph, expected) in test_cases {
             let mut result = normalize(
                 &graph
                     .iter()

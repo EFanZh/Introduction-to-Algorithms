@@ -2,18 +2,18 @@ use super::super::Node;
 use std::rc::Rc;
 
 pub fn find_set<T>(x: &Rc<Node<T>>) -> Rc<Node<T>> {
-    let mut root = x.clone();
+    let mut root = Rc::clone(x);
 
     while let Some(parent) = root.parent.take() {
-        root.parent.set(Some(parent.clone()));
+        root.parent.set(Some(Rc::clone(&parent)));
 
-        root = parent
+        root = parent;
     }
 
-    let mut node = x.clone();
+    let mut node = Rc::clone(x);
 
     while let Some(parent) = node.parent.take() {
-        node.parent.set(Some(root.clone()));
+        node.parent.set(Some(Rc::clone(&root)));
         node = parent;
     }
 
@@ -53,7 +53,7 @@ mod tests {
             parent: Cell::new(None),
         });
 
-        node_0.parent.set(Some(node_1.clone()));
+        node_0.parent.set(Some(Rc::clone(&node_1)));
 
         assert_eq!(find_set(&node_0).value, 3);
         assert_eq!(node_0.parent.take().unwrap().value, 3);
@@ -80,8 +80,8 @@ mod tests {
             parent: Cell::new(None),
         });
 
-        node_0.parent.set(Some(node_1.clone()));
-        node_1.parent.set(Some(node_2.clone()));
+        node_0.parent.set(Some(Rc::clone(&node_1)));
+        node_1.parent.set(Some(Rc::clone(&node_2)));
 
         assert_eq!(find_set(&node_0).value, 5);
         assert_eq!(node_0.parent.take().unwrap().value, 5);

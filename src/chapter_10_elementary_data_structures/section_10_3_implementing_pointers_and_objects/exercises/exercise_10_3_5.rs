@@ -57,7 +57,7 @@ pub fn compactify_list<T>(
             let i_next = next[i];
 
             if element_prev == NIL {
-                f = element // This is the new head of the free list.
+                f = element; // This is the new head of the free list.
             } else {
                 next[element_prev.0] = element;
             }

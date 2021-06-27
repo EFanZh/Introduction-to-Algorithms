@@ -62,6 +62,6 @@ mod tests {
 
     #[test]
     fn test_dfs() {
-        run_dfs_test(dfs)
+        run_dfs_test(dfs);
     }
 }

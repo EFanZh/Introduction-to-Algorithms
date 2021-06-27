@@ -202,16 +202,16 @@ pub fn rb_insert<T: Ord>(t: &mut Option<Rc<RefCell<RedBlackTreeNode<T>>>>, z: Rc
 
                 if z_ref.key < x_ref.key {
                     if let Some(left) = &x_ref.left {
-                        left.clone()
+                        Rc::clone(left)
                     } else {
-                        x_ref.left = Some(z.clone());
+                        x_ref.left = Some(Rc::clone(&z));
 
                         break;
                     }
                 } else if let Some(right) = &x_ref.right {
-                    right.clone()
+                    Rc::clone(right)
                 } else {
-                    x_ref.right = Some(z.clone());
+                    x_ref.right = Some(Rc::clone(&z));
 
                     break;
                 }
@@ -220,7 +220,7 @@ pub fn rb_insert<T: Ord>(t: &mut Option<Rc<RefCell<RedBlackTreeNode<T>>>>, z: Rc
 
         z_ref.p = Rc::downgrade(&x_rc);
     } else {
-        *t = Some(z.clone());
+        *t = Some(Rc::clone(&z));
 
         z_ref.p = Weak::new();
     }
@@ -275,7 +275,7 @@ mod tests {
     #[test]
     fn test_rb_insert_fixup_root() {
         let z = RedBlackTreeNode::new_leaf(Color::Red, 4);
-        let tree = Some(z.clone());
+        let tree = Some(Rc::clone(&z));
 
         run_rb_insert_fixup_test(tree, z, &black_leaf(4));
     }
@@ -285,7 +285,7 @@ mod tests {
         let z = RedBlackTreeNode::new_leaf(Color::Red, 4);
 
         run_rb_insert_fixup_test(
-            black(7, red(5, Some(z.clone()), None), red_leaf(8)),
+            black(7, red(5, Some(Rc::clone(&z)), None), red_leaf(8)),
             z,
             &black(7, black(5, red_leaf(4), None), black_leaf(8)),
         );
@@ -296,7 +296,7 @@ mod tests {
         let z = RedBlackTreeNode::new_leaf(Color::Red, 8);
 
         run_rb_insert_fixup_test(
-            black(5, red_leaf(4), red(7, None, Some(z.clone()))),
+            black(5, red_leaf(4), red(7, None, Some(Rc::clone(&z)))),
             z,
             &black(5, black_leaf(4), black(7, None, red_leaf(8))),
         );
@@ -307,14 +307,14 @@ mod tests {
         let z = RedBlackTreeNode::new(Color::Red, 7, black_leaf(5), black_leaf(8));
 
         run_rb_insert_fixup_test(
-            black(11, red(2, black_leaf(1), Some(z.clone())), black_leaf(14)),
+            black(11, red(2, black_leaf(1), Some(Rc::clone(&z))), black_leaf(14)),
             z,
             &black(
                 7,
                 red(2, black_leaf(1), black_leaf(5)),
                 red(11, black_leaf(8), black_leaf(14)),
             ),
-        )
+        );
     }
 
     #[test]
@@ -322,14 +322,14 @@ mod tests {
         let z = RedBlackTreeNode::new(Color::Red, 9, black_leaf(8), black_leaf(11));
 
         run_rb_insert_fixup_test(
-            black(5, black_leaf(2), red(14, Some(z.clone()), black_leaf(15))),
+            black(5, black_leaf(2), red(14, Some(Rc::clone(&z)), black_leaf(15))),
             z,
             &black(
                 9,
                 red(5, black_leaf(2), black_leaf(8)),
                 red(14, black_leaf(11), black_leaf(15)),
             ),
-        )
+        );
     }
 
     #[test]
@@ -337,10 +337,10 @@ mod tests {
         let z = RedBlackTreeNode::new_leaf(Color::Red, 0);
 
         run_rb_insert_fixup_test(
-            black(3, black(2, red(1, Some(z.clone()), None), None), black_leaf(4)),
+            black(3, black(2, red(1, Some(Rc::clone(&z)), None), None), black_leaf(4)),
             z,
             &black(3, black(1, red_leaf(0), red_leaf(2)), black_leaf(4)),
-        )
+        );
     }
 
     #[test]
@@ -348,10 +348,10 @@ mod tests {
         let z = RedBlackTreeNode::new_leaf(Color::Red, 4);
 
         run_rb_insert_fixup_test(
-            black(1, black_leaf(0), black(2, None, red(3, None, Some(z.clone())))),
+            black(1, black_leaf(0), black(2, None, red(3, None, Some(Rc::clone(&z))))),
             z,
             &black(1, black_leaf(0), black(3, red_leaf(2), red_leaf(4))),
-        )
+        );
     }
 
     #[test]
@@ -361,7 +361,11 @@ mod tests {
         run_rb_insert_fixup_test(
             black(
                 11,
-                red(2, black_leaf(1), black(7, red(5, Some(z.clone()), None), red_leaf(8))),
+                red(
+                    2,
+                    black_leaf(1),
+                    black(7, red(5, Some(Rc::clone(&z)), None), red_leaf(8)),
+                ),
                 black(14, None, red_leaf(15)),
             ),
             z,
@@ -370,7 +374,7 @@ mod tests {
                 red(2, black_leaf(1), black(5, red_leaf(4), None)),
                 red(11, black_leaf(8), black(14, None, red_leaf(15))),
             ),
-        )
+        );
     }
 
     #[test]
@@ -383,7 +387,7 @@ mod tests {
                 black(2, red_leaf(1), None),
                 red(
                     14,
-                    black(9, red_leaf(8), red(11, None, Some(z.clone()))),
+                    black(9, red_leaf(8), red(11, None, Some(Rc::clone(&z)))),
                     black_leaf(15),
                 ),
             ),
@@ -393,7 +397,7 @@ mod tests {
                 red(5, black(2, red_leaf(1), None), black_leaf(8)),
                 red(14, black(11, None, red_leaf(12)), black_leaf(15)),
             ),
-        )
+        );
     }
 
     #[test]

@@ -23,6 +23,7 @@ mod tests {
 
     #[test]
     fn test_get_number_of_paths() {
+        #[allow(trivial_casts)]
         let test_cases = [
             ((&[&[1_usize, 2] as &[usize], &[3], &[3], &[]] as &[&[_]], 0, 3), 2),
             ((&[&[4, 3, 1], &[3, 2, 4], &[3], &[4], &[]], 0, 3), 5),
@@ -31,7 +32,7 @@ mod tests {
             ((&[&[1, 3], &[2], &[3], &[]], 0, 3), 2),
         ];
 
-        for ((graph, s, t), expected) in test_cases.iter().copied() {
+        for ((graph, s, t), expected) in test_cases {
             assert_eq!(
                 get_number_of_paths(
                     graph.iter().map(|nexts| nexts.to_vec()).collect::<Box<_>>().as_ref(),

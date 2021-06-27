@@ -13,7 +13,7 @@ fn distance(p_0: &(f64, f64), p_1: &(f64, f64)) -> f64 {
 
 fn reverse_copy<T: Copy>(target: &mut [T], source: &[T]) {
     for (t, s) in target.iter_mut().zip(source.iter().rev()) {
-        *t = *s
+        *t = *s;
     }
 }
 

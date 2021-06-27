@@ -96,7 +96,11 @@ fn insert_no_adjust<K: Ord, V>(tree: &mut Option<Box<Node<K, V>>>, key: K, value
     }
 }
 
-#[allow(clippy::cast_precision_loss)]
+#[allow(
+    clippy::cast_precision_loss,
+    clippy::cast_possible_truncation,
+    clippy::cast_sign_loss
+)]
 fn apply_balance_factor(value: usize, balance_factor: f64) -> usize {
     (value as f64 * balance_factor).floor() as _
 }
@@ -383,6 +387,7 @@ mod tests {
 
     #[test]
     fn test_into_node_iter() {
+        #[allow(trivial_casts)]
         let test_cases = [
             (make_tree!(), &[] as &[_]),
             (make_tree!(1, 2), &[(1, 2)]),

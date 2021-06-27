@@ -9,7 +9,7 @@ pub enum Infinitable<T: Ord> {
 
 impl<T: Ord> Infinitable<T> {
     pub fn replace_with_infinity(&mut self) -> Option<T> {
-        if let Infinitable::Finity(value) = mem::replace(self, Infinitable::Infinity) {
+        if let Infinitable::Finity(value) = mem::replace(self, Self::Infinity) {
             Some(value)
         } else {
             None
@@ -38,7 +38,7 @@ impl<T: Ord> PartialOrd<T> for Infinitable<T> {
 
 impl<T: Ord> From<T> for Infinitable<T> {
     fn from(val: T) -> Self {
-        Infinitable::Finity(val)
+        Self::Finity(val)
     }
 }
 
@@ -49,7 +49,7 @@ pub struct KeyValuePair<K, V> {
 
 impl<K, V> KeyValuePair<K, V> {
     pub fn new(key: K, value: V) -> Self {
-        KeyValuePair { key, value }
+        Self { key, value }
     }
 }
 

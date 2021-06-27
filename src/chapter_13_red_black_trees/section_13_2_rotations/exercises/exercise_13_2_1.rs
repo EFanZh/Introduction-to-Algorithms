@@ -18,7 +18,7 @@ pub fn right_rotate<T>(x_rc: &mut Rc<RefCell<RedBlackTreeNode<T>>>) {
         x_ref.p = mem::replace(&mut y_right.borrow_mut().p, x_weak);
         x_ref.left = Some(y_right);
     } else {
-        x_ref.p = Rc::downgrade(&y_rc)
+        x_ref.p = Rc::downgrade(&y_rc);
     };
 
     // Change root to y and attach x to y.right.

@@ -142,8 +142,8 @@ fn compress_bits(bits: &[bool]) -> (Box<[u8]>, usize) {
             .map(|bits| {
                 let mut result = 0;
 
-                for (i, bit) in bits.iter().copied().enumerate() {
-                    result |= (bit as u8) << i;
+                for (i, &bit) in bits.iter().enumerate() {
+                    result |= u8::from(bit) << i;
                 }
 
                 result
@@ -187,6 +187,7 @@ mod tests {
     }
 
     fn get_test_cases() -> Box<[TestCase]> {
+        #[allow(trivial_casts)]
         let test_cases = [
             (make_leaf(0), (&[0b1_u8] as &[_], 1)),
             (make_tree(make_leaf(0), make_leaf(1)), (&[0b1_0110], 5)),

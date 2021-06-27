@@ -20,7 +20,11 @@ pub fn bucket_sort(a: &mut [f64]) {
     let mut b = vec![Vec::new(); n];
 
     for &a_i in a.iter() {
-        #[allow(clippy::cast_precision_loss)]
+        #[allow(
+            clippy::cast_possible_truncation,
+            clippy::cast_precision_loss,
+            clippy::cast_sign_loss
+        )]
         b[(n as f64 * a_i) as usize].push(a_i);
     }
 
@@ -47,7 +51,7 @@ mod tests {
         let mut rng = thread_rng();
 
         for n in 0_usize..10 {
-            for _ in 0..2_usize.pow(n as _) {
+            for _ in 0..(1 << n) {
                 assign_vec_from_iter(&mut a, iter::repeat_with(|| rng.gen()).take(n));
                 assign_vec(&mut b, &a);
 

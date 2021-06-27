@@ -122,7 +122,7 @@ mod tests {
                 [0, 0, 0, 4, 5],
                 [0, 0, 0, 0, 5]
             ]
-        )
+        );
     }
 
     #[test]
@@ -133,6 +133,6 @@ mod tests {
         assert_eq!(
             print_optimal_parens(&s, 0, p.len() - 1).to_string(),
             "((A_0 (A_1 A_2)) ((A_3 A_4) A_5))"
-        )
+        );
     }
 }

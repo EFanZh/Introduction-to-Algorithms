@@ -68,7 +68,7 @@ pub fn strongly_connected_components(g: &[Vec<usize>]) -> Vec<Vec<usize>> {
 
             dfs_2(&transposed_graph, node, &mut visited, &mut component);
 
-            result.push(component)
+            result.push(component);
         }
     }
 
@@ -81,7 +81,8 @@ mod tests {
 
     #[test]
     fn test_strongly_connected_components() {
-        let test_cases = &[(
+        #[allow(trivial_casts)]
+        let test_cases = [(
             &[
                 &[1_usize] as &[usize],
                 &[2, 4, 5],
@@ -95,7 +96,7 @@ mod tests {
             &[&[0_usize, 4, 1] as &[usize], &[2, 3], &[6, 5], &[7]],
         )];
 
-        for (g, expected) in test_cases.iter().copied() {
+        for (g, expected) in test_cases {
             assert_eq!(
                 strongly_connected_components(g.iter().map(|nexts| nexts.to_vec()).collect::<Box<_>>().as_ref()),
                 expected

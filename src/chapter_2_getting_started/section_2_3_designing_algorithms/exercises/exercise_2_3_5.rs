@@ -65,7 +65,7 @@ pub fn binary_search_iterative_rust<T: Ord>(a: &[T], v: &T) -> Option<usize> {
     }
 
     if a[base] < *v {
-        base += 1
+        base += 1;
     }
 
     if base < a.len() && *v == a[base] {

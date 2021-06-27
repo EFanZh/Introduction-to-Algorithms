@@ -26,7 +26,7 @@ mod tests {
 
         for n in 0_usize..10 {
             for k in 1..4 {
-                for _ in 0..2_usize.pow(n as _) {
+                for _ in 0..(1 << n) {
                     assign_vec_from_iter(
                         &mut array_1,
                         iter::repeat_with(|| iter::repeat_with(|| rng.gen_range(0..n)).take(k).collect::<Box<_>>())

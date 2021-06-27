@@ -11,14 +11,14 @@ pub fn tree_predecessor<T: Ord>(mut x: Rc<BinaryTreeNode<T>>) -> Option<Rc<Binar
     }
 
     if let Some(left) = x.get_left_child() {
-        Some(tree_maximum(left).clone())
+        Some(Rc::clone(tree_maximum(left)))
     } else {
         let mut y = x.get_parent();
 
         while let Some(y_rc) = &y {
             if let Some(y_left_child) = y_rc.get_left_child() {
                 if Rc::ptr_eq(&x, y_left_child) {
-                    x = y_rc.clone();
+                    x = Rc::clone(y_rc);
                     y = y_rc.get_parent();
                 } else {
                     break;

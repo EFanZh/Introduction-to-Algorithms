@@ -27,7 +27,7 @@ impl<T> Stack<T> for ArrayStack<T> {
     }
 
     fn push(&mut self, x: T) {
-        self.storage.push(x)
+        self.storage.push(x);
     }
 
     fn pop(&mut self) -> T {

@@ -52,7 +52,7 @@ fn build_cut_positions(cache: &[Choice]) -> Box<[usize]> {
 pub fn printing_neatly(word_lengths: &[usize], columns: usize) -> Box<[usize]> {
     let (mut cache, remaining_words) = build_initial_cache(word_lengths, columns);
 
-    for (i, length_i) in word_lengths.iter().copied().enumerate().take(remaining_words).rev() {
+    for (i, &length_i) in word_lengths.iter().enumerate().take(remaining_words).rev() {
         let mut line_extra_spaces = columns.saturating_sub(length_i);
 
         let mut best_choice = Choice {
@@ -60,7 +60,7 @@ pub fn printing_neatly(word_lengths: &[usize], columns: usize) -> Box<[usize]> {
             next_split: i + 1,
         };
 
-        for (j, length_j) in word_lengths.iter().copied().enumerate().skip(i + 1) {
+        for (j, &length_j) in word_lengths.iter().enumerate().skip(i + 1) {
             if let Some(new_line_extra_spaces) = line_extra_spaces.checked_sub(length_j + 1) {
                 let new_cost = cube(new_line_extra_spaces) + cache[j + 1].cost;
 
@@ -91,7 +91,7 @@ pub fn layout_paragraph_neatly(words: &[&str], columns: usize) -> Box<[String]> 
 
     let mut previous_cut = 0;
 
-    for cut in cuts.iter().copied() {
+    for &cut in cuts.iter() {
         result.push(words[previous_cut..cut].join(" "));
 
         previous_cut = cut;

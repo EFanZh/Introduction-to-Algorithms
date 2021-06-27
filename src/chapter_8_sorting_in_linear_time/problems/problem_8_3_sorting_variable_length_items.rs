@@ -98,7 +98,7 @@ mod tests {
 
         for n in 0_usize..10 {
             for max_length in 0..10 {
-                for _ in 0..2_usize.pow(n as _) {
+                for _ in 0..(1 << n) {
                     assign_vec_from_iter(&mut a, iter::repeat_with(|| random_str(max_length, &mut rng)).take(n));
                     assign_vec(&mut b, &a);
 

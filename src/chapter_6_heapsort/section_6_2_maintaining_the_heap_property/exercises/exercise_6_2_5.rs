@@ -9,7 +9,7 @@ pub fn max_heapify_iterative<T: Ord>(a: &mut [T], mut i: usize) {
         let mut largest = if l < heap_size && a[l] > a[i] { l } else { i };
 
         if r < heap_size && a[r] > a[largest] {
-            largest = r
+            largest = r;
         }
 
         if largest == i {

@@ -54,12 +54,11 @@ pub mod tests {
 
     #[test]
     fn test_schedule_activities() {
-        type TestCase<'a> = (&'a [(u64, u64)], &'a [usize]);
-
-        let test_cases: &[TestCase] = &[
+        #[allow(trivial_casts)]
+        let test_cases = [
             (
                 &[
-                    (1, 4),
+                    (1_u64, 4_u64),
                     (3, 5),
                     (0, 6),
                     (5, 7),
@@ -70,13 +69,13 @@ pub mod tests {
                     (8, 12),
                     (2, 14),
                     (12, 16),
-                ],
-                &[1, 3, 0, 1, 4, 3, 0, 1, 5, 2, 4],
+                ] as &[_],
+                &[1_usize, 3, 0, 1, 4, 3, 0, 1, 5, 2, 4] as &[_],
             ),
             (&[(1, 4), (2, 5), (6, 7), (4, 8)], &[0, 1, 1, 0]),
         ];
 
-        for (activities, expected_result) in test_cases.iter().copied() {
+        for (activities, expected_result) in test_cases {
             assert_eq!(*schedule_activities(activities), *expected_result);
         }
     }

@@ -61,6 +61,7 @@ mod tests {
 
     #[test]
     fn test_square_adjacency_list() {
+        #[allow(trivial_casts)]
         let test_cases = [(
             &[(2, &[3, 4] as &[_]), (3, &[4, 7]), (4, &[8, 9]), (7, &[12])] as &[(_, &[_])],
             &[
@@ -71,7 +72,7 @@ mod tests {
             ] as &[(_, &[_])],
         )];
 
-        for (graph, expected) in test_cases.iter().copied() {
+        for (graph, expected) in test_cases {
             let mut result = square_adjacency_list(
                 &graph
                     .iter()

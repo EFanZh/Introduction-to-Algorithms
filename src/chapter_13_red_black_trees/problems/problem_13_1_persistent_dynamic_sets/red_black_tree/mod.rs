@@ -19,7 +19,7 @@ struct NodeContent<K, V> {
 impl<K, V> NodeContent<K, V> {
     fn with_value(&self, value: Rc<V>) -> Self {
         Self {
-            key: self.key.clone(),
+            key: Rc::clone(&self.key),
             value,
         }
     }
@@ -28,8 +28,8 @@ impl<K, V> NodeContent<K, V> {
 impl<K, V> Clone for NodeContent<K, V> {
     fn clone(&self) -> Self {
         Self {
-            key: self.key.clone(),
-            value: self.value.clone(),
+            key: Rc::clone(&self.key),
+            value: Rc::clone(&self.value),
         }
     }
 }
@@ -96,7 +96,7 @@ enum RedOrBlackNode<K, V> {
 impl<K, V> Clone for RedOrBlackNode<K, V> {
     fn clone(&self) -> Self {
         match self {
-            Self::Red(node) => Self::Red(node.clone()),
+            Self::Red(node) => Self::Red(Rc::clone(node)),
             Self::Black(node) => Self::Black(node.clone()),
         }
     }

@@ -89,6 +89,7 @@ mod tests {
     use super::{dfs, Attribute, Color};
 
     pub fn run_dfs_test(mut f: impl FnMut(&[Vec<usize>]) -> Vec<Attribute>) {
+        #[allow(trivial_casts)]
         let test_cases = [(
             &[&[1_usize, 3] as &[usize], &[4], &[4, 5], &[1], &[3], &[5]] as &[&[usize]],
             &[
@@ -101,7 +102,7 @@ mod tests {
             ],
         )];
 
-        for (graph, expected) in test_cases.iter().copied() {
+        for (graph, expected) in test_cases {
             let result = f(graph.iter().map(|node| node.to_vec()).collect::<Box<_>>().as_ref());
 
             assert!(result.iter().all(|attribute| attribute.color == Color::Black));

@@ -39,11 +39,13 @@ pub fn reachability(graph: &[&[usize]]) -> Box<[usize]> {
 mod tests {
     #[test]
     fn test_eachability() {
-        type Graph<'a> = [&'a [usize]];
+        #[allow(trivial_casts)]
+        let test_cases = [(
+            &[&[1_usize] as &[usize], &[2], &[3], &[4], &[3]] as &[&[usize]],
+            &[0_usize, 1, 2, 3, 3] as &[usize],
+        )];
 
-        let test_cases: &[(&Graph, &[usize])] = &[(&[&[1], &[2], &[3], &[4], &[3]], &[0, 1, 2, 3, 3])];
-
-        for (graph, expected) in test_cases.iter().copied() {
+        for (graph, expected) in test_cases {
             assert_eq!(super::reachability(graph).as_ref(), expected);
         }
     }

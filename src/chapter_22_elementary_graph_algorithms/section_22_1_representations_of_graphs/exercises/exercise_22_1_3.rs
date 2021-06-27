@@ -34,6 +34,7 @@ mod tests {
 
     #[test]
     fn test_transpose_adjacency_list() {
+        #[allow(trivial_casts)]
         let test_cases = [
             (
                 &[(2, &[3, 4] as &[_])] as &[(_, &[_])],
@@ -45,7 +46,7 @@ mod tests {
             ),
         ];
 
-        for (graph, expected) in test_cases.iter().copied() {
+        for (graph, expected) in test_cases {
             let mut result = transpose_adjacency_list(
                 &graph
                     .iter()

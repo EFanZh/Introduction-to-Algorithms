@@ -36,11 +36,15 @@ mod tests {
         let mut rng = thread_rng();
 
         for n in 0_usize..10 {
-            for _ in 0..2_usize.pow(n as _) {
+            for _ in 0..(1 << n) {
                 assign_vec_from_iter(&mut a, iter::repeat_with(|| rng.gen()).take(n));
                 assign_vec(&mut b, &a);
 
-                #[allow(clippy::cast_precision_loss)]
+                #[allow(
+                    clippy::cast_possible_truncation,
+                    clippy::cast_precision_loss,
+                    clippy::cast_sign_loss
+                )]
                 bucket_sort_by(
                     &mut b,
                     |x| ((n as f64) * x) as usize,

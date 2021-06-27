@@ -4,8 +4,12 @@ fn magnitude2((x, y): &(f64, f64)) -> f64 {
     x * x + y * y
 }
 
+#[allow(
+    clippy::cast_precision_loss,
+    clippy::cast_sign_loss,
+    clippy::cast_possible_truncation
+)]
 pub fn bucker_sort_points(a: &mut [(f64, f64)]) {
-    #[allow(clippy::cast_precision_loss)]
     let n = a.len() as f64;
 
     bucket_sort_by(
@@ -29,7 +33,7 @@ mod tests {
         let mut rng = thread_rng();
 
         for n in 0_usize..10 {
-            for _ in 0..2_usize.pow(n as _) {
+            for _ in 0..(1 << n) {
                 assign_vec_from_iter(
                     &mut a,
                     iter::repeat_with(|| (rng.gen(), rng.gen()))

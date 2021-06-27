@@ -35,6 +35,7 @@ mod tests {
 
     #[test]
     fn test_get_connected_components() {
+        #[allow(trivial_casts)]
         let test_cases = [
             (
                 &[
@@ -50,7 +51,7 @@ mod tests {
             (&[&[], &[2], &[1], &[4, 5], &[3], &[3]], &[0, 1, 1, 2, 2, 2]),
         ];
 
-        for (graph, expected) in test_cases.iter().copied() {
+        for (graph, expected) in test_cases {
             assert_eq!(
                 get_connected_components(graph.iter().map(|node| node.to_vec()).collect::<Box<_>>().as_ref()),
                 expected

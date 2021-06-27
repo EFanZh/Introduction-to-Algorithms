@@ -79,7 +79,7 @@ mod tests {
 
                 assert_eq!(results.len(), binomial(n, m));
 
-                results.clear()
+                results.clear();
             }
         }
     }

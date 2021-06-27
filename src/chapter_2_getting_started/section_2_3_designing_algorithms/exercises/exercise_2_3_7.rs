@@ -30,24 +30,24 @@ mod tests {
 
     #[test]
     fn test_two_sum() {
-        assert_eq!(two_sum(&[], 0), false);
-        assert_eq!(two_sum(&[0], 0), false);
-        assert_eq!(two_sum(&[0, 0], 0), true);
-        assert_eq!(two_sum(&[0, 1], 0), false);
-        assert_eq!(two_sum(&[1, 0], 1), true);
-        assert_eq!(two_sum(&[0, 0, 0], 0), true);
-        assert_eq!(two_sum(&[0, 0, 0], 1), false);
-        assert_eq!(two_sum(&[0, 0, 1], 0), true);
-        assert_eq!(two_sum(&[0, 0, 1], 1), true);
-        assert_eq!(two_sum(&[0, 0, 1], 2), false);
-        assert_eq!(two_sum(&[0, 1, 1], 0), false);
-        assert_eq!(two_sum(&[0, 1, 1], 1), true);
-        assert_eq!(two_sum(&[0, 1, 1], 2), true);
-        assert_eq!(two_sum(&[0, 1, 1], 3), false);
-        assert_eq!(two_sum(&[0, 1, 2], 0), false);
-        assert_eq!(two_sum(&[0, 1, 2], 1), true);
-        assert_eq!(two_sum(&[0, 1, 2], 2), true);
-        assert_eq!(two_sum(&[0, 1, 2], 3), true);
-        assert_eq!(two_sum(&[0, 1, 2], 4), false);
+        assert!(!two_sum(&[], 0));
+        assert!(!two_sum(&[0], 0));
+        assert!(two_sum(&[0, 0], 0));
+        assert!(!two_sum(&[0, 1], 0));
+        assert!(two_sum(&[1, 0], 1));
+        assert!(two_sum(&[0, 0, 0], 0));
+        assert!(!two_sum(&[0, 0, 0], 1));
+        assert!(two_sum(&[0, 0, 1], 0));
+        assert!(two_sum(&[0, 0, 1], 1));
+        assert!(!two_sum(&[0, 0, 1], 2));
+        assert!(!two_sum(&[0, 1, 1], 0));
+        assert!(two_sum(&[0, 1, 1], 1));
+        assert!(two_sum(&[0, 1, 1], 2));
+        assert!(!two_sum(&[0, 1, 1], 3));
+        assert!(!two_sum(&[0, 1, 2], 0));
+        assert!(two_sum(&[0, 1, 2], 1));
+        assert!(two_sum(&[0, 1, 2], 2));
+        assert!(two_sum(&[0, 1, 2], 3));
+        assert!(!two_sum(&[0, 1, 2], 4));
     }
 }

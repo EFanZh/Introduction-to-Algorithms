@@ -125,7 +125,7 @@ pub fn extended_bottom_up_cut_rod(p: &[u32]) -> (Box<[u32]>, Box<[usize]>) {
 
             if q < new_q {
                 q = new_q;
-                new_s_j = i
+                new_s_j = i;
             }
         }
 

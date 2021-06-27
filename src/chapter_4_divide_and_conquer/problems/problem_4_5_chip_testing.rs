@@ -25,7 +25,7 @@ pub fn find_one_good_chip_naive<T: Chip>(chips: &[T]) -> Option<&T> {
                 helper(&filtered_chips)
             } else {
                 match helper(&filtered_chips) {
-                    None => chips.last().cloned(),
+                    None => chips.last().copied(),
                     Some(good_chip) => Some(good_chip),
                 }
             }

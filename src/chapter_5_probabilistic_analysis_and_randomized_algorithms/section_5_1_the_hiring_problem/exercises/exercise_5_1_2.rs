@@ -1,5 +1,6 @@
 use rand::Rng;
 
+#[allow(clippy::cast_possible_truncation)]
 #[must_use]
 pub fn random(a: i32, b: i32) -> i32 {
     let range = b - a;

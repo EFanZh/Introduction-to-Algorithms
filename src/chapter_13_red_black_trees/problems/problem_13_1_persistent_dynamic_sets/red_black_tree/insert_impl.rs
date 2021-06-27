@@ -32,7 +32,7 @@ fn relaxed_insert_left<K: Ord, V>(node: &BlackNode<K, V>, key: Rc<K>, value: Rc<
             },
             Ordering::Equal => RelaxedInsertResult::Black(
                 node.with_left(left.with_value_rc(value)),
-                Some(left.content.value.clone()),
+                Some(Rc::clone(&left.content.value)),
             ),
             Ordering::Greater => match relaxed_insert(&left.right, key, value) {
                 RelaxedInsertResult::Red(new_left_right) => match &node.right {
@@ -89,7 +89,7 @@ fn relaxed_insert_right<K: Ord, V>(node: &BlackNode<K, V>, key: Rc<K>, value: Rc
             },
             Ordering::Equal => RelaxedInsertResult::Black(
                 node.with_right(right.with_value_rc(value)),
-                Some(right.content.value.clone()),
+                Some(Rc::clone(&right.content.value)),
             ),
             Ordering::Greater => match relaxed_insert(&right.right, key, value) {
                 RelaxedInsertResult::Red(new_right_right) => match &node.left {
@@ -129,7 +129,7 @@ fn relaxed_insert<K: Ord, V>(node: &RedBlackTree<K, V>, key: Rc<K>, value: Rc<V>
     if let Some(node) = node {
         match key.cmp(&node.content.key) {
             Ordering::Less => relaxed_insert_left(node, key, value),
-            Ordering::Equal => RelaxedInsertResult::Black(node.with_value(value), Some(node.content.value.clone())),
+            Ordering::Equal => RelaxedInsertResult::Black(node.with_value(value), Some(Rc::clone(&node.content.value))),
             Ordering::Greater => relaxed_insert_right(node, key, value),
         }
     } else {
@@ -268,7 +268,7 @@ mod tests {
         );
 
         assert_eq!(
-            insert(tree.clone(), 1, 11),
+            insert(Rc::clone(&tree), 1, 11),
             (
                 black(
                     8,
@@ -281,7 +281,7 @@ mod tests {
         );
 
         assert_eq!(
-            insert(tree.clone(), 5, 55),
+            insert(Rc::clone(&tree), 5, 55),
             (
                 black(
                     8,
@@ -294,7 +294,7 @@ mod tests {
         );
 
         assert_eq!(
-            insert(tree.clone(), 9, 99),
+            insert(Rc::clone(&tree), 9, 99),
             (
                 black(
                     8,

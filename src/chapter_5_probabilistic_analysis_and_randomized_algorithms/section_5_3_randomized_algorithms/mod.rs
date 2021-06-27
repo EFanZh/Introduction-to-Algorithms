@@ -54,10 +54,10 @@ pub fn randomize_in_place<T>(a: &mut [T]) {
 mod tests {
     use std::collections::HashMap;
 
-    pub fn run_test_randomize<F: Fn(&mut [i32])>(f: F) {
+    pub fn run_test_randomize<F: Fn(&mut [u32])>(f: F) {
         let mut a = Vec::new();
         let mut a_sorted = Vec::new();
-        let mut permutation_counter = HashMap::<Vec<i32>, usize>::new();
+        let mut permutation_counter = HashMap::<Vec<_>, _>::new();
         let mut expected_permutations = 1;
 
         for n in 0..=6 {

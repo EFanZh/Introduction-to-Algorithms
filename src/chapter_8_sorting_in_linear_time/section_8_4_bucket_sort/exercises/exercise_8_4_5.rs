@@ -1,12 +1,16 @@
 use super::super::extra::bucket_sort_by;
 use std::cmp::Ordering;
 
+#[allow(
+    clippy::cast_possible_truncation,
+    clippy::cast_precision_loss,
+    clippy::cast_sign_loss
+)]
 pub fn bucker_sort_by_probability_distribution<T: Clone, F: FnMut(&T, &T) -> Ordering, P: FnMut(&T) -> f64>(
     a: &mut [T],
     compare: F,
     mut p: P,
 ) {
-    #[allow(clippy::cast_precision_loss)]
     let n = a.len() as f64;
 
     bucket_sort_by(a, |x| (n * p(x)).ceil() as usize - 1, compare);
@@ -26,7 +30,7 @@ mod tests {
         let mut rng = thread_rng();
 
         for n in 0_usize..10 {
-            for _ in 0..2_usize.pow(n as _) {
+            for _ in 0..(1 << n) {
                 assign_vec_from_iter(&mut a, iter::repeat_with(|| rng.gen::<f64>()).take(n));
 
                 assign_vec(&mut b, &a);

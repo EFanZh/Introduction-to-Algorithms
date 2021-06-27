@@ -33,7 +33,7 @@ impl<K, V> Node<K, V> {
 
     fn with_value(&self, value: Rc<V>) -> Self {
         Self {
-            key: self.key.clone(),
+            key: Rc::clone(&self.key),
             value,
             left: self.left.clone(),
             right: self.right.clone(),
@@ -42,8 +42,8 @@ impl<K, V> Node<K, V> {
 
     fn with_left(&self, left: Option<Rc<Self>>) -> Self {
         Self {
-            key: self.key.clone(),
-            value: self.value.clone(),
+            key: Rc::clone(&self.key),
+            value: Rc::clone(&self.value),
             left,
             right: self.right.clone(),
         }
@@ -51,8 +51,8 @@ impl<K, V> Node<K, V> {
 
     fn with_right(&self, right: Option<Rc<Self>>) -> Self {
         Self {
-            key: self.key.clone(),
-            value: self.value.clone(),
+            key: Rc::clone(&self.key),
+            value: Rc::clone(&self.value),
             left: self.left.clone(),
             right,
         }
@@ -72,7 +72,7 @@ pub fn persistent_tree_insert<K: Ord, V>(
 
                 (Rc::new(node.with_left(Some(new_left))), old_value)
             }
-            Ordering::Equal => (Rc::new(node.with_value(value)), Some(node.value.clone())),
+            Ordering::Equal => (Rc::new(node.with_value(value)), Some(Rc::clone(&node.value))),
             Ordering::Greater => {
                 let (new_right, old_value) = persistent_tree_insert(&node.right, key, value);
 
@@ -101,7 +101,7 @@ pub fn persistent_tree_search<'a, K: Ord + Borrow<Q>, V, Q: Ord + ?Sized>(
 
 fn persistent_tree_remove_min<K, V>(tree: &Node<K, V>) -> (Tree<K, V>, (Rc<K>, Rc<V>)) {
     tree.left.as_deref().map_or_else(
-        || (tree.right.clone(), (tree.key.clone(), tree.value.clone())),
+        || (tree.right.clone(), (Rc::clone(&tree.key), Rc::clone(&tree.value))),
         |left| {
             let (new_left, (min_key, min_value)) = persistent_tree_remove_min(left);
 
@@ -122,17 +122,17 @@ pub fn persistent_tree_remove<K: Ord + Borrow<Q>, V, Q: Ord + ?Sized>(
                 || node.right.clone(),
                 |left| {
                     Some(node.right.as_deref().map_or_else(
-                        || left.clone(),
+                        || Rc::clone(left),
                         |right| {
                             let (new_right, (min_key, min_value)) = persistent_tree_remove_min(right);
 
-                            Rc::new(Node::new(min_key, min_value, Some(left.clone()), new_right))
+                            Rc::new(Node::new(min_key, min_value, Some(Rc::clone(left)), new_right))
                         },
                     ))
                 },
             );
 
-            Some((new_tree, node.value.clone()))
+            Some((new_tree, Rc::clone(&node.value)))
         }
         Ordering::Greater => persistent_tree_remove(&node.right, key)
             .map(|(new_right, old_value)| (Some(Rc::new(node.with_right(new_right))), old_value)),

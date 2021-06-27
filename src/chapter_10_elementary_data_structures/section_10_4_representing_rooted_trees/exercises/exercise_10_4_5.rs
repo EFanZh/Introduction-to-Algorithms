@@ -3,7 +3,7 @@ use std::rc::Rc;
 
 pub fn iterate_tree<T, F: FnMut(&T)>(root: &Option<Rc<UnboundedBranchingTreeNode<T>>>, mut f: F) {
     if let Some(root_ref) = root {
-        let mut current_node = root_ref.clone();
+        let mut current_node = Rc::clone(root_ref);
 
         loop {
             f(current_node.get_key());
@@ -11,25 +11,25 @@ pub fn iterate_tree<T, F: FnMut(&T)>(root: &Option<Rc<UnboundedBranchingTreeNode
             if let Some(left_child) = current_node.get_left_child() {
                 // Traverse first child.
 
-                current_node = left_child.clone();
+                current_node = Rc::clone(left_child);
             } else if let Some(right_sibling) = current_node.get_right_sibling() {
                 // Traverse right sibling.
 
-                current_node = right_sibling.clone();
+                current_node = Rc::clone(right_sibling);
             } else {
                 // Traverse parent’s right sibling.
 
                 loop {
                     if let Some(parent) = current_node.get_parent() {
                         if let Some(parent_right_sibling) = parent.get_right_sibling() {
-                            current_node = parent_right_sibling.clone();
+                            current_node = Rc::clone(parent_right_sibling);
 
                             break;
                         }
 
                         // No parent’s right sibling, go to one level up.
 
-                        current_node = parent.clone();
+                        current_node = Rc::clone(&parent);
                     } else {
                         return;
                     }

@@ -30,10 +30,10 @@ pub(super) mod tests {
     macro_rules! __make_btree_node {
         (($($first_child:tt)*) $(, $key:expr => $value:expr, ($($child:tt)*))+) => {
             $crate::chapter_18_basic_operations_on_b_trees::section_18_1_definition_of_b_trees::Node::internal(
-                ::std::vec![$(($key, $value)),*],
+                ::std::vec![$(($key, $value)),+],
                 ::std::vec![
                     crate::__make_btree_node!($($first_child)*)
-                    $(, crate::__make_btree_node!($($child)*))*
+                    $(, crate::__make_btree_node!($($child)*))+
                 ],
             )
         };

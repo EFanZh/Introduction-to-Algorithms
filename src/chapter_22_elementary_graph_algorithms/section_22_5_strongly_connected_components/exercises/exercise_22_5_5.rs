@@ -85,7 +85,7 @@ pub fn get_scc_graph(g: &[Vec<usize>]) -> (Vec<Vec<usize>>, Vec<Vec<usize>>) {
                 &mut scc_edges,
             );
 
-            component_groups.push(component)
+            component_groups.push(component);
         }
     }
 
@@ -106,6 +106,7 @@ mod tests {
 
     #[test]
     fn test_get_scc_graph() {
+        #[allow(trivial_casts)]
         let test_cases = &[(
             &[
                 &[1_usize] as &[usize],
@@ -123,7 +124,7 @@ mod tests {
             ),
         )];
 
-        for (g, expected) in test_cases.iter().copied() {
+        for (g, expected) in test_cases {
             let mut result = get_scc_graph(g.iter().map(|nexts| nexts.to_vec()).collect::<Box<_>>().as_ref());
 
             for nexts in &mut result.1 {

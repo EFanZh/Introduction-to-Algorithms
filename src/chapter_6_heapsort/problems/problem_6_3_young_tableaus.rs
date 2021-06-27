@@ -31,7 +31,7 @@ impl<T: Ord> YoungTableau<T> {
     }
 
     fn swap(&mut self, i1: usize, j1: usize, i2: usize, j2: usize) {
-        self.data.swap(self.get_data_index(i1, j1), self.get_data_index(i2, j2))
+        self.data.swap(self.get_data_index(i1, j1), self.get_data_index(i2, j2));
     }
 
     fn young_tableaufy(&mut self, mut i: usize, mut j: usize) {
@@ -136,7 +136,11 @@ impl<T: Ord> YoungTableau<T> {
 }
 
 pub fn young_tableau_sort<T: Ord + Clone>(a: &mut [T]) {
-    #[allow(clippy::cast_precision_loss)]
+    #[allow(
+        clippy::cast_possible_truncation,
+        clippy::cast_precision_loss,
+        clippy::cast_sign_loss
+    )]
     let n = (a.len() as f64).sqrt().ceil() as usize;
 
     let mut young_tableau = YoungTableau::new(n, n);

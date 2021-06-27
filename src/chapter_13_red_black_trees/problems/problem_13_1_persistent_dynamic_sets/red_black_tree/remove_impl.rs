@@ -218,16 +218,16 @@ fn remove_red<K: Borrow<Q>, V, Q: Ord + ?Sized>(
             if let (Some(left), Some(right)) = (&node.left, &node.right) {
                 match remove_min_black(right) {
                     (new_right, min_content, false) => Some((
-                        RedNode::new_rc(min_content, left.clone(), new_right).into(),
-                        node.content.value.clone(),
+                        RedNode::new_rc(min_content, Rc::clone(left), new_right).into(),
+                        Rc::clone(&node.content.value),
                     )),
                     (new_right, min_content, true) => Some((
                         rebalance_right_red(min_content, left, new_right),
-                        node.content.value.clone(),
+                        Rc::clone(&node.content.value),
                     )),
                 }
             } else {
-                Some((None.into(), node.content.value.clone()))
+                Some((None.into(), Rc::clone(&node.content.value)))
             }
         }
         Ordering::Greater => match remove_black(&node.right, key) {
@@ -265,33 +265,34 @@ fn remove_black<K: Borrow<Q>, V, Q: Ord + ?Sized>(tree: &RedBlackTree<K, V>, key
             },
             Ordering::Equal => match (&node.left, &node.right) {
                 (RedOrBlackNode::Black(None), RedOrBlackNode::Black(None)) => {
-                    RemoveBlackResult::BlackHeightReduced(None, node.content.value.clone())
+                    RemoveBlackResult::BlackHeightReduced(None, Rc::clone(&node.content.value))
                 }
                 (RedOrBlackNode::Black(None), RedOrBlackNode::Red(right)) => RemoveBlackResult::BlackHeightUnchanged(
-                    Some((Some(right.with_black_color_rc()), node.content.value.clone())),
+                    Some((Some(right.with_black_color_rc()), Rc::clone(&node.content.value))),
                 ),
                 (RedOrBlackNode::Red(left), RedOrBlackNode::Black(None)) => RemoveBlackResult::BlackHeightUnchanged(
-                    Some((Some(left.with_black_color_rc()), node.content.value.clone())),
+                    Some((Some(left.with_black_color_rc()), Rc::clone(&node.content.value))),
                 ),
                 (left, RedOrBlackNode::Red(right)) => {
                     let (new_right, min_node_content) = remove_min_red(right);
 
                     RemoveBlackResult::BlackHeightUnchanged(Some((
                         Some(BlackNode::new_rc(min_node_content, left.clone(), new_right)),
-                        node.content.value.clone(),
+                        Rc::clone(&node.content.value),
                     )))
                 }
                 (left, RedOrBlackNode::Black(Some(right))) => match remove_min_black(right) {
                     (new_right, min_content, false) => RemoveBlackResult::BlackHeightUnchanged(Some((
                         BlackNode::new_rc(min_content, left.clone(), new_right).into(),
-                        node.content.value.clone(),
+                        Rc::clone(&node.content.value),
                     ))),
                     (new_right, min_content, true) => match rebalance_right_black(min_content, left, new_right) {
-                        (new_node, false) => {
-                            RemoveBlackResult::BlackHeightUnchanged(Some((Some(new_node), node.content.value.clone())))
-                        }
+                        (new_node, false) => RemoveBlackResult::BlackHeightUnchanged(Some((
+                            Some(new_node),
+                            Rc::clone(&node.content.value),
+                        ))),
                         (new_node, true) => {
-                            RemoveBlackResult::BlackHeightReduced(Some(new_node), node.content.value.clone())
+                            RemoveBlackResult::BlackHeightReduced(Some(new_node), Rc::clone(&node.content.value))
                         }
                     },
                 },
@@ -335,7 +336,7 @@ pub fn persistent_red_black_tree_remove<K: Borrow<Q>, V, Q: Ord + ?Sized>(
 #[cfg(test)]
 mod tests {
     use super::super::tests::{black, black_leaf, red, red_leaf};
-    use super::super::RedBlackTree;
+    use super::super::{BlackNode, RedBlackTree};
     use super::persistent_red_black_tree_remove;
     use std::borrow::Borrow;
     use std::rc::Rc;
@@ -349,7 +350,7 @@ mod tests {
 
     #[test]
     fn test_remove_not_exist() {
-        assert_eq!(remove(None as RedBlackTree<i32, i32>, &4), None);
+        assert_eq!(remove(None::<Rc<BlackNode<i32, i32>>>, &4), None);
         assert_eq!(remove(black(4, 3, red_leaf(2, 2), red_leaf(6, 5)), &1), None);
         assert_eq!(remove(black(4, 3, red_leaf(2, 2), red_leaf(6, 5)), &3), None);
         assert_eq!(remove(black(4, 3, red_leaf(2, 2), red_leaf(6, 5)), &5), None);

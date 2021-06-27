@@ -56,6 +56,7 @@ mod tests {
 
     #[test]
     fn test_partition() {
+        #[allow(trivial_casts)]
         let test_cases = [
             (
                 &[&[1_usize, 3] as &[usize], &[0, 2], &[1, 3], &[0, 2]] as &[&[usize]],
@@ -64,7 +65,7 @@ mod tests {
             (&[&[1, 2, 3], &[0, 2], &[0, 1, 3], &[0, 2]], None),
         ];
 
-        for (graph, expected) in test_cases.iter().copied() {
+        for (graph, expected) in test_cases {
             let result = partition(&graph.iter().map(|edge| edge.to_vec()).collect::<Box<_>>());
 
             assert_eq!(

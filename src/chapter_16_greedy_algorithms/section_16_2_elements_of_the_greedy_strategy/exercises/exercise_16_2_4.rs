@@ -52,7 +52,7 @@ mod tests {
 
     #[test]
     fn test_select_water_stops_empty_unreachable() {
-        run_test(&[], 10, 5, None)
+        run_test(&[], 10, 5, None);
     }
 
     #[test]

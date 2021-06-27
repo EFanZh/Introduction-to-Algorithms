@@ -18,7 +18,7 @@ pub fn transform<T: Clone>(source: &[T], operations: &[Operation<T>]) -> Box<[T]
             Operation::Copy => result.push(source_iter.next().unwrap().clone()),
             Operation::Replace(value) => {
                 source_iter.next().unwrap();
-                result.push(value.clone())
+                result.push(value.clone());
             }
             Operation::Delete => {
                 source_iter.next().unwrap();
@@ -150,7 +150,7 @@ pub fn find_optimal_transform_sequence<T: Eq + Clone>(
                 let cost_if_twiddle = costs.twiddle + cache[columns * (i + 2) + (j + 2)].1;
 
                 if cost_if_twiddle < best_choice.1 {
-                    best_choice = (InternalOperation::Twiddle, cost_if_twiddle)
+                    best_choice = (InternalOperation::Twiddle, cost_if_twiddle);
                 }
             }
 
@@ -359,7 +359,7 @@ mod tests {
 
     #[test]
     fn test_transform() {
-        for ((source, operations), expected) in TRANSFORM_TEST_CASES.iter().copied() {
+        for &((source, operations), expected) in TRANSFORM_TEST_CASES {
             assert_eq!(*transform(source, operations), *expected);
         }
     }

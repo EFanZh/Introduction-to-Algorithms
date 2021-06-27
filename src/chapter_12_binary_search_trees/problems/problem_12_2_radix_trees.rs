@@ -24,7 +24,7 @@ impl<T: Ord> RadixTree<T> {
         let mut node = self;
 
         for item in key {
-            node = node.children.entry(item).or_default()
+            node = node.children.entry(item).or_default();
         }
 
         node.has_value = true;

@@ -59,7 +59,7 @@ fn generate_all_unordered_sequences<F: FnMut(&mut [i32])>(
         if !sequence.next_permutation() {
             break;
         }
-    })
+    });
 }
 
 pub fn is_max_heap<T: Ord>(a: &[T]) -> bool {
@@ -96,7 +96,7 @@ lazy_static! {
 
         generate_all_unordered_sequences(&mut sequence_storage, &mut diff_storage, |test_case| {
             let test_case = test_case.to_vec();
-            let mut sorted_test_case = test_case.to_vec();
+            let mut sorted_test_case = test_case.clone();
 
             sorted_test_case.sort_unstable();
 
@@ -257,7 +257,7 @@ mod tests {
             if max_length == 0 {
                 assert_eq!(result.len(), 1);
             } else {
-                assert_eq!(result.len(), usize::pow(2, max_length as u32));
+                assert_eq!(result.len(), 1 << max_length);
             }
         }
     }

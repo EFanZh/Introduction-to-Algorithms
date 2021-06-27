@@ -56,7 +56,7 @@ pub fn plan_investment_strategy(
         *r = strategy;
 
         if let Some(previous_strategy) = choices[strategy].1 {
-            strategy = previous_strategy
+            strategy = previous_strategy;
         }
     }
 

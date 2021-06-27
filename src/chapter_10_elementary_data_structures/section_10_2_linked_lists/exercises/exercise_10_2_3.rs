@@ -69,7 +69,7 @@ impl<T> Queue<T> for SinglyLinkedListQueue<T> {
             self.head = Some(next_element);
         } else {
             self.head = None;
-            self.tail = None
+            self.tail = None;
         }
 
         self.length -= 1;

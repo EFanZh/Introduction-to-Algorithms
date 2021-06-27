@@ -7,7 +7,7 @@ pub fn min_heapify<T: Ord>(a: &mut [T], i: usize) {
     let mut smallest = if l < heap_size && a[l] < a[i] { l } else { i };
 
     if r < heap_size && a[r] < a[smallest] {
-        smallest = r
+        smallest = r;
     }
 
     if smallest != i {
@@ -26,7 +26,7 @@ pub fn min_heapify_iterative<T: Ord>(a: &mut [T], mut i: usize) {
         let mut smallest = if l < heap_size && a[l] < a[i] { l } else { i };
 
         if r < heap_size && a[r] < a[smallest] {
-            smallest = r
+            smallest = r;
         }
 
         if smallest == i {

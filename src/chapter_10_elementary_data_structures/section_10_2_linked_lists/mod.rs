@@ -29,7 +29,7 @@ impl<T> DoublyLinkedListElement<T> {
 
 impl<T> Clone for DoublyLinkedListElement<T> {
     fn clone(&self) -> Self {
-        Self(self.0.clone())
+        Self(Rc::clone(&self.0))
     }
 }
 

@@ -96,14 +96,14 @@ pub fn tree_successor<T: Ord>(mut x: Rc<BinaryTreeNode<T>>) -> Option<Rc<BinaryT
     }
 
     if let Some(right) = x.get_right_child() {
-        Some(tree_minimum(right).clone())
+        Some(Rc::clone(tree_minimum(right)))
     } else {
         let mut y = x.get_parent();
 
         while let Some(y_rc) = &y {
             if let Some(y_right_child) = y_rc.get_right_child() {
                 if Rc::ptr_eq(&x, y_right_child) {
-                    x = y_rc.clone();
+                    x = Rc::clone(y_rc);
                     y = y_rc.get_parent();
                 } else {
                     break;
