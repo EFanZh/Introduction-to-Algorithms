@@ -6,8 +6,8 @@ pub mod exercises;
 
 fn merge_into_left<K, V>(left: &mut Node<K, V>, middle: (K, V), right: &mut Node<K, V>) {
     left.data.push(middle);
-    left.data.extend(right.data.drain(..));
-    left.children.extend(right.children.drain(..));
+    left.data.append(&mut right.data);
+    left.children.append(&mut right.children);
 }
 
 fn borrow_into_left<K, V>(left: &mut Node<K, V>, middle: &mut (K, V), right: &mut Node<K, V>) {
@@ -48,15 +48,15 @@ fn delete_min<K: Borrow<Q>, V, Q: Ord + ?Sized>(node: &mut Node<K, V>, t: usize)
 }
 
 fn delete_max<K: Borrow<Q>, V, Q: Ord + ?Sized>(node: &mut Node<K, V>, t: usize) -> (K, V) {
-    if let [.., predeceding_child, last_child] = node.children.as_mut_slice() {
+    if let [.., preceding_child, last_child] = node.children.as_mut_slice() {
         if last_child.data.len() < t {
-            if predeceding_child.data.len() < t {
-                merge_into_left(predeceding_child, node.data.pop().unwrap(), last_child);
+            if preceding_child.data.len() < t {
+                merge_into_left(preceding_child, node.data.pop().unwrap(), last_child);
                 node.children.pop();
 
                 delete_max(node.children.last_mut().unwrap(), t)
             } else {
-                borrow_into_right(predeceding_child, node.data.last_mut().unwrap(), last_child);
+                borrow_into_right(preceding_child, node.data.last_mut().unwrap(), last_child);
 
                 delete_max(last_child, t)
             }
