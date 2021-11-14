@@ -71,6 +71,7 @@ pub mod chapter_17_amortized_analysis;
 pub mod chapter_18_basic_operations_on_b_trees;
 pub mod chapter_21_data_structures_for_disjoint_sets;
 pub mod chapter_22_elementary_graph_algorithms;
+pub mod chapter_23_minimum_spanning_trees;
 pub mod chapter_2_getting_started;
 pub mod chapter_4_divide_and_conquer;
 pub mod chapter_5_probabilistic_analysis_and_randomized_algorithms;
