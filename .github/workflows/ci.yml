@@ -48,20 +48,15 @@ jobs:
           - uses: actions-rs/toolchain@v1
             with:
                 toolchain: nightly
-                override: true
                 components: llvm-tools-preview
           - uses: actions-rs/install@v0.1
             with:
-                crate: grcov
-                use-tool-cache: true
-          - run: cargo test
-            env:
-                LLVM_PROFILE_FILE: coverage/introduction-to-algorithms.profraw
-                RUSTFLAGS: -Zinstrument-coverage
-          - run: grcov --branch -b target --keep-only 'src/*' -o coverage/lcov.info -s . coverage
+                crate: cargo-llvm-cov
+          - run: cargo llvm-cov --lcov --workspace --output-path lcov.info
           - uses: codecov/codecov-action@v1
             with:
-                file: coverage/lcov.info
+                file: lcov.info
           - uses: coverallsapp/github-action@master
             with:
                 github-token: ${{ secrets.GITHUB_TOKEN }}
+                path-to-lcov: lcov.info
