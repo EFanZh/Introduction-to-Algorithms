@@ -10,13 +10,7 @@ pub fn normalize<T: Hash + Eq + Clone, S: BuildHasher + Clone>(graph: &HashMap<T
             node.clone(),
             nexts
                 .iter()
-                .filter_map(|next| {
-                    if next != node && cache.insert(next) {
-                        Some(next.clone())
-                    } else {
-                        None
-                    }
-                })
+                .filter_map(|next| (next != node && cache.insert(next)).then(|| next.clone()))
                 .collect(),
         );
 

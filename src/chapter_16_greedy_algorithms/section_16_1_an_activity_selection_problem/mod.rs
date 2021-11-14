@@ -47,13 +47,11 @@ pub fn greedy_activity_selector(s: &[u64], f: &[u64]) -> Box<[usize]> {
     s.iter()
         .enumerate()
         .filter_map(|(i, s_i)| {
-            if *s_i >= last_finish_time {
+            (*s_i >= last_finish_time).then(|| {
                 last_finish_time = f[i];
 
-                Some(i)
-            } else {
-                None
-            }
+                i
+            })
         })
         .collect()
 }

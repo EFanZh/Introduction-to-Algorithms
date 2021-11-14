@@ -1,7 +1,6 @@
 use std::borrow::Borrow;
 use std::cmp::Ordering;
-use std::iter;
-use std::mem;
+use std::{iter, mem};
 
 #[derive(PartialEq, Eq, Clone, Debug)]
 pub struct Node<K, V> {

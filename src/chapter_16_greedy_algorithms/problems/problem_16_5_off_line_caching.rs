@@ -1,7 +1,6 @@
 use super::super::super::utilities::KeyValuePair;
 use std::collections::btree_map::Entry;
-use std::collections::BTreeMap;
-use std::collections::BTreeSet;
+use std::collections::{BTreeMap, BTreeSet};
 
 // I am not very satisfied with this algorithm.
 

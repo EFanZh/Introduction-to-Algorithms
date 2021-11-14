@@ -4,6 +4,7 @@ use std::ops::{Add, Mul};
 // 2  for i = n downto 0
 // 3      y = a_i + x ⋅ y
 
+#[allow(single_use_lifetimes)] //See <https://github.com/rust-lang/rust/issues/55058>.
 pub fn polynomial<T: Default>(a: &[T], x: &T) -> T
 where
     for<'a> &'a T: Add<Output = T> + Mul<Output = T>,
@@ -17,6 +18,7 @@ where
     y
 }
 
+#[allow(single_use_lifetimes)] //See <https://github.com/rust-lang/rust/issues/55058>.
 pub fn polynomial_naive<T: Default + Clone>(a: &[T], x: &T) -> T
 where
     for<'a> &'a T: Add<Output = T> + Mul<Output = T>,

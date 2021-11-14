@@ -13,11 +13,7 @@ pub fn find_one_good_chip_naive<T: Chip>(chips: &[T]) -> Option<&T> {
                     let chip_1 = pair[0];
                     let chip_2 = pair[1];
 
-                    if chip_1.test(chip_2) && chip_2.test(chip_1) {
-                        Some(pair[0])
-                    } else {
-                        None
-                    }
+                    (chip_1.test(chip_2) && chip_2.test(chip_1)).then(|| pair[0])
                 })
                 .collect::<Box<_>>();
 

@@ -21,12 +21,11 @@ impl<T> DirectAddressDictionary<T> {
 
     pub fn insert(&mut self, key: usize, value: T) {
         if let Some((value_ref, key_index)) = self.memory.get_mut(key) {
-            if self.keys.get(*key_index) == Some(&key) {
-                *value_ref = Some(value);
-            } else {
+            *value_ref = Some(value);
+
+            if self.keys.get(*key_index) != Some(&key) {
                 // Garbage location.
 
-                *value_ref = Some(value);
                 *key_index = self.keys.len();
 
                 self.keys.push(key);
@@ -43,8 +42,7 @@ impl<T> DirectAddressDictionary<T> {
     }
 
     pub fn delete(&mut self, key: usize) {
-        #[allow(clippy::get_unwrap)]
-        let (value, key_index) = self.memory.get_mut(key).unwrap();
+        let (value, key_index) = &mut self.memory[key];
 
         assert_eq!(self.keys.get(*key_index), Some(&key));
 

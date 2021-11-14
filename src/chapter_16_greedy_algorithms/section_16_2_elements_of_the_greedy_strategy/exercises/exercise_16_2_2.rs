@@ -35,13 +35,11 @@ pub fn select_items(items: &[Item], capacity: usize) -> (u64, Box<[usize]>) {
             .zip(cache.chunks_exact(cache_columns))
             .enumerate()
             .filter_map(|(i, (Item { weight, .. }, cache_row))| {
-                if cache_row[c].1 {
+                cache_row[c].1.then(|| {
                     c -= weight;
 
-                    Some(i)
-                } else {
-                    None
-                }
+                    i
+                })
             })
             .collect(),
     )

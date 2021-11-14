@@ -2,9 +2,7 @@ use super::super::super::utilities::KeyValuePair;
 use std::borrow::Borrow;
 use std::cmp::Reverse;
 use std::collections::BinaryHeap;
-use std::iter;
-use std::mem;
-use std::vec;
+use std::{iter, mem, vec};
 
 struct SkipSingle<I: Iterator> {
     iter: iter::Enumerate<I>,
@@ -191,8 +189,7 @@ impl<T: Ord> DynamicArray<T> {
 
 #[cfg(test)]
 mod tests {
-    use super::DynamicArray;
-    use super::SkipSingle;
+    use super::{DynamicArray, SkipSingle};
 
     #[test]
     fn test_skip_single() {

@@ -27,13 +27,11 @@ pub fn euler_tour(graph: &[&[usize]]) -> Option<Box<[usize]>> {
     let mut result = Vec::new();
 
     if dfs(&mut new_graph, 0, 0, &mut result) {
-        if result.len() == total_edges + 1 {
+        (result.len() == total_edges + 1).then(|| {
             result.reverse();
 
-            Some(result.into_boxed_slice())
-        } else {
-            None
-        }
+            result.into_boxed_slice()
+        })
     } else {
         None
     }

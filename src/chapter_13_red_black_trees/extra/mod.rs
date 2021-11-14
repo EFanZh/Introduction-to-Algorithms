@@ -211,19 +211,17 @@ fn insert<K: Ord, V>(tree: &mut Tree<K, V>, key: K, value: V) -> Option<V> {
 fn adjust_on_left_child_black_sibling_red_root<K, V>(node: &mut Box<Node<K, V>>) {
     let right = node.right.as_mut().unwrap();
 
+    node.color = Color::Black;
+
     if let Some(right_right) = right.right.as_mut().filter(|x| x.color == Color::Red) {
-        node.color = Color::Black;
         right.color = Color::Red;
         right_right.color = Color::Black;
 
         left_rotate(node);
     } else if right.left.as_ref().map(|x| x.color) == Some(Color::Red) {
-        node.color = Color::Black;
-
         right_rotate(right);
         left_rotate(node);
     } else {
-        node.color = Color::Black;
         right.color = Color::Red;
     }
 }
@@ -273,19 +271,17 @@ fn adjust_on_left_child<K, V>(node: &mut Box<Node<K, V>>) -> bool {
 fn adjust_on_right_child_black_sibling_red_root<K, V>(node: &mut Box<Node<K, V>>) {
     let left = node.left.as_mut().unwrap();
 
+    node.color = Color::Black;
+
     if let Some(left_left) = left.left.as_mut().filter(|x| x.color == Color::Red) {
-        node.color = Color::Black;
         left.color = Color::Red;
         left_left.color = Color::Black;
 
         right_rotate(node);
     } else if left.right.as_ref().map(|x| x.color) == Some(Color::Red) {
-        node.color = Color::Black;
-
         left_rotate(left);
         right_rotate(node);
     } else {
-        node.color = Color::Black;
         left.color = Color::Red;
     }
 }

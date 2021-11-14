@@ -196,6 +196,7 @@ impl<T: Hash + Eq> HashTable<T> {
 mod tests {
     use super::HashTable;
 
+    #[allow(variant_size_differences)]
     enum HashTableOperation {
         Insert(i32),
         Delete(i32),

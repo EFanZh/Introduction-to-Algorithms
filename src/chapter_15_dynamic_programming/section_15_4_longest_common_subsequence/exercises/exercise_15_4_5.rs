@@ -12,7 +12,7 @@ pub fn longest_monotonically_increasing_subsequence<T: Ord + Clone>(s: &[T]) -> 
             .iter()
             .enumerate()
             .skip(i)
-            .filter_map(|(j, &(length, _))| if s[j] > *s_i { Some((length, j)) } else { None })
+            .filter_map(|(j, &(length, _))| (s[j] > *s_i).then(|| (length, j)))
             .min_by_key(|(length, _)| Reverse(*length))
             .unwrap_or((0, invalid_index));
 

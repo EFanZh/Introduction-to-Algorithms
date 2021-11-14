@@ -33,11 +33,7 @@ pub fn select_water_stops(water_stops: &[u64], total_distance: u64, max_skate_le
         }
     }
 
-    if total_distance <= farest_distance {
-        Some(result.into())
-    } else {
-        None
-    }
+    (total_distance <= farest_distance).then(|| result.into())
 }
 
 #[cfg(test)]

@@ -14,11 +14,7 @@ pub fn binary_search_iterative<T: Ord>(a: &[T], v: &T) -> Option<usize> {
         }
     }
 
-    if left < a.len() && a[left] == *v {
-        Some(left)
-    } else {
-        None
-    }
+    (left < a.len() && a[left] == *v).then(|| left)
 }
 
 pub fn binary_search_iterative_libcxx<T: Ord>(a: &[T], v: &T) -> Option<usize> {
@@ -37,11 +33,7 @@ pub fn binary_search_iterative_libcxx<T: Ord>(a: &[T], v: &T) -> Option<usize> {
         }
     }
 
-    if base < a.len() && a[base] == *v {
-        Some(base)
-    } else {
-        None
-    }
+    (base < a.len() && a[base] == *v).then(|| base)
 }
 
 pub fn binary_search_iterative_rust<T: Ord>(a: &[T], v: &T) -> Option<usize> {
@@ -68,11 +60,7 @@ pub fn binary_search_iterative_rust<T: Ord>(a: &[T], v: &T) -> Option<usize> {
         base += 1;
     }
 
-    if base < a.len() && *v == a[base] {
-        Some(base)
-    } else {
-        None
-    }
+    (base < a.len() && *v == a[base]).then(|| base)
 }
 
 pub fn binary_search_recursive<T: Ord>(a: &[T], v: &T) -> Option<usize> {
@@ -112,11 +100,7 @@ pub fn binary_search_recursive_non_tail<T: Ord>(a: &[T], v: &T) -> Option<usize>
 
     let index = lower_bound_non_tail(a, v);
 
-    if index < a.len() && a[index] == *v {
-        Some(index)
-    } else {
-        None
-    }
+    (index < a.len() && a[index] == *v).then(|| index)
 }
 
 pub fn binary_search_recursive_pointer<T: Ord>(a: &[T], v: &T) -> Option<usize> {
@@ -136,11 +120,7 @@ pub fn binary_search_recursive_pointer<T: Ord>(a: &[T], v: &T) -> Option<usize> 
 
     let index = (lower_bound_pointer(a, v) as usize - a.as_ptr() as usize) / mem::size_of::<T>();
 
-    if index < a.len() && a[index] == *v {
-        Some(index)
-    } else {
-        None
-    }
+    (index < a.len() && a[index] == *v).then(|| index)
 }
 
 pub fn binary_search_recursive_libcxx<T: Ord>(a: &[T], v: &T) -> Option<usize> {
@@ -178,11 +158,7 @@ pub fn binary_search_recursive_rust<T: Ord>(a: &[T], v: &T) -> Option<usize> {
         } else {
             let index = if a[base] < *v { base + 1 } else { base };
 
-            if index < a.len() && a[index] == *v {
-                Some(index)
-            } else {
-                None
-            }
+            (index < a.len() && a[index] == *v).then(|| index)
         }
     }
 

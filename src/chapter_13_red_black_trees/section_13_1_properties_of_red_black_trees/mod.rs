@@ -67,8 +67,7 @@ impl<T: Eq> Eq for RedBlackTreeNode<T> {}
 
 #[cfg(test)]
 pub(crate) mod tests {
-    use super::Color;
-    use super::RedBlackTreeNode;
+    use super::{Color, RedBlackTreeNode};
     use std::cell::RefCell;
     use std::rc::Rc;
 

@@ -11,7 +11,7 @@ pub fn topological_sort(graph: &[Vec<usize>]) -> Option<Vec<usize>> {
     let mut queue = in_degrees
         .iter()
         .enumerate()
-        .filter_map(|(i, &indegree)| if indegree == 0 { Some(i) } else { None })
+        .filter_map(|(i, &indegree)| (indegree == 0).then(|| i))
         .collect::<Vec<_>>();
 
     let mut result = Vec::new();
@@ -30,11 +30,7 @@ pub fn topological_sort(graph: &[Vec<usize>]) -> Option<Vec<usize>> {
         }
     }
 
-    if result.len() == graph.len() {
-        Some(result)
-    } else {
-        None
-    }
+    (result.len() == graph.len()).then(|| result)
 }
 
 #[cfg(test)]

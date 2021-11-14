@@ -1,5 +1,70 @@
-use lazy_static::lazy_static;
+use once_cell::sync::Lazy;
 use permutohedron::LexicalPermutation;
+
+type BoxedSlice<T> = Box<[T]>;
+
+const ORDERED_SEQUENCE_TEST_CASE_MAX_LENGTH: usize = 7;
+const UNORDERED_SEQUENCE_TEST_CASE_MAX_LENGTH: usize = 7;
+
+static ORDERED_SEQUENCE_TEST_CASES: Lazy<Box<[Box<[i32]>]>> = Lazy::new(|| {
+    let mut result = Vec::new();
+    let mut sequence_storage = [0; ORDERED_SEQUENCE_TEST_CASE_MAX_LENGTH];
+    let mut diff_storage = [0; ORDERED_SEQUENCE_TEST_CASE_MAX_LENGTH - 1];
+
+    generate_all_ordered_sequences(&mut sequence_storage, &mut diff_storage, |test_case| {
+        result.push(test_case.to_vec().into_boxed_slice());
+    });
+
+    result.shrink_to_fit();
+
+    result.into()
+});
+
+static UNORDERED_SEQUENCE_TEST_CASES: Lazy<BoxedSlice<(BoxedSlice<i32>, BoxedSlice<i32>)>> = Lazy::new(|| {
+    let mut result = Vec::new();
+    let mut sequence_storage = [0; UNORDERED_SEQUENCE_TEST_CASE_MAX_LENGTH];
+    let mut diff_storage = [0; UNORDERED_SEQUENCE_TEST_CASE_MAX_LENGTH - 1];
+
+    generate_all_unordered_sequences(&mut sequence_storage, &mut diff_storage, |test_case| {
+        let test_case = test_case.to_vec();
+        let mut sorted_test_case = test_case.clone();
+
+        sorted_test_case.sort_unstable();
+
+        result.push((test_case.into(), sorted_test_case.into()));
+    });
+
+    result.shrink_to_fit();
+
+    result.into()
+});
+
+static NUM_INVERSIONS_TEST_CASES: Lazy<BoxedSlice<(BoxedSlice<i32>, usize)>> = Lazy::new(|| {
+    let mut result = Vec::with_capacity(UNORDERED_SEQUENCE_TEST_CASES.len());
+
+    for (sequence, _) in UNORDERED_SEQUENCE_TEST_CASES.iter() {
+        let mut num_inversions = 0;
+
+        for i in (1..sequence.len()).map(|x| x - 1) {
+            for j in i + 1..sequence.len() {
+                if sequence[i] > sequence[j] {
+                    num_inversions += 1;
+                }
+            }
+        }
+
+        result.push((sequence.clone(), num_inversions));
+    }
+
+    result.into()
+});
+
+static MAX_HEAP_TEST_CASES: Lazy<Box<[Box<[i32]>]>> = Lazy::new(|| {
+    UNORDERED_SEQUENCE_TEST_CASES
+        .iter()
+        .filter_map(|(sequence, _)| is_max_heap(sequence).then(|| sequence.clone()))
+        .collect()
+});
 
 fn iterate_digits<F: FnMut(&mut [i32])>(a: &mut [i32], mut f: F) {
     fn helper<F: FnMut(&mut [i32])>(a: &mut [i32], i: usize, f: &mut F) {
@@ -68,74 +133,6 @@ pub fn is_max_heap<T: Ord>(a: &[T]) -> bool {
 
 pub fn is_min_heap<T: Ord>(a: &[T]) -> bool {
     a.iter().enumerate().skip(1).all(|(i, v)| *v >= a[(i - 1) / 2])
-}
-
-const ORDERED_SEQUENCE_TEST_CASE_MAX_LENGTH: usize = 7;
-const UNORDERED_SEQUENCE_TEST_CASE_MAX_LENGTH: usize = 7;
-
-type OwnedSlice<T> = Box<[T]>;
-
-lazy_static! {
-    static ref ORDERED_SEQUENCE_TEST_CASES: Box<[Box<[i32]>]> = {
-        let mut result = Vec::new();
-        let mut sequence_storage = [0; ORDERED_SEQUENCE_TEST_CASE_MAX_LENGTH];
-        let mut diff_storage = [0; ORDERED_SEQUENCE_TEST_CASE_MAX_LENGTH - 1];
-
-        generate_all_ordered_sequences(&mut sequence_storage, &mut diff_storage, |test_case| {
-            result.push(test_case.to_vec().into_boxed_slice());
-        });
-
-        result.shrink_to_fit();
-
-        result.into()
-    };
-    static ref UNORDERED_SEQUENCE_TEST_CASES: OwnedSlice<(OwnedSlice<i32>, OwnedSlice<i32>)> = {
-        let mut result = Vec::new();
-        let mut sequence_storage = [0; UNORDERED_SEQUENCE_TEST_CASE_MAX_LENGTH];
-        let mut diff_storage = [0; UNORDERED_SEQUENCE_TEST_CASE_MAX_LENGTH - 1];
-
-        generate_all_unordered_sequences(&mut sequence_storage, &mut diff_storage, |test_case| {
-            let test_case = test_case.to_vec();
-            let mut sorted_test_case = test_case.clone();
-
-            sorted_test_case.sort_unstable();
-
-            result.push((test_case.into(), sorted_test_case.into()));
-        });
-
-        result.shrink_to_fit();
-
-        result.into()
-    };
-    static ref NUM_INVERSIONS_TEST_CASES: Box<[(Box<[i32]>, usize)]> = {
-        let mut result = Vec::with_capacity(UNORDERED_SEQUENCE_TEST_CASES.len());
-
-        for (sequence, _) in UNORDERED_SEQUENCE_TEST_CASES.iter() {
-            let mut num_inversions = 0;
-
-            for i in (1..sequence.len()).map(|x| x - 1) {
-                for j in i + 1..sequence.len() {
-                    if sequence[i] > sequence[j] {
-                        num_inversions += 1;
-                    }
-                }
-            }
-
-            result.push((sequence.clone(), num_inversions));
-        }
-
-        result.into()
-    };
-    static ref MAX_HEAP_TEST_CASES: Box<[Box<[i32]>]> = UNORDERED_SEQUENCE_TEST_CASES
-        .iter()
-        .filter_map(|(sequence, _)| {
-            if is_max_heap(sequence) {
-                Some(sequence.clone())
-            } else {
-                None
-            }
-        })
-        .collect();
 }
 
 pub fn assign_vec<T: Clone>(target: &mut Vec<T>, source: &[T]) {

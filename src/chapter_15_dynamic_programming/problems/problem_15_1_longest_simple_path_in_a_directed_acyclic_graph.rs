@@ -35,7 +35,7 @@ pub fn longest_simple_path_dag<I: IntoIterator<Item = (f64, usize)>, F: FnMut(us
     let mut cache = HashMap::new();
     let max_cost = longest_simple_path_dfs(&mut adj, s, t, &mut cache);
 
-    if max_cost.is_finite() {
+    max_cost.is_finite().then(|| {
         let mut path = vec![s];
 
         while let Some(next) = cache[&s].1 {
@@ -43,10 +43,8 @@ pub fn longest_simple_path_dag<I: IntoIterator<Item = (f64, usize)>, F: FnMut(us
             s = next;
         }
 
-        Some((max_cost, path.into()))
-    } else {
-        None
-    }
+        (max_cost, path.into())
+    })
 }
 
 #[cfg(test)]
