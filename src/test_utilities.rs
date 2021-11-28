@@ -207,8 +207,7 @@ pub fn loop_on_all_max_heap_test_cases<F: FnMut(&[i32])>(f: F) {
 }
 
 mod tests {
-    use super::{generate_all_ordered_sequences, generate_all_unordered_sequences};
-    use num_integer::binomial;
+    use num::integer;
     use std::collections::HashSet;
 
     // TODO: Use `slice::is_sorted` instead.
@@ -228,7 +227,7 @@ mod tests {
         for max_length in 0..=MAX_MAX_LENGTH {
             result.clear();
 
-            generate_all_ordered_sequences(&mut sequence_storage[..max_length], &mut diff_storage, |sequence| {
+            super::generate_all_ordered_sequences(&mut sequence_storage[..max_length], &mut diff_storage, |sequence| {
                 // Correct length.
 
                 assert!(sequence.len() <= max_length);
@@ -265,7 +264,7 @@ mod tests {
         if n == 0 {
             1
         } else {
-            (1..=n).map(|k| binomial(n, k) * fubini(n - k)).sum()
+            (1..=n).map(|k| integer::binomial(n, k) * fubini(n - k)).sum()
         }
     }
 
@@ -310,34 +309,38 @@ mod tests {
         for max_length in 0..=MAX_MAX_LENGTH {
             result.clear();
 
-            generate_all_unordered_sequences(&mut sequence_storage[..max_length], &mut diff_storage, |sequence| {
-                // Correct length.
+            super::generate_all_unordered_sequences(
+                &mut sequence_storage[..max_length],
+                &mut diff_storage,
+                |sequence| {
+                    // Correct length.
 
-                assert!(sequence.len() <= max_length);
+                    assert!(sequence.len() <= max_length);
 
-                // Store the result.
+                    // Store the result.
 
-                let saved_value = sequence.to_vec();
+                    let saved_value = sequence.to_vec();
 
-                // Starts with zero.
+                    // Starts with zero.
 
-                sequence.sort_unstable();
+                    sequence.sort_unstable();
 
-                assert!(sequence.first().iter().all(|&&x| x == 0));
+                    assert!(sequence.first().iter().all(|&&x| x == 0));
 
-                // Only increase by zero or one.
+                    // Only increase by zero or one.
 
-                assert!(sequence
-                    .windows(2)
-                    .map(|pair| pair[1] - pair[0])
-                    .all(|x| x == 0 || x == 1));
+                    assert!(sequence
+                        .windows(2)
+                        .map(|pair| pair[1] - pair[0])
+                        .all(|x| x == 0 || x == 1));
 
-                // Restore the original value.
+                    // Restore the original value.
 
-                sequence.copy_from_slice(&saved_value);
+                    sequence.copy_from_slice(&saved_value);
 
-                assert!(result.insert(saved_value));
-            });
+                    assert!(result.insert(saved_value));
+                },
+            );
 
             assert_eq!(result.len(), fubini_partial_sums(max_length));
         }

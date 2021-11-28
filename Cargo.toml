@@ -6,12 +6,10 @@ version = "0.1.0"
 
 [dependencies]
 ndarray = "*"
-num-rational = "*"
-num-traits = "*"
+num = "*"
 rand = "*"
 
 [dev-dependencies]
 approx = "*"
-num-integer = "*"
 once_cell = "*"
 permutohedron = "*"

@@ -58,7 +58,7 @@ pub fn random_sample_iterative(m: usize, n: usize) -> HashSet<usize> {
 
 #[cfg(test)]
 mod tests {
-    use num_integer::binomial;
+    use num::integer;
     use std::collections::HashSet;
 
     fn run_random_sample_test<F: Fn(usize, usize) -> HashSet<usize>>(f: F) {
@@ -77,7 +77,7 @@ mod tests {
                     results.insert(result);
                 }
 
-                assert_eq!(results.len(), binomial(n, m));
+                assert_eq!(results.len(), integer::binomial(n, m));
 
                 results.clear();
             }

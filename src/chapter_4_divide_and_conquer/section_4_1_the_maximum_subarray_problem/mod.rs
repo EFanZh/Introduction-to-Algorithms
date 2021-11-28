@@ -1,4 +1,4 @@
-use num_traits::Zero;
+use num::Zero;
 
 pub mod exercises;
 

@@ -1,4 +1,4 @@
-use num_traits::Zero;
+use num::Zero;
 
 pub fn find_maximum_subarray_linear_time<T: Clone + Ord + Zero>(a: &[T]) -> (usize, usize, T) {
     let mut max_left = 0;

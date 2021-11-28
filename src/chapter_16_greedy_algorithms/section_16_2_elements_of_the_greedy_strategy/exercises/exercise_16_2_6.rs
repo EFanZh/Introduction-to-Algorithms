@@ -1,7 +1,7 @@
 use super::super::super::super::chapter_7_quicksort::section_7_1_description_of_quicksort::extra;
 use super::super::super::super::chapter_9_medians_and_order_statistics::section_9_3_selection_in_worst_case_linear_time;
 use super::super::super::super::utilities::KeyValuePair;
-use num_rational::Ratio;
+use num::rational::Ratio;
 
 pub struct Item {
     pub value: u64,
