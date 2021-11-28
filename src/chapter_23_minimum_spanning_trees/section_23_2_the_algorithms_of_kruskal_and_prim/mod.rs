@@ -1,4 +1,7 @@
-use std::cmp::Ordering;
+use crate::utilities::KeyValuePair;
+use std::cmp::{Ordering, Reverse};
+use std::collections::BinaryHeap;
+use std::iter;
 
 fn find_set(data: &mut [(usize, usize)], key: usize) -> usize {
     let parent = data[key].0;
@@ -64,6 +67,75 @@ pub fn mst_kruskal(g: &[&[(usize, usize)]]) -> Vec<(usize, usize)> {
     result
 }
 
+// MST-Prim(G, w, r)
+//
+//  1  for each u ∈ G.V
+//  2      u.key = ∞
+//  3      u.π = nil
+//  4  r.key = 0
+//  5  Q = G.V
+//  6  while Q ≠ ∅
+//  7      u = Extract-Min(Q)
+//  8      for each v ∈ G.Adj[u]
+//  9          if v ∈ Q and w(u, v) < v.key
+// 10              v.π = u
+// 11              v.key = w(u, v)
+
+#[must_use]
+pub fn mst_prim(g: &[&[(usize, usize)]], r: usize) -> Vec<(usize, usize)> {
+    struct NodeProperty {
+        weight: usize,
+        parent: usize,
+    }
+
+    let n = g.len();
+
+    let mut properties = iter::repeat_with(|| NodeProperty {
+        weight: usize::MAX,
+        parent: usize::MAX,
+    })
+    .take(n)
+    .collect::<Vec<_>>();
+
+    properties[r].weight = 0;
+
+    let mut node = r;
+    let mut queue = BinaryHeap::new();
+
+    'outer: loop {
+        for &(next, weight) in g[node] {
+            let next_property = &mut properties[next];
+
+            if weight < next_property.weight {
+                *next_property = NodeProperty { weight, parent: node };
+
+                queue.push(KeyValuePair::new(Reverse(weight), next));
+            }
+        }
+
+        loop {
+            if let Some(next_item) = queue.pop() {
+                let next_weight = &mut properties[next_item.value].weight;
+
+                if next_item.key.0 == *next_weight {
+                    *next_weight = 0;
+                    node = next_item.value;
+
+                    break;
+                }
+            } else {
+                break 'outer;
+            }
+        }
+    }
+
+    properties
+        .into_iter()
+        .enumerate()
+        .filter_map(|(i, NodeProperty { parent, .. })| (parent != usize::MAX).then(|| (parent, i)))
+        .collect()
+}
+
 #[cfg(test)]
 mod tests {
     type WeightedGraph<'a> = &'a [&'a [(usize, usize)]];
@@ -101,6 +173,13 @@ mod tests {
     fn test_mst_kruskal() {
         for (g, expected) in TEST_CASES {
             check_result(super::mst_kruskal(g), expected);
+        }
+    }
+
+    #[test]
+    fn test_mst_prim() {
+        for (g, expected) in TEST_CASES {
+            check_result(super::mst_prim(g, 0), expected);
         }
     }
 }
