@@ -1,5 +1,3 @@
-use std::f64;
-
 #[allow(clippy::many_single_char_names)]
 #[must_use]
 pub fn optimal_bst_fast(p: &[f64], q: &[f64]) -> (Box<[f64]>, Box<[usize]>) {
@@ -50,10 +48,9 @@ pub fn optimal_bst_fast(p: &[f64], q: &[f64]) -> (Box<[f64]>, Box<[usize]>) {
 #[cfg(test)]
 mod tests {
     use super::super::super::tests::run_optimal_bst_test;
-    use super::optimal_bst_fast;
 
     #[test]
     fn test_optimal_bst_fast() {
-        run_optimal_bst_test(optimal_bst_fast);
+        run_optimal_bst_test(super::optimal_bst_fast);
     }
 }

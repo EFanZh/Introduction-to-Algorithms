@@ -19,8 +19,6 @@ pub fn get_number_of_paths(graph: &[Vec<usize>], s: usize, t: usize) -> usize {
 
 #[cfg(test)]
 mod tests {
-    use super::get_number_of_paths;
-
     #[test]
     fn test_get_number_of_paths() {
         #[allow(trivial_casts)]
@@ -34,7 +32,7 @@ mod tests {
 
         for ((graph, s, t), expected) in test_cases {
             assert_eq!(
-                get_number_of_paths(
+                super::get_number_of_paths(
                     graph.iter().map(|nexts| nexts.to_vec()).collect::<Box<_>>().as_ref(),
                     s,
                     t

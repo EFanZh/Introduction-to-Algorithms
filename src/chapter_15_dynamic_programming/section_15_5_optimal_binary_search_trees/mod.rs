@@ -1,5 +1,3 @@
-use std::f64;
-
 pub mod exercises;
 
 // Optimal-BST(p, q, n)
@@ -62,8 +60,7 @@ pub fn optimal_bst(p: &[f64], q: &[f64]) -> (Box<[f64]>, Box<[usize]>) {
 
 #[cfg(test)]
 mod tests {
-    use super::optimal_bst;
-
+    #[allow(clippy::manual_assert)]
     pub fn run_optimal_bst_test<F: FnMut(&[f64], &[f64]) -> (Box<[f64]>, Box<[usize]>)>(mut f: F) {
         let p = [0.15, 0.10, 0.05, 0.10, 0.20];
         let q = [0.05, 0.10, 0.05, 0.05, 0.05, 0.10];
@@ -98,6 +95,6 @@ mod tests {
 
     #[test]
     fn test_optimal_bst() {
-        run_optimal_bst_test(optimal_bst);
+        run_optimal_bst_test(super::optimal_bst);
     }
 }

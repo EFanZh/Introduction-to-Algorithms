@@ -39,9 +39,7 @@ pub fn heap_extract_min<T: Ord>(a: &mut Vec<T>) -> T {
 // 6      i = Parent(i)
 
 pub fn heap_decrease_key<T: Ord>(a: &mut [T], mut i: usize, key: T) {
-    if key > a[i] {
-        panic!("new key is larger than current key");
-    }
+    assert!(key <= a[i], "new key is larger than current key");
 
     a[i] = key;
 

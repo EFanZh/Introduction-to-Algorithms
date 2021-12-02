@@ -17,7 +17,7 @@ pub fn insertion_sort_slice_by_key<T, K: Ord, F: FnMut(&T) -> K>(a: &mut [T], mu
 }
 
 pub fn insertion_sort_slice<T: Ord>(a: &mut [T]) {
-    insertion_sort_slice_by(a, |lhs, rhs| lhs.cmp(rhs));
+    insertion_sort_slice_by(a, T::cmp);
 }
 
 pub fn insertion_sort_tail_recursive<T: Ord + Clone>(a: &mut [T]) {
@@ -61,7 +61,7 @@ mod tests {
 
     #[test]
     fn test_insertion_sort_slice_by() {
-        run_all_sorting_tests(|a| insertion_sort_slice_by(a, |x, y| x.cmp(y)));
+        run_all_sorting_tests(|a| insertion_sort_slice_by(a, i32::cmp));
     }
 
     #[test]

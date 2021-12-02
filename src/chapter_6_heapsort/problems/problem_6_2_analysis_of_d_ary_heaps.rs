@@ -66,9 +66,7 @@ impl<T: Ord> DAryHeap<T> {
     }
 
     pub fn increase_key(&mut self, i: usize, k: T) {
-        if k < self.data[i] {
-            panic!("new key is smaller than current key");
-        }
+        assert!(k >= self.data[i], "new key is smaller than current key");
 
         self.data[i] = k;
 

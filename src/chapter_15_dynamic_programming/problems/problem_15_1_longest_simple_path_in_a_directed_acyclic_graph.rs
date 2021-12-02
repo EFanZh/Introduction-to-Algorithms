@@ -1,5 +1,4 @@
 use std::collections::HashMap;
-use std::f64;
 
 fn longest_simple_path_dfs<I: IntoIterator<Item = (f64, usize)>, F: FnMut(usize) -> I>(
     adj: &mut F,
@@ -7,7 +6,6 @@ fn longest_simple_path_dfs<I: IntoIterator<Item = (f64, usize)>, F: FnMut(usize)
     t: usize,
     cache: &mut HashMap<usize, (f64, Option<usize>)>,
 ) -> f64 {
-    #[allow(clippy::option_if_let_else)]
     if let Some(result) = cache.get(&s) {
         result.0
     } else {
@@ -49,8 +47,6 @@ pub fn longest_simple_path_dag<I: IntoIterator<Item = (f64, usize)>, F: FnMut(us
 
 #[cfg(test)]
 mod tests {
-    use super::longest_simple_path_dag;
-
     #[test]
     fn test_longest_simple_path_dag() {
         let test_cases = vec![
@@ -73,7 +69,7 @@ mod tests {
 
         for (graph, source, target, expected) in test_cases {
             assert_eq!(
-                longest_simple_path_dag(|v| graph[v].iter().copied(), source, target),
+                super::longest_simple_path_dag(|v| graph[v].iter().copied(), source, target),
                 expected
             );
         }

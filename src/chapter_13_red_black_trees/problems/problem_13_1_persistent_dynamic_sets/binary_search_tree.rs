@@ -64,7 +64,6 @@ pub fn persistent_tree_insert<K: Ord, V>(
     key: Rc<K>,
     value: Rc<V>,
 ) -> (Rc<Node<K, V>>, Option<Rc<V>>) {
-    #[allow(clippy::option_if_let_else)]
     if let Some(node) = tree {
         match key.cmp(&node.key) {
             Ordering::Less => {

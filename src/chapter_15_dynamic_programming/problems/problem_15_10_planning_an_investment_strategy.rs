@@ -66,8 +66,8 @@ pub fn plan_investment_strategy(
 #[cfg(test)]
 mod tests {
     use super::plan_investment_strategy;
-    use approx::assert_relative_eq;
 
+    #[allow(clippy::manual_assert)]
     #[test]
     fn test_plan_investment_strategy() {
         let return_rates = [
@@ -90,7 +90,7 @@ mod tests {
 
         let (fund, strategies) = plan_investment_strategy(&return_rates, years, keep_fee, switch_fee, initial_money);
 
-        assert_relative_eq!(fund, 15_035.294_028_598_65);
+        approx::assert_ulps_eq!(fund, 15_035.294_028_598_65);
         assert_eq!(*strategies, [6, 4, 4, 3, 1, 1, 1, 6, 6, 6]);
     }
 }

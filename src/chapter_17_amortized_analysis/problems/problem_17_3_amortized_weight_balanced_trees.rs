@@ -75,7 +75,6 @@ pub fn rebalance<K, V>(tree: &mut Option<Box<Node<K, V>>>) {
 // Insertion.
 
 fn insert_no_adjust<K: Ord, V>(tree: &mut Option<Box<Node<K, V>>>, key: K, value: V) -> Option<V> {
-    #[allow(clippy::option_if_let_else)]
     if let Some(node) = tree {
         let result = match key.cmp(&node.key) {
             Ordering::Less => insert_no_adjust(&mut node.left, key, value),
@@ -105,7 +104,6 @@ fn apply_balance_factor(value: usize, balance_factor: f64) -> usize {
 }
 
 pub fn insert<K: Ord, V>(tree: &mut Option<Box<Node<K, V>>>, balance_factor: f64, key: K, value: V) -> Option<V> {
-    #[allow(clippy::option_if_let_else)]
     if let Some(node) = tree {
         match key.cmp(&node.key) {
             Ordering::Less => {
@@ -166,7 +164,6 @@ pub fn insert<K: Ord, V>(tree: &mut Option<Box<Node<K, V>>>, balance_factor: f64
 // Removal.
 
 fn extract_min_no_adjust<K, V>(node_ref: &mut Option<Box<Node<K, V>>>) -> Option<Box<Node<K, V>>> {
-    #[allow(clippy::option_if_let_else)]
     if let Some(node) = node_ref {
         Some(if let Some(result) = extract_min_no_adjust(&mut node.left) {
             node.size -= 1;
@@ -185,7 +182,6 @@ fn extract_min_no_adjust<K, V>(node_ref: &mut Option<Box<Node<K, V>>>) -> Option
 }
 
 fn extract_min<K, V>(node_ref: &mut Option<Box<Node<K, V>>>, balance_factor: f64) -> Option<Box<Node<K, V>>> {
-    #[allow(clippy::option_if_let_else)]
     if let Some(node) = node_ref {
         let max_children = apply_balance_factor(node.size - 1, balance_factor);
 
@@ -291,7 +287,6 @@ fn remove_root<K: Borrow<Q>, V, Q: Ord + ?Sized>(root: &mut Option<Box<Node<K, V
 }
 
 fn remove_no_adjust<K: Borrow<Q>, V, Q: Ord + ?Sized>(tree: &mut Option<Box<Node<K, V>>>, key: &Q) -> Option<V> {
-    #[allow(clippy::option_if_let_else)]
     if let Some(node) = tree {
         match key.cmp(node.key.borrow()) {
             Ordering::Less => remove_no_adjust(&mut node.left, key),
@@ -308,7 +303,6 @@ pub fn remove<K: Borrow<Q>, V, Q: Ord + ?Sized>(
     balance_factor: f64,
     key: &Q,
 ) -> Option<V> {
-    #[allow(clippy::option_if_let_else)]
     if let Some(node) = tree {
         let max_children = apply_balance_factor(node.size - 1, balance_factor);
 

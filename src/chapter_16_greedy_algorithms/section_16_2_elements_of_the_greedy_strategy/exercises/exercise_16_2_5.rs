@@ -21,14 +21,13 @@ pub fn cover_points(mut points: &[f64]) -> Box<[f64]> {
 
 #[cfg(test)]
 mod tests {
-    use super::cover_points;
-
+    #[allow(clippy::manual_assert)]
     #[test]
     fn test_cover_points() {
         let points = [0.46, 2.08, 2.24, 3.27, 4.23, 4.58, 6.20, 7.63, 8.79, 9.62];
-        let result = cover_points(&points);
-        let exprected_result = [0.46, 2.08, 3.27, 4.58, 6.20, 7.63, 8.79];
+        let result = super::cover_points(&points);
+        let expected_result = [0.46, 2.08, 3.27, 4.58, 6.20, 7.63, 8.79];
 
-        approx::assert_relative_eq!(*result, exprected_result);
+        approx::assert_ulps_eq!(*result, expected_result);
     }
 }

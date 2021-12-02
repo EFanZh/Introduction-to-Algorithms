@@ -117,7 +117,6 @@ pub fn get_most_probable_path<T: Eq + Hash + Clone, S: Eq, H: BuildHasher + Defa
 #[cfg(test)]
 mod tests {
     use super::{get_most_probable_path, Edge, Error};
-    use approx::assert_relative_eq;
     use std::collections::HashMap;
 
     // https://en.wikipedia.org/wiki/Viterbi_algorithm.
@@ -231,6 +230,7 @@ mod tests {
         graph
     }
 
+    #[allow(clippy::manual_assert)]
     #[test]
     fn test_get_most_probable_path_ok() {
         let graph = get_graph();
@@ -250,7 +250,7 @@ mod tests {
         let expected_result = [State::Start, State::Healthy, State::Healthy, State::Fever, State::Fever];
 
         assert_eq!(*actual_states, expected_result);
-        assert_relative_eq!(actual_probability, 0.0144);
+        approx::assert_ulps_eq!(actual_probability, 0.0144);
     }
 
     #[test]

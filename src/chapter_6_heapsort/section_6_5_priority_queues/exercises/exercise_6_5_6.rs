@@ -1,9 +1,7 @@
 use super::super::super::section_6_1_heaps::parent;
 
 pub fn heap_increase_key<T: Ord>(a: &mut [T], mut i: usize, key: T) {
-    if key < a[i] {
-        panic!("new key is smaller than current key");
-    }
+    assert!(key >= a[i], "new key is smaller than current key");
 
     while i > 0 && a[parent(i)] < key {
         // This simulates A[i] = A[Parent(i)]. Typically, swapping is faster than assignment in Rust.

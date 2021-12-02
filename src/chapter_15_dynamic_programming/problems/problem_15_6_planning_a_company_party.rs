@@ -117,19 +117,18 @@ pub fn plan_party(president: &Employee) -> (Box<[&Employee]>, f64) {
 
 #[cfg(test)]
 mod tests {
-    use super::{plan_party, Employee};
-    use approx::assert_relative_eq;
-    use std::f64;
+    use super::Employee;
 
     #[test]
     fn test_plan_party() {
+        #[allow(clippy::manual_assert)]
         fn run_test(president: &Employee, expected_attendances: &[&str], expected_conviviality: f64) {
-            let (actual_attendances, actual_expected_conviviality) = plan_party(president);
+            let (actual_attendances, actual_expected_conviviality) = super::plan_party(president);
             let actual_iter = actual_attendances.iter().map(|employee| employee.name());
             let expected_iter = expected_attendances.iter().copied();
 
             assert!(actual_iter.eq(expected_iter));
-            assert_relative_eq!(actual_expected_conviviality, expected_conviviality);
+            approx::assert_ulps_eq!(actual_expected_conviviality, expected_conviviality);
         }
 
         run_test(&Employee::new_leaf("Jim".to_owned(), 1.0), &["Jim"], 1.0);

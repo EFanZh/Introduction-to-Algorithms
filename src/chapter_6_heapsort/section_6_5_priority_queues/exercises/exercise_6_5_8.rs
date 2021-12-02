@@ -25,7 +25,6 @@ pub fn heap_delete<T: Ord>(a: &mut Vec<T>, mut i: usize) {
     }
 }
 
-#[allow(clippy::branches_sharing_code)]
 pub fn heap_delete_2<T: Ord>(a: &mut Vec<T>, mut i: usize) {
     if a[a.len() - 1] <= a[i] {
         a.swap_remove(i);

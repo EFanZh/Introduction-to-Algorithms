@@ -41,19 +41,19 @@ where
 #[cfg(test)]
 mod tests {
     use super::{polynomial, polynomial_naive};
-    use approx::assert_relative_eq;
 
+    #[allow(clippy::manual_assert)]
     fn run_polynomial_test(f: fn(&[f64], &f64) -> f64) {
-        assert_relative_eq!(f(&[], &0.0), 0.0);
-        assert_relative_eq!(f(&[], &1.0), 0.0);
-        assert_relative_eq!(f(&[1.0], &0.0), 1.0);
-        assert_relative_eq!(f(&[1.0], &1.0), 1.0);
-        assert_relative_eq!(f(&[1.0, 2.0], &0.0), 1.0);
-        assert_relative_eq!(f(&[1.0, 2.0], &1.0), 3.0);
-        assert_relative_eq!(f(&[1.0, 2.0], &2.0), 5.0);
-        assert_relative_eq!(f(&[1.0, 2.0, 3.0], &0.0), 1.0);
-        assert_relative_eq!(f(&[1.0, 2.0, 3.0], &1.0), 6.0);
-        assert_relative_eq!(f(&[1.0, 2.0, 3.0], &2.0), 17.0);
+        approx::assert_ulps_eq!(f(&[], &0.0), 0.0);
+        approx::assert_ulps_eq!(f(&[], &1.0), 0.0);
+        approx::assert_ulps_eq!(f(&[1.0], &0.0), 1.0);
+        approx::assert_ulps_eq!(f(&[1.0], &1.0), 1.0);
+        approx::assert_ulps_eq!(f(&[1.0, 2.0], &0.0), 1.0);
+        approx::assert_ulps_eq!(f(&[1.0, 2.0], &1.0), 3.0);
+        approx::assert_ulps_eq!(f(&[1.0, 2.0], &2.0), 5.0);
+        approx::assert_ulps_eq!(f(&[1.0, 2.0, 3.0], &0.0), 1.0);
+        approx::assert_ulps_eq!(f(&[1.0, 2.0, 3.0], &1.0), 6.0);
+        approx::assert_ulps_eq!(f(&[1.0, 2.0, 3.0], &2.0), 17.0);
     }
 
     #[test]

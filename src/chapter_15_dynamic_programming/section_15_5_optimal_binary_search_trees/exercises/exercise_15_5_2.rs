@@ -13,13 +13,13 @@ pub fn solve() -> (f64, Box<[String]>) {
 #[cfg(test)]
 mod tests {
     use super::solve;
-    use approx::assert_relative_eq;
 
+    #[allow(clippy::manual_assert)]
     #[test]
     fn test_solve() {
         let (cost, construction) = solve();
 
-        assert_relative_eq!(cost, 3.12);
+        approx::assert_ulps_eq!(cost, 3.12);
 
         let expected_construction = [
             "k_4 is the root",

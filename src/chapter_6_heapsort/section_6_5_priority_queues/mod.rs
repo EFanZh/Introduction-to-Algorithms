@@ -42,9 +42,7 @@ pub fn heap_extract_max<T: Ord>(a: &mut Vec<T>) -> T {
 // 6      i = Parent(i)
 
 pub fn heap_increase_key<T: Ord>(a: &mut [T], mut i: usize, key: T) {
-    if key < a[i] {
-        panic!("new key is smaller than current key");
-    }
+    assert!(key >= a[i], "new key is smaller than current key");
 
     a[i] = key;
 

@@ -135,7 +135,7 @@ impl<T: Ord> DynamicArray<T> {
     {
         self.data.iter().find_map(|bucket| {
             bucket
-                .binary_search_by_key(&key, |x| x.borrow())
+                .binary_search_by_key(&key, T::borrow)
                 .ok()
                 .map(|index| &bucket[index])
         })
@@ -153,7 +153,7 @@ impl<T: Ord> DynamicArray<T> {
                 let (pivot, tail) = body.split_first_mut().unwrap();
                 let mut pivot = mem::take(pivot).into_vec();
 
-                if let Ok(element_index) = pivot.binary_search_by_key(&key, |x| x.borrow()) {
+                if let Ok(element_index) = pivot.binary_search_by_key(&key, T::borrow) {
                     let mut pivot_iter = SkipSingle::new(pivot.into_iter(), element_index);
 
                     for (i, slot) in head.iter_mut().enumerate() {
@@ -163,12 +163,7 @@ impl<T: Ord> DynamicArray<T> {
                     pivot_iter.skipped
                 } else {
                     tail.iter_mut()
-                        .find_map(|bucket| {
-                            bucket
-                                .binary_search_by_key(&key, |x| x.borrow())
-                                .ok()
-                                .map(|i| (bucket, i))
-                        })
+                        .find_map(|bucket| bucket.binary_search_by_key(&key, T::borrow).ok().map(|i| (bucket, i)))
                         .map(|(bucket, i)| {
                             let removed = mem::replace(&mut bucket[i], pivot.pop().unwrap());
 
