@@ -1,5 +1,5 @@
-use super::super::super::super::utilities::KeyValuePair;
 use super::super::extra::{MinPriorityQueue, VecMinPriorityQueue};
+use crate::utilities::KeyValuePair;
 use std::iter;
 
 pub fn merge_sorted_lists<T: Ord, I: IntoIterator<Item = T>, V: IntoIterator<Item = I>>(

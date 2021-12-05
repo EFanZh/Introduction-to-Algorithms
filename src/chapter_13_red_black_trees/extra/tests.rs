@@ -1,63 +1,56 @@
-use super::{
-    adjust_on_left_child, adjust_on_left_child_black_sibling, adjust_on_left_child_black_sibling_red_root,
-    adjust_on_right_child, adjust_on_right_child_black_sibling, adjust_on_right_child_black_sibling_red_root, delete,
-    insert, remove, Color, Node, RedBlackTreeMap, Tree,
-};
+use super::{Color, Node, RedBlackTreeMap, Tree};
 
-#[allow(clippy::unnecessary_wraps)]
-fn red<K, V>(key: K, value: V, left: Tree<K, V>, right: Tree<K, V>) -> Tree<K, V> {
-    Some(Box::new(Node {
+fn red<K, V>(key: K, value: V, left: impl Into<Tree<K, V>>, right: impl Into<Tree<K, V>>) -> Box<Node<K, V>> {
+    Box::new(Node {
         color: Color::Red,
         key,
         value,
-        left,
-        right,
-    }))
+        left: left.into(),
+        right: right.into(),
+    })
 }
 
-#[allow(clippy::unnecessary_wraps)]
-fn red_leaf<K, V>(key: K, value: V) -> Tree<K, V> {
-    Some(Box::new(Node {
+fn red_leaf<K, V>(key: K, value: V) -> Box<Node<K, V>> {
+    Box::new(Node {
         color: Color::Red,
         key,
         value,
         left: None,
         right: None,
-    }))
+    })
 }
 
-#[allow(clippy::unnecessary_wraps)]
-fn black<K, V>(key: K, value: V, left: Tree<K, V>, right: Tree<K, V>) -> Tree<K, V> {
-    Some(Box::new(Node {
+fn black<K, V>(key: K, value: V, left: impl Into<Tree<K, V>>, right: impl Into<Tree<K, V>>) -> Box<Node<K, V>> {
+    Box::new(Node {
         color: Color::Black,
         key,
         value,
-        left,
-        right,
-    }))
+        left: left.into(),
+        right: right.into(),
+    })
 }
 
-#[allow(clippy::unnecessary_wraps)]
-fn black_leaf<K, V>(key: K, value: V) -> Tree<K, V> {
-    Some(Box::new(Node {
+fn black_leaf<K, V>(key: K, value: V) -> Box<Node<K, V>> {
+    Box::new(Node {
         color: Color::Black,
         key,
         value,
         left: None,
         right: None,
-    }))
+    })
 }
 
 fn run_insertion_test(
-    mut tree: Tree<i32, i32>,
+    tree: impl Into<Tree<i32, i32>>,
     key: i32,
     value: i32,
-    exprected_tree: &Tree<i32, i32>,
+    expected_tree: &Node<i32, i32>,
     expected_result: Option<i32>,
 ) {
-    let result = insert(&mut tree, key, value);
+    let mut tree = tree.into();
+    let result = super::insert(&mut tree, key, value);
 
-    assert_eq!(tree, *exprected_tree);
+    assert_eq!(tree.as_deref(), Some(expected_tree));
     assert_eq!(result, expected_result);
 }
 
@@ -278,7 +271,7 @@ fn red_black_tree_insert_full_right_side() {
 fn test_adjust_on_left_child_case_1_minimal() {
     let mut tree = black(1, 2, None, red(3, 5, black_leaf(2, 3), black_leaf(4, 7)));
 
-    assert!(!adjust_on_left_child(tree.as_mut().unwrap()));
+    assert!(!super::adjust_on_left_child(&mut tree));
 
     assert_eq!(tree, black(3, 5, black(1, 2, None, red_leaf(2, 3)), black_leaf(4, 7)));
 }
@@ -297,7 +290,7 @@ fn test_adjust_on_left_child_case_1_full() {
         ),
     );
 
-    assert!(!adjust_on_left_child(tree.as_mut().unwrap()));
+    assert!(!super::adjust_on_left_child(&mut tree));
 
     assert_eq!(
         tree,
@@ -315,16 +308,16 @@ fn test_adjust_on_left_child_case_2_red_root_minimal() {
     let mut tree = red(1, 2, None, black(3, 5, None, None));
     let expected_red_tree_result = black(1, 2, None, red(3, 5, None, None));
 
-    for f in &[adjust_on_left_child_black_sibling, adjust_on_left_child] {
+    for f in &[super::adjust_on_left_child_black_sibling, super::adjust_on_left_child] {
         let mut tree = tree.clone();
 
-        assert!(!f(tree.as_mut().unwrap()));
+        assert!(!f(&mut tree));
 
-        assert_eq!(&tree, &expected_red_tree_result);
+        assert_eq!(tree, expected_red_tree_result);
     }
 
-    adjust_on_left_child_black_sibling_red_root(tree.as_mut().unwrap());
-    assert_eq!(&tree, &expected_red_tree_result);
+    super::adjust_on_left_child_black_sibling_red_root(&mut tree);
+    assert_eq!(tree, expected_red_tree_result);
 }
 
 #[test]
@@ -332,16 +325,16 @@ fn test_adjust_on_left_child_case_2_red_root_full() {
     let mut tree = red(2, 3, black_leaf(1, 2), black(4, 7, black_leaf(3, 5), black_leaf(5, 11)));
     let expected_red_tree_result = black(2, 3, black_leaf(1, 2), red(4, 7, black_leaf(3, 5), black_leaf(5, 11)));
 
-    for f in &[adjust_on_left_child_black_sibling, adjust_on_left_child] {
+    for f in &[super::adjust_on_left_child_black_sibling, super::adjust_on_left_child] {
         let mut tree = tree.clone();
 
-        assert!(!f(tree.as_mut().unwrap()));
+        assert!(!f(&mut tree));
 
-        assert_eq!(&tree, &expected_red_tree_result);
+        assert_eq!(tree, expected_red_tree_result);
     }
 
-    adjust_on_left_child_black_sibling_red_root(tree.as_mut().unwrap());
-    assert_eq!(&tree, &expected_red_tree_result);
+    super::adjust_on_left_child_black_sibling_red_root(&mut tree);
+    assert_eq!(tree, expected_red_tree_result);
 }
 
 #[test]
@@ -349,12 +342,12 @@ fn test_adjust_on_left_child_case_2_black_root_minimal() {
     let tree = black(1, 2, None, black(3, 5, None, None));
     let expected_red_tree_result = black(1, 2, None, red(3, 5, None, None));
 
-    for f in &[adjust_on_left_child_black_sibling, adjust_on_left_child] {
+    for f in &[super::adjust_on_left_child_black_sibling, super::adjust_on_left_child] {
         let mut tree = tree.clone();
 
-        assert!(f(tree.as_mut().unwrap()));
+        assert!(f(&mut tree));
 
-        assert_eq!(&tree, &expected_red_tree_result);
+        assert_eq!(tree, expected_red_tree_result);
     }
 }
 
@@ -363,12 +356,12 @@ fn test_adjust_on_left_child_case_2_black_root_full() {
     let tree = black(2, 3, black_leaf(1, 2), black(4, 7, black_leaf(3, 5), black_leaf(5, 11)));
     let expected_red_tree_result = black(2, 3, black_leaf(1, 2), red(4, 7, black_leaf(3, 5), black_leaf(5, 11)));
 
-    for f in &[adjust_on_left_child_black_sibling, adjust_on_left_child] {
+    for f in &[super::adjust_on_left_child_black_sibling, super::adjust_on_left_child] {
         let mut tree = tree.clone();
 
-        assert!(f(tree.as_mut().unwrap()));
+        assert!(f(&mut tree));
 
-        assert_eq!(&tree, &expected_red_tree_result);
+        assert_eq!(tree, expected_red_tree_result);
     }
 }
 
@@ -377,16 +370,16 @@ fn test_adjust_on_left_child_case_3_red_root_minimal() {
     let mut tree = red(1, 2, None, black(3, 5, red_leaf(2, 3), None));
     let expected_red_tree_result = red(2, 3, black_leaf(1, 2), black_leaf(3, 5));
 
-    for f in &[adjust_on_left_child_black_sibling, adjust_on_left_child] {
+    for f in &[super::adjust_on_left_child_black_sibling, super::adjust_on_left_child] {
         let mut tree = tree.clone();
 
-        assert!(!f(tree.as_mut().unwrap()));
+        assert!(!f(&mut tree));
 
-        assert_eq!(&tree, &expected_red_tree_result);
+        assert_eq!(tree, expected_red_tree_result);
     }
 
-    adjust_on_left_child_black_sibling_red_root(tree.as_mut().unwrap());
-    assert_eq!(&tree, &expected_red_tree_result);
+    super::adjust_on_left_child_black_sibling_red_root(&mut tree);
+    assert_eq!(tree, expected_red_tree_result);
 }
 
 #[test]
@@ -405,16 +398,16 @@ fn test_adjust_on_left_child_case_3_red_root_full() {
         black(6, 13, black_leaf(5, 11), black_leaf(7, 17)),
     );
 
-    for f in &[adjust_on_left_child_black_sibling, adjust_on_left_child] {
+    for f in &[super::adjust_on_left_child_black_sibling, super::adjust_on_left_child] {
         let mut tree = tree.clone();
 
-        assert!(!f(tree.as_mut().unwrap()));
+        assert!(!f(&mut tree));
 
-        assert_eq!(&tree, &expected_red_tree_result);
+        assert_eq!(tree, expected_red_tree_result);
     }
 
-    adjust_on_left_child_black_sibling_red_root(tree.as_mut().unwrap());
-    assert_eq!(&tree, &expected_red_tree_result);
+    super::adjust_on_left_child_black_sibling_red_root(&mut tree);
+    assert_eq!(tree, expected_red_tree_result);
 }
 
 #[test]
@@ -422,12 +415,12 @@ fn test_adjust_on_left_child_case_3_black_root_minimal() {
     let tree = black(1, 2, None, black(3, 5, red_leaf(2, 3), None));
     let expected_red_tree_result = black(2, 3, black_leaf(1, 2), black_leaf(3, 5));
 
-    for f in &[adjust_on_left_child_black_sibling, adjust_on_left_child] {
+    for f in &[super::adjust_on_left_child_black_sibling, super::adjust_on_left_child] {
         let mut tree = tree.clone();
 
-        assert!(!f(tree.as_mut().unwrap()));
+        assert!(!f(&mut tree));
 
-        assert_eq!(&tree, &expected_red_tree_result);
+        assert_eq!(tree, expected_red_tree_result);
     }
 }
 
@@ -447,12 +440,12 @@ fn test_adjust_on_left_child_case_3_black_root_full() {
         black(6, 13, black_leaf(5, 11), black_leaf(7, 17)),
     );
 
-    for f in &[adjust_on_left_child_black_sibling, adjust_on_left_child] {
+    for f in &[super::adjust_on_left_child_black_sibling, super::adjust_on_left_child] {
         let mut tree = tree.clone();
 
-        assert!(!f(tree.as_mut().unwrap()));
+        assert!(!f(&mut tree));
 
-        assert_eq!(&tree, &expected_red_tree_result);
+        assert_eq!(tree, expected_red_tree_result);
     }
 }
 
@@ -461,16 +454,16 @@ fn test_adjust_on_left_child_case_4_red_root_minimal() {
     let mut tree = red(1, 2, None, black(2, 3, None, red_leaf(3, 5)));
     let expected_red_tree_result = red(2, 3, black_leaf(1, 2), black_leaf(3, 5));
 
-    for f in &[adjust_on_left_child_black_sibling, adjust_on_left_child] {
+    for f in &[super::adjust_on_left_child_black_sibling, super::adjust_on_left_child] {
         let mut tree = tree.clone();
 
-        assert!(!f(tree.as_mut().unwrap()));
+        assert!(!f(&mut tree));
 
-        assert_eq!(&tree, &expected_red_tree_result);
+        assert_eq!(tree, expected_red_tree_result);
     }
 
-    adjust_on_left_child_black_sibling_red_root(tree.as_mut().unwrap());
-    assert_eq!(&tree, &expected_red_tree_result);
+    super::adjust_on_left_child_black_sibling_red_root(&mut tree);
+    assert_eq!(tree, expected_red_tree_result);
 }
 
 #[test]
@@ -489,16 +482,16 @@ fn test_adjust_on_left_child_case_4_red_root_full() {
         black(6, 13, black_leaf(5, 11), black_leaf(7, 17)),
     );
 
-    for f in &[adjust_on_left_child_black_sibling, adjust_on_left_child] {
+    for f in &[super::adjust_on_left_child_black_sibling, super::adjust_on_left_child] {
         let mut tree = tree.clone();
 
-        assert!(!f(tree.as_mut().unwrap()));
+        assert!(!f(&mut tree));
 
-        assert_eq!(&tree, &expected_red_tree_result);
+        assert_eq!(tree, expected_red_tree_result);
     }
 
-    adjust_on_left_child_black_sibling_red_root(tree.as_mut().unwrap());
-    assert_eq!(&tree, &expected_red_tree_result);
+    super::adjust_on_left_child_black_sibling_red_root(&mut tree);
+    assert_eq!(tree, expected_red_tree_result);
 }
 
 #[test]
@@ -506,12 +499,12 @@ fn test_adjust_on_left_child_case_4_black_root_minimal() {
     let tree = black(1, 2, None, black(2, 3, None, red_leaf(3, 5)));
     let expected_red_tree_result = black(2, 3, black_leaf(1, 2), black_leaf(3, 5));
 
-    for f in &[adjust_on_left_child_black_sibling, adjust_on_left_child] {
+    for f in &[super::adjust_on_left_child_black_sibling, super::adjust_on_left_child] {
         let mut tree = tree.clone();
 
-        assert!(!f(tree.as_mut().unwrap()));
+        assert!(!f(&mut tree));
 
-        assert_eq!(&tree, &expected_red_tree_result);
+        assert_eq!(tree, expected_red_tree_result);
     }
 }
 
@@ -531,12 +524,12 @@ fn test_adjust_on_left_child_case_4_black_root_full() {
         black(6, 13, black_leaf(5, 11), black_leaf(7, 17)),
     );
 
-    for f in &[adjust_on_left_child_black_sibling, adjust_on_left_child] {
+    for f in &[super::adjust_on_left_child_black_sibling, super::adjust_on_left_child] {
         let mut tree = tree.clone();
 
-        assert!(!f(tree.as_mut().unwrap()));
+        assert!(!f(&mut tree));
 
-        assert_eq!(&tree, &expected_red_tree_result);
+        assert_eq!(tree, expected_red_tree_result);
     }
 }
 
@@ -544,7 +537,7 @@ fn test_adjust_on_left_child_case_4_black_root_full() {
 fn test_adjust_on_right_child_case_1_minimal() {
     let mut tree = black(4, 2, red(2, 5, black_leaf(1, 7), black_leaf(3, 3)), None);
 
-    assert!(!adjust_on_right_child(tree.as_mut().unwrap()));
+    assert!(!super::adjust_on_right_child(&mut tree));
 
     assert_eq!(tree, black(2, 5, black_leaf(1, 7), black(4, 2, red_leaf(3, 3), None)));
 }
@@ -563,7 +556,7 @@ fn test_adjust_on_right_child_case_1_full() {
         black_leaf(9, 2),
     );
 
-    assert!(!adjust_on_right_child(tree.as_mut().unwrap()));
+    assert!(!super::adjust_on_right_child(&mut tree));
 
     assert_eq!(
         tree,
@@ -581,16 +574,16 @@ fn test_adjust_on_right_child_case_2_red_root_minimal() {
     let mut tree = red(3, 2, black(1, 5, None, None), None);
     let expected_red_tree_result = black(3, 2, red(1, 5, None, None), None);
 
-    for f in &[adjust_on_right_child_black_sibling, adjust_on_right_child] {
+    for f in &[super::adjust_on_right_child_black_sibling, super::adjust_on_right_child] {
         let mut tree = tree.clone();
 
-        assert!(!f(tree.as_mut().unwrap()));
+        assert!(!f(&mut tree));
 
-        assert_eq!(&tree, &expected_red_tree_result);
+        assert_eq!(tree, expected_red_tree_result);
     }
 
-    adjust_on_right_child_black_sibling_red_root(tree.as_mut().unwrap());
-    assert_eq!(&tree, &expected_red_tree_result);
+    super::adjust_on_right_child_black_sibling_red_root(&mut tree);
+    assert_eq!(tree, expected_red_tree_result);
 }
 
 #[test]
@@ -598,16 +591,16 @@ fn test_adjust_on_right_child_case_2_red_root_full() {
     let mut tree = red(4, 3, black(2, 7, black_leaf(1, 11), black_leaf(3, 5)), black_leaf(5, 2));
     let expected_red_tree_result = black(4, 3, red(2, 7, black_leaf(1, 11), black_leaf(3, 5)), black_leaf(5, 2));
 
-    for f in &[adjust_on_right_child_black_sibling, adjust_on_right_child] {
+    for f in &[super::adjust_on_right_child_black_sibling, super::adjust_on_right_child] {
         let mut tree = tree.clone();
 
-        assert!(!f(tree.as_mut().unwrap()));
+        assert!(!f(&mut tree));
 
-        assert_eq!(&tree, &expected_red_tree_result);
+        assert_eq!(tree, expected_red_tree_result);
     }
 
-    adjust_on_right_child_black_sibling_red_root(tree.as_mut().unwrap());
-    assert_eq!(&tree, &expected_red_tree_result);
+    super::adjust_on_right_child_black_sibling_red_root(&mut tree);
+    assert_eq!(tree, expected_red_tree_result);
 }
 
 #[test]
@@ -615,12 +608,12 @@ fn test_adjust_on_right_child_case_2_black_root_minimal() {
     let tree = black(3, 2, black(1, 5, None, None), None);
     let expected_red_tree_result = black(3, 2, red(1, 5, None, None), None);
 
-    for f in &[adjust_on_right_child_black_sibling, adjust_on_right_child] {
+    for f in &[super::adjust_on_right_child_black_sibling, super::adjust_on_right_child] {
         let mut tree = tree.clone();
 
-        assert!(f(tree.as_mut().unwrap()));
+        assert!(f(&mut tree));
 
-        assert_eq!(&tree, &expected_red_tree_result);
+        assert_eq!(tree, expected_red_tree_result);
     }
 }
 
@@ -629,12 +622,12 @@ fn test_adjust_on_right_child_case_2_black_root_full() {
     let tree = black(4, 3, black(2, 7, black_leaf(1, 11), black_leaf(3, 5)), black_leaf(5, 2));
     let expected_red_tree_result = black(4, 3, red(2, 7, black_leaf(1, 11), black_leaf(3, 5)), black_leaf(5, 2));
 
-    for f in &[adjust_on_right_child_black_sibling, adjust_on_right_child] {
+    for f in &[super::adjust_on_right_child_black_sibling, super::adjust_on_right_child] {
         let mut tree = tree.clone();
 
-        assert!(f(tree.as_mut().unwrap()));
+        assert!(f(&mut tree));
 
-        assert_eq!(&tree, &expected_red_tree_result);
+        assert_eq!(tree, expected_red_tree_result);
     }
 }
 
@@ -643,16 +636,16 @@ fn test_adjust_on_right_child_case_3_red_root_minimal() {
     let mut tree = red(3, 2, black(1, 5, None, red_leaf(2, 3)), None);
     let expected_red_tree_result = red(2, 3, black_leaf(1, 5), black_leaf(3, 2));
 
-    for f in &[adjust_on_right_child_black_sibling, adjust_on_right_child] {
+    for f in &[super::adjust_on_right_child_black_sibling, super::adjust_on_right_child] {
         let mut tree = tree.clone();
 
-        assert!(!f(tree.as_mut().unwrap()));
+        assert!(!f(&mut tree));
 
-        assert_eq!(&tree, &expected_red_tree_result);
+        assert_eq!(tree, expected_red_tree_result);
     }
 
-    adjust_on_right_child_black_sibling_red_root(tree.as_mut().unwrap());
-    assert_eq!(&tree, &expected_red_tree_result);
+    super::adjust_on_right_child_black_sibling_red_root(&mut tree);
+    assert_eq!(tree, expected_red_tree_result);
 }
 
 #[test]
@@ -671,16 +664,16 @@ fn test_adjust_on_right_child_case_3_red_root_full() {
         black(6, 3, black_leaf(5, 5), black_leaf(7, 2)),
     );
 
-    for f in &[adjust_on_right_child_black_sibling, adjust_on_right_child] {
+    for f in &[super::adjust_on_right_child_black_sibling, super::adjust_on_right_child] {
         let mut tree = tree.clone();
 
-        assert!(!f(tree.as_mut().unwrap()));
+        assert!(!f(&mut tree));
 
-        assert_eq!(&tree, &expected_red_tree_result);
+        assert_eq!(tree, expected_red_tree_result);
     }
 
-    adjust_on_right_child_black_sibling_red_root(tree.as_mut().unwrap());
-    assert_eq!(&tree, &expected_red_tree_result);
+    super::adjust_on_right_child_black_sibling_red_root(&mut tree);
+    assert_eq!(tree, expected_red_tree_result);
 }
 
 #[test]
@@ -688,12 +681,12 @@ fn test_adjust_on_right_child_case_3_black_root_minimal() {
     let tree = black(3, 2, black(1, 5, None, red_leaf(2, 3)), None);
     let expected_red_tree_result = black(2, 3, black_leaf(1, 5), black_leaf(3, 2));
 
-    for f in &[adjust_on_right_child_black_sibling, adjust_on_right_child] {
+    for f in &[super::adjust_on_right_child_black_sibling, super::adjust_on_right_child] {
         let mut tree = tree.clone();
 
-        assert!(!f(tree.as_mut().unwrap()));
+        assert!(!f(&mut tree));
 
-        assert_eq!(&tree, &expected_red_tree_result);
+        assert_eq!(tree, expected_red_tree_result);
     }
 }
 
@@ -713,12 +706,12 @@ fn test_adjust_on_right_child_case_3_black_root_full() {
         black(6, 3, black_leaf(5, 5), black_leaf(7, 2)),
     );
 
-    for f in &[adjust_on_right_child_black_sibling, adjust_on_right_child] {
+    for f in &[super::adjust_on_right_child_black_sibling, super::adjust_on_right_child] {
         let mut tree = tree.clone();
 
-        assert!(!f(tree.as_mut().unwrap()));
+        assert!(!f(&mut tree));
 
-        assert_eq!(&tree, &expected_red_tree_result);
+        assert_eq!(tree, expected_red_tree_result);
     }
 }
 
@@ -727,16 +720,16 @@ fn test_adjust_on_right_child_case_4_red_root_minimal() {
     let mut tree = red(3, 2, black(2, 3, red_leaf(1, 5), None), None);
     let expected_red_tree_result = red(2, 3, black_leaf(1, 5), black_leaf(3, 2));
 
-    for f in &[adjust_on_right_child_black_sibling, adjust_on_right_child] {
+    for f in &[super::adjust_on_right_child_black_sibling, super::adjust_on_right_child] {
         let mut tree = tree.clone();
 
-        assert!(!f(tree.as_mut().unwrap()));
+        assert!(!f(&mut tree));
 
-        assert_eq!(&tree, &expected_red_tree_result);
+        assert_eq!(tree, expected_red_tree_result);
     }
 
-    adjust_on_right_child_black_sibling_red_root(tree.as_mut().unwrap());
-    assert_eq!(&tree, &expected_red_tree_result);
+    super::adjust_on_right_child_black_sibling_red_root(&mut tree);
+    assert_eq!(tree, expected_red_tree_result);
 }
 
 #[test]
@@ -755,16 +748,16 @@ fn test_adjust_on_right_child_case_4_red_root_full() {
         black(6, 3, black_leaf(5, 5), black_leaf(7, 2)),
     );
 
-    for f in &[adjust_on_right_child_black_sibling, adjust_on_right_child] {
+    for f in &[super::adjust_on_right_child_black_sibling, super::adjust_on_right_child] {
         let mut tree = tree.clone();
 
-        assert!(!f(tree.as_mut().unwrap()));
+        assert!(!f(&mut tree));
 
-        assert_eq!(&tree, &expected_red_tree_result);
+        assert_eq!(tree, expected_red_tree_result);
     }
 
-    adjust_on_right_child_black_sibling_red_root(tree.as_mut().unwrap());
-    assert_eq!(&tree, &expected_red_tree_result);
+    super::adjust_on_right_child_black_sibling_red_root(&mut tree);
+    assert_eq!(tree, expected_red_tree_result);
 }
 
 #[test]
@@ -772,12 +765,12 @@ fn test_adjust_on_right_child_case_4_black_root_minimal() {
     let tree = black(3, 2, black(2, 3, red_leaf(1, 5), None), None);
     let expected_red_tree_result = black(2, 3, black_leaf(1, 5), black_leaf(3, 2));
 
-    for f in &[adjust_on_right_child_black_sibling, adjust_on_right_child] {
+    for f in &[super::adjust_on_right_child_black_sibling, super::adjust_on_right_child] {
         let mut tree = tree.clone();
 
-        assert!(!f(tree.as_mut().unwrap()));
+        assert!(!f(&mut tree));
 
-        assert_eq!(&tree, &expected_red_tree_result);
+        assert_eq!(tree, expected_red_tree_result);
     }
 }
 
@@ -797,158 +790,189 @@ fn test_adjust_on_right_child_case_4_black_root_full() {
         black(6, 3, black_leaf(5, 5), black_leaf(7, 2)),
     );
 
-    for f in &[adjust_on_right_child_black_sibling, adjust_on_right_child] {
+    for f in &[super::adjust_on_right_child_black_sibling, super::adjust_on_right_child] {
         let mut tree = tree.clone();
 
-        assert!(!f(tree.as_mut().unwrap()));
+        assert!(!f(&mut tree));
 
-        assert_eq!(&tree, &expected_red_tree_result);
+        assert_eq!(tree, expected_red_tree_result);
     }
 }
 
 #[test]
 fn test_delete_red_leaf() {
-    let mut node = red_leaf(2, 3);
+    let mut node = Some(red_leaf(2, 3));
 
-    assert_eq!(delete(&mut node), (false, 3));
+    assert_eq!(super::delete(&mut node), (false, 3));
     assert_eq!(node, None);
 }
 
 #[test]
 fn test_delete_black_leaf() {
-    let mut node = black_leaf(2, 3);
+    let mut node = Some(black_leaf(2, 3));
 
-    assert_eq!(delete(&mut node), (true, 3));
+    assert_eq!(super::delete(&mut node), (true, 3));
     assert_eq!(node, None);
 }
 
 #[test]
 fn test_delete_left_empty() {
-    let mut node = black(2, 3, None, red_leaf(5, 7));
+    let mut node = Some(black(2, 3, None, red_leaf(5, 7)));
 
-    assert_eq!(delete(&mut node), (false, 3));
-    assert_eq!(node, black_leaf(5, 7));
+    assert_eq!(super::delete(&mut node), (false, 3));
+    assert_eq!(node, Some(black_leaf(5, 7)));
 }
 
 #[test]
 fn test_delete_right_empty() {
-    let mut node = black(2, 3, red_leaf(1, 2), None);
+    let mut node = Some(black(2, 3, red_leaf(1, 2), None));
 
-    assert_eq!(delete(&mut node), (false, 3));
-    assert_eq!(node, black_leaf(1, 2));
+    assert_eq!(super::delete(&mut node), (false, 3));
+    assert_eq!(node, Some(black_leaf(1, 2)));
 }
 
 #[test]
 fn test_delete_both_children_1() {
-    let mut node = black(2, 3, red_leaf(1, 2), red_leaf(3, 5));
+    let mut node = Some(black(2, 3, red_leaf(1, 2), red_leaf(3, 5)));
 
-    assert_eq!(delete(&mut node), (false, 3));
-    assert_eq!(node, black(3, 5, red_leaf(1, 2), None));
+    assert_eq!(super::delete(&mut node), (false, 3));
+    assert_eq!(node, Some(black(3, 5, red_leaf(1, 2), None)));
 }
 
 #[test]
 fn test_delete_both_children_2() {
-    let mut node = black(2, 3, black_leaf(1, 2), black_leaf(3, 5));
+    let mut node = Some(black(2, 3, black_leaf(1, 2), black_leaf(3, 5)));
 
-    assert_eq!(delete(&mut node), (true, 3));
-    assert_eq!(node, black(3, 5, red_leaf(1, 2), None));
+    assert_eq!(super::delete(&mut node), (true, 3));
+    assert_eq!(node, Some(black(3, 5, red_leaf(1, 2), None)));
 }
 
 #[test]
 fn test_delete_both_children_3() {
-    let mut node = black(4, 7, red(2, 3, black_leaf(1, 2), black_leaf(3, 5)), black_leaf(5, 13));
+    let mut node = Some(black(
+        4,
+        7,
+        red(2, 3, black_leaf(1, 2), black_leaf(3, 5)),
+        black_leaf(5, 13),
+    ));
 
-    assert_eq!(delete(&mut node), (false, 7));
-    assert_eq!(node, black(2, 3, black_leaf(1, 2), black(5, 13, red_leaf(3, 5), None)));
+    assert_eq!(super::delete(&mut node), (false, 7));
+
+    assert_eq!(
+        node,
+        Some(black(2, 3, black_leaf(1, 2), black(5, 13, red_leaf(3, 5), None)))
+    );
 }
 
 #[test]
 fn test_remove_empty() {
     let mut tree: Tree<i32, i32> = None;
 
-    assert_eq!(remove(&mut tree, &4), Err(None));
+    assert_eq!(super::remove(&mut tree, &4), Err(None));
     assert_eq!(tree, None);
 }
 
 #[test]
 fn test_remove_not_exist() {
-    let mut tree = black(2, 3, black_leaf(1, 2), black_leaf(3, 5));
+    let mut tree = Some(black(2, 3, black_leaf(1, 2), black_leaf(3, 5)));
     let tree_2 = tree.clone();
 
-    assert_eq!(remove(&mut tree, &0), Err(None));
-    assert_eq!(&tree, &tree_2);
-    assert_eq!(remove(&mut tree, &4), Err(None));
-    assert_eq!(&tree, &tree_2);
+    assert_eq!(super::remove(&mut tree, &0), Err(None));
+    assert_eq!(tree, tree_2);
+    assert_eq!(super::remove(&mut tree, &4), Err(None));
+    assert_eq!(tree, tree_2);
 }
 
 #[test]
 fn test_remove_left_no_adjust() {
-    let mut tree = black(2, 3, red_leaf(1, 2), red_leaf(3, 5));
+    let mut tree = Some(black(2, 3, red_leaf(1, 2), red_leaf(3, 5)));
 
-    assert_eq!(remove(&mut tree, &1), Err(Some(2)));
-    assert_eq!(tree, black(2, 3, None, red_leaf(3, 5)));
+    assert_eq!(super::remove(&mut tree, &1), Err(Some(2)));
+    assert_eq!(tree, Some(black(2, 3, None, red_leaf(3, 5))));
 }
 
 #[test]
 fn test_remove_left_adjust_1() {
-    let mut tree = black(2, 3, black_leaf(1, 2), black_leaf(3, 5));
+    let mut tree = Some(black(2, 3, black_leaf(1, 2), black_leaf(3, 5)));
 
-    assert_eq!(remove(&mut tree, &1), Ok(2));
-    assert_eq!(tree, black(2, 3, None, red_leaf(3, 5)));
+    assert_eq!(super::remove(&mut tree, &1), Ok(2));
+    assert_eq!(tree, Some(black(2, 3, None, red_leaf(3, 5))));
 }
 
 #[test]
 fn test_remove_left_adjust_2() {
-    let mut tree = black(2, 3, black_leaf(1, 2), red(4, 7, black_leaf(3, 5), black_leaf(5, 11)));
+    let mut tree = Some(black(
+        2,
+        3,
+        black_leaf(1, 2),
+        red(4, 7, black_leaf(3, 5), black_leaf(5, 11)),
+    ));
 
-    assert_eq!(remove(&mut tree, &1), Err(Some(2)));
-    assert_eq!(tree, black(4, 7, black(2, 3, None, red_leaf(3, 5)), black_leaf(5, 11)));
+    assert_eq!(super::remove(&mut tree, &1), Err(Some(2)));
+    assert_eq!(
+        tree,
+        Some(black(4, 7, black(2, 3, None, red_leaf(3, 5)), black_leaf(5, 11)))
+    );
 }
 
 #[test]
 fn test_remove_right_no_adjust() {
-    let mut tree = black(2, 3, red_leaf(1, 5), red_leaf(3, 2));
+    let mut tree = Some(black(2, 3, red_leaf(1, 5), red_leaf(3, 2)));
 
-    assert_eq!(remove(&mut tree, &3), Err(Some(2)));
-    assert_eq!(tree, black(2, 3, red_leaf(1, 5), None));
+    assert_eq!(super::remove(&mut tree, &3), Err(Some(2)));
+    assert_eq!(tree, Some(black(2, 3, red_leaf(1, 5), None)));
 }
 
 #[test]
 fn test_remove_right_adjust_1() {
-    let mut tree = black(2, 3, black_leaf(1, 5), black_leaf(3, 2));
+    let mut tree = Some(black(2, 3, black_leaf(1, 5), black_leaf(3, 2)));
 
-    assert_eq!(remove(&mut tree, &3), Ok(2));
-    assert_eq!(tree, black(2, 3, red_leaf(1, 5), None));
+    assert_eq!(super::remove(&mut tree, &3), Ok(2));
+    assert_eq!(tree, Some(black(2, 3, red_leaf(1, 5), None)));
 }
 
 #[test]
 fn test_remove_right_adjust_2() {
-    let mut tree = black(4, 3, red(2, 7, black_leaf(1, 11), black_leaf(3, 5)), black_leaf(5, 2));
+    let mut tree = Some(black(
+        4,
+        3,
+        red(2, 7, black_leaf(1, 11), black_leaf(3, 5)),
+        black_leaf(5, 2),
+    ));
 
-    assert_eq!(remove(&mut tree, &5), Err(Some(2)));
-    assert_eq!(tree, black(2, 7, black_leaf(1, 11), black(4, 3, red_leaf(3, 5), None)));
+    assert_eq!(super::remove(&mut tree, &5), Err(Some(2)));
+
+    assert_eq!(
+        tree,
+        Some(black(2, 7, black_leaf(1, 11), black(4, 3, red_leaf(3, 5), None)))
+    );
 }
 
 #[test]
 fn test_remove_extra_1() {
-    let mut tree = black(
+    let mut tree = Some(black(
         2,
         3,
         black_leaf(1, 2),
         red(5, 11, black(4, 7, red_leaf(3, 5), None), black_leaf(6, 13)),
-    );
+    ));
 
-    assert_eq!(remove(&mut tree, &2), Err(Some(3)));
+    assert_eq!(super::remove(&mut tree, &2), Err(Some(3)));
 
     assert_eq!(
         tree,
-        black(3, 5, black_leaf(1, 2), red(5, 11, black_leaf(4, 7), black_leaf(6, 13)))
+        Some(black(
+            3,
+            5,
+            black_leaf(1, 2),
+            red(5, 11, black_leaf(4, 7), black_leaf(6, 13))
+        ))
     );
 }
 
 #[test]
 fn test_remove_extra_2() {
-    let mut tree = black(
+    let mut tree = Some(black(
         4,
         7,
         black(2, 3, black_leaf(1, 2), black_leaf(3, 5)),
@@ -958,13 +982,13 @@ fn test_remove_extra_2() {
             black(6, 13, black_leaf(5, 11), black_leaf(7, 17)),
             black(10, 29, black_leaf(9, 23), black_leaf(11, 31)),
         ),
-    );
+    ));
 
-    assert_eq!(remove(&mut tree, &4), Err(Some(7)));
+    assert_eq!(super::remove(&mut tree, &4), Err(Some(7)));
 
     assert_eq!(
         tree,
-        black(
+        Some(black(
             5,
             11,
             black(2, 3, black_leaf(1, 2), black_leaf(3, 5)),
@@ -974,24 +998,29 @@ fn test_remove_extra_2() {
                 black(6, 13, None, red_leaf(7, 17)),
                 red(10, 29, black_leaf(9, 23), black_leaf(11, 31))
             ),
-        )
+        ))
     );
 }
 
 #[test]
 fn test_remove_extra_3() {
-    let mut tree = black(
+    let mut tree = Some(black(
         2,
         3,
         black_leaf(1, 2),
         red(5, 11, black(3, 5, None, red_leaf(4, 7)), black_leaf(6, 13)),
-    );
+    ));
 
-    assert_eq!(remove(&mut tree, &2), Err(Some(3)));
+    assert_eq!(super::remove(&mut tree, &2), Err(Some(3)));
 
     assert_eq!(
         tree,
-        black(3, 5, black_leaf(1, 2), red(5, 11, black_leaf(4, 7), black_leaf(6, 13)))
+        Some(black(
+            3,
+            5,
+            black_leaf(1, 2),
+            red(5, 11, black_leaf(4, 7), black_leaf(6, 13))
+        ))
     );
 }
 

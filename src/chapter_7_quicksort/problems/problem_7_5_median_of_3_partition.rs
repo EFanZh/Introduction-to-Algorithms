@@ -1,6 +1,6 @@
 use super::super::super::chapter_2_getting_started::section_2_1_insertion_sort::extra::insertion_sort_slice;
-use super::super::super::utilities::KeyValuePair;
 use super::super::section_7_1_description_of_quicksort::partition;
+use crate::utilities::KeyValuePair;
 use rand::seq::index;
 use rand::{thread_rng, Rng};
 

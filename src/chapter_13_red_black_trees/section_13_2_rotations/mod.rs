@@ -47,17 +47,14 @@ pub fn left_rotate<T>(x_rc: &mut Rc<RefCell<RedBlackTreeNode<T>>>) {
 
 #[cfg(test)]
 mod tests {
-    use super::super::section_13_1_properties_of_red_black_trees::tests::check_valid_tree;
-    use super::super::section_13_1_properties_of_red_black_trees::{Color, RedBlackTreeNode};
-    use super::left_rotate;
+    use super::super::section_13_1_properties_of_red_black_trees::{self, Color, RedBlackTreeNode};
     use std::cell::RefCell;
     use std::rc::Rc;
 
     type Tree<T> = Option<Rc<RefCell<RedBlackTreeNode<T>>>>;
 
-    #[allow(clippy::unnecessary_wraps)]
-    fn make_node<T>(key: T, left: Tree<T>, right: Tree<T>) -> Tree<T> {
-        Some(RedBlackTreeNode::new(Color::Black, key, left, right))
+    fn make_node<T>(key: T, left: impl Into<Tree<T>>, right: impl Into<Tree<T>>) -> Rc<RefCell<RedBlackTreeNode<T>>> {
+        RedBlackTreeNode::new(Color::Black, key, left.into(), right.into())
     }
 
     #[test]
@@ -68,9 +65,7 @@ mod tests {
             make_node(4, make_node(3, None, None), make_node(5, None, None)),
         );
 
-        left_rotate(tree.as_mut().unwrap());
-
-        check_valid_tree(&tree);
+        super::left_rotate(&mut tree);
 
         assert_eq!(
             tree,
@@ -80,5 +75,7 @@ mod tests {
                 make_node(5, None, None)
             )
         );
+
+        section_13_1_properties_of_red_black_trees::tests::check_valid_tree(&Some(tree));
     }
 }

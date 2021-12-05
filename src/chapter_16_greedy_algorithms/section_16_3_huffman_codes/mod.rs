@@ -1,4 +1,4 @@
-use super::super::utilities::KeyValuePair;
+use crate::utilities::KeyValuePair;
 use std::cmp::Reverse;
 use std::collections::BinaryHeap;
 

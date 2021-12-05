@@ -67,19 +67,15 @@ pub fn longest_palindrome_subsequence<T: Eq + Clone>(s: &[T]) -> Box<[T]> {
 
 #[cfg(test)]
 mod tests {
-    use super::longest_palindrome_subsequence;
-
     #[test]
     fn test_longest_palindrome_subsequence() {
-        #[allow(trivial_casts)]
-        let test_cases = [
-            (b"bbbab" as &[_], b"bbbb" as &[_]),
-            (b"cbbd", b"bb"),
-            (b"character", b"carac"),
-        ];
+        let test_cases = [("bbbab", "bbbb"), ("cbbd", "bb"), ("character", "carac")];
 
         for (s, expected) in test_cases {
-            assert_eq!(*longest_palindrome_subsequence(s), *expected);
+            assert_eq!(
+                super::longest_palindrome_subsequence(s.as_bytes()).as_ref(),
+                expected.as_bytes()
+            );
         }
     }
 }

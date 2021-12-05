@@ -1,4 +1,4 @@
-use super::super::super::utilities::KeyValuePair;
+use crate::utilities::KeyValuePair;
 use std::collections::btree_map::Entry;
 use std::collections::{BTreeMap, BTreeSet};
 

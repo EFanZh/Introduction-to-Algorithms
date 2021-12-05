@@ -1,8 +1,8 @@
 use super::super::super::super::chapter_10_elementary_data_structures::section_10_1_stacks_and_queues::extra::{
     Queue, Stack,
 };
-use super::super::super::super::utilities::KeyValuePair;
 use super::super::extra::{MaxPriorityQueue, MinPriorityQueue, VecMaxPriorityQueue, VecMinPriorityQueue};
+use crate::utilities::KeyValuePair;
 
 pub struct FifoQueue<T> {
     q: VecMinPriorityQueue<KeyValuePair<usize, T>>,

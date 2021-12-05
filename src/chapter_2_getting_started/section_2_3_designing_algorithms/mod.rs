@@ -1,4 +1,4 @@
-use super::super::utilities::Infinitable;
+use crate::utilities::Infinitable;
 
 pub mod exercises;
 pub mod extra;

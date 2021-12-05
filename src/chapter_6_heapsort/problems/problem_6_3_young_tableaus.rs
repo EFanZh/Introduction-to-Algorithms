@@ -1,4 +1,4 @@
-use super::super::super::utilities::Infinitable;
+use crate::utilities::Infinitable;
 use std::cmp::Ordering;
 use std::iter;
 
