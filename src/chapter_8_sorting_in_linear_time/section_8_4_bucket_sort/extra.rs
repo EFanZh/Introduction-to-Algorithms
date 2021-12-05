@@ -9,7 +9,7 @@ pub fn bucket_sort_by<T: Clone, F: FnMut(&T) -> usize, G: FnMut(&T, &T) -> Order
     let n = a.len();
     let mut b = vec![Vec::new(); n];
 
-    for a_i in a.iter() {
+    for a_i in &*a {
         b[f(a_i)].push(a_i.clone());
     }
 

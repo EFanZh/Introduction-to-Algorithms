@@ -52,11 +52,7 @@ pub fn strongly_connected_components(g: &[Vec<usize>]) -> Vec<Vec<usize>> {
 
     // Second DFS.
 
-    // TODO: Use `slice::fill` when it is stablized.
-
-    for value in &mut visited {
-        *value = false;
-    }
+    visited.fill(false);
 
     let mut result = Vec::new();
 

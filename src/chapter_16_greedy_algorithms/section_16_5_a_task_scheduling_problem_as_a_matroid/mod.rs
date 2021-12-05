@@ -17,7 +17,7 @@ pub fn schedule_task(tasks: &[Task]) -> Box<[usize]> {
 
     task_indices.sort_by_key(|i| Reverse(tasks[*i].penalty));
 
-    for &i in task_indices.iter() {
+    for &i in &*task_indices {
         let task = &tasks[i];
 
         if exercise_16_5_2::check_schedule(&deadline_tasks, task.deadline) {

@@ -145,7 +145,7 @@ pub fn young_tableau_sort<T: Ord + Clone>(a: &mut [T]) {
 
     let mut young_tableau = YoungTableau::new(n, n);
 
-    for value in a.iter() {
+    for value in &*a {
         young_tableau.insert(value.clone());
     }
 

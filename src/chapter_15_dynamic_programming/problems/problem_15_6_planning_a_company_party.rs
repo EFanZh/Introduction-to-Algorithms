@@ -99,7 +99,7 @@ fn build_attendance_list<'a>(cache: &CacheItem<'a>, result: &mut Vec<&'a Employe
             build_attendance_list(child, result);
         }
     } else {
-        for child in cache.children.iter() {
+        for child in &*cache.children {
             build_attendance_list(child, result);
         }
     }

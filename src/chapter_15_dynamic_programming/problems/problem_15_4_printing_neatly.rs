@@ -91,7 +91,7 @@ pub fn layout_paragraph_neatly(words: &[&str], columns: usize) -> Box<[String]> 
 
     let mut previous_cut = 0;
 
-    for &cut in cuts.iter() {
+    for &cut in &*cuts {
         result.push(words[previous_cut..cut].join(" "));
 
         previous_cut = cut;

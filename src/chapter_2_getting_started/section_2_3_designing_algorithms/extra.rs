@@ -3,9 +3,7 @@ pub fn merge_sort_allocate_once<T: Clone + Ord>(a: &mut [T]) {
         let mut i = 0;
         let mut j = 0;
 
-        // Why is `iter_mut` necessary?
-
-        for a_k in buffer.iter_mut() {
+        for a_k in &mut *buffer {
             if left[i] <= right[j] {
                 *a_k = left[i].clone();
 
@@ -52,9 +50,7 @@ pub fn merge_sort_allocate_once_2<T: Clone + Ord>(a: &mut [T]) {
         let mut i = 0;
         let mut j = 0;
 
-        // Why is `iter_mut` necessary?
-
-        for a_k in buffer.iter_mut() {
+        for a_k in &mut *buffer {
             if left[i] <= right[j] {
                 *a_k = left[i].clone();
 

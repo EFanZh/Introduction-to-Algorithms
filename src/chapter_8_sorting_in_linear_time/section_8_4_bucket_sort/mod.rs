@@ -19,7 +19,7 @@ pub fn bucket_sort(a: &mut [f64]) {
     let n = a.len();
     let mut b = vec![Vec::new(); n];
 
-    for &a_i in a.iter() {
+    for &a_i in &*a {
         #[allow(
             clippy::cast_possible_truncation,
             clippy::cast_precision_loss,

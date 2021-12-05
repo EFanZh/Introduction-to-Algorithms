@@ -2,7 +2,7 @@
 pub fn topological_sort(graph: &[Vec<usize>]) -> Option<Vec<usize>> {
     let mut in_degrees = vec![0; graph.len()];
 
-    for nexts in graph.iter() {
+    for nexts in graph {
         for &next in nexts {
             in_degrees[next] += 1;
         }

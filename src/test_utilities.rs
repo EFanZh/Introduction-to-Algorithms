@@ -85,9 +85,7 @@ fn generate_ordered_sequences<F: FnMut(&mut [i32])>(sequence_storage: &mut [i32]
     let length = sequence_storage.len();
 
     if length < 2 {
-        for n in sequence_storage.iter_mut() {
-            *n = 0;
-        }
+        sequence_storage.fill(0);
 
         f(sequence_storage);
     } else {

@@ -1,7 +1,7 @@
 pub fn counting_sort_by_key_inplace_unstable<T, F: FnMut(&T) -> usize>(values: &mut [T], k: usize, mut f: F) {
     let mut c = vec![(0, 0); k];
 
-    for x in values.iter() {
+    for x in &*values {
         c[f(x)].1 += 1;
     }
 
