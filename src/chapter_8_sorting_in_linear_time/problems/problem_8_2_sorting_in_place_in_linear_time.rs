@@ -38,8 +38,8 @@ pub fn counting_sort_by_key_inplace_unstable<T, F: FnMut(&T) -> usize>(values: &
 
 #[cfg(test)]
 mod tests {
-    use crate::test_utilities::{assign_vec, assign_vec_from_iter};
     use super::counting_sort_by_key_inplace_unstable;
+    use crate::test_utilities::{assign_vec, assign_vec_from_iter};
     use rand::{thread_rng, Rng};
     use std::iter;
 

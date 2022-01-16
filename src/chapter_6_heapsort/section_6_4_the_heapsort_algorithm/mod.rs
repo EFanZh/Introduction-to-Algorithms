@@ -20,8 +20,8 @@ pub fn heapsort<T: Ord>(a: &mut [T]) {
 
 #[cfg(test)]
 mod tests {
-    use crate::test_utilities::run_all_sorting_tests;
     use super::heapsort;
+    use crate::test_utilities::run_all_sorting_tests;
 
     #[test]
     fn test_heapsort() {

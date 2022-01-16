@@ -106,8 +106,8 @@ pub fn merge_sort_allocate_once_2<T: Clone + Ord>(a: &mut [T]) {
 
 #[cfg(test)]
 mod tests {
-    use crate::test_utilities::run_all_sorting_tests;
     use super::{merge_sort_allocate_once, merge_sort_allocate_once_2};
+    use crate::test_utilities::run_all_sorting_tests;
 
     #[test]
     fn test_merge_sort_allocate_once() {

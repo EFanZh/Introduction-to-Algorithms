@@ -21,8 +21,8 @@ pub fn build_min_heap<T: Ord>(a: &mut [T]) {
 
 #[cfg(test)]
 mod tests {
-    use crate::test_utilities::{is_max_heap, is_min_heap};
     use super::{build_max_heap, build_min_heap};
+    use crate::test_utilities::{is_max_heap, is_min_heap};
 
     #[test]
     fn test_build_max_heap() {
