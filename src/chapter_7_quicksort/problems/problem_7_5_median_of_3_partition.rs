@@ -1,5 +1,5 @@
-use super::super::super::chapter_2_getting_started::section_2_1_insertion_sort::extra::insertion_sort_slice;
 use super::super::section_7_1_description_of_quicksort::partition;
+use crate::chapter_2_getting_started::section_2_1_insertion_sort::extra::insertion_sort_slice;
 use crate::utilities::KeyValuePair;
 use rand::seq::index;
 use rand::{thread_rng, Rng};
@@ -47,8 +47,8 @@ pub fn median_of_3_quicksort<T: Ord>(a: &mut [T]) {
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::super::test_utilities::run_all_sorting_tests;
     use super::median_of_3_quicksort;
+    use crate::test_utilities::run_all_sorting_tests;
 
     #[test]
     fn test_median_of_3_quicksort() {

@@ -12,9 +12,9 @@ pub fn radix_sort<T, S: FnMut(&mut [T], usize)>(a: &mut [T], d: usize, mut stabl
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::test_utilities::{assign_vec, assign_vec_from_iter};
     use super::super::section_8_2_counting_sort::extra::counting_sort_by_key;
     use super::radix_sort;
+    use crate::test_utilities::{assign_vec, assign_vec_from_iter};
     use rand::{thread_rng, Rng};
     use std::iter;
 

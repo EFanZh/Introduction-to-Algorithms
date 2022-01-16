@@ -18,8 +18,8 @@ pub fn bucker_sort_by_probability_distribution<T: Clone, F: FnMut(&T, &T) -> Ord
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::super::super::test_utilities::{assign_vec, assign_vec_from_iter};
     use super::bucker_sort_by_probability_distribution;
+    use crate::test_utilities::{assign_vec, assign_vec_from_iter};
     use rand::{thread_rng, Rng};
     use std::iter;
 

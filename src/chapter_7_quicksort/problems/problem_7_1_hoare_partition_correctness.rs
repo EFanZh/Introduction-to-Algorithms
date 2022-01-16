@@ -53,7 +53,7 @@ pub fn hoare_quicksort<T: Clone + Ord>(a: &mut [T], p: usize, r: usize) {
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::super::test_utilities::run_all_sorting_tests;
+    use crate::test_utilities::run_all_sorting_tests;
     use super::hoare_quicksort;
 
     #[test]

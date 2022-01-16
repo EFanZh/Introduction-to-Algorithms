@@ -85,8 +85,8 @@ pub fn fuzzy_sort<T: Clone + Ord>(a: &mut [(T, T)]) {
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::super::test_utilities::assign_vec_from_iter;
     use super::{compare_interval, fuzzy_sort};
+    use crate::test_utilities::assign_vec_from_iter;
     use rand::{thread_rng, Rng};
     use std::cmp::Ordering;
     use std::iter;

@@ -74,7 +74,7 @@ pub fn merge_sort<T: Clone + Ord>(a: &mut [T], p: usize, r: usize) {
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::test_utilities::run_all_sorting_tests;
+    use crate::test_utilities::run_all_sorting_tests;
     use super::merge_sort;
 
     fn merge_sort_helper<T: Ord + Clone>(a: &mut [T]) {

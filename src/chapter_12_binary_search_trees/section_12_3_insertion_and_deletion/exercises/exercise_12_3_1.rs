@@ -1,4 +1,4 @@
-use super::super::super::super::chapter_10_elementary_data_structures::section_10_4_representing_rooted_trees::SimpleBinaryTreeNode;
+use crate::chapter_10_elementary_data_structures::section_10_4_representing_rooted_trees::SimpleBinaryTreeNode;
 
 pub fn tree_insert<T: Ord>(x: &mut Option<Box<SimpleBinaryTreeNode<T>>>, z: Box<SimpleBinaryTreeNode<T>>) {
     if let Some(x_2) = x {

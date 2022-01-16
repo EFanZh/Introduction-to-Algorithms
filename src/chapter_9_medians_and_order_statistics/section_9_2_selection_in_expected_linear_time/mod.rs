@@ -1,4 +1,4 @@
-use super::super::chapter_7_quicksort::section_7_3_a_randomized_version_of_quicksort::randomized_partition;
+use crate::chapter_7_quicksort::section_7_3_a_randomized_version_of_quicksort::randomized_partition;
 use std::cmp::Ordering;
 
 pub mod exercises;

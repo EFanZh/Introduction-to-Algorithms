@@ -79,7 +79,7 @@ pub fn sort_strings<T: Borrow<[u8]>>(strs: &mut [T]) {
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::super::test_utilities::{assign_vec, assign_vec_from_iter};
+    use crate::test_utilities::{assign_vec, assign_vec_from_iter};
     use super::sort_strings;
     use rand::{thread_rng, Rng};
     use std::iter;

@@ -1,4 +1,4 @@
-use super::super::chapter_2_getting_started::section_2_1_insertion_sort::extra::insertion_sort_slice_by;
+use crate::chapter_2_getting_started::section_2_1_insertion_sort::extra::insertion_sort_slice_by;
 
 pub mod exercises;
 pub mod extra;
@@ -39,8 +39,8 @@ pub fn bucket_sort(a: &mut [f64]) {
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::test_utilities::{assign_vec, assign_vec_from_iter};
     use super::bucket_sort;
+    use crate::test_utilities::{assign_vec, assign_vec_from_iter};
     use rand::{thread_rng, Rng};
     use std::iter;
 

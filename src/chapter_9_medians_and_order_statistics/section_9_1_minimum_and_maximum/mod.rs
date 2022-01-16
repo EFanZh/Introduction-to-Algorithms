@@ -65,8 +65,8 @@ pub fn minimum_and_maximum<T: Ord>(a: &[T]) -> (&T, &T) {
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::test_utilities::loop_on_all_unordered_sequences;
     use super::{minimum, minimum_and_maximum};
+    use crate::test_utilities::loop_on_all_unordered_sequences;
 
     #[test]
     fn test_minimum() {

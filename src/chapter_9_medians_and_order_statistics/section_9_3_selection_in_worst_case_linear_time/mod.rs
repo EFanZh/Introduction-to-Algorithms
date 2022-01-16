@@ -1,5 +1,5 @@
-use super::super::chapter_2_getting_started::section_2_1_insertion_sort::extra::insertion_sort_slice;
-use super::super::chapter_7_quicksort::section_7_1_description_of_quicksort::extra::partition_by_key;
+use crate::chapter_2_getting_started::section_2_1_insertion_sort::extra::insertion_sort_slice;
+use crate::chapter_7_quicksort::section_7_1_description_of_quicksort::extra::partition_by_key;
 
 pub mod exercises;
 

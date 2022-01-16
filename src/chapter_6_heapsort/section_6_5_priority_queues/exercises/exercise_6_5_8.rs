@@ -43,7 +43,7 @@ pub fn heap_delete_2<T: Ord>(a: &mut Vec<T>, mut i: usize) {
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::super::super::test_utilities::{assign_vec, is_max_heap, loop_on_all_max_heap_test_cases};
+    use crate::test_utilities::{assign_vec, is_max_heap, loop_on_all_max_heap_test_cases};
     use super::{heap_delete, heap_delete_2};
 
     fn run_heap_delete_test<F: FnMut(&mut Vec<i32>, usize)>(mut f: F) {

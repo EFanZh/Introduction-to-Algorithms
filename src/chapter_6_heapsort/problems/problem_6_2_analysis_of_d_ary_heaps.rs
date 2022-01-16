@@ -76,7 +76,7 @@ impl<T: Ord> DAryHeap<T> {
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::super::test_utilities::assign_vec_from_iter;
+    use crate::test_utilities::assign_vec_from_iter;
     use super::DAryHeap;
     use std::iter;
 

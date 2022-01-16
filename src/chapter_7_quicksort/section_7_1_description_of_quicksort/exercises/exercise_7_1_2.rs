@@ -40,8 +40,8 @@ pub fn partition<T: Ord>(values: &mut [T]) -> usize {
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::super::super::test_utilities::run_all_sorting_tests;
     use super::partition;
+    use crate::test_utilities::run_all_sorting_tests;
 
     #[test]
     fn test_partition_middle_on_same_elements() {

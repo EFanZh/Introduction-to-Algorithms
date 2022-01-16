@@ -87,8 +87,8 @@ pub fn second_smallest<T: Ord>(a: &[T]) -> &T {
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::super::super::test_utilities::loop_on_all_unordered_sequences;
     use super::{floor_log2, second_smallest};
+    use crate::test_utilities::loop_on_all_unordered_sequences;
 
     #[test]
     fn test_floor_log2() {

@@ -14,8 +14,8 @@ pub fn reverse_quicksort<T: Ord>(a: &mut [T], p: usize, r: usize) {
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::super::super::test_utilities::run_all_reverse_sorting_tests;
     use super::reverse_quicksort;
+    use crate::test_utilities::run_all_reverse_sorting_tests;
 
     #[test]
     fn test_reverse_quicksort() {

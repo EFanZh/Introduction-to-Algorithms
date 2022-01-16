@@ -1,5 +1,5 @@
-use super::super::super::super::chapter_7_quicksort::section_7_1_description_of_quicksort::extra;
-use super::super::super::super::chapter_9_medians_and_order_statistics::section_9_3_selection_in_worst_case_linear_time;
+use crate::chapter_7_quicksort::section_7_1_description_of_quicksort::extra;
+use crate::chapter_9_medians_and_order_statistics::section_9_3_selection_in_worst_case_linear_time;
 use crate::utilities::KeyValuePair;
 use num::rational::Ratio;
 

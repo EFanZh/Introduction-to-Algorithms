@@ -1,4 +1,4 @@
-use super::super::super::chapter_7_quicksort::section_7_1_description_of_quicksort::extra::partition_by_key;
+use crate::chapter_7_quicksort::section_7_1_description_of_quicksort::extra::partition_by_key;
 use rand::seq::SliceRandom;
 use rand::{thread_rng, Rng};
 
@@ -28,8 +28,8 @@ where
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::super::test_utilities::{assign_vec, assign_vec_from_iter};
     use super::group_water_jugs;
+    use crate::test_utilities::{assign_vec, assign_vec_from_iter};
     use rand::seq::SliceRandom;
     use rand::{thread_rng, Rng};
     use std::iter;

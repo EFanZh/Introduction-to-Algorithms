@@ -1,4 +1,4 @@
-use super::super::super::chapter_2_getting_started::section_2_1_insertion_sort::extra::insertion_sort_slice_by;
+use crate::chapter_2_getting_started::section_2_1_insertion_sort::extra::insertion_sort_slice_by;
 use std::cmp::Ordering;
 
 pub fn bucket_sort_by<T: Clone, F: FnMut(&T) -> usize, G: FnMut(&T, &T) -> Ordering>(
@@ -24,8 +24,8 @@ pub fn bucket_sort_by<T: Clone, F: FnMut(&T) -> usize, G: FnMut(&T, &T) -> Order
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::super::test_utilities::{assign_vec, assign_vec_from_iter};
     use super::bucket_sort_by;
+    use crate::test_utilities::{assign_vec, assign_vec_from_iter};
     use rand::{thread_rng, Rng};
     use std::iter;
 

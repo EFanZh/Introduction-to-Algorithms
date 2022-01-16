@@ -42,7 +42,7 @@ pub fn counting_sort(a: &[usize], b: &mut [usize], k: usize) {
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::test_utilities::assign_vec_from_iter;
+    use crate::test_utilities::assign_vec_from_iter;
     use super::counting_sort;
     use rand::{thread_rng, Rng};
     use std::iter;

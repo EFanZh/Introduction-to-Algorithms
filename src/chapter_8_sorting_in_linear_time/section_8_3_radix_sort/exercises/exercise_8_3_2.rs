@@ -12,12 +12,12 @@ pub fn make_comparison_sort_stable<T: Clone + Ord, F: FnMut(&mut [(T, usize)])>(
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::super::super::chapter_2_getting_started::section_2_1_insertion_sort::insertion_sort;
-    use super::super::super::super::super::chapter_2_getting_started::section_2_3_designing_algorithms::merge_sort;
-    use super::super::super::super::super::chapter_6_heapsort::section_6_4_the_heapsort_algorithm::heapsort;
-    use super::super::super::super::super::chapter_7_quicksort::section_7_1_description_of_quicksort::quicksort;
-    use super::super::super::super::super::test_utilities::run_all_sorting_tests;
     use super::make_comparison_sort_stable;
+    use crate::chapter_2_getting_started::section_2_1_insertion_sort::insertion_sort;
+    use crate::chapter_2_getting_started::section_2_3_designing_algorithms::merge_sort;
+    use crate::chapter_6_heapsort::section_6_4_the_heapsort_algorithm::heapsort;
+    use crate::chapter_7_quicksort::section_7_1_description_of_quicksort::quicksort;
+    use crate::test_utilities::run_all_sorting_tests;
 
     #[test]
     fn test_make_comparison_sort_stable_insertion_sort() {

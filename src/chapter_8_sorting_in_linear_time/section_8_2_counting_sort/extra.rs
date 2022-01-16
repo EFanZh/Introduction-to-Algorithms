@@ -36,7 +36,7 @@ pub fn counting_sort_by_key<T: Clone, F: FnMut(&T) -> usize>(a: &mut [T], empty_
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::super::test_utilities::{assign_vec, assign_vec_from_iter};
+    use crate::test_utilities::{assign_vec, assign_vec_from_iter};
     use super::counting_sort_by_key;
     use rand::{thread_rng, Rng};
     use std::iter;

@@ -1,4 +1,4 @@
-use super::super::chapter_10_elementary_data_structures::section_10_4_representing_rooted_trees::{
+use crate::chapter_10_elementary_data_structures::section_10_4_representing_rooted_trees::{
     BinaryTreeNode, SimpleBinaryTreeNode,
 };
 use std::cmp::Ordering;

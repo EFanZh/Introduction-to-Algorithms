@@ -37,7 +37,7 @@ pub fn make_range_counter(a: &[usize], k: usize) -> impl Fn(usize, usize) -> usi
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::super::super::test_utilities::assign_vec_from_iter;
+    use crate::test_utilities::assign_vec_from_iter;
     use super::make_range_counter;
     use rand::{thread_rng, Rng};
     use std::iter;

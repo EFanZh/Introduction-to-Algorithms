@@ -173,7 +173,7 @@ pub fn binary_search_recursive_rust<T: Ord>(a: &[T], v: &T) -> Option<usize> {
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::super::super::test_utilities::run_all_binary_search_tests;
+    use crate::test_utilities::run_all_binary_search_tests;
     use super::{
         binary_search_iterative, binary_search_iterative_libcxx, binary_search_iterative_rust, binary_search_recursive,
         binary_search_recursive_libcxx, binary_search_recursive_non_tail, binary_search_recursive_pointer,

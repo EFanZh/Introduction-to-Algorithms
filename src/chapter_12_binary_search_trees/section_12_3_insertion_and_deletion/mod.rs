@@ -1,4 +1,4 @@
-use super::super::chapter_10_elementary_data_structures::section_10_4_representing_rooted_trees::SimpleBinaryTreeNode;
+use crate::chapter_10_elementary_data_structures::section_10_4_representing_rooted_trees::SimpleBinaryTreeNode;
 use std::mem;
 
 pub mod exercises;
@@ -91,8 +91,8 @@ pub fn tree_delete<T>(z: &mut Option<Box<SimpleBinaryTreeNode<T>>>) {
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::chapter_10_elementary_data_structures::section_10_4_representing_rooted_trees::SimpleBinaryTreeNode;
     use super::{tree_delete, tree_insert};
+    use crate::chapter_10_elementary_data_structures::section_10_4_representing_rooted_trees::SimpleBinaryTreeNode;
     use crate::make_simple_tree;
 
     pub fn run_tree_insert_test_cases<

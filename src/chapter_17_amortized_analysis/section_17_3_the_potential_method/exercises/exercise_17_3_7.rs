@@ -1,4 +1,4 @@
-use super::super::super::super::chapter_9_medians_and_order_statistics::section_9_2_selection_in_expected_linear_time;
+use crate::chapter_9_medians_and_order_statistics::section_9_2_selection_in_expected_linear_time;
 
 pub struct DynamicMultiset<T> {
     data: Vec<T>,

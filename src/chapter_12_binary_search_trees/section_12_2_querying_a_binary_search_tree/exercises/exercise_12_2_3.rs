@@ -1,4 +1,4 @@
-use super::super::super::super::chapter_10_elementary_data_structures::section_10_4_representing_rooted_trees::BinaryTreeNode;
+use crate::chapter_10_elementary_data_structures::section_10_4_representing_rooted_trees::BinaryTreeNode;
 use std::rc::Rc;
 
 pub fn tree_predecessor<T: Ord>(mut x: Rc<BinaryTreeNode<T>>) -> Option<Rc<BinaryTreeNode<T>>> {

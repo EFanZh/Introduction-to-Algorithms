@@ -1,5 +1,5 @@
-use super::super::super::chapter_7_quicksort::section_7_1_description_of_quicksort::extra::partition_by_key;
 use super::super::section_9_3_selection_in_worst_case_linear_time::select;
+use crate::chapter_7_quicksort::section_7_1_description_of_quicksort::extra::partition_by_key;
 
 fn weighted_select<T: Ord + Clone, F: FnMut(&T) -> f64>(a: &mut [T], target: f64, f: F) -> usize {
     fn helper<T: Ord + Clone, F: FnMut(&T) -> f64>(a: &mut [T], target: f64, mut f: F, offset: usize) -> usize {
