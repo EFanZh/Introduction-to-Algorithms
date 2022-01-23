@@ -140,10 +140,7 @@ pub fn assign_vec<T: Clone>(target: &mut Vec<T>, source: &[T]) {
 
 pub fn assign_vec_from_iter<T, I: IntoIterator<Item = T>>(target: &mut Vec<T>, source: I) {
     target.clear();
-
-    for value in source {
-        target.push(value);
-    }
+    target.extend(source);
 }
 
 pub fn loop_on_all_unordered_sequences<F: FnMut(&[i32], &[i32])>(mut f: F) {
