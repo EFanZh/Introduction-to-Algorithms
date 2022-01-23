@@ -21,7 +21,6 @@ pub fn cover_points(mut points: &[f64]) -> Box<[f64]> {
 
 #[cfg(test)]
 mod tests {
-    #[allow(clippy::manual_assert)]
     #[test]
     fn test_cover_points() {
         let points = [0.46, 2.08, 2.24, 3.27, 4.23, 4.58, 6.20, 7.63, 8.79, 9.62];

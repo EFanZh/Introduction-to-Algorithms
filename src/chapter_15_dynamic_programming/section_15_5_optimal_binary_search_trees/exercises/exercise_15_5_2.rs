@@ -12,12 +12,9 @@ pub fn solve() -> (f64, Box<[String]>) {
 
 #[cfg(test)]
 mod tests {
-    use super::solve;
-
-    #[allow(clippy::manual_assert)]
     #[test]
     fn test_solve() {
-        let (cost, construction) = solve();
+        let (cost, construction) = super::solve();
 
         approx::assert_ulps_eq!(cost, 3.12);
 

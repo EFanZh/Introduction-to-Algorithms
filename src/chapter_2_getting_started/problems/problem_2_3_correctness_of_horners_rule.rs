@@ -40,9 +40,6 @@ where
 
 #[cfg(test)]
 mod tests {
-    use super::{polynomial, polynomial_naive};
-
-    #[allow(clippy::manual_assert)]
     fn run_polynomial_test(f: fn(&[f64], &f64) -> f64) {
         approx::assert_ulps_eq!(f(&[], &0.0), 0.0);
         approx::assert_ulps_eq!(f(&[], &1.0), 0.0);
@@ -58,11 +55,11 @@ mod tests {
 
     #[test]
     fn test_polynomial() {
-        run_polynomial_test(polynomial);
+        run_polynomial_test(super::polynomial);
     }
 
     #[test]
     fn test_polynomial_naive() {
-        run_polynomial_test(polynomial_naive);
+        run_polynomial_test(super::polynomial_naive);
     }
 }

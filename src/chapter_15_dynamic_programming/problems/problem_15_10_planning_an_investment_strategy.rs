@@ -65,9 +65,6 @@ pub fn plan_investment_strategy(
 
 #[cfg(test)]
 mod tests {
-    use super::plan_investment_strategy;
-
-    #[allow(clippy::manual_assert)]
     #[test]
     fn test_plan_investment_strategy() {
         let return_rates = [
@@ -88,7 +85,8 @@ mod tests {
         let switch_fee = 100.0;
         let initial_money = 10000.0;
 
-        let (fund, strategies) = plan_investment_strategy(&return_rates, years, keep_fee, switch_fee, initial_money);
+        let (fund, strategies) =
+            super::plan_investment_strategy(&return_rates, years, keep_fee, switch_fee, initial_money);
 
         approx::assert_ulps_eq!(fund, 15_035.294_028_598_65);
         assert_eq!(*strategies, [6, 4, 4, 3, 1, 1, 1, 6, 6, 6]);

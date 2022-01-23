@@ -121,7 +121,6 @@ mod tests {
 
     #[test]
     fn test_plan_party() {
-        #[allow(clippy::manual_assert)]
         fn run_test(president: &Employee, expected_attendances: &[&str], expected_conviviality: f64) {
             let (actual_attendances, actual_expected_conviviality) = super::plan_party(president);
             let actual_iter = actual_attendances.iter().map(|employee| employee.name());

@@ -230,7 +230,6 @@ mod tests {
         graph
     }
 
-    #[allow(clippy::manual_assert)]
     #[test]
     fn test_get_most_probable_path_ok() {
         let graph = get_graph();

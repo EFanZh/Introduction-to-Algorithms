@@ -60,7 +60,6 @@ pub fn optimal_bst(p: &[f64], q: &[f64]) -> (Box<[f64]>, Box<[usize]>) {
 
 #[cfg(test)]
 mod tests {
-    #[allow(clippy::manual_assert)]
     pub fn run_optimal_bst_test<F: FnMut(&[f64], &[f64]) -> (Box<[f64]>, Box<[usize]>)>(mut f: F) {
         let p = [0.15, 0.10, 0.05, 0.10, 0.20];
         let q = [0.05, 0.10, 0.05, 0.05, 0.05, 0.10];
