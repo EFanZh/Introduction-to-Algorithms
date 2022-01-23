@@ -1,4 +1,4 @@
-use crate::chapter_2_getting_started::section_2_1_insertion_sort::extra::insertion_sort_slice_by;
+use crate::chapter_2_getting_started::section_2_1_insertion_sort::extra;
 use std::cmp::Ordering;
 
 pub fn bucket_sort_by<T: Clone, F: FnMut(&T) -> usize, G: FnMut(&T, &T) -> Ordering>(
@@ -14,7 +14,7 @@ pub fn bucket_sort_by<T: Clone, F: FnMut(&T) -> usize, G: FnMut(&T, &T) -> Order
     }
 
     for b_i in &mut b {
-        insertion_sort_slice_by(b_i, &mut compare);
+        extra::insertion_sort_slice_by(b_i, &mut compare);
     }
 
     for (lhs, rhs) in a.iter_mut().zip(b.into_iter().flatten()) {

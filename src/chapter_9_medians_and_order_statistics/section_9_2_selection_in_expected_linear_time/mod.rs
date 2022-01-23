@@ -1,4 +1,4 @@
-use crate::chapter_7_quicksort::section_7_3_a_randomized_version_of_quicksort::randomized_partition;
+use crate::chapter_7_quicksort::section_7_3_a_randomized_version_of_quicksort;
 use std::cmp::Ordering;
 
 pub mod exercises;
@@ -21,7 +21,7 @@ pub fn randomized_select<T: Ord>(a: &mut [T], p: usize, r: usize, i: usize) -> &
         return &mut a[p];
     }
 
-    let q = randomized_partition(a, p, r);
+    let q = section_7_3_a_randomized_version_of_quicksort::randomized_partition(a, p, r);
     let k = q - p;
 
     match i.cmp(&k) {
@@ -33,10 +33,10 @@ pub fn randomized_select<T: Ord>(a: &mut [T], p: usize, r: usize, i: usize) -> &
 
 #[cfg(test)]
 mod tests {
-    use super::super::tests::run_all_select_test_cases;
+    use super::super::tests;
 
     #[test]
     fn test_randomized_select() {
-        run_all_select_test_cases(super::randomized_select);
+        tests::run_all_select_test_cases(super::randomized_select);
     }
 }

@@ -1,4 +1,4 @@
-use crate::chapter_2_getting_started::section_2_1_insertion_sort::extra::insertion_sort_slice_by;
+use crate::chapter_2_getting_started::section_2_1_insertion_sort;
 
 pub mod exercises;
 pub mod extra;
@@ -29,7 +29,7 @@ pub fn bucket_sort(a: &mut [f64]) {
     }
 
     for b_i in &mut b {
-        insertion_sort_slice_by(b_i, |lhs, rhs| lhs.partial_cmp(rhs).unwrap());
+        section_2_1_insertion_sort::extra::insertion_sort_slice_by(b_i, |lhs, rhs| lhs.partial_cmp(rhs).unwrap());
     }
 
     for (lhs, rhs) in a.iter_mut().zip(b.into_iter().flatten()) {

@@ -63,11 +63,11 @@ impl<T> Stack<T> for SinglyLinkedListStack<T> {
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::super::section_10_1_stacks_and_queues::tests::run_stack_test_cases;
+    use super::super::super::super::section_10_1_stacks_and_queues::tests;
     use super::SinglyLinkedListStack;
 
     #[test]
     fn test_singly_linked_list_stack() {
-        run_stack_test_cases(SinglyLinkedListStack::new);
+        tests::run_stack_test_cases(SinglyLinkedListStack::new);
     }
 }

@@ -1,7 +1,6 @@
 #[cfg(test)]
 mod tests {
     use super::super::super::super::section_18_1_definition_of_b_trees::tests::make_node;
-    use super::super::super::b_tree_delete;
 
     #[test]
     fn test_check_result() {
@@ -51,7 +50,7 @@ mod tests {
         ];
 
         for ((mut node, t, key), (expected_result, expected_node)) in test_cases.iter().cloned() {
-            assert_eq!(b_tree_delete(&mut node, t, &key), expected_result);
+            assert_eq!(super::super::super::b_tree_delete(&mut node, t, &key), expected_result);
             assert_eq!(node, expected_node);
         }
     }

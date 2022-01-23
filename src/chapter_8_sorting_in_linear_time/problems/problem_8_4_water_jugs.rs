@@ -1,4 +1,4 @@
-use crate::chapter_7_quicksort::section_7_1_description_of_quicksort::extra::partition_by_key;
+use crate::chapter_7_quicksort::section_7_1_description_of_quicksort::extra;
 use rand::seq::SliceRandom;
 use rand::Rng;
 
@@ -14,9 +14,9 @@ where
     {
         if red_water_jugs.len() > 1 {
             let (blue_less, blue_equal, blue_greater) =
-                partition_by_key(blue_water_jugs, red_water_jugs.choose(rng).unwrap());
+                extra::partition_by_key(blue_water_jugs, red_water_jugs.choose(rng).unwrap());
 
-            let (red_less, _, red_greater) = partition_by_key(red_water_jugs, blue_equal.first().unwrap());
+            let (red_less, _, red_greater) = extra::partition_by_key(red_water_jugs, blue_equal.first().unwrap());
 
             helper(red_less, blue_less, rng);
             helper(red_greater, blue_greater, rng);

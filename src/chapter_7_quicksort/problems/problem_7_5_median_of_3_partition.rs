@@ -1,5 +1,5 @@
 use super::super::section_7_1_description_of_quicksort;
-use crate::chapter_2_getting_started::section_2_1_insertion_sort::extra::insertion_sort_slice;
+use crate::chapter_2_getting_started::section_2_1_insertion_sort::extra;
 use crate::utilities::KeyValuePair;
 use rand::seq::index;
 use rand::Rng;
@@ -11,7 +11,7 @@ fn median_of_3<T: Ord>(values: &[T], i: usize, j: usize, k: usize) -> usize {
         KeyValuePair::new(&values[k], k),
     ];
 
-    insertion_sort_slice(&mut t);
+    extra::insertion_sort_slice(&mut t);
 
     t[1].value
 }
@@ -38,7 +38,7 @@ pub fn median_of_3_quicksort<T: Ord>(a: &mut [T]) {
             helper(&mut a[..q], rng);
             helper(&mut a[q + 1..], rng);
         } else {
-            insertion_sort_slice(a);
+            extra::insertion_sort_slice(a);
         }
     }
 

@@ -1,5 +1,5 @@
-use super::section_6_2_maintaining_the_heap_property::exercises::exercise_6_2_2::min_heapify;
-use super::section_6_2_maintaining_the_heap_property::max_heapify;
+use super::section_6_2_maintaining_the_heap_property;
+use super::section_6_2_maintaining_the_heap_property::exercises::exercise_6_2_2;
 
 // Build-Max-Heap(A)
 //
@@ -9,13 +9,13 @@ use super::section_6_2_maintaining_the_heap_property::max_heapify;
 
 pub fn build_max_heap<T: Ord>(a: &mut [T]) {
     for i in (0..a.len() / 2).rev() {
-        max_heapify(a, i);
+        section_6_2_maintaining_the_heap_property::max_heapify(a, i);
     }
 }
 
 pub fn build_min_heap<T: Ord>(a: &mut [T]) {
     for i in (0..a.len() / 2).rev() {
-        min_heapify(a, i);
+        exercise_6_2_2::min_heapify(a, i);
     }
 }
 

@@ -1,4 +1,4 @@
-use super::section_7_1_description_of_quicksort::partition;
+use super::section_7_1_description_of_quicksort;
 use rand::Rng;
 
 // Randomized-Partition(A, p, r)
@@ -12,7 +12,7 @@ pub fn randomized_partition<T: Ord>(a: &mut [T], p: usize, r: usize) -> usize {
 
     a.swap(r - 1, i);
 
-    partition(a, p, r)
+    section_7_1_description_of_quicksort::partition(a, p, r)
 }
 
 // Randomized-Quicksort(A, p, r)

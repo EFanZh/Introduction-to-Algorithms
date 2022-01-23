@@ -87,17 +87,15 @@ impl<T: Ord> Stack<T> for LifoStack<T> {
 #[cfg(test)]
 mod tests {
     use super::{FifoQueue, LifoStack};
-    use crate::chapter_10_elementary_data_structures::section_10_1_stacks_and_queues::tests::{
-        run_queue_test_cases, run_stack_test_cases,
-    };
+    use crate::chapter_10_elementary_data_structures::section_10_1_stacks_and_queues::tests;
 
     #[test]
     fn test_fifo_queue() {
-        run_queue_test_cases(FifoQueue::new);
+        tests::run_queue_test_cases(FifoQueue::new);
     }
 
     #[test]
     fn test_lifo_stack() {
-        run_stack_test_cases(LifoStack::new);
+        tests::run_stack_test_cases(LifoStack::new);
     }
 }

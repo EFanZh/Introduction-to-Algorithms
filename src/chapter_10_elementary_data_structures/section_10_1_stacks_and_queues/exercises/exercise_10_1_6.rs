@@ -48,11 +48,11 @@ impl<T> Queue<T> for ArrayStackQueue<T> {
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::tests::run_queue_test_cases;
+    use super::super::super::tests;
     use super::ArrayStackQueue;
 
     #[test]
     fn test_array_stack_queue() {
-        run_queue_test_cases(ArrayStackQueue::new);
+        tests::run_queue_test_cases(ArrayStackQueue::new);
     }
 }

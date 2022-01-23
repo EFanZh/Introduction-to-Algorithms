@@ -1,13 +1,13 @@
-use super::super::section_9_3_selection_in_worst_case_linear_time::select;
-use crate::chapter_7_quicksort::section_7_1_description_of_quicksort::extra::partition_by_key;
+use super::super::section_9_3_selection_in_worst_case_linear_time;
+use crate::chapter_7_quicksort::section_7_1_description_of_quicksort::extra;
 
 fn weighted_select<T: Ord + Clone, F: FnMut(&T) -> f64>(a: &mut [T], target: f64, f: F) -> usize {
     fn helper<T: Ord + Clone, F: FnMut(&T) -> f64>(a: &mut [T], target: f64, mut f: F, offset: usize) -> usize {
         if a.is_empty() {
             offset
         } else {
-            let median = select(a, 0, a.len(), a.len() / 2).clone();
-            let (left, middle, _) = partition_by_key(a, &median);
+            let median = section_9_3_selection_in_worst_case_linear_time::select(a, 0, a.len(), a.len() / 2).clone();
+            let (left, middle, _) = extra::partition_by_key(a, &median);
 
             let left_middle_sum = left.iter().map(&mut f).sum::<f64>() + f(&middle[0]);
             let left_len = left.len();

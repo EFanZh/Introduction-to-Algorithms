@@ -1,5 +1,5 @@
-use super::section_6_1_heaps::parent;
-use super::section_6_2_maintaining_the_heap_property::max_heapify;
+use super::section_6_1_heaps;
+use super::section_6_2_maintaining_the_heap_property;
 
 pub mod exercises;
 pub mod extra;
@@ -27,7 +27,7 @@ pub fn heap_extract_max<T: Ord>(a: &mut Vec<T>) -> T {
 
     let max = a.swap_remove(0);
 
-    max_heapify(a, 0);
+    section_6_2_maintaining_the_heap_property::max_heapify(a, 0);
 
     max
 }
@@ -46,9 +46,9 @@ pub fn heap_increase_key<T: Ord>(a: &mut [T], mut i: usize, key: T) {
 
     a[i] = key;
 
-    while i > 0 && a[parent(i)] < a[i] {
-        a.swap(i, parent(i));
-        i = parent(i);
+    while i > 0 && a[section_6_1_heaps::parent(i)] < a[i] {
+        a.swap(i, section_6_1_heaps::parent(i));
+        i = section_6_1_heaps::parent(i);
     }
 }
 
@@ -65,9 +65,9 @@ pub fn max_heap_insert<T: Ord>(a: &mut Vec<T>, key: T) {
 
     let mut i = a.len() - 1;
 
-    while i > 0 && a[parent(i)] < a[i] {
-        a.swap(i, parent(i));
-        i = parent(i);
+    while i > 0 && a[section_6_1_heaps::parent(i)] < a[i] {
+        a.swap(i, section_6_1_heaps::parent(i));
+        i = section_6_1_heaps::parent(i);
     }
 }
 

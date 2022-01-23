@@ -24,10 +24,10 @@ pub fn max_heapify_iterative<T: Ord>(a: &mut [T], mut i: usize) {
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::tests::run_max_heapify_test_cases;
+    use super::super::super::tests;
 
     #[test]
     fn test_max_heapify_iterative() {
-        run_max_heapify_test_cases(super::max_heapify_iterative);
+        tests::run_max_heapify_test_cases(super::max_heapify_iterative);
     }
 }

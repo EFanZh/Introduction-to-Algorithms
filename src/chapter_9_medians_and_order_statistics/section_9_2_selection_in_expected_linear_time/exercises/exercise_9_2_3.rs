@@ -1,4 +1,4 @@
-use crate::chapter_7_quicksort::section_7_3_a_randomized_version_of_quicksort::randomized_partition;
+use crate::chapter_7_quicksort::section_7_3_a_randomized_version_of_quicksort;
 use std::cmp::Ordering;
 
 #[allow(clippy::many_single_char_names)]
@@ -8,7 +8,7 @@ pub fn iterative_randomized_select<T: Ord>(values: &mut [T], mut p: usize, mut r
             return &mut values[p];
         }
 
-        let q = randomized_partition(values, p, r);
+        let q = section_7_3_a_randomized_version_of_quicksort::randomized_partition(values, p, r);
         let k = q - p;
 
         match i.cmp(&k) {
@@ -24,10 +24,10 @@ pub fn iterative_randomized_select<T: Ord>(values: &mut [T], mut p: usize, mut r
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::super::tests::run_all_select_test_cases;
+    use super::super::super::super::tests;
 
     #[test]
     fn test_iterative_randomized_select() {
-        run_all_select_test_cases(super::iterative_randomized_select);
+        tests::run_all_select_test_cases(super::iterative_randomized_select);
     }
 }

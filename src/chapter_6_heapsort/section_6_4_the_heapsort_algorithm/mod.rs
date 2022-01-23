@@ -1,5 +1,5 @@
-use super::section_6_2_maintaining_the_heap_property::max_heapify;
-use super::section_6_3_building_a_heap::build_max_heap;
+use super::section_6_2_maintaining_the_heap_property;
+use super::section_6_3_building_a_heap;
 
 // Heapsort(A)
 // 1  Build-Max-Heap(A)
@@ -9,12 +9,12 @@ use super::section_6_3_building_a_heap::build_max_heap;
 // 5      Max-Heapify(A, 1)
 
 pub fn heapsort<T: Ord>(a: &mut [T]) {
-    build_max_heap(a);
+    section_6_3_building_a_heap::build_max_heap(a);
 
     for i in (1..a.len()).rev() {
         a.swap(0, i);
 
-        max_heapify(&mut a[..i], 0);
+        section_6_2_maintaining_the_heap_property::max_heapify(&mut a[..i], 0);
     }
 }
 

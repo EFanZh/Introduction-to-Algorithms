@@ -1,5 +1,5 @@
-use super::super::super::section_6_1_heaps::parent;
-use super::super::super::section_6_2_maintaining_the_heap_property::exercises::exercise_6_2_2::min_heapify;
+use super::super::super::section_6_1_heaps;
+use super::super::super::section_6_2_maintaining_the_heap_property::exercises::exercise_6_2_2;
 
 // Heap-Minimum(A)
 //
@@ -24,7 +24,7 @@ pub fn heap_extract_min<T: Ord>(a: &mut Vec<T>) -> T {
 
     let min = a.swap_remove(0);
 
-    min_heapify(a, 0);
+    exercise_6_2_2::min_heapify(a, 0);
 
     min
 }
@@ -43,9 +43,9 @@ pub fn heap_decrease_key<T: Ord>(a: &mut [T], mut i: usize, key: T) {
 
     a[i] = key;
 
-    while i > 0 && a[parent(i)] > a[i] {
-        a.swap(i, parent(i));
-        i = parent(i);
+    while i > 0 && a[section_6_1_heaps::parent(i)] > a[i] {
+        a.swap(i, section_6_1_heaps::parent(i));
+        i = section_6_1_heaps::parent(i);
     }
 }
 
@@ -62,9 +62,9 @@ pub fn min_heap_insert<T: Ord>(a: &mut Vec<T>, key: T) {
 
     let mut i = a.len() - 1;
 
-    while i > 0 && a[parent(i)] > a[i] {
-        a.swap(i, parent(i));
-        i = parent(i);
+    while i > 0 && a[section_6_1_heaps::parent(i)] > a[i] {
+        a.swap(i, section_6_1_heaps::parent(i));
+        i = section_6_1_heaps::parent(i);
     }
 }
 

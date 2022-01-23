@@ -57,10 +57,10 @@ pub fn dfs(graph: &[Vec<usize>]) -> Vec<Attribute> {
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::tests::run_dfs_test;
+    use super::super::super::tests;
 
     #[test]
     fn test_dfs() {
-        run_dfs_test(super::dfs);
+        tests::run_dfs_test(super::dfs);
     }
 }

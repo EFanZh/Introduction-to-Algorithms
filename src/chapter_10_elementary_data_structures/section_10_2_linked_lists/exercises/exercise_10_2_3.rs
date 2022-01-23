@@ -84,11 +84,11 @@ impl<T> Queue<T> for SinglyLinkedListQueue<T> {
 
 #[cfg(test)]
 mod tests {
-    use super::super::super::super::section_10_1_stacks_and_queues::tests::run_queue_test_cases;
+    use super::super::super::super::section_10_1_stacks_and_queues::tests;
     use super::SinglyLinkedListQueue;
 
     #[test]
     fn test_singly_linked_list_queue() {
-        run_queue_test_cases(SinglyLinkedListQueue::new);
+        tests::run_queue_test_cases(SinglyLinkedListQueue::new);
     }
 }

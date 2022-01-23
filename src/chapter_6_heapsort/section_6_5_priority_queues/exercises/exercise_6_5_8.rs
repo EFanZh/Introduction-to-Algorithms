@@ -1,23 +1,23 @@
-use super::super::super::section_6_1_heaps::parent;
-use super::super::super::section_6_2_maintaining_the_heap_property::max_heapify;
+use super::super::super::section_6_1_heaps;
+use super::super::super::section_6_2_maintaining_the_heap_property;
 
 pub fn heap_delete<T: Ord>(a: &mut Vec<T>, mut i: usize) {
     a.swap_remove(i);
 
     if i < a.len() {
-        if i == 0 || a[i] <= a[parent(i)] {
+        if i == 0 || a[i] <= a[section_6_1_heaps::parent(i)] {
             // The heap property holds on a[i]’s parent, we make sure it holds on its children.
 
-            max_heapify(a, i);
+            section_6_2_maintaining_the_heap_property::max_heapify(a, i);
         } else {
             // The heap property doesn’t hold on a[i]’s parent, we fix it by swapping it with its parent.
 
             loop {
-                a.swap(i, parent(i));
+                a.swap(i, section_6_1_heaps::parent(i));
 
-                i = parent(i);
+                i = section_6_1_heaps::parent(i);
 
-                if i == 0 || a[i] <= a[parent(i)] {
+                if i == 0 || a[i] <= a[section_6_1_heaps::parent(i)] {
                     break;
                 }
             }
@@ -29,14 +29,14 @@ pub fn heap_delete_2<T: Ord>(a: &mut Vec<T>, mut i: usize) {
     if a[a.len() - 1] <= a[i] {
         a.swap_remove(i);
 
-        max_heapify(a, i);
+        section_6_2_maintaining_the_heap_property::max_heapify(a, i);
     } else {
         a.swap_remove(i);
 
-        while i > 0 && a[i] > a[parent(i)] {
-            a.swap(i, parent(i));
+        while i > 0 && a[i] > a[section_6_1_heaps::parent(i)] {
+            a.swap(i, section_6_1_heaps::parent(i));
 
-            i = parent(i);
+            i = section_6_1_heaps::parent(i);
         }
     }
 }
