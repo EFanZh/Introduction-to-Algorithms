@@ -26,28 +26,26 @@ pub fn two_sum(s: &[i32], x: i32) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use super::two_sum;
-
     #[test]
     fn test_two_sum() {
-        assert!(!two_sum(&[], 0));
-        assert!(!two_sum(&[0], 0));
-        assert!(two_sum(&[0, 0], 0));
-        assert!(!two_sum(&[0, 1], 0));
-        assert!(two_sum(&[1, 0], 1));
-        assert!(two_sum(&[0, 0, 0], 0));
-        assert!(!two_sum(&[0, 0, 0], 1));
-        assert!(two_sum(&[0, 0, 1], 0));
-        assert!(two_sum(&[0, 0, 1], 1));
-        assert!(!two_sum(&[0, 0, 1], 2));
-        assert!(!two_sum(&[0, 1, 1], 0));
-        assert!(two_sum(&[0, 1, 1], 1));
-        assert!(two_sum(&[0, 1, 1], 2));
-        assert!(!two_sum(&[0, 1, 1], 3));
-        assert!(!two_sum(&[0, 1, 2], 0));
-        assert!(two_sum(&[0, 1, 2], 1));
-        assert!(two_sum(&[0, 1, 2], 2));
-        assert!(two_sum(&[0, 1, 2], 3));
-        assert!(!two_sum(&[0, 1, 2], 4));
+        assert!(!super::two_sum(&[], 0));
+        assert!(!super::two_sum(&[0], 0));
+        assert!(super::two_sum(&[0, 0], 0));
+        assert!(!super::two_sum(&[0, 1], 0));
+        assert!(super::two_sum(&[1, 0], 1));
+        assert!(super::two_sum(&[0, 0, 0], 0));
+        assert!(!super::two_sum(&[0, 0, 0], 1));
+        assert!(super::two_sum(&[0, 0, 1], 0));
+        assert!(super::two_sum(&[0, 0, 1], 1));
+        assert!(!super::two_sum(&[0, 0, 1], 2));
+        assert!(!super::two_sum(&[0, 1, 1], 0));
+        assert!(super::two_sum(&[0, 1, 1], 1));
+        assert!(super::two_sum(&[0, 1, 1], 2));
+        assert!(!super::two_sum(&[0, 1, 1], 3));
+        assert!(!super::two_sum(&[0, 1, 2], 0));
+        assert!(super::two_sum(&[0, 1, 2], 1));
+        assert!(super::two_sum(&[0, 1, 2], 2));
+        assert!(super::two_sum(&[0, 1, 2], 3));
+        assert!(!super::two_sum(&[0, 1, 2], 4));
     }
 }

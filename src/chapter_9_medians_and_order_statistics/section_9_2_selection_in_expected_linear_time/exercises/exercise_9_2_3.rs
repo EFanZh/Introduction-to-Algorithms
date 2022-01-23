@@ -25,10 +25,9 @@ pub fn iterative_randomized_select<T: Ord>(values: &mut [T], mut p: usize, mut r
 #[cfg(test)]
 mod tests {
     use super::super::super::super::tests::run_all_select_test_cases;
-    use super::iterative_randomized_select;
 
     #[test]
     fn test_iterative_randomized_select() {
-        run_all_select_test_cases(iterative_randomized_select);
+        run_all_select_test_cases(super::iterative_randomized_select);
     }
 }

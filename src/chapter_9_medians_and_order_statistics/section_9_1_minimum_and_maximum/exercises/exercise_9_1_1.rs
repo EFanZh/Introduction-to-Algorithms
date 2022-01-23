@@ -87,27 +87,26 @@ pub fn second_smallest<T: Ord>(a: &[T]) -> &T {
 
 #[cfg(test)]
 mod tests {
-    use super::{floor_log2, second_smallest};
-    use crate::test_utilities::loop_on_all_unordered_sequences;
+    use crate::test_utilities;
 
     #[test]
     fn test_floor_log2() {
-        assert_eq!(floor_log2(1), 0);
-        assert_eq!(floor_log2(2), 1);
-        assert_eq!(floor_log2(3), 1);
-        assert_eq!(floor_log2(4), 2);
-        assert_eq!(floor_log2(5), 2);
-        assert_eq!(floor_log2(6), 2);
-        assert_eq!(floor_log2(7), 2);
-        assert_eq!(floor_log2(8), 3);
-        assert_eq!(floor_log2(9), 3);
+        assert_eq!(super::floor_log2(1), 0);
+        assert_eq!(super::floor_log2(2), 1);
+        assert_eq!(super::floor_log2(3), 1);
+        assert_eq!(super::floor_log2(4), 2);
+        assert_eq!(super::floor_log2(5), 2);
+        assert_eq!(super::floor_log2(6), 2);
+        assert_eq!(super::floor_log2(7), 2);
+        assert_eq!(super::floor_log2(8), 3);
+        assert_eq!(super::floor_log2(9), 3);
     }
 
     #[test]
     fn test_second_smallest() {
-        loop_on_all_unordered_sequences(|sequence, sorted_sequence| {
+        test_utilities::loop_on_all_unordered_sequences(|sequence, sorted_sequence| {
             if let Some(expected_value) = sorted_sequence.get(1) {
-                assert_eq!(second_smallest(sequence), expected_value);
+                assert_eq!(super::second_smallest(sequence), expected_value);
             }
         });
     }

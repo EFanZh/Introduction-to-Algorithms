@@ -1,4 +1,4 @@
-use rand::{thread_rng, Rng};
+use rand::Rng;
 use std::cmp::Ordering;
 
 fn compare_interval<T: Ord>(lhs: &(T, T), rhs: &(T, T)) -> Ordering {
@@ -80,21 +80,20 @@ pub fn fuzzy_sort<T: Clone + Ord>(a: &mut [(T, T)]) {
         }
     }
 
-    helper(a, &mut thread_rng());
+    helper(a, &mut rand::thread_rng());
 }
 
 #[cfg(test)]
 mod tests {
-    use super::{compare_interval, fuzzy_sort};
-    use crate::test_utilities::assign_vec_from_iter;
-    use rand::{thread_rng, Rng};
+    use crate::test_utilities;
+    use rand::Rng;
     use std::cmp::Ordering;
     use std::iter;
 
     fn is_fuzzy_sorted<T: Ord>(a: &[(T, T)]) -> bool {
         for (j, y) in a.iter().enumerate().skip(1) {
             for x in &a[..j] {
-                if compare_interval(x, y) == Ordering::Greater {
+                if super::compare_interval(x, y) == Ordering::Greater {
                     return false;
                 }
             }
@@ -105,12 +104,12 @@ mod tests {
 
     #[test]
     fn test_fuzzy_sort() {
-        let mut rng = thread_rng();
+        let mut rng = rand::thread_rng();
         let mut a = Vec::new();
 
         for n in 0..8 {
             for _ in 0..10000 {
-                assign_vec_from_iter(
+                test_utilities::assign_vec_from_iter(
                     &mut a,
                     iter::repeat_with(|| {
                         let a = rng.gen_range(0..30);
@@ -121,7 +120,7 @@ mod tests {
                     .take(n),
                 );
 
-                fuzzy_sort(&mut a);
+                super::fuzzy_sort(&mut a);
 
                 assert!(is_fuzzy_sorted(&a));
             }

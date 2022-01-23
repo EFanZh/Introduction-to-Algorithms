@@ -71,8 +71,6 @@ pub fn seam_carving(disruptions: &[f64], columns: usize) -> Box<[usize]> {
 
 #[cfg(test)]
 mod tests {
-    use super::seam_carving;
-
     #[test]
     fn test_seam_carving() {
         let disruptions = [
@@ -82,6 +80,6 @@ mod tests {
             1.0, 1.0, 0.0, 1.0, 1.0, //
         ];
 
-        assert_eq!(*seam_carving(&disruptions, 5), [2, 2, 1, 2]);
+        assert_eq!(*super::seam_carving(&disruptions, 5), [2, 2, 1, 2]);
     }
 }

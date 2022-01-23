@@ -40,8 +40,6 @@ pub fn change_coins(mut n: usize) -> Coins {
 
 #[cfg(test)]
 mod tests {
-    use super::change_coins;
-
     #[test]
     fn test_change_coins() {
         let test_cases = [
@@ -72,7 +70,7 @@ mod tests {
         ];
 
         for (n, [quarters, dimes, nickels, pennies]) in test_cases {
-            let result = change_coins(n);
+            let result = super::change_coins(n);
 
             assert_eq!(result.quarters, quarters);
             assert_eq!(result.dimes, dimes);

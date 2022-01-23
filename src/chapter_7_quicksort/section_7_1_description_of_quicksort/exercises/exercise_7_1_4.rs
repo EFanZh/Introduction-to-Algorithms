@@ -14,11 +14,10 @@ pub fn reverse_quicksort<T: Ord>(a: &mut [T], p: usize, r: usize) {
 
 #[cfg(test)]
 mod tests {
-    use super::reverse_quicksort;
-    use crate::test_utilities::run_all_reverse_sorting_tests;
+    use crate::test_utilities;
 
     #[test]
     fn test_reverse_quicksort() {
-        run_all_reverse_sorting_tests(|a| reverse_quicksort(a, 0, a.len()));
+        test_utilities::run_all_reverse_sorting_tests(|a| super::reverse_quicksort(a, 0, a.len()));
     }
 }

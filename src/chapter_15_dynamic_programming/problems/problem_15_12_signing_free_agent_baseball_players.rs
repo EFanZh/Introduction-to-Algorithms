@@ -81,7 +81,7 @@ pub fn sign_baseball_players(
 
 #[cfg(test)]
 mod tests {
-    use super::{sign_baseball_players, BaseballPlayer};
+    use super::BaseballPlayer;
 
     #[test]
     fn test_sign_baseball_players() {
@@ -100,7 +100,7 @@ mod tests {
         let players_per_position = 4;
         let budget = 15;
 
-        let (total_vorp, selected_players) = sign_baseball_players(
+        let (total_vorp, selected_players) = super::sign_baseball_players(
             &*players
                 .iter()
                 .flat_map(|position_players| {

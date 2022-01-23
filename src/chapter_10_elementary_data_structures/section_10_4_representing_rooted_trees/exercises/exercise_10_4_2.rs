@@ -17,7 +17,6 @@ pub fn iterate_tree<T, F: FnMut(&T)>(root: &Option<Rc<BinaryTreeNode<T>>>, mut f
 #[cfg(test)]
 pub(crate) mod tests {
     use super::super::super::BinaryTreeNode;
-    use super::iterate_tree;
     use crate::make_tree;
     use std::collections::HashSet;
     use std::iter;
@@ -46,7 +45,7 @@ pub(crate) mod tests {
         run_iterate_tree_test_cases(|root| {
             let mut result = HashSet::new();
 
-            iterate_tree(root, |key| {
+            super::iterate_tree(root, |key| {
                 result.insert(*key);
             });
 

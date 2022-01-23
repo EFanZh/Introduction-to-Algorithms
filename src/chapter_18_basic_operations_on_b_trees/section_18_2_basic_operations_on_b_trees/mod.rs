@@ -166,7 +166,6 @@ pub fn b_tree_insert<K: Ord, V>(root: &mut Node<K, V>, t: usize, k: K, v: V) -> 
 #[cfg(test)]
 mod tests {
     use super::super::section_18_1_definition_of_b_trees::tests::make_node;
-    use super::{b_tree_create, b_tree_insert, b_tree_search, b_tree_split_child};
 
     #[test]
     fn test_b_tree_search() {
@@ -228,13 +227,13 @@ mod tests {
         ];
 
         for ((tree, key), expected) in test_cases.iter().cloned() {
-            assert_eq!(b_tree_search(&tree, &key).copied(), expected);
+            assert_eq!(super::b_tree_search(&tree, &key).copied(), expected);
         }
     }
 
     #[test]
     fn test_b_tree_create() {
-        assert_eq!(b_tree_create::<i32, i32>(), make_node!());
+        assert_eq!(super::b_tree_create::<i32, i32>(), make_node!());
     }
 
     #[test]
@@ -291,7 +290,7 @@ mod tests {
         ];
 
         for ((mut x, i), expected) in test_cases.iter().cloned() {
-            b_tree_split_child(&mut x, i);
+            super::b_tree_split_child(&mut x, i);
 
             assert_eq!(x, expected);
         }
@@ -335,7 +334,7 @@ mod tests {
         ];
 
         for ((mut root, t, key, value), (expected_result, expected_tree)) in test_cases.iter().cloned() {
-            assert_eq!(b_tree_insert(&mut root, t, key, value), expected_result);
+            assert_eq!(super::b_tree_insert(&mut root, t, key, value), expected_result);
             assert_eq!(root, expected_tree);
         }
     }
@@ -412,7 +411,7 @@ mod tests {
         ];
 
         for ((mut root, t, key, value), (expected_result, expected_tree)) in test_cases.iter().cloned() {
-            assert_eq!(b_tree_insert(&mut root, t, key, value), expected_result);
+            assert_eq!(super::b_tree_insert(&mut root, t, key, value), expected_result);
             assert_eq!(root, expected_tree);
         }
     }

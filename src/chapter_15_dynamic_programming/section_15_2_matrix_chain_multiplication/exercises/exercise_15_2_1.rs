@@ -10,10 +10,8 @@ pub fn solve() -> String {
 
 #[cfg(test)]
 mod tests {
-    use super::solve;
-
     #[test]
     fn test_solve() {
-        assert_eq!(solve(), "((A_0 A_1) ((A_2 A_3) (A_4 A_5)))");
+        assert_eq!(super::solve(), "((A_0 A_1) ((A_2 A_3) (A_4 A_5)))");
     }
 }

@@ -20,11 +20,10 @@ pub fn get_tree() -> Node<char, ()> {
 #[cfg(test)]
 mod tests {
     use super::super::super::super::section_18_1_definition_of_b_trees::tests::make_node;
-    use super::get_tree;
 
     #[test]
     fn test_get_tree() {
-        let result = get_tree();
+        let result = super::get_tree();
 
         assert_eq!(
             result,

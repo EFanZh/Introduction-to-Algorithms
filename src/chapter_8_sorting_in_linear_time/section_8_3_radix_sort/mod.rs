@@ -12,31 +12,30 @@ pub fn radix_sort<T, S: FnMut(&mut [T], usize)>(a: &mut [T], d: usize, mut stabl
 
 #[cfg(test)]
 mod tests {
-    use super::super::section_8_2_counting_sort::extra::counting_sort_by_key;
-    use super::radix_sort;
-    use crate::test_utilities::{assign_vec, assign_vec_from_iter};
-    use rand::{thread_rng, Rng};
+    use super::super::section_8_2_counting_sort::extra;
+    use crate::test_utilities;
+    use rand::Rng;
     use std::iter;
 
     #[test]
     fn test_radix_sort() {
         let mut array_1 = Vec::new();
         let mut array_2 = Vec::new();
-        let mut rng = thread_rng();
+        let mut rng = rand::thread_rng();
 
         for n in 0_usize..10 {
             for k in 1..4 {
                 for _ in 0..(1 << n) {
-                    assign_vec_from_iter(
+                    test_utilities::assign_vec_from_iter(
                         &mut array_1,
                         iter::repeat_with(|| iter::repeat_with(|| rng.gen_range(0..n)).take(k).collect::<Box<_>>())
                             .take(n),
                     );
 
-                    assign_vec(&mut array_2, &array_1);
+                    test_utilities::assign_vec(&mut array_2, &array_1);
 
-                    radix_sort(&mut array_1, k, |a, i| {
-                        counting_sort_by_key(a, Box::new([]), |x| x[i]);
+                    super::radix_sort(&mut array_1, k, |a, i| {
+                        extra::counting_sort_by_key(a, Box::new([]), |x| x[i]);
                     });
 
                     array_2.sort_unstable();

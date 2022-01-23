@@ -31,8 +31,6 @@ pub fn get_connected_components(graph: &[Vec<usize>]) -> Vec<usize> {
 
 #[cfg(test)]
 mod tests {
-    use super::get_connected_components;
-
     #[test]
     fn test_get_connected_components() {
         #[allow(trivial_casts)]
@@ -53,7 +51,7 @@ mod tests {
 
         for (graph, expected) in test_cases {
             assert_eq!(
-                get_connected_components(graph.iter().map(|node| node.to_vec()).collect::<Box<_>>().as_ref()),
+                super::get_connected_components(graph.iter().map(|node| node.to_vec()).collect::<Box<_>>().as_ref()),
                 expected
             );
         }

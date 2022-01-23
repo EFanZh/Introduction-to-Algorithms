@@ -40,13 +40,12 @@ pub fn partition<T: Ord>(values: &mut [T]) -> usize {
 
 #[cfg(test)]
 mod tests {
-    use super::partition;
-    use crate::test_utilities::run_all_sorting_tests;
+    use crate::test_utilities;
 
     #[test]
     fn test_partition_middle_on_same_elements() {
         fn run_single_test(mut a: Vec<i32>) {
-            assert_eq!(partition(&mut a), a.len() / 2);
+            assert_eq!(super::partition(&mut a), a.len() / 2);
         }
 
         run_single_test(vec![0]);
@@ -62,13 +61,13 @@ mod tests {
     fn test_partition_by_quicksort() {
         pub fn quicksort<T: Ord>(a: &mut [T]) {
             if a.len() > 1 {
-                let q = partition(a);
+                let q = super::partition(a);
 
                 quicksort(&mut a[..q]);
                 quicksort(&mut a[q + 1..]);
             }
         }
 
-        run_all_sorting_tests(quicksort);
+        test_utilities::run_all_sorting_tests(quicksort);
     }
 }

@@ -52,8 +52,6 @@ pub fn partition(graph: &[Vec<usize>]) -> Option<(Vec<usize>, Vec<usize>)> {
 
 #[cfg(test)]
 mod tests {
-    use super::partition;
-
     #[test]
     fn test_partition() {
         #[allow(trivial_casts)]
@@ -66,7 +64,7 @@ mod tests {
         ];
 
         for (graph, expected) in test_cases {
-            let result = partition(&graph.iter().map(|edge| edge.to_vec()).collect::<Box<_>>());
+            let result = super::partition(&graph.iter().map(|edge| edge.to_vec()).collect::<Box<_>>());
 
             assert_eq!(
                 result.as_ref().map(|(left, right)| (left.as_slice(), right.as_slice())),

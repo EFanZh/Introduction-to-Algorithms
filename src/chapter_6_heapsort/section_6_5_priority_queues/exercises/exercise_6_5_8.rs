@@ -43,8 +43,7 @@ pub fn heap_delete_2<T: Ord>(a: &mut Vec<T>, mut i: usize) {
 
 #[cfg(test)]
 mod tests {
-    use super::{heap_delete, heap_delete_2};
-    use crate::test_utilities::{assign_vec, is_max_heap, loop_on_all_max_heap_test_cases};
+    use crate::test_utilities;
 
     fn run_heap_delete_test<F: FnMut(&mut Vec<i32>, usize)>(mut f: F) {
         let mut run_deletion_test = |heap: &mut Vec<i32>, i, expected_values: &[i32]| {
@@ -52,7 +51,7 @@ mod tests {
 
             f(heap, i); // Delete the value.
 
-            assert!(is_max_heap(heap)); // Check max heap property.
+            assert!(test_utilities::is_max_heap(heap)); // Check max heap property.
 
             heap.push(value); // Put the deleted value back.
 
@@ -65,16 +64,16 @@ mod tests {
         let mut sorted_heap_storage = Vec::new();
         let mut heap = Vec::new();
 
-        loop_on_all_max_heap_test_cases(|sequence| {
-            assign_vec(&mut heap_storage, sequence);
-            assign_vec(&mut sorted_heap_storage, sequence);
+        test_utilities::loop_on_all_max_heap_test_cases(|sequence| {
+            test_utilities::assign_vec(&mut heap_storage, sequence);
+            test_utilities::assign_vec(&mut sorted_heap_storage, sequence);
 
             let total_length = heap_storage.len();
 
             sorted_heap_storage.sort_unstable();
 
             for i in 0..total_length {
-                assign_vec(&mut heap, &heap_storage);
+                test_utilities::assign_vec(&mut heap, &heap_storage);
 
                 run_deletion_test(&mut heap, i, &sorted_heap_storage);
             }
@@ -83,11 +82,11 @@ mod tests {
 
     #[test]
     fn test_heap_delete() {
-        run_heap_delete_test(heap_delete);
+        run_heap_delete_test(super::heap_delete);
     }
 
     #[test]
     fn test_heap_delete_2() {
-        run_heap_delete_test(heap_delete_2);
+        run_heap_delete_test(super::heap_delete_2);
     }
 }

@@ -20,11 +20,10 @@ pub fn heapsort<T: Ord>(a: &mut [T]) {
 
 #[cfg(test)]
 mod tests {
-    use super::heapsort;
-    use crate::test_utilities::run_all_sorting_tests;
+    use crate::test_utilities;
 
     #[test]
     fn test_heapsort() {
-        run_all_sorting_tests(heapsort);
+        test_utilities::run_all_sorting_tests(super::heapsort);
     }
 }

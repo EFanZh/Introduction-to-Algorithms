@@ -28,8 +28,6 @@ pub fn median_of_two_sorted_arrays<'a, T: Ord>(mut x: &'a [T], mut y: &'a [T]) -
 
 #[cfg(test)]
 mod tests {
-    use super::median_of_two_sorted_arrays;
-
     #[test]
     fn test_median_of_two_sorted_arrays() {
         let test_cases = vec![
@@ -46,8 +44,8 @@ mod tests {
         ];
 
         for ((x, y), expected_median) in test_cases {
-            assert_eq!(*median_of_two_sorted_arrays(&x, &y), expected_median);
-            assert_eq!(*median_of_two_sorted_arrays(&y, &x), expected_median);
+            assert_eq!(*super::median_of_two_sorted_arrays(&x, &y), expected_median);
+            assert_eq!(*super::median_of_two_sorted_arrays(&y, &x), expected_median);
         }
     }
 }

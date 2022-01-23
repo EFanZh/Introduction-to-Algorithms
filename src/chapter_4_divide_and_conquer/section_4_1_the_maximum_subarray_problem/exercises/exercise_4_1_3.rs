@@ -40,10 +40,9 @@ pub fn find_maximum_subarray_brute_force<T: Clone + Ord + Zero>(a: &[T]) -> (usi
 #[cfg(test)]
 mod tests {
     use super::super::super::tests::run_find_maximum_subarray_test_cases;
-    use super::find_maximum_subarray_brute_force;
 
     #[test]
     fn test_find_maximum_subarray_brute_force() {
-        run_find_maximum_subarray_test_cases(find_maximum_subarray_brute_force);
+        run_find_maximum_subarray_test_cases(super::find_maximum_subarray_brute_force);
     }
 }

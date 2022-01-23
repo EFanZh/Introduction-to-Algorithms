@@ -171,7 +171,7 @@ pub fn decode_tree(data: &[u8], length: usize) -> Node {
 
 #[cfg(test)]
 mod tests {
-    use super::{decode_tree, encode_tree, Node};
+    use super::Node;
 
     type TestCase = (Node, (Box<[u8]>, usize));
 
@@ -261,7 +261,7 @@ mod tests {
     #[test]
     fn test_encode_tree() {
         for (tree, (expected_data, expected_length)) in get_test_cases().into_vec() {
-            let (data, length) = encode_tree(&tree);
+            let (data, length) = super::encode_tree(&tree);
 
             assert_eq!(data, expected_data);
             assert_eq!(length, expected_length);
@@ -271,7 +271,7 @@ mod tests {
     #[test]
     fn test_decode_tree() {
         for (expected_tree, (data, length)) in get_test_cases().into_vec() {
-            let tree = decode_tree(&data, length);
+            let tree = super::decode_tree(&data, length);
 
             assert_eq!(tree, expected_tree);
         }

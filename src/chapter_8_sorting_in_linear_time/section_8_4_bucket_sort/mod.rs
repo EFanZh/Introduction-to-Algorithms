@@ -39,23 +39,22 @@ pub fn bucket_sort(a: &mut [f64]) {
 
 #[cfg(test)]
 mod tests {
-    use super::bucket_sort;
-    use crate::test_utilities::{assign_vec, assign_vec_from_iter};
-    use rand::{thread_rng, Rng};
+    use crate::test_utilities;
+    use rand::Rng;
     use std::iter;
 
     #[test]
     fn test_bucket_sort() {
         let mut a = Vec::new();
         let mut b = Vec::new();
-        let mut rng = thread_rng();
+        let mut rng = rand::thread_rng();
 
         for n in 0_usize..10 {
             for _ in 0..(1 << n) {
-                assign_vec_from_iter(&mut a, iter::repeat_with(|| rng.gen()).take(n));
-                assign_vec(&mut b, &a);
+                test_utilities::assign_vec_from_iter(&mut a, iter::repeat_with(|| rng.gen()).take(n));
+                test_utilities::assign_vec(&mut b, &a);
 
-                bucket_sort(&mut b);
+                super::bucket_sort(&mut b);
 
                 a.sort_unstable_by(|lhs, rhs| lhs.partial_cmp(rhs).unwrap());
 

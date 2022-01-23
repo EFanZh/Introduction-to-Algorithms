@@ -1,8 +1,8 @@
-use super::super::section_7_1_description_of_quicksort::partition;
+use super::super::section_7_1_description_of_quicksort;
 use crate::chapter_2_getting_started::section_2_1_insertion_sort::extra::insertion_sort_slice;
 use crate::utilities::KeyValuePair;
 use rand::seq::index;
-use rand::{thread_rng, Rng};
+use rand::Rng;
 
 fn median_of_3<T: Ord>(values: &[T], i: usize, j: usize, k: usize) -> usize {
     let mut t = [
@@ -27,7 +27,7 @@ pub fn median_of_3_partition<T: Ord, R: Rng>(a: &mut [T], rng: &mut R) -> usize 
 
     a.swap(pivot, a.len() - 1);
 
-    partition(a, 0, a.len())
+    section_7_1_description_of_quicksort::partition(a, 0, a.len())
 }
 
 pub fn median_of_3_quicksort<T: Ord>(a: &mut [T]) {
@@ -42,16 +42,15 @@ pub fn median_of_3_quicksort<T: Ord>(a: &mut [T]) {
         }
     }
 
-    helper(a, &mut thread_rng());
+    helper(a, &mut rand::thread_rng());
 }
 
 #[cfg(test)]
 mod tests {
-    use super::median_of_3_quicksort;
-    use crate::test_utilities::run_all_sorting_tests;
+    use crate::test_utilities;
 
     #[test]
     fn test_median_of_3_quicksort() {
-        run_all_sorting_tests(median_of_3_quicksort);
+        test_utilities::run_all_sorting_tests(super::median_of_3_quicksort);
     }
 }

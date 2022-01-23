@@ -98,8 +98,6 @@ pub fn find_maximum_subarray<T: Clone + Ord + Zero>(a: &[T], low: usize, high: u
 
 #[cfg(test)]
 mod tests {
-    use super::find_maximum_subarray;
-
     pub fn run_find_maximum_subarray_test_cases<F: Fn(&[i32]) -> (usize, usize, i32)>(f: F) {
         fn run_test<T: AsRef<[i32]>, F: Fn(&[i32]) -> (usize, usize, i32)>(f: F, a: T, expected: i32) {
             let a_ref = a.as_ref();
@@ -162,6 +160,6 @@ mod tests {
 
     #[test]
     fn test_find_maximum_subarray() {
-        run_find_maximum_subarray_test_cases(|a| find_maximum_subarray(a, 0, a.len()));
+        run_find_maximum_subarray_test_cases(|a| super::find_maximum_subarray(a, 0, a.len()));
     }
 }

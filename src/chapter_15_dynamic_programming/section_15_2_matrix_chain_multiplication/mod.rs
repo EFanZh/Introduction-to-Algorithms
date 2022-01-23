@@ -94,12 +94,11 @@ pub fn print_optimal_parens(s: &Array2<usize>, i: usize, j: usize) -> Parens {
 
 #[cfg(test)]
 mod tests {
-    use super::{matrix_chain_order, print_optimal_parens};
     use ndarray::array;
 
     #[test]
     fn test_matrix_chain_order() {
-        let (m, s) = matrix_chain_order(&[30, 35, 15, 5, 10, 20, 25]);
+        let (m, s) = super::matrix_chain_order(&[30, 35, 15, 5, 10, 20, 25]);
 
         assert_eq!(
             m,
@@ -128,10 +127,10 @@ mod tests {
     #[test]
     fn test_print_optimal_parens() {
         let p = [30, 35, 15, 5, 10, 20, 25];
-        let (_, s) = matrix_chain_order(&p);
+        let (_, s) = super::matrix_chain_order(&p);
 
         assert_eq!(
-            print_optimal_parens(&s, 0, p.len() - 1).to_string(),
+            super::print_optimal_parens(&s, 0, p.len() - 1).to_string(),
             "((A_0 (A_1 A_2)) ((A_3 A_4) A_5))"
         );
     }

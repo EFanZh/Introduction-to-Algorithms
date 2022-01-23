@@ -77,7 +77,7 @@ impl<T: Ord> DAryHeap<T> {
 #[cfg(test)]
 mod tests {
     use super::DAryHeap;
-    use crate::test_utilities::assign_vec_from_iter;
+    use crate::test_utilities;
     use std::iter;
 
     #[test]
@@ -87,8 +87,8 @@ mod tests {
 
         for d in 1..4 {
             for n in 0..8 {
-                assign_vec_from_iter(&mut data, 0..n);
-                assign_vec_from_iter(&mut sorted_data, (0..n).rev());
+                test_utilities::assign_vec_from_iter(&mut data, 0..n);
+                test_utilities::assign_vec_from_iter(&mut sorted_data, (0..n).rev());
 
                 permutohedron::heap_recursive(&mut data, |sequence| {
                     let mut heap = DAryHeap::new(d);

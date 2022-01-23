@@ -49,28 +49,25 @@ pub fn insertion_sort_tail_recursive<T: Ord + Clone>(a: &mut [T]) {
 
 #[cfg(test)]
 mod tests {
-    use super::{
-        insertion_sort_slice, insertion_sort_slice_by, insertion_sort_slice_by_key, insertion_sort_tail_recursive,
-    };
-    use crate::test_utilities::run_all_sorting_tests;
+    use crate::test_utilities;
 
     #[test]
     fn test_insertion_sort_slice() {
-        run_all_sorting_tests(insertion_sort_slice);
+        test_utilities::run_all_sorting_tests(super::insertion_sort_slice);
     }
 
     #[test]
     fn test_insertion_sort_slice_by() {
-        run_all_sorting_tests(|a| insertion_sort_slice_by(a, i32::cmp));
+        test_utilities::run_all_sorting_tests(|a| super::insertion_sort_slice_by(a, i32::cmp));
     }
 
     #[test]
     fn test_insertion_sort_slice_by_key() {
-        run_all_sorting_tests(|a| insertion_sort_slice_by_key(a, |x| *x));
+        test_utilities::run_all_sorting_tests(|a| super::insertion_sort_slice_by_key(a, |x| *x));
     }
 
     #[test]
     fn test_insertion_sort_tail_recursive() {
-        run_all_sorting_tests(insertion_sort_tail_recursive);
+        test_utilities::run_all_sorting_tests(super::insertion_sort_tail_recursive);
     }
 }

@@ -20,11 +20,10 @@ pub fn insertion_sort_recursive<T: Ord + Clone>(a: &mut [T]) {
 
 #[cfg(test)]
 mod tests {
-    use super::insertion_sort_recursive;
-    use crate::test_utilities::run_all_sorting_tests;
+    use crate::test_utilities;
 
     #[test]
     fn test_insertion_sort_recursive() {
-        run_all_sorting_tests(insertion_sort_recursive);
+        test_utilities::run_all_sorting_tests(super::insertion_sort_recursive);
     }
 }

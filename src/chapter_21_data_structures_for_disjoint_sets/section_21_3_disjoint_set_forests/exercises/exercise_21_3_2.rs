@@ -23,7 +23,6 @@ pub fn find_set<T>(x: &Rc<Node<T>>) -> Rc<Node<T>> {
 #[cfg(test)]
 mod tests {
     use super::super::super::Node;
-    use super::find_set;
     use std::cell::Cell;
     use std::rc::Rc;
 
@@ -35,7 +34,7 @@ mod tests {
             parent: Cell::new(None),
         });
 
-        assert_eq!(find_set(&node).value, 2);
+        assert_eq!(super::find_set(&node).value, 2);
         assert!(node.parent.take().is_none());
     }
 
@@ -55,7 +54,7 @@ mod tests {
 
         node_0.parent.set(Some(Rc::clone(&node_1)));
 
-        assert_eq!(find_set(&node_0).value, 3);
+        assert_eq!(super::find_set(&node_0).value, 3);
         assert_eq!(node_0.parent.take().unwrap().value, 3);
         assert!(node_1.parent.take().is_none());
     }
@@ -83,7 +82,7 @@ mod tests {
         node_0.parent.set(Some(Rc::clone(&node_1)));
         node_1.parent.set(Some(Rc::clone(&node_2)));
 
-        assert_eq!(find_set(&node_0).value, 5);
+        assert_eq!(super::find_set(&node_0).value, 5);
         assert_eq!(node_0.parent.take().unwrap().value, 5);
         assert_eq!(node_1.parent.take().unwrap().value, 5);
         assert!(node_2.parent.take().is_none());

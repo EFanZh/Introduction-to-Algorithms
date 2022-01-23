@@ -19,14 +19,13 @@ pub fn iterative_inorder_tree_walk<T, F: FnMut(&T)>(mut root: &Option<Box<Simple
 
 #[cfg(test)]
 mod tests {
-    use super::iterative_inorder_tree_walk;
     use crate::chapter_10_elementary_data_structures::section_10_4_representing_rooted_trees::SimpleBinaryTreeNode;
     use crate::make_simple_tree;
 
     fn inorder_tree_walk_as_vec(root: &Option<Box<SimpleBinaryTreeNode<i32>>>) -> Vec<i32> {
         let mut result = Vec::new();
 
-        iterative_inorder_tree_walk(root, |&key| result.push(key));
+        super::iterative_inorder_tree_walk(root, |&key| result.push(key));
 
         result
     }

@@ -37,8 +37,6 @@ pub fn construct_optimal_bst(root: &[usize], n: usize) -> Box<[String]> {
 
 #[cfg(test)]
 mod tests {
-    use super::construct_optimal_bst;
-
     #[test]
     fn test_construct_optimal_bst() {
         let root = [
@@ -50,7 +48,7 @@ mod tests {
         ];
 
         assert_eq!(
-            *construct_optimal_bst(&root, 5),
+            *super::construct_optimal_bst(&root, 5),
             [
                 "k_1 is the root",
                 "k_0 is the left child of k_1",

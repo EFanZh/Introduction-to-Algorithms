@@ -18,24 +18,27 @@ pub fn bucker_sort_by_probability_distribution<T: Clone, F: FnMut(&T, &T) -> Ord
 
 #[cfg(test)]
 mod tests {
-    use super::bucker_sort_by_probability_distribution;
-    use crate::test_utilities::{assign_vec, assign_vec_from_iter};
-    use rand::{thread_rng, Rng};
+    use crate::test_utilities;
+    use rand::Rng;
     use std::iter;
 
     #[test]
     fn test_bucker_sort_by_probability_distribution() {
         let mut a = Vec::new();
         let mut b = Vec::new();
-        let mut rng = thread_rng();
+        let mut rng = rand::thread_rng();
 
         for n in 0_usize..10 {
             for _ in 0..(1 << n) {
-                assign_vec_from_iter(&mut a, iter::repeat_with(|| rng.gen::<f64>()).take(n));
+                test_utilities::assign_vec_from_iter(&mut a, iter::repeat_with(|| rng.gen::<f64>()).take(n));
 
-                assign_vec(&mut b, &a);
+                test_utilities::assign_vec(&mut b, &a);
 
-                bucker_sort_by_probability_distribution(&mut b, |lhs, rhs| lhs.partial_cmp(rhs).unwrap(), |&x| x);
+                super::bucker_sort_by_probability_distribution(
+                    &mut b,
+                    |lhs, rhs| lhs.partial_cmp(rhs).unwrap(),
+                    |&x| x,
+                );
 
                 a.sort_unstable_by(|lhs, rhs| lhs.partial_cmp(rhs).unwrap());
 

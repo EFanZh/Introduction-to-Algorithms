@@ -10,18 +10,25 @@ pub fn recursive_tree_maximum<T: Ord>(x: &SimpleBinaryTreeNode<T>) -> &SimpleBin
 
 #[cfg(test)]
 mod tests {
-    use super::{recursive_tree_maximum, recursive_tree_minimum};
     use crate::make_simple_tree;
 
     #[test]
     fn test_recursive_tree_minimum() {
-        assert_eq!(recursive_tree_minimum(&make_simple_tree![1].unwrap()).key, 1);
-        assert_eq!(recursive_tree_minimum(&make_simple_tree![(5, 2, 8)].unwrap()).key, 2);
+        assert_eq!(super::recursive_tree_minimum(&make_simple_tree![1].unwrap()).key, 1);
+
+        assert_eq!(
+            super::recursive_tree_minimum(&make_simple_tree![(5, 2, 8)].unwrap()).key,
+            2
+        );
     }
 
     #[test]
     fn test_recursive_tree_maximum() {
-        assert_eq!(recursive_tree_maximum(&make_simple_tree![1].unwrap()).key, 1);
-        assert_eq!(recursive_tree_maximum(&make_simple_tree![(5, 2, 8)].unwrap()).key, 8);
+        assert_eq!(super::recursive_tree_maximum(&make_simple_tree![1].unwrap()).key, 1);
+
+        assert_eq!(
+            super::recursive_tree_maximum(&make_simple_tree![(5, 2, 8)].unwrap()).key,
+            8
+        );
     }
 }

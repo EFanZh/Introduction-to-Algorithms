@@ -337,7 +337,6 @@ pub fn persistent_red_black_tree_remove<K: Borrow<Q>, V, Q: Ord + ?Sized>(
 mod tests {
     use super::super::tests::{black, black_leaf, red, red_leaf};
     use super::super::{BlackNode, RedBlackTree};
-    use super::persistent_red_black_tree_remove;
     use std::borrow::Borrow;
     use std::rc::Rc;
 
@@ -345,7 +344,7 @@ mod tests {
         tree: T,
         key: &Q,
     ) -> Option<(RedBlackTree<K, V>, Rc<V>)> {
-        persistent_red_black_tree_remove(&tree.into(), key)
+        super::persistent_red_black_tree_remove(&tree.into(), key)
     }
 
     #[test]

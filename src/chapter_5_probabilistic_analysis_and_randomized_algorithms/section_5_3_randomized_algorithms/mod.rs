@@ -1,4 +1,4 @@
-use rand::{thread_rng, Rng};
+use rand::Rng;
 use std::iter;
 
 pub mod exercises;
@@ -14,7 +14,7 @@ pub mod exercises;
 pub fn permute_by_sorting<T: Clone>(a: &mut [T]) {
     let n = a.len();
     let cubed_n = n * n * n;
-    let mut rng = thread_rng();
+    let mut rng = rand::thread_rng();
 
     let p = iter::repeat_with(|| rng.gen_range(0..cubed_n)).take(n);
 
@@ -43,7 +43,7 @@ pub fn permute_by_sorting<T: Clone>(a: &mut [T]) {
 
 pub fn randomize_in_place<T>(a: &mut [T]) {
     let n = a.len();
-    let mut rng = thread_rng();
+    let mut rng = rand::thread_rng();
 
     for i in 0..n {
         a.swap(i, rng.gen_range(i..n));

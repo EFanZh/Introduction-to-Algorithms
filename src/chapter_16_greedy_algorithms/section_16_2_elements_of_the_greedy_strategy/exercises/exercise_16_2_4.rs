@@ -38,10 +38,8 @@ pub fn select_water_stops(water_stops: &[u64], total_distance: u64, max_skate_le
 
 #[cfg(test)]
 mod tests {
-    use super::select_water_stops;
-
     fn run_test(water_stops: &[u64], total_distance: u64, max_skate_length: u64, expected_result: Option<&[usize]>) {
-        let result = select_water_stops(water_stops, total_distance, max_skate_length);
+        let result = super::select_water_stops(water_stops, total_distance, max_skate_length);
 
         assert_eq!(result.as_deref(), expected_result);
     }

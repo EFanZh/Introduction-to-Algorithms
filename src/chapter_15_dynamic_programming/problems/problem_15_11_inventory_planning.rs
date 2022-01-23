@@ -90,8 +90,6 @@ pub fn plan_inventory<F: FnMut(usize) -> u64>(
 
 #[cfg(test)]
 mod tests {
-    use super::plan_inventory;
-
     #[test]
     fn test_plan_inventory() {
         let demands = [0, 5, 5, 0, 4, 0, 5, 0, 3, 3, 2, 2, 0, 5, 1, 4, 2, 2, 3, 4];
@@ -99,7 +97,7 @@ mod tests {
         let extra_cost_per_machine = 2;
         let holding_cost = |i| i as _;
 
-        let result = plan_inventory(&demands, base_yield_per_month, extra_cost_per_machine, holding_cost);
+        let result = super::plan_inventory(&demands, base_yield_per_month, extra_cost_per_machine, holding_cost);
         let expected_result = [2, 3, 5, 1, 3, 2, 3, 0, 3, 3, 2, 2, 2, 3, 2, 3, 2, 2, 3, 4];
 
         assert_eq!(*result, expected_result);

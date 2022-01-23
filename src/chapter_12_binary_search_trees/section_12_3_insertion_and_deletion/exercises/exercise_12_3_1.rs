@@ -15,10 +15,9 @@ pub fn tree_insert<T: Ord>(x: &mut Option<Box<SimpleBinaryTreeNode<T>>>, z: Box<
 #[cfg(test)]
 mod tests {
     use super::super::super::tests::run_tree_insert_test_cases;
-    use super::tree_insert;
 
     #[test]
     fn test_tree_insert() {
-        run_tree_insert_test_cases(tree_insert);
+        run_tree_insert_test_cases(super::tree_insert);
     }
 }

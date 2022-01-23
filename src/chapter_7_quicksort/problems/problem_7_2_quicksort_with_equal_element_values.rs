@@ -58,11 +58,10 @@ pub fn quicksort_prime<T: Ord>(values: &mut [T], p: usize, r: usize) {
 
 #[cfg(test)]
 mod tests {
-    use super::quicksort_prime;
-    use crate::test_utilities::run_all_sorting_tests;
+    use crate::test_utilities;
 
     #[test]
     fn test_quicksort_prime() {
-        run_all_sorting_tests(|a| quicksort_prime(a, 0, a.len()));
+        test_utilities::run_all_sorting_tests(|a| super::quicksort_prime(a, 0, a.len()));
     }
 }

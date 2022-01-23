@@ -17,12 +17,10 @@ pub fn add_binary(a: &[u8], b: &[u8], c: &mut [u8]) {
 
 #[cfg(test)]
 mod tests {
-    use super::add_binary;
-
     fn run_add_binary_test<T: AsRef<[u8]>, U: AsRef<[u8]> + AsMut<[u8]> + Default>(a: T, b: T, expected: &U) {
         let mut result = U::default();
 
-        add_binary(a.as_ref(), b.as_ref(), result.as_mut());
+        super::add_binary(a.as_ref(), b.as_ref(), result.as_mut());
 
         assert_eq!(*result.as_ref(), *expected.as_ref());
     }

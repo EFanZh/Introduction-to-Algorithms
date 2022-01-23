@@ -74,7 +74,7 @@ pub fn huffman<T, I: IntoIterator<Item = (T, u64)>>(c: I) -> TreeNode<T> {
 
 #[cfg(test)]
 mod tests {
-    use super::{huffman, NodeContent, TreeNode};
+    use super::{NodeContent, TreeNode};
 
     fn make_node<T>(frequency: u64, left: TreeNode<T>, right: TreeNode<T>) -> TreeNode<T> {
         TreeNode {
@@ -96,7 +96,7 @@ mod tests {
     #[test]
     fn test_huffman() {
         let c = [('a', 45), ('b', 13), ('c', 12), ('d', 16), ('e', 9), ('f', 5)];
-        let tree = huffman(c.iter().copied());
+        let tree = super::huffman(c.iter().copied());
 
         let expected_tree = make_node(
             100,

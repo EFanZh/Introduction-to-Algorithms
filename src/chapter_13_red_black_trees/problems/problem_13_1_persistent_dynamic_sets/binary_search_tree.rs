@@ -140,13 +140,13 @@ pub fn persistent_tree_remove<K: Ord + Borrow<Q>, V, Q: Ord + ?Sized>(
 
 #[cfg(test)]
 mod tests {
-    use super::{persistent_tree_insert, persistent_tree_remove, persistent_tree_search, Node};
+    use super::Node;
     use std::rc::Rc;
 
     #[test]
     fn test_persistent_tree_insert_empty() {
         assert_eq!(
-            persistent_tree_insert(&None, 1.into(), 2.into()),
+            super::persistent_tree_insert(&None, 1.into(), 2.into()),
             (Node::new_leaf(1.into(), 2.into()).into(), None)
         );
     }
@@ -154,7 +154,7 @@ mod tests {
     #[test]
     fn test_persistent_tree_insert_less() {
         assert_eq!(
-            persistent_tree_insert(&Some(Node::new_leaf(1.into(), 2.into()).into()), 0.into(), 3.into()),
+            super::persistent_tree_insert(&Some(Node::new_leaf(1.into(), 2.into()).into()), 0.into(), 3.into()),
             (
                 Node::new(
                     1.into(),
@@ -171,7 +171,7 @@ mod tests {
     #[test]
     fn test_persistent_tree_insert_equal() {
         assert_eq!(
-            persistent_tree_insert(&Some(Node::new_leaf(1.into(), 2.into()).into()), 1.into(), 3.into()),
+            super::persistent_tree_insert(&Some(Node::new_leaf(1.into(), 2.into()).into()), 1.into(), 3.into()),
             (Node::new_leaf(1.into(), 3.into()).into(), Some(2.into()))
         );
     }
@@ -179,7 +179,7 @@ mod tests {
     #[test]
     fn test_persistent_tree_insert_greater() {
         assert_eq!(
-            persistent_tree_insert(&Some(Node::new_leaf(1.into(), 2.into()).into()), 2.into(), 3.into()),
+            super::persistent_tree_insert(&Some(Node::new_leaf(1.into(), 2.into()).into()), 2.into(), 3.into()),
             (
                 Node::new(
                     1.into(),
@@ -197,13 +197,13 @@ mod tests {
     fn test_persistent_tree_search_empty() {
         let tree: Option<Rc<Node<i32, i32>>> = None;
 
-        assert_eq!(persistent_tree_search(&tree, &1), None);
+        assert_eq!(super::persistent_tree_search(&tree, &1), None);
     }
 
     #[test]
     fn test_persistent_tree_search_less() {
         assert_eq!(
-            persistent_tree_search(&Some(Node::new_leaf(1.into(), 2.into()).into()), &0),
+            super::persistent_tree_search(&Some(Node::new_leaf(1.into(), 2.into()).into()), &0),
             None
         );
     }
@@ -211,7 +211,7 @@ mod tests {
     #[test]
     fn test_persistent_tree_search_equal() {
         assert_eq!(
-            persistent_tree_search(&Some(Node::new_leaf(1.into(), 2.into()).into()), &1),
+            super::persistent_tree_search(&Some(Node::new_leaf(1.into(), 2.into()).into()), &1),
             Some(&2.into())
         );
     }
@@ -219,7 +219,7 @@ mod tests {
     #[test]
     fn test_persistent_tree_search_more() {
         assert_eq!(
-            persistent_tree_search(&Some(Node::new_leaf(1.into(), 2.into()).into()), &3),
+            super::persistent_tree_search(&Some(Node::new_leaf(1.into(), 2.into()).into()), &3),
             None
         );
     }
@@ -227,7 +227,7 @@ mod tests {
     #[test]
     fn test_persistent_tree_search_left() {
         assert_eq!(
-            persistent_tree_search(
+            super::persistent_tree_search(
                 &Some(
                     Node::new(
                         1.into(),
@@ -246,7 +246,7 @@ mod tests {
     #[test]
     fn test_persistent_tree_search_right() {
         assert_eq!(
-            persistent_tree_search(
+            super::persistent_tree_search(
                 &Some(
                     Node::new(
                         1.into(),
@@ -266,13 +266,13 @@ mod tests {
     fn test_persistent_tree_remove_empty() {
         let tree: Option<Rc<Node<i32, i32>>> = None;
 
-        assert_eq!(persistent_tree_remove(&tree, &2), None);
+        assert_eq!(super::persistent_tree_remove(&tree, &2), None);
     }
 
     #[test]
     fn test_persistent_tree_remove_left() {
         assert_eq!(
-            persistent_tree_remove(
+            super::persistent_tree_remove(
                 &Some(
                     Node::new(
                         1.into(),
@@ -302,7 +302,7 @@ mod tests {
     #[test]
     fn test_persistent_tree_remove_right() {
         assert_eq!(
-            persistent_tree_remove(
+            super::persistent_tree_remove(
                 &Some(
                     Node::new(
                         1.into(),
@@ -332,7 +332,7 @@ mod tests {
     #[test]
     fn test_persistent_tree_remove_left_empty() {
         assert_eq!(
-            persistent_tree_remove(
+            super::persistent_tree_remove(
                 &Some(
                     Node::new(
                         1.into(),
@@ -351,7 +351,7 @@ mod tests {
     #[test]
     fn test_persistent_tree_remove_right_empty() {
         assert_eq!(
-            persistent_tree_remove(
+            super::persistent_tree_remove(
                 &Some(
                     Node::new(
                         1.into(),
@@ -370,7 +370,7 @@ mod tests {
     #[test]
     fn test_persistent_tree_remove_both_non_empty_1() {
         assert_eq!(
-            persistent_tree_remove(
+            super::persistent_tree_remove(
                 &Some(
                     Node::new(
                         1.into(),
@@ -400,7 +400,7 @@ mod tests {
     #[test]
     fn test_persistent_tree_remove_both_non_empty_2() {
         assert_eq!(
-            persistent_tree_remove(
+            super::persistent_tree_remove(
                 &Some(
                     Node::new(
                         1.into(),

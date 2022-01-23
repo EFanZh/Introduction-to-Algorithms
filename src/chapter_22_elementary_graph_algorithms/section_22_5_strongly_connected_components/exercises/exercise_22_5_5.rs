@@ -102,8 +102,6 @@ pub fn get_scc_graph(g: &[Vec<usize>]) -> (Vec<Vec<usize>>, Vec<Vec<usize>>) {
 
 #[cfg(test)]
 mod tests {
-    use super::get_scc_graph;
-
     #[test]
     fn test_get_scc_graph() {
         #[allow(trivial_casts)]
@@ -125,7 +123,7 @@ mod tests {
         )];
 
         for (g, expected) in test_cases {
-            let mut result = get_scc_graph(g.iter().map(|nexts| nexts.to_vec()).collect::<Box<_>>().as_ref());
+            let mut result = super::get_scc_graph(g.iter().map(|nexts| nexts.to_vec()).collect::<Box<_>>().as_ref());
 
             for nexts in &mut result.1 {
                 nexts.sort_unstable();

@@ -34,14 +34,12 @@ pub fn longest_monotonically_increasing_subsequence<T: Ord + Clone>(s: &[T]) -> 
 
 #[cfg(test)]
 mod tests {
-    use super::longest_monotonically_increasing_subsequence;
-
     #[test]
     fn test_longest_monotonically_increasing_subsequence() {
         let test_cases: Vec<(&[i32], &[i32])> = vec![(&[10, 9, 2, 5, 3, 7, 101, 18], &[2, 5, 7, 101])];
 
         for (nums, expected) in test_cases {
-            assert_eq!(*longest_monotonically_increasing_subsequence(nums), *expected);
+            assert_eq!(*super::longest_monotonically_increasing_subsequence(nums), *expected);
         }
     }
 }

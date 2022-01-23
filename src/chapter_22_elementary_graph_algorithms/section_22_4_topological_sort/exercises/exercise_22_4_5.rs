@@ -35,7 +35,6 @@ pub fn topological_sort(graph: &[Vec<usize>]) -> Option<Vec<usize>> {
 
 #[cfg(test)]
 mod tests {
-    use super::topological_sort;
     use std::collections::HashSet;
 
     #[test]
@@ -51,7 +50,7 @@ mod tests {
 
         for (graph, can_finish) in test_cases {
             let graph = graph.iter().map(|nexts| nexts.to_vec()).collect::<Box<_>>();
-            let result = topological_sort(&graph);
+            let result = super::topological_sort(&graph);
 
             if can_finish {
                 let result = result.unwrap();

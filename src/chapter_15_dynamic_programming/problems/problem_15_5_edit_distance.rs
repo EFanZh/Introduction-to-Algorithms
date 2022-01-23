@@ -219,7 +219,7 @@ pub fn align_sequences<T: Eq + Clone>(source: &[T], target: &[T]) -> (Box<[Opera
 
 #[cfg(test)]
 mod tests {
-    use super::{align_sequences, find_optimal_transform_sequence, transform, Costs, Operation};
+    use super::{Costs, Operation};
 
     type TransformTestCase<'a> = ((&'a [u8], &'a [Operation<u8>]), &'a [u8]);
 
@@ -360,7 +360,7 @@ mod tests {
     #[test]
     fn test_transform() {
         for &((source, operations), expected) in TRANSFORM_TEST_CASES {
-            assert_eq!(*transform(source, operations), *expected);
+            assert_eq!(*super::transform(source, operations), *expected);
         }
     }
 
@@ -378,7 +378,7 @@ mod tests {
             kill: 1,
         };
 
-        let (operations, cost) = find_optimal_transform_sequence(source, target, &costs);
+        let (operations, cost) = super::find_optimal_transform_sequence(source, target, &costs);
 
         let expected_operations = [
             Operation::Copy,
@@ -400,7 +400,7 @@ mod tests {
 
     #[test]
     fn test_align_sequences() {
-        let (operations, score) = align_sequences(b"GATCGGCAT", b"CAATGTGAATC");
+        let (operations, score) = super::align_sequences(b"GATCGGCAT", b"CAATGTGAATC");
 
         // GATCG GCAT
         // CAATGTGAATC

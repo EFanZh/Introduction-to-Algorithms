@@ -46,7 +46,6 @@ pub fn union<T>(x: &Rc<Node<T>>, y: &Rc<Node<T>>) {
 
 #[cfg(test)]
 mod tests {
-    use super::{find_set, make_set, union};
     use std::collections::HashMap;
 
     enum Operation {
@@ -57,7 +56,7 @@ mod tests {
 
     #[test]
     fn test_make_set() {
-        let result = make_set(1);
+        let result = super::make_set(1);
 
         assert_eq!(result.value, 1);
         assert!(result.parent.take().is_none());
@@ -107,10 +106,12 @@ mod tests {
             for operation in operations {
                 match operation {
                     MakeSet(value) => {
-                        environment.insert(value, make_set(value));
+                        environment.insert(value, super::make_set(value));
                     }
-                    Union(x, y) => union(&environment[x], &environment[y]),
-                    FindSet(value, expected_root) => assert_eq!(find_set(&environment[value]).value, expected_root),
+                    Union(x, y) => super::union(&environment[x], &environment[y]),
+                    FindSet(value, expected_root) => {
+                        assert_eq!(super::find_set(&environment[value]).value, expected_root);
+                    }
                 }
             }
         }

@@ -12,21 +12,19 @@ pub fn hash_string(s: &[u8], m: u32) -> u32 {
 
 #[cfg(test)]
 mod tests {
-    use super::hash_string;
-
     #[test]
     fn test_hash_string() {
-        assert_eq!(hash_string(&[], 1), 0);
-        assert_eq!(hash_string(&[], 2), 0);
-        assert_eq!(hash_string(&[3], 1), 0);
-        assert_eq!(hash_string(&[3], 2), 1);
-        assert_eq!(hash_string(&[3, 5, 7], 1), 0);
-        assert_eq!(hash_string(&[3, 5, 7], 2), 1);
-        assert_eq!(hash_string(&[3, 5, 7], 3), 2);
-        assert_eq!(hash_string(&[3, 5, 7], 4), 3);
-        assert_eq!(hash_string(&[3, 5, 7], 5), 4);
-        assert_eq!(hash_string(&[3, 5, 7], 6), 5);
-        assert_eq!(hash_string(&[3, 5, 7], 7), 1);
-        assert_eq!(hash_string(&[3, 5, 7], 8), 7);
+        assert_eq!(super::hash_string(&[], 1), 0);
+        assert_eq!(super::hash_string(&[], 2), 0);
+        assert_eq!(super::hash_string(&[3], 1), 0);
+        assert_eq!(super::hash_string(&[3], 2), 1);
+        assert_eq!(super::hash_string(&[3, 5, 7], 1), 0);
+        assert_eq!(super::hash_string(&[3, 5, 7], 2), 1);
+        assert_eq!(super::hash_string(&[3, 5, 7], 3), 2);
+        assert_eq!(super::hash_string(&[3, 5, 7], 4), 3);
+        assert_eq!(super::hash_string(&[3, 5, 7], 5), 4);
+        assert_eq!(super::hash_string(&[3, 5, 7], 6), 5);
+        assert_eq!(super::hash_string(&[3, 5, 7], 7), 1);
+        assert_eq!(super::hash_string(&[3, 5, 7], 8), 7);
     }
 }

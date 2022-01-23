@@ -64,11 +64,10 @@ pub fn quicksort_slice<T: Ord>(a: &mut [T]) {
 
 #[cfg(test)]
 mod tests {
-    use super::quicksort_slice;
-    use crate::test_utilities::run_all_sorting_tests;
+    use crate::test_utilities;
 
     #[test]
     fn test_quicksort_slice() {
-        run_all_sorting_tests(quicksort_slice);
+        test_utilities::run_all_sorting_tests(super::quicksort_slice);
     }
 }

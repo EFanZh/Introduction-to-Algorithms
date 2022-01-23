@@ -28,10 +28,9 @@ pub fn find_maximum_subarray_linear_time<T: Clone + Ord + Zero>(a: &[T]) -> (usi
 #[cfg(test)]
 mod tests {
     use super::super::super::tests::run_find_maximum_subarray_test_cases;
-    use super::find_maximum_subarray_linear_time;
 
     #[test]
     fn test_find_maximum_subarray_linear_time() {
-        run_find_maximum_subarray_test_cases(find_maximum_subarray_linear_time);
+        run_find_maximum_subarray_test_cases(super::find_maximum_subarray_linear_time);
     }
 }

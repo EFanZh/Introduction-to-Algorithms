@@ -17,11 +17,10 @@ pub fn bubble_sort<T: Ord + Clone>(a: &mut [T]) {
 
 #[cfg(test)]
 mod tests {
-    use super::bubble_sort;
-    use crate::test_utilities::run_all_sorting_tests;
+    use crate::test_utilities;
 
     #[test]
     fn test_bubble_sort() {
-        run_all_sorting_tests(bubble_sort);
+        test_utilities::run_all_sorting_tests(super::bubble_sort);
     }
 }

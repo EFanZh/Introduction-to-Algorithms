@@ -86,7 +86,7 @@ pub fn dfs(g: &[Vec<usize>]) -> Vec<Attribute> {
 
 #[cfg(test)]
 mod tests {
-    use super::{dfs, Attribute, Color};
+    use super::{Attribute, Color};
 
     pub fn run_dfs_test(mut f: impl FnMut(&[Vec<usize>]) -> Vec<Attribute>) {
         #[allow(trivial_casts)]
@@ -126,6 +126,6 @@ mod tests {
 
     #[test]
     fn test_dfs() {
-        run_dfs_test(dfs);
+        run_dfs_test(super::dfs);
     }
 }

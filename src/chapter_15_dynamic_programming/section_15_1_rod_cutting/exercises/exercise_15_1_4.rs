@@ -51,41 +51,42 @@ pub fn memoized_cut_rod_with_solution(p: &[u32]) -> (u32, Box<[usize]>) {
 
 #[cfg(test)]
 mod tests {
-    use super::memoized_cut_rod_with_solution;
-
     #[test]
     fn test_memoized_cut_rod_with_solution() {
-        assert_eq!(memoized_cut_rod_with_solution(&[]), (0, vec![].into()));
-        assert_eq!(memoized_cut_rod_with_solution(&[1]), (1, vec![1].into()));
-        assert_eq!(memoized_cut_rod_with_solution(&[1, 5]), (5, vec![2].into()));
-        assert_eq!(memoized_cut_rod_with_solution(&[1, 5, 8]), (8, vec![3].into()));
-        assert_eq!(memoized_cut_rod_with_solution(&[1, 5, 8, 9]), (10, vec![2, 2].into()));
+        assert_eq!(super::memoized_cut_rod_with_solution(&[]), (0, vec![].into()));
+        assert_eq!(super::memoized_cut_rod_with_solution(&[1]), (1, vec![1].into()));
+        assert_eq!(super::memoized_cut_rod_with_solution(&[1, 5]), (5, vec![2].into()));
+        assert_eq!(super::memoized_cut_rod_with_solution(&[1, 5, 8]), (8, vec![3].into()));
+        assert_eq!(
+            super::memoized_cut_rod_with_solution(&[1, 5, 8, 9]),
+            (10, vec![2, 2].into())
+        );
 
         assert_eq!(
-            memoized_cut_rod_with_solution(&[1, 5, 8, 9, 10]),
+            super::memoized_cut_rod_with_solution(&[1, 5, 8, 9, 10]),
             (13, vec![2, 3].into())
         );
         assert_eq!(
-            memoized_cut_rod_with_solution(&[1, 5, 8, 9, 10, 17]),
+            super::memoized_cut_rod_with_solution(&[1, 5, 8, 9, 10, 17]),
             (17, vec![6].into())
         );
 
         assert_eq!(
-            memoized_cut_rod_with_solution(&[1, 5, 8, 9, 10, 17, 17]),
+            super::memoized_cut_rod_with_solution(&[1, 5, 8, 9, 10, 17, 17]),
             (18, vec![1, 6].into())
         );
         assert_eq!(
-            memoized_cut_rod_with_solution(&[1, 5, 8, 9, 10, 17, 17, 20]),
+            super::memoized_cut_rod_with_solution(&[1, 5, 8, 9, 10, 17, 17, 20]),
             (22, vec![2, 6].into())
         );
 
         assert_eq!(
-            memoized_cut_rod_with_solution(&[1, 5, 8, 9, 10, 17, 17, 20, 24]),
+            super::memoized_cut_rod_with_solution(&[1, 5, 8, 9, 10, 17, 17, 20, 24]),
             (25, vec![3, 6].into())
         );
 
         assert_eq!(
-            memoized_cut_rod_with_solution(&[1, 5, 8, 9, 10, 17, 17, 20, 24, 30]),
+            super::memoized_cut_rod_with_solution(&[1, 5, 8, 9, 10, 17, 17, 20, 24, 30]),
             (30, vec![10].into())
         );
     }

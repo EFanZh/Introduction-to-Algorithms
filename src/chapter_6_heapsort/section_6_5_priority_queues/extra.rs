@@ -1,5 +1,4 @@
-use super::exercises::exercise_6_5_3::{heap_extract_min, heap_minimum, min_heap_insert};
-use super::{heap_extract_max, heap_maximum, max_heap_insert};
+use super::exercises::exercise_6_5_3;
 
 pub trait MaxPriorityQueue<T> {
     fn empty(&self) -> bool;
@@ -40,15 +39,15 @@ impl<T: Ord> MaxPriorityQueue<T> for VecMaxPriorityQueue<T> {
     }
 
     fn insert(&mut self, x: T) {
-        max_heap_insert(&mut self.a, x);
+        super::max_heap_insert(&mut self.a, x);
     }
 
     fn maximum(&self) -> &T {
-        heap_maximum(&self.a)
+        super::heap_maximum(&self.a)
     }
 
     fn extract_max(&mut self) -> T {
-        heap_extract_max(&mut self.a)
+        super::heap_extract_max(&mut self.a)
     }
 
     fn length(&self) -> usize {
@@ -79,15 +78,15 @@ impl<T: Ord> MinPriorityQueue<T> for VecMinPriorityQueue<T> {
     }
 
     fn insert(&mut self, x: T) {
-        min_heap_insert(&mut self.a, x);
+        exercise_6_5_3::min_heap_insert(&mut self.a, x);
     }
 
     fn minimum(&self) -> &T {
-        heap_minimum(&self.a)
+        exercise_6_5_3::heap_minimum(&self.a)
     }
 
     fn extract_min(&mut self) -> T {
-        heap_extract_min(&mut self.a)
+        exercise_6_5_3::heap_extract_min(&mut self.a)
     }
 
     fn length(&self) -> usize {

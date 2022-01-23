@@ -1,5 +1,5 @@
 use super::section_7_1_description_of_quicksort::partition;
-use rand::{thread_rng, Rng};
+use rand::Rng;
 
 // Randomized-Partition(A, p, r)
 //
@@ -8,7 +8,7 @@ use rand::{thread_rng, Rng};
 // 3  return Partition(A, p, r)
 
 pub fn randomized_partition<T: Ord>(a: &mut [T], p: usize, r: usize) -> usize {
-    let i = thread_rng().gen_range(p..r);
+    let i = rand::thread_rng().gen_range(p..r);
 
     a.swap(r - 1, i);
 
@@ -33,11 +33,10 @@ pub fn randomized_quicksort<T: Ord>(a: &mut [T], p: usize, r: usize) {
 
 #[cfg(test)]
 mod tests {
-    use super::randomized_quicksort;
-    use crate::test_utilities::run_all_sorting_tests;
+    use crate::test_utilities;
 
     #[test]
     fn test_randomized_quicksort() {
-        run_all_sorting_tests(|a| randomized_quicksort(a, 0, a.len()));
+        test_utilities::run_all_sorting_tests(|a| super::randomized_quicksort(a, 0, a.len()));
     }
 }

@@ -36,13 +36,13 @@ pub fn schedule_task(tasks: &[Task]) -> Box<[usize]> {
 
 #[cfg(test)]
 mod tests {
-    use super::{schedule_task, Task};
+    use super::Task;
 
     #[test]
     fn test_schedule_task() {
         let tasks = [(4, 70), (2, 60), (4, 50), (3, 40), (1, 30), (4, 20), (6, 10)];
 
-        let result = schedule_task(
+        let result = super::schedule_task(
             &tasks
                 .iter()
                 .copied()

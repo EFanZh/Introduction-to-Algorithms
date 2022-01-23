@@ -12,10 +12,8 @@ pub fn solve() -> Box<[u8]> {
 
 #[cfg(test)]
 mod tests {
-    use super::solve;
-
     #[test]
     fn test_solve() {
-        assert_eq!(*solve(), [1, 0, 0, 1, 1, 0]);
+        assert_eq!(*super::solve(), [1, 0, 0, 1, 1, 0]);
     }
 }

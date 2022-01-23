@@ -31,7 +31,6 @@ pub fn right_rotate<T>(x_rc: &mut Rc<RefCell<RedBlackTreeNode<T>>>) {
 #[cfg(test)]
 mod tests {
     use super::super::super::super::section_13_1_properties_of_red_black_trees::{self, Color, RedBlackTreeNode};
-    use super::right_rotate;
     use std::cell::RefCell;
     use std::rc::Rc;
 
@@ -49,7 +48,7 @@ mod tests {
             make_node(5, None, None),
         );
 
-        right_rotate(&mut tree);
+        super::right_rotate(&mut tree);
 
         assert_eq!(
             tree,

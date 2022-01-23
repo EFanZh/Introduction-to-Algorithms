@@ -1,4 +1,4 @@
-use super::section_6_1_heaps::{left, right};
+use super::section_6_1_heaps;
 
 pub mod exercises;
 
@@ -17,8 +17,8 @@ pub mod exercises;
 
 pub fn max_heapify<T: Ord>(a: &mut [T], i: usize) {
     let heap_size = a.len();
-    let l = left(i);
-    let r = right(i);
+    let l = section_6_1_heaps::left(i);
+    let r = section_6_1_heaps::right(i);
     let mut largest = if l < heap_size && a[l] > a[i] { l } else { i };
 
     if r < heap_size && a[r] > a[largest] {
@@ -34,8 +34,6 @@ pub fn max_heapify<T: Ord>(a: &mut [T], i: usize) {
 
 #[cfg(test)]
 mod tests {
-    use super::max_heapify;
-
     pub fn run_max_heapify_test_cases<F: Fn(&mut [i32], usize)>(f: F) {
         let run_single_test = |a: &mut [i32], i, b: &[i32]| {
             f(a, i);
@@ -58,6 +56,6 @@ mod tests {
 
     #[test]
     fn test_max_heapify() {
-        run_max_heapify_test_cases(max_heapify);
+        run_max_heapify_test_cases(super::max_heapify);
     }
 }

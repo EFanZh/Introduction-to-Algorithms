@@ -68,12 +68,10 @@ pub fn schedule<R: Ord>(requests: &[R], cache_size: usize) -> Box<[Option<&R>]> 
 
 #[cfg(test)]
 mod tests {
-    use super::schedule;
-
     #[test]
     fn test_schedule() {
         fn run_test(requests: &str, cache_size: usize, expected_result: &[Option<char>]) {
-            let result = schedule(&requests.chars().collect::<Box<_>>(), cache_size)
+            let result = super::schedule(&requests.chars().collect::<Box<_>>(), cache_size)
                 .into_vec()
                 .into_iter()
                 .map(Option::<&char>::copied)

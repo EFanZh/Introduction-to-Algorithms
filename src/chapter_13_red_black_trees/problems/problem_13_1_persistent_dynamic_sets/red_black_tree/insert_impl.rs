@@ -151,7 +151,6 @@ pub fn persistent_red_black_tree_insert<K: Ord, V>(
 mod tests {
     use super::super::tests::{black, black_leaf, red, red_leaf};
     use super::super::{BlackNode, RedBlackTree};
-    use super::persistent_red_black_tree_insert;
     use std::rc::Rc;
 
     fn insert<K: Ord, V, T: Into<RedBlackTree<K, V>>>(
@@ -159,7 +158,7 @@ mod tests {
         key: K,
         value: V,
     ) -> (Rc<BlackNode<K, V>>, Option<Rc<V>>) {
-        persistent_red_black_tree_insert(&tree.into(), key.into(), value.into())
+        super::persistent_red_black_tree_insert(&tree.into(), key.into(), value.into())
     }
 
     #[test]

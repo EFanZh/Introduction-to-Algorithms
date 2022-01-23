@@ -56,7 +56,6 @@ pub fn square_adjacency_matrix(matrix: &Array2<bool>) -> Array2<bool> {
 
 #[cfg(test)]
 mod tests {
-    use super::{square_adjacency_list, square_adjacency_matrix};
     use std::collections::HashMap;
 
     #[test]
@@ -73,7 +72,7 @@ mod tests {
         )];
 
         for (graph, expected) in test_cases {
-            let mut result = square_adjacency_list(
+            let mut result = super::square_adjacency_list(
                 &graph
                     .iter()
                     .copied()
@@ -107,7 +106,7 @@ mod tests {
         )];
 
         for (matrix, expected) in test_cases.iter().cloned() {
-            assert_eq!(square_adjacency_matrix(&matrix), expected);
+            assert_eq!(super::square_adjacency_matrix(&matrix), expected);
         }
     }
 }

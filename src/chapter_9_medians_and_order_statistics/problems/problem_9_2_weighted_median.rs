@@ -36,12 +36,10 @@ pub fn weighted_median<T: Ord + Clone, F: FnMut(&T) -> f64>(a: &mut [T], f: F) -
 
 #[cfg(test)]
 mod tests {
-    use super::weighted_median;
-
     #[test]
     fn test_weighted_median() {
         fn run_one_test<F: FnMut(i32) -> f64>(a: &mut [i32], mut f: F, expected_result: i32) {
-            assert_eq!(*weighted_median(a, |&x| f(x)), expected_result);
+            assert_eq!(*super::weighted_median(a, |&x| f(x)), expected_result);
         }
 
         run_one_test(&mut [7], |_| 1.0, 7);

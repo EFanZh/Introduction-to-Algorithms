@@ -93,13 +93,13 @@ pub fn print_lcs<T: Clone>(b: &[Arrow], x: &[T], i: usize, j: usize) -> Box<[T]>
 
 #[cfg(test)]
 mod tests {
-    use super::{lcs_length, print_lcs, Arrow};
+    use super::Arrow;
 
     #[test]
     fn test_lcs_length() {
         use Arrow::{Left, Up, UpLeft};
 
-        let (c, b) = lcs_length(b"ABCBDAB", b"BDCABA");
+        let (c, b) = super::lcs_length(b"ABCBDAB", b"BDCABA");
 
         let expected_c: &[usize] = &[
             0, 0, 0, 0, 0, 0, 0, //
@@ -132,8 +132,8 @@ mod tests {
         let x = b"ABCBDAB";
         let y = b"BDCABA";
 
-        let (_, b) = lcs_length(x, y);
+        let (_, b) = super::lcs_length(x, y);
 
-        assert_eq!(*print_lcs(&b, x, x.len(), y.len()), *b"BCBA");
+        assert_eq!(*super::print_lcs(&b, x, x.len(), y.len()), *b"BCBA");
     }
 }

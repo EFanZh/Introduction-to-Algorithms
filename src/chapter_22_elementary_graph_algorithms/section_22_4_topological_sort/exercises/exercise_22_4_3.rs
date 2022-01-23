@@ -29,8 +29,6 @@ pub fn has_cycle(graph: &[Vec<usize>]) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use super::has_cycle;
-
     #[test]
     fn test_has_cycle() {
         #[allow(trivial_casts)]
@@ -54,7 +52,7 @@ mod tests {
 
         for (graph, expected) in test_cases {
             assert_eq!(
-                has_cycle(graph.iter().map(|node| node.to_vec()).collect::<Box<_>>().as_ref()),
+                super::has_cycle(graph.iter().map(|node| node.to_vec()).collect::<Box<_>>().as_ref()),
                 expected
             );
         }

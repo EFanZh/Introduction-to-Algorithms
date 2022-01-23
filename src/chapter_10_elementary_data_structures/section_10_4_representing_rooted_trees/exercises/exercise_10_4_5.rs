@@ -42,7 +42,6 @@ pub fn iterate_tree<T, F: FnMut(&T)>(root: &Option<Rc<UnboundedBranchingTreeNode
 #[cfg(test)]
 mod tests {
     use super::super::super::UnboundedBranchingTreeNode;
-    use super::iterate_tree;
     use crate::make_unbounded_branching_tree;
     use std::collections::HashSet;
     use std::iter;
@@ -53,7 +52,7 @@ mod tests {
     fn run_single_tests<I: IntoIterator<Item = i32>>(root: &MaybeNode<i32>, result: I) {
         let mut collected_elements = HashSet::new();
 
-        iterate_tree(root, |&key| {
+        super::iterate_tree(root, |&key| {
             collected_elements.insert(key);
         });
 

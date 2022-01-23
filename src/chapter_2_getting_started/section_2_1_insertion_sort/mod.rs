@@ -31,11 +31,10 @@ pub fn insertion_sort<T: Ord + Clone>(a: &mut [T]) {
 
 #[cfg(test)]
 mod tests {
-    use super::insertion_sort;
-    use crate::test_utilities::run_all_sorting_tests;
+    use crate::test_utilities;
 
     #[test]
     fn test_insertion_sort() {
-        run_all_sorting_tests(insertion_sort);
+        test_utilities::run_all_sorting_tests(super::insertion_sort);
     }
 }

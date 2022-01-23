@@ -364,7 +364,7 @@ pub fn remove<K: Borrow<Q>, V, Q: Ord + ?Sized>(
 
 #[cfg(test)]
 mod tests {
-    use super::{insert, insert_no_adjust, into_node_iter, rebalance, remove, remove_no_adjust, Node};
+    use super::Node;
 
     macro_rules! make_tree {
         () => {
@@ -391,7 +391,7 @@ mod tests {
 
         for (tree, expected) in test_cases.iter().cloned() {
             assert_eq!(
-                into_node_iter(tree)
+                super::into_node_iter(tree)
                     .map(|node: Box<Node<i32, i32>>| (node.key, node.value))
                     .collect::<Box<_>>()
                     .as_ref(),
@@ -414,7 +414,7 @@ mod tests {
         ];
 
         for (mut tree, expcted) in test_cases.iter().cloned() {
-            rebalance(&mut tree);
+            super::rebalance(&mut tree);
 
             assert_eq!(tree, expcted);
         }
@@ -430,7 +430,7 @@ mod tests {
         ];
 
         for ((mut tree, key, value), (expected_value, expected_tree)) in test_cases.iter().cloned() {
-            assert_eq!(insert_no_adjust(&mut tree, key, value), expected_value);
+            assert_eq!(super::insert_no_adjust(&mut tree, key, value), expected_value);
             assert_eq!(tree, expected_tree);
         }
     }
@@ -461,7 +461,7 @@ mod tests {
         ];
 
         for ((mut tree, balance_factor, key, value), (expected_value, expected_tree)) in test_cases.iter().cloned() {
-            assert_eq!(insert(&mut tree, balance_factor, key, value), expected_value);
+            assert_eq!(super::insert(&mut tree, balance_factor, key, value), expected_value);
             assert_eq!(tree, expected_tree);
         }
     }
@@ -492,7 +492,7 @@ mod tests {
         ];
 
         for ((mut tree, key), (expected_value, expected_tree)) in test_cases.iter().cloned() {
-            assert_eq!(remove_no_adjust(&mut tree, &key), expected_value);
+            assert_eq!(super::remove_no_adjust(&mut tree, &key), expected_value);
             assert_eq!(tree, expected_tree);
         }
     }
@@ -549,7 +549,7 @@ mod tests {
         ];
 
         for ((mut tree, balabce_factor, key), (expected_value, expected_tree)) in test_cases.iter().cloned() {
-            assert_eq!(remove(&mut tree, balabce_factor, &key), expected_value);
+            assert_eq!(super::remove(&mut tree, balabce_factor, &key), expected_value);
             assert_eq!(tree, expected_tree);
         }
     }
@@ -613,7 +613,7 @@ mod tests {
         ];
 
         for ((mut tree, balabce_factor, key), (expected_value, expected_tree)) in test_cases.iter().cloned() {
-            assert_eq!(remove(&mut tree, balabce_factor, &key), expected_value);
+            assert_eq!(super::remove(&mut tree, balabce_factor, &key), expected_value);
             assert_eq!(tree, expected_tree);
         }
     }

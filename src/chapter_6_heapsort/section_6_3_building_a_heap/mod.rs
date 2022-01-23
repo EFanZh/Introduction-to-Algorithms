@@ -21,8 +21,7 @@ pub fn build_min_heap<T: Ord>(a: &mut [T]) {
 
 #[cfg(test)]
 mod tests {
-    use super::{build_max_heap, build_min_heap};
-    use crate::test_utilities::{is_max_heap, is_min_heap};
+    use crate::test_utilities;
 
     #[test]
     fn test_build_max_heap() {
@@ -30,9 +29,9 @@ mod tests {
             let mut a_1 = a.to_vec();
             let mut a_2 = a_1.clone();
 
-            build_max_heap(&mut a_1);
+            super::build_max_heap(&mut a_1);
 
-            assert!(is_max_heap(&a_1));
+            assert!(test_utilities::is_max_heap(&a_1));
 
             a_1.sort_unstable();
             a_2.sort_unstable();
@@ -74,9 +73,9 @@ mod tests {
             let mut a_1 = a.to_vec();
             let mut a_2 = a_1.clone();
 
-            build_min_heap(&mut a_1);
+            super::build_min_heap(&mut a_1);
 
-            assert!(is_min_heap(&a_1));
+            assert!(test_utilities::is_min_heap(&a_1));
 
             a_1.sort_unstable();
             a_2.sort_unstable();

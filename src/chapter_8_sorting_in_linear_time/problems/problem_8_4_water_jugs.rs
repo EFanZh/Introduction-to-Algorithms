@@ -1,6 +1,6 @@
 use crate::chapter_7_quicksort::section_7_1_description_of_quicksort::extra::partition_by_key;
 use rand::seq::SliceRandom;
-use rand::{thread_rng, Rng};
+use rand::Rng;
 
 pub fn group_water_jugs<T, U>(red_water_jugs: &mut [T], blue_water_jugs: &mut [U])
 where
@@ -23,31 +23,34 @@ where
         }
     }
 
-    helper(red_water_jugs, blue_water_jugs, &mut thread_rng());
+    helper(red_water_jugs, blue_water_jugs, &mut rand::thread_rng());
 }
 
 #[cfg(test)]
 mod tests {
-    use super::group_water_jugs;
-    use crate::test_utilities::{assign_vec, assign_vec_from_iter};
+    use crate::test_utilities;
     use rand::seq::SliceRandom;
-    use rand::{thread_rng, Rng};
+    use rand::Rng;
     use std::iter;
 
     #[test]
     fn test_group_water_jugs() {
         let mut red_water_jugs = Vec::new();
         let mut blue_water_jugs = Vec::new();
-        let mut rng = thread_rng();
+        let mut rng = rand::thread_rng();
 
         for n in 0_usize..10 {
             for _ in 0..(1 << n) {
-                assign_vec_from_iter(&mut red_water_jugs, iter::repeat_with(|| rng.gen_range(0..n)).take(n));
-                assign_vec(&mut blue_water_jugs, &red_water_jugs);
+                test_utilities::assign_vec_from_iter(
+                    &mut red_water_jugs,
+                    iter::repeat_with(|| rng.gen_range(0..n)).take(n),
+                );
+
+                test_utilities::assign_vec(&mut blue_water_jugs, &red_water_jugs);
 
                 blue_water_jugs.shuffle(&mut rng);
 
-                group_water_jugs(&mut red_water_jugs, &mut blue_water_jugs);
+                super::group_water_jugs(&mut red_water_jugs, &mut blue_water_jugs);
 
                 assert_eq!(red_water_jugs, blue_water_jugs);
             }

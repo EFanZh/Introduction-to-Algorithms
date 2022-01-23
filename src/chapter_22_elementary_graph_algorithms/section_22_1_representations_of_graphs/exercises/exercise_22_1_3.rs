@@ -29,7 +29,6 @@ pub fn transpose_adjacency_matrix<T: Clone>(matrix: &Array2<T>) -> Array2<T> {
 
 #[cfg(test)]
 mod tests {
-    use super::{transpose_adjacency_list, transpose_adjacency_matrix};
     use std::collections::HashMap;
 
     #[test]
@@ -47,7 +46,7 @@ mod tests {
         ];
 
         for (graph, expected) in test_cases {
-            let mut result = transpose_adjacency_list(
+            let mut result = super::transpose_adjacency_list(
                 &graph
                     .iter()
                     .copied()
@@ -77,7 +76,7 @@ mod tests {
         ];
 
         for (matrix, expected) in test_cases.iter().cloned() {
-            assert_eq!(transpose_adjacency_matrix(&matrix), expected);
+            assert_eq!(super::transpose_adjacency_matrix(&matrix), expected);
         }
     }
 }

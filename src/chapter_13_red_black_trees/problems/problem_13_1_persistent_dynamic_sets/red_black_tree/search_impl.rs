@@ -40,12 +40,11 @@ pub fn persistent_red_black_tree_search<'a, K: Borrow<Q>, V, Q: Ord + ?Sized>(
 mod tests {
     use super::super::tests::{black, black_leaf, red, red_leaf};
     use super::super::{BlackNode, RedBlackTree};
-    use super::persistent_red_black_tree_search;
     use std::borrow::Borrow;
     use std::rc::Rc;
 
     fn search<K: Borrow<Q>, V, T: Into<RedBlackTree<K, V>>, Q: Ord>(tree: T, key: &Q) -> Option<Rc<V>> {
-        persistent_red_black_tree_search(&tree.into(), key).cloned()
+        super::persistent_red_black_tree_search(&tree.into(), key).cloned()
     }
 
     #[test]

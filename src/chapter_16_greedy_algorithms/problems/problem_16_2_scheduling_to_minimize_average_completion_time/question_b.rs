@@ -119,7 +119,7 @@ pub fn schedule_tasks(tasks: &[Task]) -> Box<[ScheduleItem]> {
 
 #[cfg(test)]
 mod tests {
-    use super::{schedule_tasks, ScheduleItem, Task};
+    use super::{ScheduleItem, Task};
 
     #[test]
     fn test_schedule_tasks() {
@@ -132,7 +132,7 @@ mod tests {
                 })
                 .collect::<Box<_>>();
 
-            let result = schedule_tasks(&tasks);
+            let result = super::schedule_tasks(&tasks);
 
             assert_eq!(*result, *expected);
         }

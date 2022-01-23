@@ -70,18 +70,16 @@ pub fn min_heap_insert<T: Ord>(a: &mut Vec<T>, key: T) {
 
 #[cfg(test)]
 mod tests {
-    use super::{heap_decrease_key, heap_extract_min, heap_minimum, min_heap_insert};
-
     #[test]
     fn test_heap_minimum() {
-        assert_eq!(heap_minimum(&[1]), &1);
-        assert_eq!(heap_minimum(&[1, 2, 3]), &1);
+        assert_eq!(super::heap_minimum(&[1]), &1);
+        assert_eq!(super::heap_minimum(&[1, 2, 3]), &1);
     }
 
     #[test]
     fn test_heap_extract_min() {
         fn run_single_test(mut a: Vec<i32>, expected_value: i32, expected_heap: &[i32]) {
-            assert_eq!(heap_extract_min(&mut a), expected_value);
+            assert_eq!(super::heap_extract_min(&mut a), expected_value);
             assert_eq!(a.as_slice(), expected_heap);
         }
 
@@ -100,7 +98,7 @@ mod tests {
     #[test]
     fn test_heap_decrease_key() {
         fn run_single_test(mut a: Vec<i32>, i: usize, key: i32, expected: &[i32]) {
-            heap_decrease_key(&mut a, i, key);
+            super::heap_decrease_key(&mut a, i, key);
 
             assert_eq!(a.as_slice(), expected);
         }
@@ -129,7 +127,7 @@ mod tests {
     #[test]
     fn test_min_heap_insert() {
         fn run_single_test(mut a: Vec<i32>, key: i32, expected: &[i32]) {
-            min_heap_insert(&mut a, key);
+            super::min_heap_insert(&mut a, key);
 
             assert_eq!(a.as_slice(), expected);
         }

@@ -130,7 +130,7 @@ pub fn get_edge_types_undirected(graph: &[Vec<usize>]) -> Vec<((usize, usize), E
 
 #[cfg(test)]
 mod tests {
-    use super::{get_edge_types_directed, get_edge_types_undirected, EdgeType};
+    use super::EdgeType;
 
     #[test]
     fn test_get_edge_types_directed() {
@@ -161,7 +161,7 @@ mod tests {
 
         for (graph, expected) in test_cases {
             assert_eq!(
-                get_edge_types_directed(graph.iter().map(|node| node.to_vec()).collect::<Box<_>>().as_ref()),
+                super::get_edge_types_directed(graph.iter().map(|node| node.to_vec()).collect::<Box<_>>().as_ref()),
                 expected
             );
         }
@@ -193,7 +193,7 @@ mod tests {
 
         for (graph, expected) in test_cases {
             assert_eq!(
-                get_edge_types_undirected(graph.iter().map(|node| node.to_vec()).collect::<Box<_>>().as_ref()),
+                super::get_edge_types_undirected(graph.iter().map(|node| node.to_vec()).collect::<Box<_>>().as_ref()),
                 expected
             );
         }

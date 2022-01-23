@@ -119,61 +119,60 @@ pub fn tree_successor<T: Ord>(mut x: Rc<BinaryTreeNode<T>>) -> Option<Rc<BinaryT
 
 #[cfg(test)]
 mod tests {
-    use super::{iterative_tree_search, tree_maximum, tree_minimum, tree_search, tree_successor};
     use crate::{make_simple_tree, make_tree};
 
     #[test]
     fn test_tree_search() {
-        assert!(tree_search(&None, &4).is_none());
+        assert!(super::tree_search(&None, &4).is_none());
 
         let tree_1 = &make_simple_tree![1];
 
-        assert!(tree_search(tree_1, &0).is_none());
-        assert_eq!(tree_search(tree_1, &1).unwrap().key, 1);
-        assert!(tree_search(tree_1, &4).is_none());
+        assert!(super::tree_search(tree_1, &0).is_none());
+        assert_eq!(super::tree_search(tree_1, &1).unwrap().key, 1);
+        assert!(super::tree_search(tree_1, &4).is_none());
 
         let tree_2 = &make_simple_tree![(5, 2, 8)];
 
-        assert!(tree_search(tree_2, &1).is_none());
-        assert_eq!(tree_search(tree_2, &2).unwrap().key, 2);
-        assert!(tree_search(tree_2, &3).is_none());
-        assert_eq!(tree_search(tree_2, &5).unwrap().key, 5);
-        assert!(tree_search(tree_2, &7).is_none());
-        assert_eq!(tree_search(tree_2, &8).unwrap().key, 8);
-        assert!(tree_search(tree_2, &10).is_none());
+        assert!(super::tree_search(tree_2, &1).is_none());
+        assert_eq!(super::tree_search(tree_2, &2).unwrap().key, 2);
+        assert!(super::tree_search(tree_2, &3).is_none());
+        assert_eq!(super::tree_search(tree_2, &5).unwrap().key, 5);
+        assert!(super::tree_search(tree_2, &7).is_none());
+        assert_eq!(super::tree_search(tree_2, &8).unwrap().key, 8);
+        assert!(super::tree_search(tree_2, &10).is_none());
     }
 
     #[test]
     fn test_iterative_tree_search() {
-        assert!(iterative_tree_search(&None, &4).is_none());
+        assert!(super::iterative_tree_search(&None, &4).is_none());
 
         let tree_1 = &make_simple_tree![1];
 
-        assert!(iterative_tree_search(tree_1, &0).is_none());
-        assert_eq!(iterative_tree_search(tree_1, &1).unwrap().key, 1);
-        assert!(iterative_tree_search(tree_1, &4).is_none());
+        assert!(super::iterative_tree_search(tree_1, &0).is_none());
+        assert_eq!(super::iterative_tree_search(tree_1, &1).unwrap().key, 1);
+        assert!(super::iterative_tree_search(tree_1, &4).is_none());
 
         let tree_2 = &make_simple_tree![(5, 2, 8)];
 
-        assert!(iterative_tree_search(tree_2, &1).is_none());
-        assert_eq!(iterative_tree_search(tree_2, &2).unwrap().key, 2);
-        assert!(iterative_tree_search(tree_2, &3).is_none());
-        assert_eq!(iterative_tree_search(tree_2, &5).unwrap().key, 5);
-        assert!(iterative_tree_search(tree_2, &7).is_none());
-        assert_eq!(iterative_tree_search(tree_2, &8).unwrap().key, 8);
-        assert!(iterative_tree_search(tree_2, &10).is_none());
+        assert!(super::iterative_tree_search(tree_2, &1).is_none());
+        assert_eq!(super::iterative_tree_search(tree_2, &2).unwrap().key, 2);
+        assert!(super::iterative_tree_search(tree_2, &3).is_none());
+        assert_eq!(super::iterative_tree_search(tree_2, &5).unwrap().key, 5);
+        assert!(super::iterative_tree_search(tree_2, &7).is_none());
+        assert_eq!(super::iterative_tree_search(tree_2, &8).unwrap().key, 8);
+        assert!(super::iterative_tree_search(tree_2, &10).is_none());
     }
 
     #[test]
     fn test_tree_minimum() {
-        assert_eq!(tree_minimum(&make_simple_tree![1].unwrap()).key, 1);
-        assert_eq!(tree_minimum(&make_simple_tree![(5, 2, 8)].unwrap()).key, 2);
+        assert_eq!(super::tree_minimum(&make_simple_tree![1].unwrap()).key, 1);
+        assert_eq!(super::tree_minimum(&make_simple_tree![(5, 2, 8)].unwrap()).key, 2);
     }
 
     #[test]
     fn test_tree_maximum() {
-        assert_eq!(tree_maximum(&make_simple_tree![1].unwrap()).key, 1);
-        assert_eq!(tree_maximum(&make_simple_tree![(5, 2, 8)].unwrap()).key, 8);
+        assert_eq!(super::tree_maximum(&make_simple_tree![1].unwrap()).key, 1);
+        assert_eq!(super::tree_maximum(&make_simple_tree![(5, 2, 8)].unwrap()).key, 8);
     }
 
     #[test]
@@ -183,9 +182,9 @@ mod tests {
         let right = root.get_right_child().clone().unwrap();
         let right_right = right.get_right_child().clone().unwrap();
 
-        assert_eq!(*tree_successor(left).as_ref().unwrap().get_key(), 5);
-        assert_eq!(*tree_successor(right).as_ref().unwrap().get_key(), 8);
-        assert!(tree_successor(right_right).is_none());
-        assert_eq!(*tree_successor(root).as_ref().unwrap().get_key(), 6);
+        assert_eq!(*super::tree_successor(left).as_ref().unwrap().get_key(), 5);
+        assert_eq!(*super::tree_successor(right).as_ref().unwrap().get_key(), 8);
+        assert!(super::tree_successor(right_right).is_none());
+        assert_eq!(*super::tree_successor(root).as_ref().unwrap().get_key(), 6);
     }
 }

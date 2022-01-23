@@ -50,8 +50,6 @@ pub fn schedule_activities(activities: &[(u64, u64)]) -> Box<[usize]> {
 
 #[cfg(test)]
 pub mod tests {
-    use super::schedule_activities;
-
     #[test]
     fn test_schedule_activities() {
         #[allow(trivial_casts)]
@@ -76,7 +74,7 @@ pub mod tests {
         ];
 
         for (activities, expected_result) in test_cases {
-            assert_eq!(*schedule_activities(activities), *expected_result);
+            assert_eq!(*super::schedule_activities(activities), *expected_result);
         }
     }
 }

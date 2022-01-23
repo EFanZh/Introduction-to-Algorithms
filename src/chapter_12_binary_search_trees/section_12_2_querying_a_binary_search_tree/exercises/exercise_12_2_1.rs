@@ -20,10 +20,8 @@ pub fn is_valid_search_sequence<'a, T: Ord>(values: &'a [T], mut min_value: &'a 
 
 #[cfg(test)]
 mod tests {
-    use super::is_valid_search_sequence;
-
     fn is_valid_i32_search_sequence(values: &[i32]) -> bool {
-        is_valid_search_sequence(values, &i32::MIN, &i32::MAX)
+        super::is_valid_search_sequence(values, &i32::MIN, &i32::MAX)
     }
 
     #[test]

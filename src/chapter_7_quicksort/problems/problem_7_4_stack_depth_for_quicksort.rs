@@ -44,16 +44,15 @@ pub fn tail_recursive_quicksort_limited_stack_depth<T: Ord>(a: &mut [T], mut p: 
 
 #[cfg(test)]
 mod tests {
-    use super::{tail_recursive_quicksort, tail_recursive_quicksort_limited_stack_depth};
-    use crate::test_utilities::run_all_sorting_tests;
+    use crate::test_utilities;
 
     #[test]
     fn test_tail_recursive_quicksort() {
-        run_all_sorting_tests(|a| tail_recursive_quicksort(a, 0, a.len()));
+        test_utilities::run_all_sorting_tests(|a| super::tail_recursive_quicksort(a, 0, a.len()));
     }
 
     #[test]
     fn test_tail_recursive_quicksort_limited_stack_depth() {
-        run_all_sorting_tests(|a| tail_recursive_quicksort_limited_stack_depth(a, 0, a.len()));
+        test_utilities::run_all_sorting_tests(|a| super::tail_recursive_quicksort_limited_stack_depth(a, 0, a.len()));
     }
 }

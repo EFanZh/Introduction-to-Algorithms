@@ -17,10 +17,10 @@ pub fn insertion_sort_reversed<T: Ord + Clone>(a: &mut [T]) {
 
 #[cfg(test)]
 mod tests {
+    use crate::test_utilities;
+
     #[test]
     fn test_exercise_insertion_sort_reversed() {
-        super::super::super::super::super::test_utilities::run_all_reverse_sorting_tests(
-            super::insertion_sort_reversed,
-        );
+        test_utilities::run_all_reverse_sorting_tests(super::insertion_sort_reversed);
     }
 }

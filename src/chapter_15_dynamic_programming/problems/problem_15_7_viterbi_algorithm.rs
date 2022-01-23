@@ -116,7 +116,7 @@ pub fn get_most_probable_path<T: Eq + Hash + Clone, S: Eq, H: BuildHasher + Defa
 
 #[cfg(test)]
 mod tests {
-    use super::{get_most_probable_path, Edge, Error};
+    use super::{Edge, Error};
     use std::collections::HashMap;
 
     // https://en.wikipedia.org/wiki/Viterbi_algorithm.
@@ -234,7 +234,7 @@ mod tests {
     fn test_get_most_probable_path_ok() {
         let graph = get_graph();
 
-        let (actual_states, actual_probability) = get_most_probable_path(
+        let (actual_states, actual_probability) = super::get_most_probable_path(
             &graph,
             &State::Start,
             &[
@@ -255,7 +255,7 @@ mod tests {
     #[test]
     fn test_get_most_probable_path_err() {
         let graph = get_graph();
-        let result = get_most_probable_path(&graph, &State::Start, &[Observation::None, Observation::None]);
+        let result = super::get_most_probable_path(&graph, &State::Start, &[Observation::None, Observation::None]);
 
         assert_eq!(result, Err(Error::NoSuchPath));
     }

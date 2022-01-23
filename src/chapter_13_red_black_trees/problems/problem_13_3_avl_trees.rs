@@ -117,7 +117,7 @@ pub fn avl_insert<K: Ord, V>(tree: &mut Tree<K, V>, key: K, value: V) -> Option<
 
 #[cfg(test)]
 mod tests {
-    use super::{avl_insert, get_height, Node, Tree};
+    use super::{Node, Tree};
 
     trait IntoTree<K, V> {
         fn into_tree(self) -> Tree<K, V>;
@@ -128,7 +128,7 @@ mod tests {
             let (key, value, left, right) = self;
             let left = left.into_tree();
             let right = right.into_tree();
-            let height = get_height(&left).max(get_height(&right)) + 1;
+            let height = super::get_height(&left).max(super::get_height(&right)) + 1;
 
             Some(Box::new(Node {
                 key,
@@ -161,7 +161,7 @@ mod tests {
     }
 
     fn insert(mut tree: Tree<i32, i32>, key: i32, value: i32) -> (Tree<i32, i32>, Option<i32>) {
-        let result = avl_insert(&mut tree, key, value);
+        let result = super::avl_insert(&mut tree, key, value);
 
         (tree, result)
     }

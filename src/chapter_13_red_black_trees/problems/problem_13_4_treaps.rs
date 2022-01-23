@@ -75,7 +75,7 @@ pub fn treap_insert<K: Ord, V>(tree: &mut Tree<K, V>, key: K, value: V) -> Optio
 
 #[cfg(test)]
 mod tests {
-    use super::{treap_insert, treap_insert_helper, Node, Tree};
+    use super::{Node, Tree};
 
     trait IntoTree<K, V> {
         fn into_tree(self) -> Tree<K, V>;
@@ -118,7 +118,7 @@ mod tests {
     }
 
     fn insert(mut tree: Tree<i32, i32>, key: i32, value: i32, priority: usize) -> (Tree<i32, i32>, Option<i32>) {
-        let result = treap_insert_helper(&mut tree, key, value, priority).1;
+        let result = super::treap_insert_helper(&mut tree, key, value, priority).1;
 
         (tree, result)
     }
@@ -182,7 +182,7 @@ mod tests {
     fn test_treap_insert() {
         let mut tree = None;
 
-        treap_insert(&mut tree, 4, 3);
+        super::treap_insert(&mut tree, 4, 3);
 
         match tree {
             None => unreachable!(),

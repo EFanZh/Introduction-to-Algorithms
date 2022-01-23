@@ -53,11 +53,10 @@ pub fn quicksort<T: Ord>(a: &mut [T], p: usize, r: usize) {
 
 #[cfg(test)]
 mod tests {
-    use super::quicksort;
-    use crate::test_utilities::run_all_sorting_tests;
+    use crate::test_utilities;
 
     #[test]
     fn test_quicksort() {
-        run_all_sorting_tests(|a| quicksort(a, 0, a.len()));
+        test_utilities::run_all_sorting_tests(|a| super::quicksort(a, 0, a.len()));
     }
 }

@@ -24,8 +24,6 @@ pub fn has_universal_sink(matrix: &Array2<bool>) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use super::has_universal_sink;
-
     #[test]
     fn test_has_universal_sink() {
         let test_cases = [
@@ -50,7 +48,7 @@ mod tests {
         ];
 
         for (matrix, expected) in test_cases.iter().cloned() {
-            assert_eq!(has_universal_sink(&matrix), expected);
+            assert_eq!(super::has_universal_sink(&matrix), expected);
         }
     }
 }

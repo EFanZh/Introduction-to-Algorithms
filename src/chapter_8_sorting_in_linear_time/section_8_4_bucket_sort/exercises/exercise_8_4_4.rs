@@ -21,35 +21,34 @@ pub fn bucker_sort_points(a: &mut [(f64, f64)]) {
 
 #[cfg(test)]
 mod tests {
-    use super::{bucker_sort_points, magnitude2};
-    use crate::test_utilities::{assign_vec, assign_vec_from_iter};
-    use rand::{thread_rng, Rng};
+    use crate::test_utilities;
+    use rand::Rng;
     use std::iter;
 
     #[test]
     fn test_bucket_sort_points() {
         let mut a = Vec::new();
         let mut b = Vec::new();
-        let mut rng = thread_rng();
+        let mut rng = rand::thread_rng();
 
         for n in 0_usize..10 {
             for _ in 0..(1 << n) {
-                assign_vec_from_iter(
+                test_utilities::assign_vec_from_iter(
                     &mut a,
                     iter::repeat_with(|| (rng.gen(), rng.gen()))
                         .filter(|p| {
-                            let r2 = magnitude2(p);
+                            let r2 = super::magnitude2(p);
 
                             r2 > 0.0 && r2 <= 1.0
                         })
                         .take(n),
                 );
 
-                assign_vec(&mut b, &a);
+                test_utilities::assign_vec(&mut b, &a);
 
-                bucker_sort_points(&mut b);
+                super::bucker_sort_points(&mut b);
 
-                a.sort_unstable_by(|lhs, rhs| magnitude2(lhs).partial_cmp(&magnitude2(rhs)).unwrap());
+                a.sort_unstable_by(|lhs, rhs| super::magnitude2(lhs).partial_cmp(&super::magnitude2(rhs)).unwrap());
 
                 assert_eq!(a, b);
             }

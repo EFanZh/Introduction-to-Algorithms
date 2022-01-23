@@ -91,7 +91,6 @@ pub fn tree_delete<T>(z: &mut Option<Box<SimpleBinaryTreeNode<T>>>) {
 
 #[cfg(test)]
 mod tests {
-    use super::{tree_delete, tree_insert};
     use crate::chapter_10_elementary_data_structures::section_10_4_representing_rooted_trees::SimpleBinaryTreeNode;
     use crate::make_simple_tree;
 
@@ -127,13 +126,13 @@ mod tests {
 
     #[test]
     fn test_tree_insert() {
-        run_tree_insert_test_cases(tree_insert);
+        run_tree_insert_test_cases(super::tree_insert);
     }
 
     #[test]
     fn test_tree_delete() {
         fn delete(mut node: Option<Box<SimpleBinaryTreeNode<i32>>>) -> Option<Box<SimpleBinaryTreeNode<i32>>> {
-            tree_delete(&mut node);
+            super::tree_delete(&mut node);
 
             node
         }

@@ -43,11 +43,9 @@ pub fn break_string(length: usize, break_points: &[usize]) -> (usize, Box<[usize
 
 #[cfg(test)]
 mod tests {
-    use super::break_string;
-
     #[test]
     fn test_break_string() {
-        let (cost, break_sequence) = break_string(20, &[2, 8, 10]);
+        let (cost, break_sequence) = super::break_string(20, &[2, 8, 10]);
 
         assert_eq!(cost, 38);
         assert_eq!(*break_sequence, [10, 2, 8]);
@@ -55,7 +53,7 @@ mod tests {
 
     #[test]
     fn test_break_string_no_break() {
-        let (cost, break_sequence) = break_string(20, &[]);
+        let (cost, break_sequence) = super::break_string(20, &[]);
 
         assert_eq!(cost, 0);
         assert_eq!(*break_sequence, []);
@@ -63,7 +61,7 @@ mod tests {
 
     #[test]
     fn test_break_string_one_break() {
-        let (cost, break_sequence) = break_string(20, &[7]);
+        let (cost, break_sequence) = super::break_string(20, &[7]);
 
         assert_eq!(cost, 20);
         assert_eq!(*break_sequence, [7]);

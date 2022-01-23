@@ -24,28 +24,27 @@ pub fn bucket_sort_by<T: Clone, F: FnMut(&T) -> usize, G: FnMut(&T, &T) -> Order
 
 #[cfg(test)]
 mod tests {
-    use super::bucket_sort_by;
-    use crate::test_utilities::{assign_vec, assign_vec_from_iter};
-    use rand::{thread_rng, Rng};
+    use crate::test_utilities;
+    use rand::Rng;
     use std::iter;
 
     #[test]
     fn test_bucket_sort_by() {
         let mut a = Vec::<f64>::new();
         let mut b = Vec::new();
-        let mut rng = thread_rng();
+        let mut rng = rand::thread_rng();
 
         for n in 0_usize..10 {
             for _ in 0..(1 << n) {
-                assign_vec_from_iter(&mut a, iter::repeat_with(|| rng.gen()).take(n));
-                assign_vec(&mut b, &a);
+                test_utilities::assign_vec_from_iter(&mut a, iter::repeat_with(|| rng.gen()).take(n));
+                test_utilities::assign_vec(&mut b, &a);
 
                 #[allow(
                     clippy::cast_possible_truncation,
                     clippy::cast_precision_loss,
                     clippy::cast_sign_loss
                 )]
-                bucket_sort_by(
+                super::bucket_sort_by(
                     &mut b,
                     |x| ((n as f64) * x) as usize,
                     |lhs, rhs| lhs.partial_cmp(rhs).unwrap(),

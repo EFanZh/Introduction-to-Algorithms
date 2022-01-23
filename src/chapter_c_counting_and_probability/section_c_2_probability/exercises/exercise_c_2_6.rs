@@ -24,8 +24,7 @@ pub fn flip_coin_2<C: FnMut() -> bool>(mut fair_coin: C, a: i32, b: i32) -> bool
 
 #[cfg(test)]
 mod tests {
-    use super::{flip_coin, flip_coin_2};
-    use rand::{thread_rng, Rng};
+    use rand::Rng;
     use std::convert::{TryFrom, TryInto};
     use std::iter;
 
@@ -49,17 +48,17 @@ mod tests {
 
     #[test]
     fn test_flip_coin() {
-        let mut rng = thread_rng();
+        let mut rng = rand::thread_rng();
         let mut fair_coin = || rng.gen();
 
-        run_test_flip_coin(|a, b| flip_coin(&mut fair_coin, a, b));
+        run_test_flip_coin(|a, b| super::flip_coin(&mut fair_coin, a, b));
     }
 
     #[test]
     fn test_flip_coin_2() {
-        let mut rng = thread_rng();
+        let mut rng = rand::thread_rng();
         let mut fair_coin = || rng.gen();
 
-        run_test_flip_coin(|a, b| flip_coin_2(&mut fair_coin, a, b));
+        run_test_flip_coin(|a, b| super::flip_coin_2(&mut fair_coin, a, b));
     }
 }

@@ -23,7 +23,6 @@ pub fn print_lcs_2<T: Clone + Eq>(c: &[usize], x: &[T], y: &[T]) -> Box<[T]> {
 #[cfg(test)]
 mod tests {
     use super::super::super::lcs_length;
-    use super::print_lcs_2;
 
     #[test]
     fn test_print_lcs_2() {
@@ -32,6 +31,6 @@ mod tests {
 
         let (c, _) = lcs_length(x, y);
 
-        assert_eq!(*print_lcs_2(&c, x, y), *b"BCBA");
+        assert_eq!(*super::print_lcs_2(&c, x, y), *b"BCBA");
     }
 }

@@ -34,10 +34,9 @@ pub fn randomized_select<T: Ord>(a: &mut [T], p: usize, r: usize, i: usize) -> &
 #[cfg(test)]
 mod tests {
     use super::super::tests::run_all_select_test_cases;
-    use super::randomized_select;
 
     #[test]
     fn test_randomized_select() {
-        run_all_select_test_cases(randomized_select);
+        run_all_select_test_cases(super::randomized_select);
     }
 }

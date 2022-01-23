@@ -164,8 +164,6 @@ pub fn print_cut_rod_solution(p: &[u32]) -> Box<[usize]> {
 
 #[cfg(test)]
 mod tests {
-    use super::{bottom_up_cut_rod, cut_rod, extended_bottom_up_cut_rod, memoized_cut_rod, print_cut_rod_solution};
-
     fn run_cut_rod_tests<F: FnMut(&[u32]) -> u32>(mut f: F) {
         assert_eq!(f(&[]), 0);
         assert_eq!(f(&[1]), 1);
@@ -182,51 +180,54 @@ mod tests {
 
     #[test]
     fn test_cut_rod() {
-        run_cut_rod_tests(cut_rod);
+        run_cut_rod_tests(super::cut_rod);
     }
 
     #[test]
     fn test_memoized_cut_rod() {
-        run_cut_rod_tests(memoized_cut_rod);
+        run_cut_rod_tests(super::memoized_cut_rod);
     }
 
     #[test]
     fn test_bottom_up_cut_rod() {
-        run_cut_rod_tests(bottom_up_cut_rod);
+        run_cut_rod_tests(super::bottom_up_cut_rod);
     }
 
     #[test]
     fn test_extended_bottom_up_cut_rod() {
-        assert_eq!(extended_bottom_up_cut_rod(&[]), (vec![0].into(), vec![].into()));
-        assert_eq!(extended_bottom_up_cut_rod(&[1]), (vec![0, 1].into(), vec![1].into()));
+        assert_eq!(super::extended_bottom_up_cut_rod(&[]), (vec![0].into(), vec![].into()));
+        assert_eq!(
+            super::extended_bottom_up_cut_rod(&[1]),
+            (vec![0, 1].into(), vec![1].into())
+        );
 
         assert_eq!(
-            extended_bottom_up_cut_rod(&[1, 5]),
+            super::extended_bottom_up_cut_rod(&[1, 5]),
             (vec![0, 1, 5].into(), vec![1, 2].into())
         );
 
         assert_eq!(
-            extended_bottom_up_cut_rod(&[1, 5, 8]),
+            super::extended_bottom_up_cut_rod(&[1, 5, 8]),
             (vec![0, 1, 5, 8].into(), vec![1, 2, 3].into())
         );
 
         assert_eq!(
-            extended_bottom_up_cut_rod(&[1, 5, 8, 9]),
+            super::extended_bottom_up_cut_rod(&[1, 5, 8, 9]),
             (vec![0, 1, 5, 8, 10].into(), vec![1, 2, 3, 2].into())
         );
 
         assert_eq!(
-            extended_bottom_up_cut_rod(&[1, 5, 8, 9, 10]),
+            super::extended_bottom_up_cut_rod(&[1, 5, 8, 9, 10]),
             (vec![0, 1, 5, 8, 10, 13].into(), vec![1, 2, 3, 2, 2].into())
         );
 
         assert_eq!(
-            extended_bottom_up_cut_rod(&[1, 5, 8, 9, 10, 17]),
+            super::extended_bottom_up_cut_rod(&[1, 5, 8, 9, 10, 17]),
             (vec![0, 1, 5, 8, 10, 13, 17].into(), vec![1, 2, 3, 2, 2, 6].into())
         );
 
         assert_eq!(
-            extended_bottom_up_cut_rod(&[1, 5, 8, 9, 10, 17, 17]),
+            super::extended_bottom_up_cut_rod(&[1, 5, 8, 9, 10, 17, 17]),
             (
                 vec![0, 1, 5, 8, 10, 13, 17, 18].into(),
                 vec![1, 2, 3, 2, 2, 6, 1].into()
@@ -234,7 +235,7 @@ mod tests {
         );
 
         assert_eq!(
-            extended_bottom_up_cut_rod(&[1, 5, 8, 9, 10, 17, 17, 20]),
+            super::extended_bottom_up_cut_rod(&[1, 5, 8, 9, 10, 17, 17, 20]),
             (
                 vec![0, 1, 5, 8, 10, 13, 17, 18, 22].into(),
                 vec![1, 2, 3, 2, 2, 6, 1, 2].into()
@@ -242,7 +243,7 @@ mod tests {
         );
 
         assert_eq!(
-            extended_bottom_up_cut_rod(&[1, 5, 8, 9, 10, 17, 17, 20, 24]),
+            super::extended_bottom_up_cut_rod(&[1, 5, 8, 9, 10, 17, 17, 20, 24]),
             (
                 vec![0, 1, 5, 8, 10, 13, 17, 18, 22, 25].into(),
                 vec![1, 2, 3, 2, 2, 6, 1, 2, 3].into()
@@ -250,7 +251,7 @@ mod tests {
         );
 
         assert_eq!(
-            extended_bottom_up_cut_rod(&[1, 5, 8, 9, 10, 17, 17, 20, 24, 30]),
+            super::extended_bottom_up_cut_rod(&[1, 5, 8, 9, 10, 17, 17, 20, 24, 30]),
             (
                 vec![0, 1, 5, 8, 10, 13, 17, 18, 22, 25, 30].into(),
                 vec![1, 2, 3, 2, 2, 6, 1, 2, 3, 10].into()
@@ -260,23 +261,31 @@ mod tests {
 
     #[test]
     fn test_print_cut_rod_solution() {
-        assert_eq!(print_cut_rod_solution(&[]), vec![].into());
-        assert_eq!(print_cut_rod_solution(&[1]), vec![1].into());
-        assert_eq!(print_cut_rod_solution(&[1, 5]), vec![2].into());
-        assert_eq!(print_cut_rod_solution(&[1, 5, 8]), vec![3].into());
-        assert_eq!(print_cut_rod_solution(&[1, 5, 8, 9]), vec![2, 2].into());
-        assert_eq!(print_cut_rod_solution(&[1, 5, 8, 9, 10]), vec![2, 3].into());
-        assert_eq!(print_cut_rod_solution(&[1, 5, 8, 9, 10, 17]), vec![6].into());
-        assert_eq!(print_cut_rod_solution(&[1, 5, 8, 9, 10, 17, 17]), vec![1, 6].into());
-        assert_eq!(print_cut_rod_solution(&[1, 5, 8, 9, 10, 17, 17, 20]), vec![2, 6].into());
+        assert_eq!(super::print_cut_rod_solution(&[]), vec![].into());
+        assert_eq!(super::print_cut_rod_solution(&[1]), vec![1].into());
+        assert_eq!(super::print_cut_rod_solution(&[1, 5]), vec![2].into());
+        assert_eq!(super::print_cut_rod_solution(&[1, 5, 8]), vec![3].into());
+        assert_eq!(super::print_cut_rod_solution(&[1, 5, 8, 9]), vec![2, 2].into());
+        assert_eq!(super::print_cut_rod_solution(&[1, 5, 8, 9, 10]), vec![2, 3].into());
+        assert_eq!(super::print_cut_rod_solution(&[1, 5, 8, 9, 10, 17]), vec![6].into());
 
         assert_eq!(
-            print_cut_rod_solution(&[1, 5, 8, 9, 10, 17, 17, 20, 24]),
+            super::print_cut_rod_solution(&[1, 5, 8, 9, 10, 17, 17]),
+            vec![1, 6].into()
+        );
+
+        assert_eq!(
+            super::print_cut_rod_solution(&[1, 5, 8, 9, 10, 17, 17, 20]),
+            vec![2, 6].into()
+        );
+
+        assert_eq!(
+            super::print_cut_rod_solution(&[1, 5, 8, 9, 10, 17, 17, 20, 24]),
             vec![3, 6].into()
         );
 
         assert_eq!(
-            print_cut_rod_solution(&[1, 5, 8, 9, 10, 17, 17, 20, 24, 30]),
+            super::print_cut_rod_solution(&[1, 5, 8, 9, 10, 17, 17, 20, 24, 30]),
             vec![10].into()
         );
     }

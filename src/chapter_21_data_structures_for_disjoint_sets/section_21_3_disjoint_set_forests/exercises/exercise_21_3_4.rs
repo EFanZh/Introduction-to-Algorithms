@@ -77,7 +77,7 @@ pub fn print_set<T>(x: &Rc<Node<T>>, mut f: impl FnMut(&T)) {
 
 #[cfg(test)]
 mod tests {
-    use super::{find_set, make_set, print_set, union, Node};
+    use super::Node;
     use std::collections::{HashMap, HashSet};
     use std::rc::Rc;
 
@@ -89,7 +89,7 @@ mod tests {
 
     #[test]
     fn test_make_set() {
-        let result = make_set(1);
+        let result = super::make_set(1);
 
         assert_eq!(result.value, 1);
         assert!(result.parent.take().is_none());
@@ -139,10 +139,12 @@ mod tests {
             for operation in operations {
                 match operation {
                     MakeSet(value) => {
-                        environment.insert(value, make_set(value));
+                        environment.insert(value, super::make_set(value));
                     }
-                    Union(x, y) => union(&environment[x], &environment[y]),
-                    FindSet(value, expected_root) => assert_eq!(find_set(&environment[value]).value, expected_root),
+                    Union(x, y) => super::union(&environment[x], &environment[y]),
+                    FindSet(value, expected_root) => {
+                        assert_eq!(super::find_set(&environment[value]).value, expected_root);
+                    }
                 }
             }
         }
@@ -153,7 +155,7 @@ mod tests {
         fn collect_set(x: &Rc<Node<i32>>) -> HashSet<i32> {
             let mut result = HashSet::new();
 
-            print_set(x, |value| {
+            super::print_set(x, |value| {
                 result.insert(*value);
             });
 
@@ -164,22 +166,22 @@ mod tests {
             values.iter().copied().collect()
         }
 
-        let x = make_set(2);
+        let x = super::make_set(2);
 
         assert_eq!(collect_set(&x), array_to_hash_set(&[2]));
 
-        let y = make_set(3);
+        let y = super::make_set(3);
 
         assert_eq!(collect_set(&y), array_to_hash_set(&[3]));
 
-        union(&x, &y);
+        super::union(&x, &y);
 
         assert_eq!(collect_set(&x), array_to_hash_set(&[2, 3]));
         assert_eq!(collect_set(&y), array_to_hash_set(&[2, 3]));
 
-        let z = make_set(5);
+        let z = super::make_set(5);
 
-        union(&x, &z);
+        super::union(&x, &z);
 
         assert_eq!(collect_set(&x), array_to_hash_set(&[2, 3, 5]));
         assert_eq!(collect_set(&y), array_to_hash_set(&[2, 3, 5]));

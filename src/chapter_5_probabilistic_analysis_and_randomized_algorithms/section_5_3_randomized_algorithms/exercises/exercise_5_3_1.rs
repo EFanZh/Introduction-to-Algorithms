@@ -1,9 +1,9 @@
-use rand::{thread_rng, Rng};
+use rand::Rng;
 
 pub fn randomize_in_place<T>(a: &mut [T]) {
     if a.len() > 1 {
         let n = a.len();
-        let mut rng = thread_rng();
+        let mut rng = rand::thread_rng();
 
         a.swap(0, rng.gen_range(0..n));
 

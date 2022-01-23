@@ -65,24 +65,23 @@ pub fn minimum_and_maximum<T: Ord>(a: &[T]) -> (&T, &T) {
 
 #[cfg(test)]
 mod tests {
-    use super::{minimum, minimum_and_maximum};
-    use crate::test_utilities::loop_on_all_unordered_sequences;
+    use crate::test_utilities;
 
     #[test]
     fn test_minimum() {
-        loop_on_all_unordered_sequences(|sequence, sorted_sequence| {
+        test_utilities::loop_on_all_unordered_sequences(|sequence, sorted_sequence| {
             if let Some(expected_minimum) = sorted_sequence.first() {
-                assert_eq!(minimum(sequence), expected_minimum);
+                assert_eq!(super::minimum(sequence), expected_minimum);
             }
         });
     }
 
     #[test]
     fn test_minimum_and_maximum() {
-        loop_on_all_unordered_sequences(|sequence, sorted_sequence| {
+        test_utilities::loop_on_all_unordered_sequences(|sequence, sorted_sequence| {
             if let Some(expected_minimum) = sorted_sequence.first() {
                 if let Some(expected_maximum) = sorted_sequence.last() {
-                    let (minimum, maximum) = minimum_and_maximum(sequence);
+                    let (minimum, maximum) = super::minimum_and_maximum(sequence);
 
                     assert_eq!(minimum, expected_minimum);
                     assert_eq!(maximum, expected_maximum);

@@ -29,10 +29,8 @@ pub fn memoized_lcs_length<T: Eq>(x: &[T], y: &[T]) -> usize {
 
 #[cfg(test)]
 mod tests {
-    use super::memoized_lcs_length;
-
     #[test]
     fn test_memoized_lcs_length() {
-        assert_eq!(memoized_lcs_length(b"ABCBDAB", b"BDCABA"), 4);
+        assert_eq!(super::memoized_lcs_length(b"ABCBDAB", b"BDCABA"), 4);
     }
 }

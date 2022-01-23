@@ -22,7 +22,6 @@ pub fn normalize<T: Hash + Eq + Clone, S: BuildHasher + Clone>(graph: &HashMap<T
 
 #[cfg(test)]
 mod tests {
-    use super::normalize;
     use std::collections::HashMap;
 
     #[test]
@@ -34,7 +33,7 @@ mod tests {
         )];
 
         for (graph, expected) in test_cases {
-            let mut result = normalize(
+            let mut result = super::normalize(
                 &graph
                     .iter()
                     .copied()

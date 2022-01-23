@@ -47,14 +47,14 @@ pub fn select_items(items: &[Item], capacity: usize) -> (u64, Box<[usize]>) {
 
 #[cfg(test)]
 mod tests {
-    use super::{select_items, Item};
+    use super::Item;
 
     #[test]
     fn test_select_items() {
         let items_data = [(60, 10), (100, 20), (120, 30)];
         let capacity = 50;
 
-        let (total_value, selected_items) = select_items(
+        let (total_value, selected_items) = super::select_items(
             &items_data
                 .iter()
                 .map(|&(value, weight)| Item { value, weight })

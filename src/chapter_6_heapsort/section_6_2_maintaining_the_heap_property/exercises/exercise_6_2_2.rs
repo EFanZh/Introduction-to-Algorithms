@@ -1,9 +1,9 @@
-use super::super::super::section_6_1_heaps::{left, right};
+use super::super::super::section_6_1_heaps;
 
 pub fn min_heapify<T: Ord>(a: &mut [T], i: usize) {
     let heap_size = a.len();
-    let l = left(i);
-    let r = right(i);
+    let l = section_6_1_heaps::left(i);
+    let r = section_6_1_heaps::right(i);
     let mut smallest = if l < heap_size && a[l] < a[i] { l } else { i };
 
     if r < heap_size && a[r] < a[smallest] {
@@ -21,8 +21,8 @@ pub fn min_heapify_iterative<T: Ord>(a: &mut [T], mut i: usize) {
     let heap_size = a.len();
 
     loop {
-        let l = left(i);
-        let r = right(i);
+        let l = section_6_1_heaps::left(i);
+        let r = section_6_1_heaps::right(i);
         let mut smallest = if l < heap_size && a[l] < a[i] { l } else { i };
 
         if r < heap_size && a[r] < a[smallest] {
@@ -41,8 +41,6 @@ pub fn min_heapify_iterative<T: Ord>(a: &mut [T], mut i: usize) {
 
 #[cfg(test)]
 mod tests {
-    use super::{min_heapify, min_heapify_iterative};
-
     pub fn run_min_heapify_test_cases<F: Fn(&mut [i32], usize)>(f: F) {
         let run_single_test = |a: &mut [i32], i, b: &[i32]| {
             f(a, i);
@@ -59,11 +57,11 @@ mod tests {
 
     #[test]
     fn test_min_heapify() {
-        run_min_heapify_test_cases(min_heapify);
+        run_min_heapify_test_cases(super::min_heapify);
     }
 
     #[test]
     fn test_min_heapify_iterative() {
-        run_min_heapify_test_cases(min_heapify_iterative);
+        run_min_heapify_test_cases(super::min_heapify_iterative);
     }
 }

@@ -103,7 +103,7 @@ pub fn select_items(items: &[Item], capacity: u64) -> Box<[u64]> {
 
 #[cfg(test)]
 mod tests {
-    use super::{select_items, Item};
+    use super::Item;
 
     #[test]
     fn test_select_items() {
@@ -158,7 +158,7 @@ mod tests {
                 .map(|&(value, weight)| Item { value, weight })
                 .collect::<Box<_>>();
 
-            assert_eq!(*select_items(&items, *capacity), **expected);
+            assert_eq!(*super::select_items(&items, *capacity), **expected);
         }
     }
 }

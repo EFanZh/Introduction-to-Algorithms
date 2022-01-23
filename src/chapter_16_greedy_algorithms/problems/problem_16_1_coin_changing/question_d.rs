@@ -52,8 +52,6 @@ pub fn change_coins(coins: &[usize], n: usize) -> Box<[usize]> {
 
 #[cfg(test)]
 mod tests {
-    use super::change_coins;
-
     #[test]
     fn test_change_coins() {
         #[allow(trivial_casts)]
@@ -87,7 +85,7 @@ mod tests {
         ];
 
         for ((coins, n), expected) in test_cases {
-            assert_eq!(*change_coins(coins, n), *expected);
+            assert_eq!(*super::change_coins(coins, n), *expected);
         }
     }
 }

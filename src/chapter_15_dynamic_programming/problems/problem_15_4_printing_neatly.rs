@@ -104,16 +104,14 @@ pub fn layout_paragraph_neatly(words: &[&str], columns: usize) -> Box<[String]> 
 
 #[cfg(test)]
 mod tests {
-    use super::{layout_paragraph_neatly, printing_neatly};
-
     #[test]
     fn test_printing_neatly() {
-        assert_eq!(*printing_neatly(&[], 10), []);
-        assert_eq!(*printing_neatly(&[2], 10), []);
-        assert_eq!(*printing_neatly(&[2, 3], 10), []);
-        assert_eq!(*printing_neatly(&[2, 3, 5], 10), [2]);
-        assert_eq!(*printing_neatly(&[2, 3, 5, 7], 10), [2, 3]);
-        assert_eq!(*printing_neatly(&[2, 3, 5, 7], 7), [2, 3]);
+        assert_eq!(*super::printing_neatly(&[], 10), []);
+        assert_eq!(*super::printing_neatly(&[2], 10), []);
+        assert_eq!(*super::printing_neatly(&[2, 3], 10), []);
+        assert_eq!(*super::printing_neatly(&[2, 3, 5], 10), [2]);
+        assert_eq!(*super::printing_neatly(&[2, 3, 5, 7], 10), [2, 3]);
+        assert_eq!(*super::printing_neatly(&[2, 3, 5, 7], 7), [2, 3]);
     }
 
     const WORDS: &[&str] = &[
@@ -284,7 +282,7 @@ mod tests {
 
     #[test]
     fn test_layout_paragraph_neatly() {
-        let result = layout_paragraph_neatly(WORDS, 60);
+        let result = super::layout_paragraph_neatly(WORDS, 60);
 
         let expected_result = [
             "Consider the problem of neatly printing a paragraph with",

@@ -73,18 +73,16 @@ pub fn max_heap_insert<T: Ord>(a: &mut Vec<T>, key: T) {
 
 #[cfg(test)]
 mod tests {
-    use super::{heap_extract_max, heap_increase_key, heap_maximum, max_heap_insert};
-
     #[test]
     fn test_heap_maximum() {
-        assert_eq!(heap_maximum(&[1]), &1);
-        assert_eq!(heap_maximum(&[3, 2, 1]), &3);
+        assert_eq!(super::heap_maximum(&[1]), &1);
+        assert_eq!(super::heap_maximum(&[3, 2, 1]), &3);
     }
 
     #[test]
     fn test_heap_extract_max() {
         fn run_single_test(mut a: Vec<i32>, expected_value: i32, expected_heap: &[i32]) {
-            assert_eq!(heap_extract_max(&mut a), expected_value);
+            assert_eq!(super::heap_extract_max(&mut a), expected_value);
             assert_eq!(a.as_slice(), expected_heap);
         }
 
@@ -130,13 +128,13 @@ mod tests {
 
     #[test]
     fn test_heap_increase_key() {
-        run_heap_increase_key_test(heap_increase_key);
+        run_heap_increase_key_test(super::heap_increase_key);
     }
 
     #[test]
     fn test_max_heap_insert() {
         fn run_single_test(mut a: Vec<i32>, key: i32, expected: &[i32]) {
-            max_heap_insert(&mut a, key);
+            super::max_heap_insert(&mut a, key);
 
             assert_eq!(a.as_slice(), expected);
         }

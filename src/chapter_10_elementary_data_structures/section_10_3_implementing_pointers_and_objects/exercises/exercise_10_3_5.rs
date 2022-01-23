@@ -87,16 +87,16 @@ pub fn compactify_list<T>(
 
 #[cfg(test)]
 mod tests {
-    use super::{compactify_list, Handle, NIL};
+    use super::Handle;
 
     fn check_doubly_linked_list(prev: &[Handle], next: &[Handle], mut head: Handle) {
-        if head != NIL {
-            assert_eq!(prev[head.0], NIL);
+        if head != super::NIL {
+            assert_eq!(prev[head.0], super::NIL);
 
             loop {
                 let head_next = next[head.0];
 
-                if head_next == NIL {
+                if head_next == super::NIL {
                     break;
                 }
 
@@ -110,7 +110,7 @@ mod tests {
     fn singly_linked_list_to_vec<T: Clone>(key: &[T], next: &[Handle], mut head: Handle) -> Vec<T> {
         let mut result = Vec::new();
 
-        while head != NIL {
+        while head != super::NIL {
             result.push(key[head.0].clone());
 
             head = next[head.0];
@@ -122,7 +122,7 @@ mod tests {
     fn collect_singly_linked_list_handles_sorted(next: &[Handle], mut head: Handle) -> Vec<usize> {
         let mut result = Vec::new();
 
-        while head != NIL {
+        while head != super::NIL {
             result.push(head.0);
 
             head = next[head.0];
@@ -137,7 +137,7 @@ mod tests {
         check_doubly_linked_list(prev, next, l);
 
         let original_elements = singly_linked_list_to_vec(key, next, l);
-        let (new_l, new_f) = compactify_list(key, prev, next, l, f);
+        let (new_l, new_f) = super::compactify_list(key, prev, next, l, f);
 
         // Check doubly linked list property.
 
@@ -165,8 +165,8 @@ mod tests {
         let key = &mut [];
         let prev = &mut [];
         let next = &mut [];
-        let l = NIL;
-        let f = NIL;
+        let l = super::NIL;
+        let f = super::NIL;
 
         run_single_test(key, prev, next, l, f);
     }
@@ -175,8 +175,8 @@ mod tests {
     fn test_compactify_all_free() {
         let key = &mut [0, 0, 0];
         let prev = &mut [Handle(777), Handle(888), Handle(999)];
-        let next = &mut [Handle(1), Handle(2), NIL];
-        let l = NIL;
+        let next = &mut [Handle(1), Handle(2), super::NIL];
+        let l = super::NIL;
         let f = Handle(0);
 
         run_single_test(key, prev, next, l, f);
@@ -185,10 +185,10 @@ mod tests {
     #[test]
     fn test_compactify_all_used() {
         let key = &mut [0, 0, 0];
-        let prev = &mut [NIL, Handle(0), Handle(1)];
-        let next = &mut [Handle(1), Handle(2), NIL];
+        let prev = &mut [super::NIL, Handle(0), Handle(1)];
+        let next = &mut [Handle(1), Handle(2), super::NIL];
         let l = Handle(0);
-        let f = NIL;
+        let f = super::NIL;
 
         run_single_test(key, prev, next, l, f);
     }
@@ -196,8 +196,8 @@ mod tests {
     #[test]
     fn test_compactify_interleave() {
         let key = &mut [2, 3, 5, 7];
-        let prev = &mut [NIL, Handle(789), Handle(0), Handle(456)];
-        let next = &mut [Handle(2), Handle(3), NIL, NIL];
+        let prev = &mut [super::NIL, Handle(789), Handle(0), Handle(456)];
+        let next = &mut [Handle(2), Handle(3), super::NIL, super::NIL];
         let l = Handle(0);
         let f = Handle(1);
 
@@ -207,8 +207,8 @@ mod tests {
     #[test]
     fn test_compactify_interleave_2() {
         let key = &mut [2, 3, 5, 7];
-        let prev = &mut [Handle(789), NIL, Handle(456), Handle(1)];
-        let next = &mut [Handle(2), Handle(3), NIL, NIL];
+        let prev = &mut [Handle(789), super::NIL, Handle(456), Handle(1)];
+        let next = &mut [Handle(2), Handle(3), super::NIL, super::NIL];
         let l = Handle(1);
         let f = Handle(0);
 
@@ -218,8 +218,8 @@ mod tests {
     #[test]
     fn test_compactify_free_at_head() {
         let key = &mut [2, 3, 5, 7, 11];
-        let prev = &mut [Handle(789), Handle(456), NIL, Handle(2), Handle(3)];
-        let next = &mut [NIL, Handle(0), Handle(3), Handle(4), NIL];
+        let prev = &mut [Handle(789), Handle(456), super::NIL, Handle(2), Handle(3)];
+        let next = &mut [super::NIL, Handle(0), Handle(3), Handle(4), super::NIL];
         let l = Handle(2);
         let f = Handle(1);
 

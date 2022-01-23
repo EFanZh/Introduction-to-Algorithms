@@ -156,8 +156,8 @@ pub fn young_tableau_sort<T: Ord + Clone>(a: &mut [T]) {
 
 #[cfg(test)]
 mod tests {
-    use super::{young_tableau_sort, YoungTableau};
-    use crate::test_utilities::run_all_sorting_tests;
+    use super::YoungTableau;
+    use crate::test_utilities;
 
     #[test]
     fn test_young_tableau_insert_and_extract_min() {
@@ -240,6 +240,6 @@ mod tests {
 
     #[test]
     fn test_young_tableau_sort() {
-        run_all_sorting_tests(young_tableau_sort);
+        test_utilities::run_all_sorting_tests(super::young_tableau_sort);
     }
 }

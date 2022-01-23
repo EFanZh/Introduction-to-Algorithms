@@ -51,7 +51,7 @@ pub fn select_activities(activities: &[Activity]) -> (u64, Box<[usize]>) {
 
 #[cfg(test)]
 pub mod tests {
-    use super::{select_activities, Activity};
+    use super::Activity;
 
     #[test]
     fn test_select_activities() {
@@ -78,7 +78,7 @@ pub mod tests {
             })
             .collect::<Box<_>>();
 
-        let (total_value, result) = select_activities(&activities);
+        let (total_value, result) = super::select_activities(&activities);
 
         assert_eq!(total_value, 16);
         assert_eq!(*result, [2, 8, 10]);

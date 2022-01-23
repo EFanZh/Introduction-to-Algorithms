@@ -73,8 +73,6 @@ pub fn strongly_connected_components(g: &[Vec<usize>]) -> Vec<Vec<usize>> {
 
 #[cfg(test)]
 mod tests {
-    use super::strongly_connected_components;
-
     #[test]
     fn test_strongly_connected_components() {
         #[allow(trivial_casts)]
@@ -94,7 +92,7 @@ mod tests {
 
         for (g, expected) in test_cases {
             assert_eq!(
-                strongly_connected_components(g.iter().map(|nexts| nexts.to_vec()).collect::<Box<_>>().as_ref()),
+                super::strongly_connected_components(g.iter().map(|nexts| nexts.to_vec()).collect::<Box<_>>().as_ref()),
                 expected
             );
         }

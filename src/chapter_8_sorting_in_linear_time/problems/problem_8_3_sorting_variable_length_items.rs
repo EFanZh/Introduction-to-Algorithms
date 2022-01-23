@@ -79,9 +79,8 @@ pub fn sort_strings<T: Borrow<[u8]>>(strs: &mut [T]) {
 
 #[cfg(test)]
 mod tests {
-    use super::sort_strings;
-    use crate::test_utilities::{assign_vec, assign_vec_from_iter};
-    use rand::{thread_rng, Rng};
+    use crate::test_utilities;
+    use rand::Rng;
     use std::iter;
 
     #[test]
@@ -94,15 +93,19 @@ mod tests {
 
         let mut a = Vec::new();
         let mut b = Vec::new();
-        let mut rng = thread_rng();
+        let mut rng = rand::thread_rng();
 
         for n in 0_usize..10 {
             for max_length in 0..10 {
                 for _ in 0..(1 << n) {
-                    assign_vec_from_iter(&mut a, iter::repeat_with(|| random_str(max_length, &mut rng)).take(n));
-                    assign_vec(&mut b, &a);
+                    test_utilities::assign_vec_from_iter(
+                        &mut a,
+                        iter::repeat_with(|| random_str(max_length, &mut rng)).take(n),
+                    );
 
-                    sort_strings(&mut a);
+                    test_utilities::assign_vec(&mut b, &a);
+
+                    super::sort_strings(&mut a);
 
                     b.sort_unstable();
 

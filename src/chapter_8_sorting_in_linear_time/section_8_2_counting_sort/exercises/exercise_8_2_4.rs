@@ -37,23 +37,22 @@ pub fn make_range_counter(a: &[usize], k: usize) -> impl Fn(usize, usize) -> usi
 
 #[cfg(test)]
 mod tests {
-    use super::make_range_counter;
-    use crate::test_utilities::assign_vec_from_iter;
-    use rand::{thread_rng, Rng};
+    use crate::test_utilities;
+    use rand::Rng;
     use std::iter;
 
     #[test]
     fn test_make_range_counter() {
         let mut array = Vec::new();
         let mut b = Vec::new();
-        let mut rng = thread_rng();
+        let mut rng = rand::thread_rng();
 
         for n in 0_usize..10 {
             for _ in 0..(1 << n) {
-                assign_vec_from_iter(&mut array, iter::repeat_with(|| rng.gen_range(0..n)).take(n));
+                test_utilities::assign_vec_from_iter(&mut array, iter::repeat_with(|| rng.gen_range(0..n)).take(n));
                 b.resize(n, 0);
 
-                let counter = make_range_counter(&array, n);
+                let counter = super::make_range_counter(&array, n);
 
                 for a in 0..n + 2 {
                     for b in 0..n + 2 {

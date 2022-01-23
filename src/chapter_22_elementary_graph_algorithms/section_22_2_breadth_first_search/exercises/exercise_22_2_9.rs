@@ -51,8 +51,6 @@ pub fn find_path(graph: &[Vec<usize>]) -> Vec<usize> {
 
 #[cfg(test)]
 mod tests {
-    use super::find_path;
-
     #[test]
     fn test_find_path() {
         #[allow(trivial_casts)]
@@ -63,7 +61,7 @@ mod tests {
 
         for (graph, expected) in test_cases {
             assert_eq!(
-                find_path(&graph.iter().map(|edge| edge.to_vec()).collect::<Box<_>>()),
+                super::find_path(&graph.iter().map(|edge| edge.to_vec()).collect::<Box<_>>()),
                 expected
             );
         }

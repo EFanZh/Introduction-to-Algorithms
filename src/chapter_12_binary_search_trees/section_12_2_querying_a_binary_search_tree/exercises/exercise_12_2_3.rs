@@ -34,7 +34,6 @@ pub fn tree_predecessor<T: Ord>(mut x: Rc<BinaryTreeNode<T>>) -> Option<Rc<Binar
 
 #[cfg(test)]
 mod tests {
-    use super::tree_predecessor;
     use crate::make_tree;
 
     #[test]
@@ -44,9 +43,9 @@ mod tests {
         let left_left = left.get_left_child().clone().unwrap();
         let right = root.get_right_child().clone().unwrap();
 
-        assert_eq!(*tree_predecessor(left).as_ref().unwrap().get_key(), 2);
-        assert!(tree_predecessor(left_left).is_none());
-        assert_eq!(*tree_predecessor(right).as_ref().unwrap().get_key(), 5);
-        assert_eq!(*tree_predecessor(root).as_ref().unwrap().get_key(), 4);
+        assert_eq!(*super::tree_predecessor(left).as_ref().unwrap().get_key(), 2);
+        assert!(super::tree_predecessor(left_left).is_none());
+        assert_eq!(*super::tree_predecessor(right).as_ref().unwrap().get_key(), 5);
+        assert_eq!(*super::tree_predecessor(root).as_ref().unwrap().get_key(), 4);
     }
 }

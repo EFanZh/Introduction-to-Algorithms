@@ -22,23 +22,22 @@ pub fn modified_counting_sort(a: &[usize], b: &mut [usize], k: usize) {
 
 #[cfg(test)]
 mod tests {
-    use super::modified_counting_sort;
-    use crate::test_utilities::assign_vec_from_iter;
-    use rand::{thread_rng, Rng};
+    use crate::test_utilities;
+    use rand::Rng;
     use std::iter;
 
     #[test]
     fn test_modified_counting_sort() {
         let mut a = Vec::new();
         let mut b = Vec::new();
-        let mut rng = thread_rng();
+        let mut rng = rand::thread_rng();
 
         for n in 0_usize..10 {
             for _ in 0..(1 << n) {
-                assign_vec_from_iter(&mut a, iter::repeat_with(|| rng.gen_range(0..n)).take(n));
+                test_utilities::assign_vec_from_iter(&mut a, iter::repeat_with(|| rng.gen_range(0..n)).take(n));
                 b.resize(n, 0);
 
-                modified_counting_sort(&a, &mut b, n);
+                super::modified_counting_sort(&a, &mut b, n);
 
                 a.sort_unstable();
 

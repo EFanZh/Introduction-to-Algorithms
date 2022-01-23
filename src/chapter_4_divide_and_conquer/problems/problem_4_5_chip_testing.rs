@@ -64,8 +64,7 @@ pub fn find_one_good_chip<T: Chip>(chips: &[T]) -> Option<&T> {
 
 #[cfg(test)]
 mod tests {
-    use super::{find_one_good_chip, find_one_good_chip_naive, Chip};
-    use rand::random;
+    use super::Chip;
     use rand::seq::SliceRandom;
     use std::iter;
 
@@ -82,7 +81,7 @@ mod tests {
                     TestChip::Good => true,
                     TestChip::Bad => false,
                 },
-                TestChip::Bad => random(),
+                TestChip::Bad => rand::random(),
             }
         }
     }
@@ -118,11 +117,11 @@ mod tests {
 
     #[test]
     fn test_find_one_good_chip_naive() {
-        run_tests(find_one_good_chip_naive);
+        run_tests(super::find_one_good_chip_naive);
     }
 
     #[test]
     fn test_find_one_good_chip() {
-        run_tests(find_one_good_chip);
+        run_tests(super::find_one_good_chip);
     }
 }

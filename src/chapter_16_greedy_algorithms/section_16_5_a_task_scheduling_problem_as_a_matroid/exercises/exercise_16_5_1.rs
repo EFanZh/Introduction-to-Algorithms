@@ -18,11 +18,9 @@ pub fn solve() -> Box<[usize]> {
 
 #[cfg(test)]
 mod tests {
-    use super::solve;
-
     #[test]
     fn test_solve() {
-        let result = solve();
+        let result = super::solve();
 
         assert_eq!(*result, [4, 3, 5, 2, 6, 1, 0]);
     }

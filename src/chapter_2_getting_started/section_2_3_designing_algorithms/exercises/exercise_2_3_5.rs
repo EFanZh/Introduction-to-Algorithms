@@ -178,45 +178,45 @@ mod tests {
         binary_search_recursive_libcxx, binary_search_recursive_non_tail, binary_search_recursive_pointer,
         binary_search_recursive_rust,
     };
-    use crate::test_utilities::run_all_binary_search_tests;
+    use crate::test_utilities;
 
     #[test]
     fn test_binary_search_iterative() {
-        run_all_binary_search_tests(binary_search_iterative);
+        test_utilities::run_all_binary_search_tests(binary_search_iterative);
     }
 
     #[test]
     fn test_binary_search_iterative_libcxx() {
-        run_all_binary_search_tests(binary_search_iterative_libcxx);
+        test_utilities::run_all_binary_search_tests(binary_search_iterative_libcxx);
     }
 
     #[test]
     fn test_binary_search_iterative_rust() {
-        run_all_binary_search_tests(binary_search_iterative_rust);
+        test_utilities::run_all_binary_search_tests(binary_search_iterative_rust);
     }
 
     #[test]
     fn test_binary_search_recursive() {
-        run_all_binary_search_tests(binary_search_recursive);
+        test_utilities::run_all_binary_search_tests(binary_search_recursive);
     }
 
     #[test]
     fn test_binary_search_recursive_non_tail() {
-        run_all_binary_search_tests(binary_search_recursive_non_tail);
+        test_utilities::run_all_binary_search_tests(binary_search_recursive_non_tail);
     }
 
     #[test]
     fn test_binary_search_recursive_pointer() {
-        run_all_binary_search_tests(binary_search_recursive_pointer);
+        test_utilities::run_all_binary_search_tests(binary_search_recursive_pointer);
     }
 
     #[test]
     fn test_binary_search_recursive_libcxx() {
-        run_all_binary_search_tests(binary_search_recursive_libcxx);
+        test_utilities::run_all_binary_search_tests(binary_search_recursive_libcxx);
     }
 
     #[test]
     fn test_binary_search_recursive_rust() {
-        run_all_binary_search_tests(binary_search_recursive_rust);
+        test_utilities::run_all_binary_search_tests(binary_search_recursive_rust);
     }
 }

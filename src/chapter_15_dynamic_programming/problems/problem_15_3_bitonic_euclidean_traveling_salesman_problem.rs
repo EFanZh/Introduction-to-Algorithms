@@ -108,7 +108,7 @@ pub fn shortest_tour(points: &[(f64, f64)]) -> Box<[usize]> {
 
 #[cfg(test)]
 mod tests {
-    use super::{construct_tour, shortest_tour, Choice};
+    use super::Choice;
     use std::iter;
 
     #[test]
@@ -123,7 +123,7 @@ mod tests {
                 .map(|next| Choice { length: 0.0, next })
                 .collect::<Box<_>>();
 
-            assert_eq!(*construct_tour(&indices, &cache), *expected);
+            assert_eq!(*super::construct_tour(&indices, &cache), *expected);
         }
 
         run_test(&[], &[0, 1]);
@@ -141,7 +141,7 @@ mod tests {
     #[test]
     fn test_shortest_tour() {
         fn run_test(points: &[(f64, f64)], expected: &[usize]) {
-            assert_eq!(*shortest_tour(points), *expected);
+            assert_eq!(*super::shortest_tour(points), *expected);
         }
 
         run_test(&[], &[]);

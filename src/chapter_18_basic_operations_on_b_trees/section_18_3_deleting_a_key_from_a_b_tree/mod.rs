@@ -169,7 +169,6 @@ pub fn b_tree_delete<K: Borrow<Q>, V, Q: Ord + ?Sized>(node: &mut Node<K, V>, t:
 #[cfg(test)]
 mod tests {
     use super::super::section_18_1_definition_of_b_trees::tests::make_node;
-    use super::{b_tree_delete, delete_max, delete_min};
 
     #[test]
     fn test_delete_min() {
@@ -218,7 +217,7 @@ mod tests {
         ];
 
         for ((mut node, t), (expected_result, expected_node)) in test_cases.iter().cloned() {
-            assert_eq!(delete_min(&mut node, t), expected_result);
+            assert_eq!(super::delete_min(&mut node, t), expected_result);
             assert_eq!(node, expected_node);
         }
     }
@@ -270,7 +269,7 @@ mod tests {
         ];
 
         for ((mut node, t), (expected_result, expected_node)) in test_cases.iter().cloned() {
-            assert_eq!(delete_max(&mut node, t), expected_result);
+            assert_eq!(super::delete_max(&mut node, t), expected_result);
             assert_eq!(node, expected_node);
         }
     }
@@ -361,7 +360,7 @@ mod tests {
         ];
 
         for ((mut node, t, key), (expected_result, expected_node)) in test_cases.iter().cloned() {
-            assert_eq!(b_tree_delete(&mut node, t, &key), expected_result);
+            assert_eq!(super::b_tree_delete(&mut node, t, &key), expected_result);
             assert_eq!(node, expected_node);
         }
     }
@@ -405,7 +404,7 @@ mod tests {
         ];
 
         for ((mut node, t, key), (expected_result, expected_node)) in test_cases.iter().cloned() {
-            assert_eq!(b_tree_delete(&mut node, t, &key), expected_result);
+            assert_eq!(super::b_tree_delete(&mut node, t, &key), expected_result);
             assert_eq!(node, expected_node);
         }
     }

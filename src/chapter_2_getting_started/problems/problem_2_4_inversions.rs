@@ -57,10 +57,10 @@ pub fn inversions<T: Clone + Ord>(a: &[T]) -> usize {
 
 #[cfg(test)]
 mod tests {
-    use super::inversions;
+    use crate::test_utilities;
 
     #[test]
     fn test_inversions() {
-        super::super::super::super::test_utilities::run_all_num_inversions_tests(inversions);
+        test_utilities::run_all_num_inversions_tests(super::inversions);
     }
 }
