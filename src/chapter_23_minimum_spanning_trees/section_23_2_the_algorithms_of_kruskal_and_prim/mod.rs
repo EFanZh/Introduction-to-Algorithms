@@ -3,6 +3,8 @@ use std::cmp::{Ordering, Reverse};
 use std::collections::BinaryHeap;
 use std::iter;
 
+pub mod exercises;
+
 fn find_set(data: &mut [(usize, usize)], key: usize) -> usize {
     let parent = data[key].0;
 
@@ -157,7 +159,7 @@ mod tests {
     )];
 
     #[track_caller]
-    fn check_result(mut result: Vec<(usize, usize)>, expected: &[(usize, usize)]) {
+    pub fn check_result(mut result: Vec<(usize, usize)>, expected: &[(usize, usize)]) {
         for edge in &mut result {
             if edge.1 < edge.0 {
                 *edge = (edge.1, edge.0);
