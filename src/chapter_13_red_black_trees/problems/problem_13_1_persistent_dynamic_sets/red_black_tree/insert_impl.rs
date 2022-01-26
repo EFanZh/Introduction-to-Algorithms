@@ -149,7 +149,7 @@ pub fn persistent_red_black_tree_insert<K: Ord, V>(
 
 #[cfg(test)]
 mod tests {
-    use super::super::tests::{black, black_leaf, red, red_leaf};
+    use super::super::tests::{black, black_leaf, red, red_leaf}; // TODO: Avoid importing functions directly.
     use super::super::{BlackNode, RedBlackTree};
     use std::rc::Rc;
 

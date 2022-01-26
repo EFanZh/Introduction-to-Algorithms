@@ -1,4 +1,4 @@
-use super::super::extra::bucket_sort_by;
+use super::super::extra;
 use std::cmp::Ordering;
 
 #[allow(
@@ -13,7 +13,7 @@ pub fn bucker_sort_by_probability_distribution<T: Clone, F: FnMut(&T, &T) -> Ord
 ) {
     let n = a.len() as f64;
 
-    bucket_sort_by(a, |x| (n * p(x)).ceil() as usize - 1, compare);
+    extra::bucket_sort_by(a, |x| (n * p(x)).ceil() as usize - 1, compare);
 }
 
 #[cfg(test)]

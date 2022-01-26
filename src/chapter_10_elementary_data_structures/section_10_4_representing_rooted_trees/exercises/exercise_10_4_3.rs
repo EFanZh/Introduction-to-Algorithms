@@ -40,12 +40,12 @@ pub fn iterate_tree_2<T, F: FnMut(&T)>(root: &Option<Rc<BinaryTreeNode<T>>>, mut
 
 #[cfg(test)]
 mod tests {
-    use super::super::exercise_10_4_2::tests::run_iterate_tree_test_cases;
+    use super::super::exercise_10_4_2::tests;
     use std::collections::HashSet;
 
     #[test]
     fn test_iterate_tree_1() {
-        run_iterate_tree_test_cases(|root| {
+        tests::run_iterate_tree_test_cases(|root| {
             let mut result = HashSet::new();
 
             super::iterate_tree_1(root, |key| {
@@ -58,7 +58,7 @@ mod tests {
 
     #[test]
     fn test_iterate_tree_2() {
-        run_iterate_tree_test_cases(|root| {
+        tests::run_iterate_tree_test_cases(|root| {
             let mut result = HashSet::new();
 
             super::iterate_tree_2(root, |key| {

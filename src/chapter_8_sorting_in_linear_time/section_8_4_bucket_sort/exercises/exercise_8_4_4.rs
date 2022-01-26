@@ -1,4 +1,4 @@
-use super::super::extra::bucket_sort_by;
+use super::super::extra;
 
 fn magnitude2((x, y): &(f64, f64)) -> f64 {
     x * x + y * y
@@ -12,7 +12,7 @@ fn magnitude2((x, y): &(f64, f64)) -> f64 {
 pub fn bucker_sort_points(a: &mut [(f64, f64)]) {
     let n = a.len() as f64;
 
-    bucket_sort_by(
+    extra::bucket_sort_by(
         a,
         |p| (n * magnitude2(p)).ceil() as usize - 1,
         |lhs, rhs| magnitude2(lhs).partial_cmp(&magnitude2(rhs)).unwrap(),

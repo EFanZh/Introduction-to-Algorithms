@@ -1,9 +1,8 @@
 use super::super::super::section_18_1_definition_of_b_trees::Node;
-use super::super::{b_tree_create, b_tree_insert};
 
 #[must_use]
 pub fn get_tree() -> Node<char, ()> {
-    let mut result = b_tree_create();
+    let mut result = super::super::b_tree_create();
 
     for key in [
         'F', 'S', 'Q', 'K', 'C', 'L', 'H', 'T', 'V', 'W', 'M', 'R', 'N', 'P', 'A', 'B', 'X', 'Y', 'D', 'Z', 'E',
@@ -11,7 +10,7 @@ pub fn get_tree() -> Node<char, ()> {
     .iter()
     .copied()
     {
-        b_tree_insert(&mut result, 2, key, ());
+        super::super::b_tree_insert(&mut result, 2, key, ());
     }
 
     result

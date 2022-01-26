@@ -1,13 +1,12 @@
-use super::super::optimal_bst;
-use super::exercise_15_5_1::construct_optimal_bst;
+use super::exercise_15_5_1;
 
 #[must_use]
 pub fn solve() -> (f64, Box<[String]>) {
     let p = [0.04, 0.06, 0.08, 0.02, 0.10, 0.12, 0.14];
     let q = [0.06, 0.06, 0.06, 0.06, 0.05, 0.05, 0.05, 0.05];
-    let (e, root) = optimal_bst(&p, &q);
+    let (e, root) = super::super::optimal_bst(&p, &q);
 
-    (e[p.len()], construct_optimal_bst(&root, p.len()))
+    (e[p.len()], exercise_15_5_1::construct_optimal_bst(&root, p.len()))
 }
 
 #[cfg(test)]
