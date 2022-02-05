@@ -72,7 +72,7 @@ impl<T: Ord> YoungTableau<T> {
     }
 
     pub fn insert(&mut self, key: T) {
-        self.data[self.data.len() - 1] = Infinitable::Finity(key);
+        self.data[self.data.len() - 1] = Infinitable::Finite(key);
 
         let mut i = self.get_num_rows() - 1;
         let mut j = self.num_columns - 1;

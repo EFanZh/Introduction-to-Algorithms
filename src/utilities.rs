@@ -1,15 +1,16 @@
 use std::cmp::Ordering;
 use std::mem;
+use std::ops::Add;
 
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Debug)]
-pub enum Infinitable<T: Ord> {
-    Finity(T),
+pub enum Infinitable<T> {
+    Finite(T),
     Infinity,
 }
 
-impl<T: Ord> Infinitable<T> {
+impl<T> Infinitable<T> {
     pub fn replace_with_infinity(&mut self) -> Option<T> {
-        if let Infinitable::Finity(value) = mem::replace(self, Self::Infinity) {
+        if let Infinitable::Finite(value) = mem::replace(self, Self::Infinity) {
             Some(value)
         } else {
             None
@@ -17,28 +18,49 @@ impl<T: Ord> Infinitable<T> {
     }
 }
 
-impl<T: Ord> PartialEq<T> for Infinitable<T> {
+impl<T, U> Add<U> for Infinitable<T>
+where
+    T: Add<U>,
+{
+    type Output = Infinitable<T::Output>;
+
+    fn add(self, rhs: U) -> Self::Output {
+        if let Infinitable::Finite(lhs) = self {
+            Infinitable::Finite(lhs + rhs)
+        } else {
+            Infinitable::Infinity
+        }
+    }
+}
+
+impl<T> PartialEq<T> for Infinitable<T>
+where
+    T: PartialEq,
+{
     fn eq(&self, other: &T) -> bool {
-        if let Infinitable::Finity(lhs) = self {
-            lhs.eq(other)
+        if let Infinitable::Finite(lhs) = self {
+            PartialEq::eq(lhs, other)
         } else {
             false
         }
     }
 }
 
-impl<T: Ord> PartialOrd<T> for Infinitable<T> {
+impl<T> PartialOrd<T> for Infinitable<T>
+where
+    T: PartialOrd,
+{
     fn partial_cmp(&self, other: &T) -> Option<Ordering> {
-        Some(match self {
-            Infinitable::Finity(value) => value.cmp(other),
-            Infinitable::Infinity => Ordering::Greater,
-        })
+        match self {
+            Infinitable::Finite(value) => PartialOrd::partial_cmp(value, other),
+            Infinitable::Infinity => Some(Ordering::Greater),
+        }
     }
 }
 
-impl<T: Ord> From<T> for Infinitable<T> {
+impl<T> From<T> for Infinitable<T> {
     fn from(val: T) -> Self {
-        Self::Finity(val)
+        Self::Finite(val)
     }
 }
 
