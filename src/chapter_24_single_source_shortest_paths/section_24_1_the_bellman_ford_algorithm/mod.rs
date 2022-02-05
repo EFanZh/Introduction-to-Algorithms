@@ -1,6 +1,8 @@
 use crate::utilities::Infinitable;
 use num::Zero;
 
+pub mod exercises;
+
 // Bellman-Ford(G, w, s)
 //
 // 1  Initialize-Single-Source(G, s)
