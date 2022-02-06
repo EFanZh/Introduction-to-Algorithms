@@ -38,7 +38,7 @@ mod tests {
     type States<'a> = &'a [i32];
 
     #[test]
-    fn delta_stars() {
+    fn test_delta_stars() {
         let test_cases: [(Graph, States); 2] = [
             (
                 &[
