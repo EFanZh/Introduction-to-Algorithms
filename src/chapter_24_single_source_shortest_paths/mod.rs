@@ -3,6 +3,7 @@ use num::Zero;
 use std::ops::Add;
 
 pub mod section_24_1_the_bellman_ford_algorithm;
+pub mod section_24_2_single_source_shortest_paths_in_directed_acyclic_graphs;
 
 // Initialize-Single-Source(G, s)
 //
