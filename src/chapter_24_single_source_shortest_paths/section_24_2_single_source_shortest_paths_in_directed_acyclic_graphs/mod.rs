@@ -2,6 +2,8 @@ use crate::chapter_22_elementary_graph_algorithms::section_22_4_topological_sort
 use crate::utilities::Infinitable;
 use num::Zero;
 
+pub mod exercises;
+
 // Dag-Shortest-Paths(G, w, s)
 //
 // 1  topologically sort the vertices of G

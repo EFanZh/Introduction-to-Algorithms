@@ -1,9 +1,9 @@
 use std::collections::VecDeque;
 
-fn initialize_single_source(n: usize, s: usize) -> Vec<(i32, usize)> {
+fn initialize_single_source(n: usize, source: usize) -> Vec<(i32, usize)> {
     let mut result = vec![(i32::MAX, usize::MAX); n];
 
-    result[s].0 = 0;
+    result[source].0 = 0;
 
     result
 }
