@@ -4,6 +4,15 @@ use num::Zero;
 
 pub mod exercises;
 
+pub const FIGURE_24_5: [&[(usize, i32)]; 6] = [
+    &[(1, 5), (2, 3)],
+    &[(2, 2), (3, 6)],
+    &[(3, 7), (4, 4), (5, 2)],
+    &[(4, -1), (5, 1)],
+    &[(5, -2)],
+    &[],
+];
+
 // Dag-Shortest-Paths(G, w, s)
 //
 // 1  topologically sort the vertices of G
@@ -38,17 +47,7 @@ mod tests {
     #[test]
     fn test_dag_shortest_paths() {
         let test_cases: [((Graph, usize), States); 1] = [(
-            (
-                &[
-                    &[(1, 5), (2, 3)],
-                    &[(2, 2), (3, 6)],
-                    &[(3, 7), (4, 4), (5, 2)],
-                    &[(4, -1), (5, 1)],
-                    &[(5, -2)],
-                    &[],
-                ],
-                1,
-            ),
+            (&super::FIGURE_24_5, 1),
             &[
                 (Infinitable::Infinity, usize::MAX),
                 (Infinitable::Finite(0), usize::MAX),

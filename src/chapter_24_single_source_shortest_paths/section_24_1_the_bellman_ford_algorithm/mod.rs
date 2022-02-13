@@ -3,6 +3,14 @@ use num::Zero;
 
 pub mod exercises;
 
+pub const FIGURE_24_4: [&[(usize, i32)]; 5] = [
+    &[(1, 6), (3, 7)],
+    &[(2, 5), (3, 8), (4, -4)],
+    &[(1, -2)],
+    &[(2, -3), (4, 9)],
+    &[(2, 7), (0, 2)],
+];
+
 // Bellman-Ford(G, w, s)
 //
 // 1  Initialize-Single-Source(G, s)
@@ -51,16 +59,7 @@ mod tests {
     fn test_bellman_ford() {
         let test_cases: [((Graph, usize), (States, bool)); 2] = [
             (
-                (
-                    &[
-                        &[(1, 6), (3, 7)],
-                        &[(2, 5), (3, 8), (4, -4)],
-                        &[(1, -2)],
-                        &[(2, -3), (4, 9)],
-                        &[(2, 7), (0, 2)],
-                    ],
-                    0,
-                ),
+                (&super::FIGURE_24_4, 0),
                 (
                     &[
                         (Infinitable::Finite(0), usize::MAX),

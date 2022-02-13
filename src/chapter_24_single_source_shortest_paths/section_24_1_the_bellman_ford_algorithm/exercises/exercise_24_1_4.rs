@@ -79,16 +79,7 @@ mod tests {
     fn test_bellman_ford() {
         let test_cases: [((Graph, usize), States); 3] = [
             (
-                (
-                    &[
-                        &[(1, 6), (3, 7)],
-                        &[(2, 5), (3, 8), (4, -4)],
-                        &[(1, -2)],
-                        &[(2, -3), (4, 9)],
-                        &[(2, 7), (0, 2)],
-                    ],
-                    0,
-                ),
+                (&super::super::super::FIGURE_24_4, 0),
                 &[(0, usize::MAX), (2, 2), (4, 3), (7, 0), (-2, 1)],
             ),
             (

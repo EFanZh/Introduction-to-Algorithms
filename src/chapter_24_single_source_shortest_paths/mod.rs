@@ -1,9 +1,18 @@
 use crate::utilities::Infinitable;
 use num::Zero;
+use std::iter;
 use std::ops::Add;
 
 pub mod section_24_1_the_bellman_ford_algorithm;
 pub mod section_24_2_single_source_shortest_paths_in_directed_acyclic_graphs;
+
+pub const FIGURE_24_2: [&[(usize, u32)]; 5] = [
+    &[(1, 3), (3, 5)],
+    &[(2, 6), (3, 2)],
+    &[(4, 2)],
+    &[(1, 1), (2, 4), (4, 6)],
+    &[(0, 3), (2, 7)],
+];
 
 // Initialize-Single-Source(G, s)
 //
@@ -13,10 +22,12 @@ pub mod section_24_2_single_source_shortest_paths_in_directed_acyclic_graphs;
 // 4  s.d = 0
 
 #[must_use]
-pub fn initialize_single_source<W: Clone + Zero>(n: usize, s: usize) -> Vec<(Infinitable<W>, usize)> {
-    let mut result = vec![(Infinitable::Infinity, usize::MAX); n];
+pub fn initialize_single_source<W: Zero>(n: usize, s: usize) -> Vec<(Infinitable<W>, usize)> {
+    let mut result = Vec::with_capacity(n);
 
-    result[s].0 = Infinitable::Finite(W::zero());
+    result.extend(iter::repeat_with(|| (Infinitable::Infinity, usize::MAX)).take(s));
+    result.push((Infinitable::Finite(W::zero()), usize::MAX));
+    result.extend(iter::repeat_with(|| (Infinitable::Infinity, usize::MAX)).take(n - (s + 1)));
 
     result
 }
@@ -32,10 +43,10 @@ where
     W: Add<Output = W> + Clone + Ord,
 {
     let candidate = states[u].0.clone() + w;
-    let v_state = &mut states[v];
+    let state = &mut states[v];
 
-    if v_state.0 > candidate {
-        v_state.0 = candidate;
-        v_state.1 = u;
+    if state.0 > candidate {
+        state.0 = candidate;
+        state.1 = u;
     }
 }
