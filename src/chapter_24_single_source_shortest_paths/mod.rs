@@ -5,6 +5,7 @@ use std::ops::Add;
 
 pub mod section_24_1_the_bellman_ford_algorithm;
 pub mod section_24_2_single_source_shortest_paths_in_directed_acyclic_graphs;
+pub mod section_24_3_dijkstra_s_algorithm;
 
 pub const FIGURE_24_2: [&[(usize, u32)]; 5] = [
     &[(1, 3), (3, 5)],
