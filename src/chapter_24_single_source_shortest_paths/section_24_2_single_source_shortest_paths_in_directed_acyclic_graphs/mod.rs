@@ -2,7 +2,7 @@ use crate::chapter_22_elementary_graph_algorithms::section_22_4_topological_sort
 use crate::utilities::Infinitable;
 use num::Zero;
 
-// DAG-Shortest-Paths(G, w, s)
+// Dag-Shortest-Paths(G, w, s)
 //
 // 1  topologically sort the vertices of G
 // 2  Initialize-Single-Source(G, s)
