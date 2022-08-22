@@ -3,6 +3,8 @@ use num::Zero;
 use std::mem;
 use std::ops::Add;
 
+pub mod exercises;
+
 pub const FIGURE_24_6: [&[(usize, u32)]; 5] = [
     &[(1, 10), (3, 5)],
     &[(2, 1), (3, 2)],
