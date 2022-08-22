@@ -134,7 +134,7 @@ mod tests {
 
     #[test]
     fn test_get_edge_types_directed() {
-        #[allow(trivial_casts)]
+        #[allow(trivial_casts)] // Expected.
         let test_cases = [
             (
                 &[&[1_usize, 3] as &[usize], &[4], &[4, 5], &[1], &[3], &[5]] as &[&[usize]],
@@ -169,7 +169,7 @@ mod tests {
 
     #[test]
     fn test_get_edge_types_undirected() {
-        #[allow(trivial_casts)]
+        #[allow(trivial_casts)] // Expected.
         let test_cases = [(
             &[
                 &[1_usize, 3] as &[usize],

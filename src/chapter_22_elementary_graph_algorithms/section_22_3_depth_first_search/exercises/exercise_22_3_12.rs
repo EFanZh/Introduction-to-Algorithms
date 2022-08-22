@@ -33,7 +33,7 @@ pub fn get_connected_components(graph: &[Vec<usize>]) -> Vec<usize> {
 mod tests {
     #[test]
     fn test_get_connected_components() {
-        #[allow(trivial_casts)]
+        #[allow(trivial_casts)] // Expected.
         let test_cases = [
             (
                 &[

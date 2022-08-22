@@ -1,7 +1,7 @@
 use crate::chapter_7_quicksort::section_7_3_a_randomized_version_of_quicksort;
 use std::cmp::Ordering;
 
-#[allow(clippy::many_single_char_names)]
+#[allow(clippy::many_single_char_names)] // Expected.
 pub fn iterative_randomized_select<T: Ord>(values: &mut [T], mut p: usize, mut r: usize, mut i: usize) -> &mut T {
     loop {
         if r - p == 1 {

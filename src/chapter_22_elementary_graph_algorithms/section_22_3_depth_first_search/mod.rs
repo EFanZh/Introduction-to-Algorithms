@@ -89,7 +89,7 @@ mod tests {
     use super::{Attribute, Color};
 
     pub fn run_dfs_test(mut f: impl FnMut(&[Vec<usize>]) -> Vec<Attribute>) {
-        #[allow(trivial_casts)]
+        #[allow(trivial_casts)] // Expected.
         let test_cases = [(
             &[&[1_usize, 3] as &[usize], &[4], &[4, 5], &[1], &[3], &[5]] as &[&[usize]],
             &[

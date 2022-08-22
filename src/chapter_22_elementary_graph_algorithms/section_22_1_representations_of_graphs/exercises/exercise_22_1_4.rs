@@ -26,7 +26,7 @@ mod tests {
 
     #[test]
     fn test_normalize() {
-        #[allow(trivial_casts)]
+        #[allow(trivial_casts)] // Expected.
         let test_cases = [(
             &[(2, &[3, 4, 3] as &[_]), (3, &[2, 2, 3]), (4, &[2])] as &[(_, &[_])],
             &[(2, &[3, 4] as &[_]), (3, &[2]), (4, &[2])] as &[(_, &[_])],

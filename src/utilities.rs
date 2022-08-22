@@ -10,7 +10,7 @@ pub enum Infinitable<T> {
 
 impl<T> Infinitable<T> {
     pub fn replace_with_infinity(&mut self) -> Option<T> {
-        if let Infinitable::Finite(value) = mem::replace(self, Self::Infinity) {
+        if let Self::Finite(value) = mem::replace(self, Self::Infinity) {
             Some(value)
         } else {
             None
@@ -25,7 +25,7 @@ where
     type Output = Infinitable<T::Output>;
 
     fn add(self, rhs: U) -> Self::Output {
-        if let Infinitable::Finite(lhs) = self {
+        if let Self::Finite(lhs) = self {
             Infinitable::Finite(lhs + rhs)
         } else {
             Infinitable::Infinity
@@ -38,7 +38,7 @@ where
     T: PartialEq,
 {
     fn eq(&self, other: &T) -> bool {
-        if let Infinitable::Finite(lhs) = self {
+        if let Self::Finite(lhs) = self {
             PartialEq::eq(lhs, other)
         } else {
             false
@@ -52,8 +52,8 @@ where
 {
     fn partial_cmp(&self, other: &T) -> Option<Ordering> {
         match self {
-            Infinitable::Finite(value) => PartialOrd::partial_cmp(value, other),
-            Infinitable::Infinity => Some(Ordering::Greater),
+            Self::Finite(value) => PartialOrd::partial_cmp(value, other),
+            Self::Infinity => Some(Ordering::Greater),
         }
     }
 }

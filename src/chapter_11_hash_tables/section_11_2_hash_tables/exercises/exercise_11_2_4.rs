@@ -28,7 +28,7 @@ impl<T: Hash + Eq> HashTable<T> {
         }
     }
 
-    #[allow(clippy::cast_possible_truncation)]
+    #[allow(clippy::cast_possible_truncation)] // Expected.
     fn hash(x: &T, memory_size: usize) -> usize {
         let mut hasher = DefaultHasher::new();
 
@@ -196,7 +196,7 @@ impl<T: Hash + Eq> HashTable<T> {
 mod tests {
     use super::HashTable;
 
-    #[allow(variant_size_differences)]
+    #[allow(variant_size_differences)] // Expected.
     enum HashTableOperation {
         Insert(i32),
         Delete(i32),

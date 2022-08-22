@@ -65,38 +65,36 @@ mod tests {
 
     #[test]
     fn test_union_find() {
-        use Operation::{FindSet, MakeSet, Union};
-
-        #[allow(trivial_casts)]
+        #[allow(trivial_casts)] // Expected.
         let test_cases = [
             &[
-                MakeSet(1),
-                MakeSet(2),
-                FindSet(1, 1),
-                FindSet(2, 2),
-                Union(1, 2),
-                FindSet(1, 2),
-                FindSet(2, 2),
+                Operation::MakeSet(1),
+                Operation::MakeSet(2),
+                Operation::FindSet(1, 1),
+                Operation::FindSet(2, 2),
+                Operation::Union(1, 2),
+                Operation::FindSet(1, 2),
+                Operation::FindSet(2, 2),
             ] as &[_],
             &[
-                MakeSet(1),
-                MakeSet(2),
-                MakeSet(3),
-                Union(1, 2),
-                Union(2, 3),
-                FindSet(1, 2),
-                FindSet(2, 2),
-                FindSet(3, 2),
+                Operation::MakeSet(1),
+                Operation::MakeSet(2),
+                Operation::MakeSet(3),
+                Operation::Union(1, 2),
+                Operation::Union(2, 3),
+                Operation::FindSet(1, 2),
+                Operation::FindSet(2, 2),
+                Operation::FindSet(3, 2),
             ],
             &[
-                MakeSet(1),
-                MakeSet(2),
-                MakeSet(3),
-                Union(1, 2),
-                Union(3, 2),
-                FindSet(1, 2),
-                FindSet(2, 2),
-                FindSet(3, 2),
+                Operation::MakeSet(1),
+                Operation::MakeSet(2),
+                Operation::MakeSet(3),
+                Operation::Union(1, 2),
+                Operation::Union(3, 2),
+                Operation::FindSet(1, 2),
+                Operation::FindSet(2, 2),
+                Operation::FindSet(3, 2),
             ],
         ];
 
@@ -105,11 +103,11 @@ mod tests {
 
             for operation in operations {
                 match operation {
-                    MakeSet(value) => {
+                    Operation::MakeSet(value) => {
                         environment.insert(value, super::make_set(value));
                     }
-                    Union(x, y) => super::union(&environment[x], &environment[y]),
-                    FindSet(value, expected_root) => {
+                    Operation::Union(x, y) => super::union(&environment[x], &environment[y]),
+                    Operation::FindSet(value, expected_root) => {
                         assert_eq!(super::find_set(&environment[value]).value, expected_root);
                     }
                 }

@@ -87,7 +87,7 @@ where
 }
 
 fn heap_decrease_key<W>(
-    heap: &mut Vec<usize>,
+    heap: &mut [usize],
     heap_indices: &mut [usize],
     vertex: usize,
     states: &[(Infinitable<W>, usize)],
@@ -121,7 +121,7 @@ fn relax<W>(
     source: usize,
     target: usize,
     weight: W,
-    heap: &mut Vec<usize>,
+    heap: &mut [usize],
     heap_indices: &mut [usize],
 ) where
     W: Add<Output = W> + Clone + Ord,

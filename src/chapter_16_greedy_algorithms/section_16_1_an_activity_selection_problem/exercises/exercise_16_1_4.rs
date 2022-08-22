@@ -52,7 +52,7 @@ pub fn schedule_activities(activities: &[(u64, u64)]) -> Box<[usize]> {
 pub mod tests {
     #[test]
     fn test_schedule_activities() {
-        #[allow(trivial_casts)]
+        #[allow(trivial_casts)] // Expected.
         let test_cases = [
             (
                 &[

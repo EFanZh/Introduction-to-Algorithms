@@ -41,7 +41,7 @@ pub fn euler_tour(graph: &[&[usize]]) -> Option<Box<[usize]>> {
 mod tests {
     #[test]
     fn test_euler_tour() {
-        #[allow(trivial_casts)]
+        #[allow(trivial_casts)] // Expected.
         let test_cases = [
             (
                 &[&[1_usize] as &[usize], &[2], &[0]] as &[&[_]],

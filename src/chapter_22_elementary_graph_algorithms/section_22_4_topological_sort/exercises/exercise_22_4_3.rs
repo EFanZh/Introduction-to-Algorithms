@@ -31,7 +31,7 @@ pub fn has_cycle(graph: &[Vec<usize>]) -> bool {
 mod tests {
     #[test]
     fn test_has_cycle() {
-        #[allow(trivial_casts)]
+        #[allow(trivial_casts)] // Expected.
         let test_cases = [
             (
                 &[

@@ -19,7 +19,7 @@ pub mod exercises;
 // 14                  root[i, j] = r
 // 15  return e and root
 
-#[allow(clippy::many_single_char_names)]
+#[allow(clippy::many_single_char_names)] // Expected.
 #[must_use]
 pub fn optimal_bst(p: &[f64], q: &[f64]) -> (Box<[f64]>, Box<[usize]>) {
     let n = p.len();

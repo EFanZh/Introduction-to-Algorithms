@@ -39,7 +39,7 @@ mod tests {
 
     #[test]
     fn test_has_cycle() {
-        #[allow(trivial_casts)]
+        #[allow(trivial_casts)] // Expected.
         let test_cases = [
             (&[&[1_usize] as &[usize], &[]] as &[&[usize]], true),
             (&[&[1, 2], &[], &[], &[1, 2]], true),

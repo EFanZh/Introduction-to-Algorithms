@@ -53,7 +53,7 @@ pub fn find_path(graph: &[Vec<usize>]) -> Vec<usize> {
 mod tests {
     #[test]
     fn test_find_path() {
-        #[allow(trivial_casts)]
+        #[allow(trivial_casts)] // Expected.
         let test_cases = [(
             &[&[1_usize, 2] as &[usize], &[0, 3, 4], &[0, 3, 4], &[1, 2], &[1, 2]] as &[&[usize]],
             &[0, 1, 3, 1, 4, 1, 0, 2, 3, 2, 4, 2, 0],

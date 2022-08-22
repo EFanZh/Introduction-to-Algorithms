@@ -140,7 +140,7 @@ pub fn young_tableau_sort<T: Ord + Clone>(a: &mut [T]) {
         clippy::cast_possible_truncation,
         clippy::cast_precision_loss,
         clippy::cast_sign_loss
-    )]
+    )] // Expected.
     let n = (a.len() as f64).sqrt().ceil() as usize;
 
     let mut young_tableau = YoungTableau::new(n, n);

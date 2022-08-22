@@ -43,7 +43,7 @@ mod tests {
                     clippy::cast_possible_truncation,
                     clippy::cast_precision_loss,
                     clippy::cast_sign_loss
-                )]
+                )] // Expected.
                 super::bucket_sort_by(
                     &mut b,
                     |x| ((n as f64) * x) as usize,

@@ -100,7 +100,7 @@ mod tests {
     fn test_union_find() {
         use Operation::{FindSet, MakeSet, Union};
 
-        #[allow(trivial_casts)]
+        #[allow(trivial_casts)] // Expected.
         let test_cases = [
             &[
                 MakeSet(1),

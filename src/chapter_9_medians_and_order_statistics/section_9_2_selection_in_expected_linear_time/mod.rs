@@ -15,7 +15,7 @@ pub mod exercises;
 // 8      return Randomized-Select(A, p, q - 1, i)
 // 9  else return Randomized-Select(A, q + 1, r, i - k)
 
-#[allow(clippy::many_single_char_names)]
+#[allow(clippy::many_single_char_names)] // Expected.
 pub fn randomized_select<T: Ord>(a: &mut [T], p: usize, r: usize, i: usize) -> &mut T {
     if r - p == 1 {
         return &mut a[p];

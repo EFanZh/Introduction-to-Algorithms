@@ -1,7 +1,7 @@
 use rand::Rng;
 use std::cmp::Ordering;
 
-#[allow(clippy::many_single_char_names)]
+#[allow(clippy::many_single_char_names)] // Expected.
 pub fn partition_prime<T: Ord>(values: &mut [T], p: usize, r: usize) -> (usize, usize) {
     let (pivot, sub_array) = values[..r].split_last_mut().unwrap();
     let pivot_index = sub_array.len();

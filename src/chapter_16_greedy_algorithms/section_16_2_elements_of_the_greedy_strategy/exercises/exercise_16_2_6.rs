@@ -107,7 +107,7 @@ mod tests {
 
     #[test]
     fn test_select_items() {
-        #[allow(trivial_casts)]
+        #[allow(trivial_casts)] // Expected.
         let test_cases = [
             ((&[] as &[_], 0), &[] as &[_]),
             ((&[], 4), &[]),

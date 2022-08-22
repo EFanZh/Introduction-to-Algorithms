@@ -8,7 +8,7 @@ fn magnitude2((x, y): &(f64, f64)) -> f64 {
     clippy::cast_precision_loss,
     clippy::cast_sign_loss,
     clippy::cast_possible_truncation
-)]
+)] // Expected.
 pub fn bucker_sort_points(a: &mut [(f64, f64)]) {
     let n = a.len() as f64;
 

@@ -9,6 +9,7 @@ pub mod exercises;
 // 5      return {a_m} ∪ Recursive-Activity-Selector(s, f, m, n)
 // 6  else return ∅
 
+#[must_use]
 pub fn recursive_activity_selector(s: &[u64], f: &[u64], k: usize) -> Vec<usize> {
     let last_finish_time = k.checked_sub(1).map_or(0, |i| f[i]);
 
@@ -26,7 +27,7 @@ pub fn recursive_activity_selector(s: &[u64], f: &[u64], k: usize) -> Vec<usize>
                 Some(result)
             }
         })
-        .unwrap_or_else(Vec::new)
+        .unwrap_or_default()
 }
 
 // Greedy-Activity-Selector(s, f)

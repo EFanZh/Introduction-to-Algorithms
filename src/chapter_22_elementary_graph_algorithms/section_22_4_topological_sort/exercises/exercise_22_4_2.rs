@@ -21,7 +21,7 @@ pub fn get_number_of_paths(graph: &[Vec<usize>], s: usize, t: usize) -> usize {
 mod tests {
     #[test]
     fn test_get_number_of_paths() {
-        #[allow(trivial_casts)]
+        #[allow(trivial_casts)] // Expected.
         let test_cases = [
             ((&[&[1_usize, 2] as &[usize], &[3], &[3], &[]] as &[&[_]], 0, 3), 2),
             ((&[&[4, 3, 1], &[3, 2, 4], &[3], &[4], &[]], 0, 3), 5),

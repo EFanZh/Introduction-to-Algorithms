@@ -75,7 +75,7 @@ pub fn strongly_connected_components(g: &[Vec<usize>]) -> Vec<Vec<usize>> {
 mod tests {
     #[test]
     fn test_strongly_connected_components() {
-        #[allow(trivial_casts)]
+        #[allow(trivial_casts)] // Expected.
         let test_cases = [(
             &[
                 &[1_usize] as &[usize],

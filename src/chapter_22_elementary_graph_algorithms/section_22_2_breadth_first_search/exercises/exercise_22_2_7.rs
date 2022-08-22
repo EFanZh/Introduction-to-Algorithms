@@ -54,7 +54,7 @@ pub fn partition(graph: &[Vec<usize>]) -> Option<(Vec<usize>, Vec<usize>)> {
 mod tests {
     #[test]
     fn test_partition() {
-        #[allow(trivial_casts)]
+        #[allow(trivial_casts)] // Expected.
         let test_cases = [
             (
                 &[&[1_usize, 3] as &[usize], &[0, 2], &[1, 3], &[0, 2]] as &[&[usize]],

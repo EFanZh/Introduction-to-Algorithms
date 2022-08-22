@@ -104,7 +104,7 @@ pub fn get_scc_graph(g: &[Vec<usize>]) -> (Vec<Vec<usize>>, Vec<Vec<usize>>) {
 mod tests {
     #[test]
     fn test_get_scc_graph() {
-        #[allow(trivial_casts)]
+        #[allow(trivial_casts)] // Expected.
         let test_cases = &[(
             &[
                 &[1_usize] as &[usize],

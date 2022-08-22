@@ -25,10 +25,8 @@ pub fn flip_coin_2<C: FnMut() -> bool>(mut fair_coin: C, a: i32, b: i32) -> bool
 #[cfg(test)]
 mod tests {
     use rand::Rng;
-    use std::convert::{TryFrom, TryInto};
     use std::iter;
 
-    #[allow(clippy::cast_possible_wrap)]
     fn run_test_flip_coin<F: FnMut(i32, i32) -> bool>(mut f: F) {
         let samples = 100_000;
 

@@ -77,11 +77,11 @@ mod tests {
     impl Chip for TestChip {
         fn test(&self, chip: &Self) -> bool {
             match self {
-                TestChip::Good => match chip {
-                    TestChip::Good => true,
-                    TestChip::Bad => false,
+                Self::Good => match chip {
+                    Self::Good => true,
+                    Self::Bad => false,
                 },
-                TestChip::Bad => rand::random(),
+                Self::Bad => rand::random(),
             }
         }
     }

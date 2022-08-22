@@ -47,7 +47,7 @@ mod tests {
             ),
         ];
 
-        for (matrix, expected) in test_cases.iter().cloned() {
+        for (matrix, expected) in test_cases {
             assert_eq!(super::has_universal_sink(&matrix), expected);
         }
     }

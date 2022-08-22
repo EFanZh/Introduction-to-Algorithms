@@ -24,7 +24,7 @@ pub fn bucket_sort(a: &mut [f64]) {
             clippy::cast_possible_truncation,
             clippy::cast_precision_loss,
             clippy::cast_sign_loss
-        )]
+        )] // Expected.
         b[(n as f64 * a_i) as usize].push(a_i);
     }
 

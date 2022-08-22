@@ -188,7 +188,7 @@ mod tests {
 
     #[test]
     fn test_skip_single() {
-        #[allow(trivial_casts)]
+        #[allow(trivial_casts)] // Expected.
         let test_cases = [
             ((&[] as &[_], 0), (&[] as &[_], None)),
             ((&[], 2), (&[], None)),
@@ -209,7 +209,7 @@ mod tests {
 
     #[test]
     fn test_dynamic_array_insert() {
-        #[allow(trivial_casts)]
+        #[allow(trivial_casts)] // Expected.
         let test_cases = [
             (&[] as &[_], &[] as &[&[_]]),
             (&[3], &[&[3]]),
@@ -239,7 +239,7 @@ mod tests {
 
     #[test]
     fn test_dynamic_array_search() {
-        #[allow(trivial_casts)]
+        #[allow(trivial_casts)] // Expected.
         let test_cases = [
             ((&[] as &[_], 2), None),
             ((&[3], 2), None),
@@ -301,7 +301,7 @@ mod tests {
 
     #[test]
     fn test_dynamic_array_delete() {
-        #[allow(trivial_casts)]
+        #[allow(trivial_casts)] // Expected.
         let test_cases = [
             ((&[] as &[_], 2), None),
             ((&[3], 2), None),

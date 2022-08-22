@@ -187,7 +187,7 @@ mod tests {
     }
 
     fn get_test_cases() -> Box<[TestCase]> {
-        #[allow(trivial_casts)]
+        #[allow(trivial_casts)] // Expected.
         let test_cases = [
             (make_leaf(0), (&[0b1_u8] as &[_], 1)),
             (make_tree(make_leaf(0), make_leaf(1)), (&[0b1_0110], 5)),

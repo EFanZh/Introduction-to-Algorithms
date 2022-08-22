@@ -60,7 +60,7 @@ mod tests {
 
     #[test]
     fn test_square_adjacency_list() {
-        #[allow(trivial_casts)]
+        #[allow(trivial_casts)] // Expected.
         let test_cases = [(
             &[(2, &[3, 4] as &[_]), (3, &[4, 7]), (4, &[8, 9]), (7, &[12])] as &[(_, &[_])],
             &[
@@ -105,7 +105,7 @@ mod tests {
             ]),
         )];
 
-        for (matrix, expected) in test_cases.iter().cloned() {
+        for (matrix, expected) in test_cases {
             assert_eq!(super::square_adjacency_matrix(&matrix), expected);
         }
     }

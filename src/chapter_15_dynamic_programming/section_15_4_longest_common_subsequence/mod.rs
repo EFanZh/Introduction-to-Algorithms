@@ -28,7 +28,7 @@ pub enum Arrow {
 // 17              b[i, j] = “←”
 // 18  return c and b
 
-#[allow(clippy::many_single_char_names)]
+#[allow(clippy::many_single_char_names)] // Expected.
 pub fn lcs_length<T: Eq>(x: &[T], y: &[T]) -> (Box<[usize]>, Box<[Arrow]>) {
     let m = x.len();
     let n = y.len();

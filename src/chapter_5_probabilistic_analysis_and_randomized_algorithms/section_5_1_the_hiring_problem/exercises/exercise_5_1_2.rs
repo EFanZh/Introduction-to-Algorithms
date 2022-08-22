@@ -1,6 +1,6 @@
 use rand::Rng;
 
-#[allow(clippy::cast_possible_truncation)]
+#[allow(clippy::cast_possible_truncation)] // Expected.
 #[must_use]
 pub fn random(a: i32, b: i32) -> i32 {
     let range = b - a;
@@ -13,7 +13,7 @@ pub fn random(a: i32, b: i32) -> i32 {
         for _ in 0..bits_needed {
             result <<= 1;
 
-            result |= rng.gen::<bool>() as i32;
+            result |= i32::from(rng.gen::<bool>());
         }
 
         if result <= range {

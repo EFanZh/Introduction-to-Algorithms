@@ -39,7 +39,7 @@ pub fn reachability(graph: &[&[usize]]) -> Box<[usize]> {
 mod tests {
     #[test]
     fn test_eachability() {
-        #[allow(trivial_casts)]
+        #[allow(trivial_casts)] // Expected.
         let test_cases = [(
             &[&[1_usize] as &[usize], &[2], &[3], &[4], &[3]] as &[&[usize]],
             &[0_usize, 1, 2, 3, 3] as &[usize],

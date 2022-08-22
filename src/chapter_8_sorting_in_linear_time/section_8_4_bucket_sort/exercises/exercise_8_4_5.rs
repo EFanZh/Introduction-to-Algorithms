@@ -5,7 +5,7 @@ use std::cmp::Ordering;
     clippy::cast_possible_truncation,
     clippy::cast_precision_loss,
     clippy::cast_sign_loss
-)]
+)] // Expected.
 pub fn bucker_sort_by_probability_distribution<T: Clone, F: FnMut(&T, &T) -> Ordering, P: FnMut(&T) -> f64>(
     a: &mut [T],
     compare: F,
