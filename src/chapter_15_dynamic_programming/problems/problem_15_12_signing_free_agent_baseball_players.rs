@@ -25,7 +25,7 @@ pub fn sign_baseball_players(
         *cache_item = last_position_players
             .iter()
             .enumerate()
-            .filter_map(|(i, p)| (p.cost <= b).then(|| (p.vorp, i)))
+            .filter_map(|(i, p)| (p.cost <= b).then_some((p.vorp, i)))
             .max_by_key(|(v, _)| *v)
             .unwrap_or((0, CURRENT_PLAYER));
     }
@@ -101,7 +101,7 @@ mod tests {
         let budget = 15;
 
         let (total_vorp, selected_players) = super::sign_baseball_players(
-            &*players
+            &players
                 .iter()
                 .flat_map(|position_players| {
                     position_players

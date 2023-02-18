@@ -1,6 +1,6 @@
 fn dfs(graph: &[Vec<usize>], from: usize, to: usize, cache: &mut Vec<Option<usize>>) -> usize {
     cache[from].unwrap_or_else(|| {
-        let result = if from == graph.len() - 1 {
+        let result = if from == to {
             1
         } else {
             graph[from].iter().map(|&next| dfs(graph, next, to, cache)).sum()
@@ -24,7 +24,7 @@ mod tests {
         #[allow(trivial_casts)] // Expected.
         let test_cases = [
             ((&[&[1_usize, 2] as &[usize], &[3], &[3], &[]] as &[&[_]], 0, 3), 2),
-            ((&[&[4, 3, 1], &[3, 2, 4], &[3], &[4], &[]], 0, 3), 5),
+            ((&[&[4, 3, 1], &[3, 2, 4], &[3], &[4], &[]], 0, 3), 3),
             ((&[&[1], &[]], 0, 0), 1),
             ((&[&[1, 2, 3], &[2], &[3], &[]], 0, 3), 3),
             ((&[&[1, 3], &[2], &[3], &[]], 0, 3), 2),

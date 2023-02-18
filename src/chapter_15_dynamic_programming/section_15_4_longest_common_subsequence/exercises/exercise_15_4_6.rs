@@ -1,6 +1,7 @@
 use std::cmp::Reverse;
 use std::iter;
 
+#[allow(clippy::option_if_let_else)] // False positive.
 pub fn longest_monotonically_increasing_subsequence<T: Ord + Clone>(s: &[T]) -> Box<[T]> {
     let invalid_index = s.len();
     let mut links = vec![invalid_index; s.len()];

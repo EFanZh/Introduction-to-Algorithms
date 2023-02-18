@@ -134,7 +134,7 @@ pub fn mst_prim(g: &[&[(usize, usize)]], r: usize) -> Vec<(usize, usize)> {
     properties
         .into_iter()
         .enumerate()
-        .filter_map(|(i, NodeProperty { parent, .. })| (parent != usize::MAX).then(|| (parent, i)))
+        .filter_map(|(i, NodeProperty { parent, .. })| (parent != usize::MAX).then_some((parent, i)))
         .collect()
 }
 

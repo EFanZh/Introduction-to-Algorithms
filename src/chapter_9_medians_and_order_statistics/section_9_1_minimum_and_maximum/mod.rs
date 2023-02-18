@@ -24,7 +24,7 @@ pub fn minimum_and_maximum<T: Ord>(a: &[T]) -> (&T, &T) {
     let mut iterator = a.iter();
     let first = iterator.next().unwrap();
 
-    if let Some(second) = iterator.next() {
+    iterator.next().map_or((first, first), |second| {
         let (mut min, mut max) = if first > second {
             (second, first)
         } else {
@@ -58,9 +58,7 @@ pub fn minimum_and_maximum<T: Ord>(a: &[T]) -> (&T, &T) {
                 break (min, max);
             }
         }
-    } else {
-        (first, first)
-    }
+    })
 }
 
 #[cfg(test)]

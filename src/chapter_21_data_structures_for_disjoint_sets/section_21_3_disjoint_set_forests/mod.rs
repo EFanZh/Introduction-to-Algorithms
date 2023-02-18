@@ -5,9 +5,15 @@ use std::rc::Rc;
 pub mod exercises;
 
 pub struct Node<T> {
-    pub value: T,
+    value: T,
     parent: Cell<Option<Rc<Self>>>,
     rank: Cell<u8>,
+}
+
+impl<T> Node<T> {
+    pub fn value(&self) -> &T {
+        &self.value
+    }
 }
 
 pub fn make_set<T>(value: T) -> Rc<Node<T>> {

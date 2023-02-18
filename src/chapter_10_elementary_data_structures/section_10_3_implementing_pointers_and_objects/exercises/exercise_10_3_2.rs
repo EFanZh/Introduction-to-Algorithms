@@ -43,7 +43,7 @@ impl<T> ObjectPool<T> {
             if let Slot::Free(next_handle) = self.memory[self.free.0] {
                 self.free = next_handle;
             } else {
-                panic!();
+                unreachable!();
             }
 
             self.memory[x.0] = Slot::Occupied(value);
@@ -58,11 +58,11 @@ impl<T> ObjectPool<T> {
     }
 
     #[must_use]
-    pub fn get(&self, handle: Handle) -> &T {
+    pub fn get(&self, handle: Handle) -> Option<&T> {
         if let Slot::Occupied(value) = &self.memory[handle.0] {
-            value
+            Some(value)
         } else {
-            panic!("Invalid handle");
+            None
         }
     }
 }
@@ -76,18 +76,18 @@ mod tests {
         let mut pool = ObjectPool::new();
         let handle_1 = pool.allocate_object(42);
 
-        assert_eq!(*pool.get(handle_1), 42);
+        assert_eq!(pool.get(handle_1).copied(), Some(42));
 
         let handle_2 = pool.allocate_object(7);
 
-        assert_eq!(*pool.get(handle_1), 42);
-        assert_eq!(*pool.get(handle_2), 7);
+        assert_eq!(pool.get(handle_1).copied(), Some(42));
+        assert_eq!(pool.get(handle_2).copied(), Some(7));
 
         let handle_3 = pool.allocate_object(8);
 
-        assert_eq!(*pool.get(handle_1), 42);
-        assert_eq!(*pool.get(handle_2), 7);
-        assert_eq!(*pool.get(handle_3), 8);
+        assert_eq!(pool.get(handle_1).copied(), Some(42));
+        assert_eq!(pool.get(handle_2).copied(), Some(7));
+        assert_eq!(pool.get(handle_3).copied(), Some(8));
     }
 
     #[test]
@@ -101,7 +101,7 @@ mod tests {
 
         let handle_3 = pool.allocate_object(7);
 
-        assert_eq!(*pool.get(handle_2), 5);
-        assert_eq!(*pool.get(handle_3), 7);
+        assert_eq!(pool.get(handle_2).copied(), Some(5));
+        assert_eq!(pool.get(handle_3).copied(), Some(7));
     }
 }

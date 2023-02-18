@@ -86,6 +86,7 @@ pub fn tree_maximum<T: Ord>(mut x: &SimpleBinaryTreeNode<T>) -> &SimpleBinaryTre
 // 6      y = y.p
 // 7  return y
 
+#[allow(clippy::option_if_let_else)] // False positive.
 pub fn tree_successor<T: Ord>(mut x: Rc<BinaryTreeNode<T>>) -> Option<Rc<BinaryTreeNode<T>>> {
     fn tree_minimum<T: Ord>(mut x: &Rc<BinaryTreeNode<T>>) -> &Rc<BinaryTreeNode<T>> {
         while let Some(left) = x.get_left_child() {

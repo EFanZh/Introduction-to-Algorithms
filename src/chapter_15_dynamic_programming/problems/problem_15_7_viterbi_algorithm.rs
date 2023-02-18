@@ -13,7 +13,6 @@ pub enum Error {
     NoSuchPath,
 }
 
-#[allow(single_use_lifetimes)] // False positive.
 #[derive(PartialEq, Eq, Hash)]
 struct CacheKey<'a, T> {
     node: &'a T,

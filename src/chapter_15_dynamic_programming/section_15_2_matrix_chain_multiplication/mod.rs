@@ -61,8 +61,8 @@ pub enum Parens {
 impl Display for Parens {
     fn fmt(&self, f: &mut Formatter) -> Result {
         match self {
-            Self::Single(i) => write!(f, "A_{}", i)?,
-            Self::Double(lhs, rhs) => write!(f, "({} {})", lhs, rhs)?,
+            Self::Single(i) => write!(f, "A_{i}")?,
+            Self::Double(lhs, rhs) => write!(f, "({lhs} {rhs})")?,
         }
 
         Ok(())

@@ -184,12 +184,9 @@ mod tests {
 
         super::treap_insert(&mut tree, 4, 3);
 
-        match tree {
-            None => unreachable!(),
-            Some(node) => {
-                assert_eq!(node.key, 4);
-                assert_eq!(node.value, 3);
-            }
-        }
+        let node = tree.unwrap();
+
+        assert_eq!(node.key, 4);
+        assert_eq!(node.value, 3);
     }
 }

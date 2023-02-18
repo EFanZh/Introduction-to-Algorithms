@@ -242,6 +242,7 @@ fn remove_red<K: Borrow<Q>, V, Q: Ord + ?Sized>(
     }
 }
 
+#[allow(clippy::option_if_let_else)] // False positive.
 fn remove_black<K: Borrow<Q>, V, Q: Ord + ?Sized>(tree: &RedBlackTree<K, V>, key: &Q) -> RemoveBlackResult<K, V> {
     if let Some(node) = tree {
         match key.cmp((*node.content.key).borrow()) {

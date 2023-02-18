@@ -14,7 +14,7 @@ pub fn binary_search_iterative<T: Ord>(a: &[T], v: &T) -> Option<usize> {
         }
     }
 
-    (left < a.len() && a[left] == *v).then(|| left)
+    (left < a.len() && a[left] == *v).then_some(left)
 }
 
 pub fn binary_search_iterative_libcxx<T: Ord>(a: &[T], v: &T) -> Option<usize> {
@@ -33,7 +33,7 @@ pub fn binary_search_iterative_libcxx<T: Ord>(a: &[T], v: &T) -> Option<usize> {
         }
     }
 
-    (base < a.len() && a[base] == *v).then(|| base)
+    (base < a.len() && a[base] == *v).then_some(base)
 }
 
 pub fn binary_search_iterative_rust<T: Ord>(a: &[T], v: &T) -> Option<usize> {
@@ -60,7 +60,7 @@ pub fn binary_search_iterative_rust<T: Ord>(a: &[T], v: &T) -> Option<usize> {
         base += 1;
     }
 
-    (base < a.len() && *v == a[base]).then(|| base)
+    (base < a.len() && *v == a[base]).then_some(base)
 }
 
 pub fn binary_search_recursive<T: Ord>(a: &[T], v: &T) -> Option<usize> {
@@ -100,7 +100,7 @@ pub fn binary_search_recursive_non_tail<T: Ord>(a: &[T], v: &T) -> Option<usize>
 
     let index = lower_bound_non_tail(a, v);
 
-    (index < a.len() && a[index] == *v).then(|| index)
+    (index < a.len() && a[index] == *v).then_some(index)
 }
 
 pub fn binary_search_recursive_pointer<T: Ord>(a: &[T], v: &T) -> Option<usize> {
@@ -120,7 +120,7 @@ pub fn binary_search_recursive_pointer<T: Ord>(a: &[T], v: &T) -> Option<usize> 
 
     let index = (lower_bound_pointer(a, v) as usize - a.as_ptr() as usize) / mem::size_of::<T>();
 
-    (index < a.len() && a[index] == *v).then(|| index)
+    (index < a.len() && a[index] == *v).then_some(index)
 }
 
 pub fn binary_search_recursive_libcxx<T: Ord>(a: &[T], v: &T) -> Option<usize> {
@@ -158,7 +158,7 @@ pub fn binary_search_recursive_rust<T: Ord>(a: &[T], v: &T) -> Option<usize> {
         } else {
             let index = if a[base] < *v { base + 1 } else { base };
 
-            (index < a.len() && a[index] == *v).then(|| index)
+            (index < a.len() && a[index] == *v).then_some(index)
         }
     }
 

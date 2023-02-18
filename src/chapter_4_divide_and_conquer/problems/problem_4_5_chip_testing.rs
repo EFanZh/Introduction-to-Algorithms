@@ -20,10 +20,7 @@ pub fn find_one_good_chip_naive<T: Chip>(chips: &[T]) -> Option<&T> {
             if chips.len() % 2 == 0 {
                 helper(&filtered_chips)
             } else {
-                match helper(&filtered_chips) {
-                    None => chips.last().copied(),
-                    Some(good_chip) => Some(good_chip),
-                }
+                helper(&filtered_chips).map_or_else(|| chips.last().copied(), Some)
             }
         }
     }

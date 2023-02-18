@@ -4,10 +4,7 @@ jobs:
     rustfmt:
         runs-on: ${{ matrix.os }}
         steps:
-          - uses: actions/checkout@v2
-          - uses: actions-rs/toolchain@v1
-            with:
-                components: rustfmt
+          - uses: actions/checkout@v3
           - run: cargo fmt --all -- --check
         strategy:
             matrix:
@@ -18,10 +15,7 @@ jobs:
     clippy:
         runs-on: ${{ matrix.os }}
         steps:
-          - uses: actions/checkout@v2
-          - uses: actions-rs/toolchain@v1
-            with:
-                components: clippy
+          - uses: actions/checkout@v3
           - run: cargo clippy --workspace --all-targets --all-features -- -D warnings
         strategy:
             matrix:
@@ -32,8 +26,7 @@ jobs:
     tests:
         runs-on: ${{ matrix.os }}
         steps:
-          - uses: actions/checkout@v2
-          - uses: actions-rs/toolchain@v1
+          - uses: actions/checkout@v3
           - run: cargo test --workspace
         strategy:
             matrix:
@@ -44,18 +37,14 @@ jobs:
     coverage:
         runs-on: ubuntu-latest
         steps:
-          - uses: actions/checkout@v2
-          - uses: actions-rs/toolchain@v1
+          - uses: actions/checkout@v3
+          - run: rustup component add llvm-tools
+          - run: cargo install cargo-llvm-cov
+          - run: cargo llvm-cov --lcov --workspace --output-path coverage/lcov.info
+          - uses: codecov/codecov-action@v3
             with:
-                components: llvm-tools-preview
-          - uses: actions-rs/install@v0.1
-            with:
-                crate: cargo-llvm-cov
-          - run: cargo llvm-cov --lcov --workspace --output-path lcov.info
-          - uses: codecov/codecov-action@v1
-            with:
-                file: lcov.info
+                files: coverage/lcov.info
           - uses: coverallsapp/github-action@master
             with:
                 github-token: ${{ secrets.GITHUB_TOKEN }}
-                path-to-lcov: lcov.info
+

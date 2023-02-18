@@ -1,5 +1,6 @@
 use std::borrow::Borrow;
 
+#[allow(clippy::option_if_let_else)] // False positive.
 pub fn sort_strings<T: Borrow<[u8]>>(strs: &mut [T]) {
     fn helper<T: Borrow<[u8]>>(strs: &mut [T], start: usize) {
         if strs.len() > 1 {

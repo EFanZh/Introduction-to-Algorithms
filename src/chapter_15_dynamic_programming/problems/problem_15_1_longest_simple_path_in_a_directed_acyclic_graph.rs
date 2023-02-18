@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 
+#[allow(clippy::option_if_let_else)] // False positive.
 fn longest_simple_path_dfs<I: IntoIterator<Item = (f64, usize)>, F: FnMut(usize) -> I>(
     adj: &mut F,
     s: usize,

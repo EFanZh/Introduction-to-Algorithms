@@ -83,7 +83,7 @@ pub fn compute_articulation_points(graph: &[Vec<usize>]) -> Box<[usize]> {
     states[0] = Some(0);
 
     for &next in &graph[0] {
-        if states[next] == None {
+        if states[next].is_none() {
             dfs(graph, next, 0, &mut time, &mut states, &mut result);
 
             root_children += 1;

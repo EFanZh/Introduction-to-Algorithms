@@ -105,6 +105,7 @@ pub(crate) mod tests {
         left_black_height + 1
     }
 
+    #[allow(clippy::option_if_let_else)] // False positive.
     fn check_black_node<T: Ord>(node: &Option<Rc<RefCell<RedBlackTreeNode<T>>>>) -> usize {
         if let Some(node_rc) = node {
             let node_ref = node_rc.borrow();
@@ -117,6 +118,7 @@ pub(crate) mod tests {
         }
     }
 
+    #[allow(clippy::option_if_let_else)] // False positive.
     fn check_node<T: Ord>(node: &Option<Rc<RefCell<RedBlackTreeNode<T>>>>) -> usize {
         if let Some(node_rc) = node {
             let node_ref = node_rc.borrow();

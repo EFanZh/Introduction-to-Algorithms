@@ -7,11 +7,11 @@ fn construct_optimal_bst_helper<F: FnMut(usize, usize) -> usize>(
     result: &mut Vec<String>,
 ) {
     if i == j {
-        result.push(format!("d_{} is the {} child of k_{}", i, position, p));
+        result.push(format!("d_{i} is the {position} child of k_{p}"));
     } else {
         let r = root(i, j);
 
-        result.push(format!("k_{} is the {} child of k_{}", r, position, p));
+        result.push(format!("k_{r} is the {position} child of k_{p}"));
 
         construct_optimal_bst_helper(root, r, i, r, "left", result);
         construct_optimal_bst_helper(root, r, r + 1, j, "right", result);
@@ -26,7 +26,7 @@ pub fn construct_optimal_bst(root: &[usize], n: usize) -> Box<[String]> {
     if !root.is_empty() {
         let r = root_fn(0, n);
 
-        result.push(format!("k_{} is the root", r));
+        result.push(format!("k_{r} is the root"));
 
         construct_optimal_bst_helper(&mut root_fn, r, 0, r, "left", &mut result);
         construct_optimal_bst_helper(&mut root_fn, r, r + 1, n, "right", &mut result);

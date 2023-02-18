@@ -35,7 +35,7 @@ pub fn partition<T: Ord>(values: &mut [T]) -> usize {
 
     let middle = values.len() / 2;
 
-    middle.max(i).min(k)
+    middle.clamp(i, k)
 }
 
 #[cfg(test)]

@@ -1,6 +1,7 @@
 use crate::chapter_10_elementary_data_structures::section_10_4_representing_rooted_trees::BinaryTreeNode;
 use std::rc::Rc;
 
+#[allow(clippy::option_if_let_else)] // False positive.
 pub fn tree_predecessor<T: Ord>(mut x: Rc<BinaryTreeNode<T>>) -> Option<Rc<BinaryTreeNode<T>>> {
     fn tree_maximum<T: Ord>(mut x: &Rc<BinaryTreeNode<T>>) -> &Rc<BinaryTreeNode<T>> {
         while let Some(right) = x.get_right_child() {

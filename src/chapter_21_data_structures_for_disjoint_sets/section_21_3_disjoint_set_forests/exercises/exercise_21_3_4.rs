@@ -3,10 +3,16 @@ use std::cmp::Ordering;
 use std::rc::{Rc, Weak};
 
 pub struct Node<T> {
-    pub value: T,
+    value: T,
     parent: Cell<Option<Rc<Self>>>,
     rank: Cell<u8>,
     next: Cell<Weak<Self>>,
+}
+
+impl<T> Node<T> {
+    pub fn value(&self) -> &T {
+        &self.value
+    }
 }
 
 pub fn make_set<T>(value: T) -> Rc<Node<T>> {

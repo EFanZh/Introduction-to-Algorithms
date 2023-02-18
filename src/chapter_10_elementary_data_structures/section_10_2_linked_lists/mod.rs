@@ -73,13 +73,7 @@ impl<T> DoublyLinkedList<T> {
     where
         T: PartialEq<U>,
     {
-        for element in self.iter() {
-            if *element.borrow() == *k {
-                return Some(element);
-            }
-        }
-
-        None
+        self.iter().find(|element| *element.borrow() == *k)
     }
 
     // List-Insert(L, x)
@@ -162,11 +156,12 @@ mod tests {
         for operation in operations {
             match operation {
                 Search(value, found) => {
-                    if let Some(result) = list.search(&value) {
-                        assert!(found);
-                        assert_eq!(*result.borrow(), value);
+                    let result = list.search(&value);
+
+                    if found {
+                        assert_eq!(result.map(|item| *item.borrow()), Some(value));
                     } else {
-                        assert!(!found);
+                        assert!(result.is_none());
                     }
                 }
                 Insert(value) => list.insert(DoublyLinkedListElement::new(value)),

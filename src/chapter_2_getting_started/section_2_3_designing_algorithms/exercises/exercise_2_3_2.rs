@@ -18,12 +18,12 @@ pub fn merge<T: Clone + Ord>(values: &mut [T], start: usize, middle: usize, end:
                     j += 1;
                 }
             } else {
-                (&mut values[k..end]).clone_from_slice(&left[i..]);
+                values[k..end].clone_from_slice(&left[i..]);
 
                 break;
             }
         } else {
-            (&mut values[k..end]).clone_from_slice(&right[j..]);
+            values[k..end].clone_from_slice(&right[j..]);
 
             break;
         }

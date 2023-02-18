@@ -37,7 +37,7 @@ impl<T: Hash + Eq> HashTable<T> {
         (hasher.finish() as usize) % memory_size
     }
 
-    fn allocate(&mut self) -> usize {
+    fn allocate(&mut self) -> Option<usize> {
         let result = self.first_free_slot;
 
         if let Some(Slot::Free { next, .. }) = self.memory.get(self.first_free_slot) {
@@ -48,11 +48,11 @@ impl<T: Hash + Eq> HashTable<T> {
             }
 
             self.first_free_slot = next;
-        } else {
-            panic!("No more memory");
-        }
 
-        result
+            Some(result)
+        } else {
+            None
+        }
     }
 
     fn free(&mut self, index: usize) {
@@ -104,14 +104,14 @@ impl<T: Hash + Eq> HashTable<T> {
 
                     let old_next = mem::replace(old_next, self.first_free_slot);
 
-                    self.memory[self.allocate()] = Slot::Occupied {
+                    self.memory[self.allocate().unwrap()] = Slot::Occupied {
                         value: x,
                         next: old_next,
                     };
                 } else {
                     // This slot contains hash value owned by some other slot.
 
-                    let new_slot_index = self.allocate();
+                    let new_slot_index = self.allocate().unwrap();
 
                     self.memory.swap(hash_value, new_slot_index);
 
